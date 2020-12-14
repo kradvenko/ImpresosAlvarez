@@ -1,0 +1,529 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4F10EF4C-5859-49FF-AE12-46C996A157C9}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>ImpresosAlvarez</RootNamespace>
+    <AssemblyName>ImpresosAlvarez</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Web</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://impresosalvarez.atwebpages.com/</InstallUrl>
+    <UpdateUrl>http://impresosalvarez.atwebpages.com/</UpdateUrl>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
+    <WebPage>index.html</WebPage>
+    <ApplicationRevision>14</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>LogoAlvarez %281%29.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>4397B343A350CB7378D7385886E6D0828571D07C</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>ImpresosAlvarez_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>ImpresosAlvarez.App</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.6.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.8.6.7\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.3.4.1\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Gma.QrCodeNet.Encoding, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Gma.QrCodeNet.0.4.1.2\lib\net40\Gma.QrCodeNet.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.barcodes, Version=7.1.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.7.1.12\lib\net40\itext.barcodes.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.forms, Version=7.1.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.7.1.12\lib\net40\itext.forms.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.io, Version=7.1.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.7.1.12\lib\net40\itext.io.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.kernel, Version=7.1.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.7.1.12\lib\net40\itext.kernel.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.layout, Version=7.1.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.7.1.12\lib\net40\itext.layout.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.pdfa, Version=7.1.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.7.1.12\lib\net40\itext.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.sign, Version=7.1.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.7.1.12\lib\net40\itext.sign.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.styledxmlparser, Version=7.1.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.7.1.12\lib\net40\itext.styledxmlparser.dll</HintPath>
+    </Reference>
+    <Reference Include="itext.svg, Version=7.1.12.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itext7.7.1.12\lib\net40\itext.svg.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Data.WPF">
+      <HintPath>..\..\..\..\..\..\Libs\Syncfusion.Data.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfInput.WPF">
+      <HintPath>..\..\..\..\..\..\Libs\Syncfusion.SfInput.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfShared.WPF">
+      <HintPath>..\..\..\..\..\..\Libs\Syncfusion.SfShared.WPF.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Clases\ConceptoFactura.cs" />
+    <Compile Include="Clases\CotizacionLlenado.cs" />
+    <Compile Include="Clases\Factura.cs" />
+    <Compile Include="Clases\opensslkey.cs" />
+    <Compile Include="Clases\ProductoServicioAutocomplete.cs" />
+    <Compile Include="ControlConceptoFactura.xaml.cs">
+      <DependentUpon>ControlConceptoFactura.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Bitacora.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Clientes.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Comentarios.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Contribuyentes.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Correos.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\DetalleFactura.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\DetalleNota.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Disenos.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Entrega.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\FacturaDigital.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\FacturaOrden.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Facturas.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\FormasPago.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Impresion.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ImpresosEntities.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ImpresosEntities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ImpresosEntities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ImpresosEntities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ImpresosEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Materia.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\NotaOrden.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Notas.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\NumeroNota.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Bitacora_Diaria_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Bitacora_Disenador_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Comentarios_Orden_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Cotizaciones_Fecha_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Cotizaciones_Numero_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Datos_Cliente_ID_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Datos_Orden_ID_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Detalle_Cotizacion_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Detalle_Factura_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Detalle_Notas_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Disenadores_Orden_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Entrega_Orden_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Facturas_Cliente_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Facturas_Cobranza_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Factura_Numero_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Impresion_Orden_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Materiales_Tipo_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Notas_Cobranza_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Ordenes_Administrador_Fecha_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Ordenes_Cliente_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Ordenes_Diseno01_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Ordenes_Para_Factura_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Ordenes_Recordatorio_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Orden_Area_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Pagos_Factura_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Pagos_Notas_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_RecordatoriosCliente_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Salidas_Dia_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Obtener_Terminado_Orden_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Ordenes.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\OrdenMateria.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Pagos.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\PagosNotas.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Parcialidades.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\ProductosServicios.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Recordatorios.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Salidas.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Terminado.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\TipoMateria.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Unidades.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\UsosCFDI.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Usuarios.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FacturaDigital.xaml.cs">
+      <DependentUpon>FacturaDigital.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VerCotizaciones.xaml.cs">
+      <DependentUpon>VerCotizaciones.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VerCotizacionesArticuloInfo.xaml.cs">
+      <DependentUpon>VerCotizacionesArticuloInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\mx.facturacfdi.v33\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Page Include="ControlConceptoFactura.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FacturaDigital.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="VerCotizaciones.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="VerCotizacionesArticuloInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Web References\mx.facturacfdi.v33\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\mx.facturacfdi.v33\wsAutenticarResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\mx.facturacfdi.v33\wsCancelacionResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\mx.facturacfdi.v33\WSForcogsaService.wsdl" />
+    <None Include="Web References\mx.facturacfdi.v33\WSForcogsaService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\mx.facturacfdi.v33\WSForcogsaService0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\mx.facturacfdi.v33\WSForcogsaService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\mx.facturacfdi.v33\wsTimbradoResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <Resource Include="Fonts\Montserrat-Bold.ttf" />
+    <Resource Include="Fonts\Montserrat-Regular.ttf" />
+    <EntityDeploy Include="Entity\ImpresosEntities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ImpresosEntities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Entity\ImpresosEntities.edmx.diagram">
+      <DependentUpon>ImpresosEntities.edmx</DependentUpon>
+    </None>
+    <None Include="ImpresosAlvarez_TemporaryKey.pfx" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Imagenes\LogoAlvarez.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Imagenes\close-window-hover.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Imagenes\close-window.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="LogoAlvarez.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="LogoAlvarez %281%29.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Entity\ImpresosEntities.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ImpresosEntities.Context.cs</LastGenOutput>
+      <DependentUpon>ImpresosEntities.edmx</DependentUpon>
+    </Content>
+    <Content Include="Entity\ImpresosEntities.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ImpresosEntities.edmx</DependentUpon>
+      <LastGenOutput>ImpresosEntities.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="https://v33.facturacfdi.mx/WSForcogsaService%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\mx.facturacfdi.v33\</RelPath>
+      <UpdateFromURL>https://v33.facturacfdi.mx/WSForcogsaService%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>ImpresosAlvarez_mx_facturacfdi_v33_WSForcogsaService</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

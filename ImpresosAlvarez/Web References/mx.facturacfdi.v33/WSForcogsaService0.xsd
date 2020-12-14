@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://wservicios/" xmlns:ns1="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://wservicios/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://v33.facturacfdi.mx:80/WSForcogsaService?xsd=1" namespace="http://www.w3.org/2000/09/xmldsig#" />
+  <xs:element name="Autenticar" type="tns:Autenticar" />
+  <xs:element name="AutenticarResponse" type="tns:AutenticarResponse" />
+  <xs:element name="Cancelacion_1" type="tns:Cancelacion_1" />
+  <xs:element name="Cancelacion_1Response" type="tns:Cancelacion_1Response" />
+  <xs:element name="Cancelacion_2" type="tns:Cancelacion_2" />
+  <xs:element name="Cancelacion_2Response" type="tns:Cancelacion_2Response" />
+  <xs:element name="Timbrar" type="tns:Timbrar" />
+  <xs:element name="TimbrarResponse" type="tns:TimbrarResponse" />
+  <xs:element name="TimbrarV2" type="tns:TimbrarV2" />
+  <xs:element name="TimbrarV2Response" type="tns:TimbrarV2Response" />
+  <xs:complexType name="Timbrar">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cfd" type="xs:string" />
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TimbrarResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:wsTimbradoResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wsTimbradoResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cfdi" type="xs:string" />
+      <xs:element minOccurs="0" name="codigo" type="xs:string" />
+      <xs:element minOccurs="0" name="mensaje" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Cancelacion_1">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="rfcEmisor" type="xs:string" />
+      <xs:element minOccurs="0" name="fecha" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="folios" type="xs:string" />
+      <xs:element minOccurs="0" name="publicKey" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="privateKey" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="password" type="xs:string" />
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Cancelacion_1Response">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:wsCancelacionResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wsCancelacionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="acuse" type="xs:string" />
+      <xs:element minOccurs="0" name="codEstatus" type="xs:string" />
+      <xs:element minOccurs="0" name="folios" type="tns:wsFoliosResponse" />
+      <xs:element minOccurs="0" name="mensaje" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wsFoliosResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="folio" nillable="true" type="tns:folio" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="folio">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="estatusUUID" type="xs:string" />
+      <xs:element minOccurs="0" name="mensaje" type="xs:string" />
+      <xs:element minOccurs="0" name="uuid" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Cancelacion_2">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="rfcEmisor" type="xs:string" />
+      <xs:element minOccurs="0" name="fecha" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="folios" type="xs:string" />
+      <xs:element minOccurs="0" name="signatureType" type="ns1:SignatureType" />
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Cancelacion_2Response">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:wsCancelacionResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TimbrarV2">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="cfdi" type="xs:string" />
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="TimbrarV2Response">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:wsTimbradoResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Autenticar">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="usuario" type="xs:string" />
+      <xs:element minOccurs="0" name="contrasena" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AutenticarResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:wsAutenticarResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wsAutenticarResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="mensaje" type="xs:string" />
+      <xs:element minOccurs="0" name="token" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

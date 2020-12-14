@@ -1,0 +1,69 @@
+﻿<Window x:Class="ImpresosAlvarez.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImpresosAlvarez"
+        mc:Ignorable="d"
+        Title="Inicio de Sesión" Height="750" Width="350" WindowStyle="None" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="6*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <LinearGradientBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                            <RotateTransform Angle="90" CenterY="0.5" CenterX="0.5"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </LinearGradientBrush.RelativeTransform>
+                    <GradientStop Color="#FFEEAFF1" Offset="1"/>
+                    <GradientStop Color="#FF513681"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <Border Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="3">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <LinearGradientBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                            <RotateTransform Angle="90" CenterY="0.5" CenterX="0.5"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </LinearGradientBrush.RelativeTransform>
+                    <GradientStop Color="#FFEEAFF1" Offset="1"/>
+                    <GradientStop Color="#FF513681"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <Image Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="2" Source="Imagenes/LogoAlvarez.png"/>
+
+        <Label Grid.Column="1" Grid.Row="2" Style="{StaticResource LabelBold}" Content="Usuario"></Label>
+
+        <TextBox x:Name="tbUsuario" Grid.Column="1" Grid.Row="3" Style="{StaticResource LoginBox}" KeyDown="tbUsuario_KeyDown"></TextBox>
+
+        <Label Grid.Column="1" Grid.Row="4" Style="{StaticResource LabelBold}" Content="Contraseña"></Label>
+
+        <PasswordBox x:Name="tbPass" Grid.Column="1" Grid.Row="5" HorizontalContentAlignment="Center" Style="{StaticResource PasswordBox}" KeyDown="TbPass_KeyDown"></PasswordBox>
+    </Grid>
+</Window>

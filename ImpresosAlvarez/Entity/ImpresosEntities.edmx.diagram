@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9d0eca2afa2c4b7999ce66bcf16d4101" Name="Diagram1">
+        <EntityTypeShape EntityType="ImpresosBDModel.Bitacora" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Clientes" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Comentarios" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Contribuyentes" Width="1.5" PointX="8.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Correos" Width="1.5" PointX="8.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.DetalleFactura" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.DetalleNota" Width="1.5" PointX="10.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Disenos" Width="1.5" PointX="6" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Entrega" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.FacturaDigital" Width="1.5" PointX="10.75" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.FacturaOrden" Width="1.5" PointX="10.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Facturas" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Impresion" Width="1.5" PointX="2.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Materia" Width="1.5" PointX="4.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.NotaOrden" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Notas" Width="1.5" PointX="12.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.NumeroNota" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Ordenes" Width="1.5" PointX="0.75" PointY="16" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.OrdenMateria" Width="1.5" PointX="6.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Pagos" Width="1.5" PointX="12.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.PagosNotas" Width="1.5" PointX="8.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Parcialidades" Width="1.5" PointX="10.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.ProductosServicios" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Recordatorios" Width="1.5" PointX="14.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Salidas" Width="1.5" PointX="14.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Terminado" Width="1.5" PointX="6" PointY="3.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.TipoMateria" Width="1.5" PointX="14.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Unidades" Width="1.5" PointX="14.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Usuarios" Width="1.5" PointX="0.75" PointY="7.25" IsExpanded="true" />
+        <AssociationConnector Association="ImpresosBDModel.FK__Bitacora__id_ord__24E777C3" ManuallyRouted="false" />
+        <AssociationConnector Association="ImpresosBDModel.FK__Bitacora__id_usu__25DB9BFC" ManuallyRouted="false" />
+        <AssociationConnector Association="ImpresosBDModel.FK__Disenos__id_orde__26CFC035" ManuallyRouted="false" />
+        <AssociationConnector Association="ImpresosBDModel.FK__Disenos__id_usua__27C3E46E" ManuallyRouted="false" />
+        <AssociationConnector Association="ImpresosBDModel.FK__Entrega__id_orde__28B808A7" ManuallyRouted="false" />
+        <AssociationConnector Association="ImpresosBDModel.FK__Entrega__id_usua__29AC2CE0" ManuallyRouted="false" />
+        <AssociationConnector Association="ImpresosBDModel.FK__Terminado__id_or__2AA05119" ManuallyRouted="false" />
+        <AssociationConnector Association="ImpresosBDModel.FK__Terminado__id_us__2B947552" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ImpresosBDModel.FormasPago" Width="1.5" PointX="3.375" PointY="15.75" />
+        <EntityTypeShape EntityType="ImpresosBDModel.UsosCFDI" Width="1.5" PointX="5.375" PointY="16.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
