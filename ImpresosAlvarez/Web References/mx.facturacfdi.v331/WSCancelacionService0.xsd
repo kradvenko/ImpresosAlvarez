@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xmime="http://www.w3.org/2005/05/xmlmime" xmlns:ns1="http://www.w3.org/2000/09/xmldsig#" xmlns:tns="http://wservicios/" xmlns:ns2="http://cancelacfd.sat.gob.mx" targetNamespace="http://wservicios/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://v33.facturacfdi.mx:80/WSCancelacionService?xsd=1" namespace="http://www.w3.org/2000/09/xmldsig#" />
+  <xs:import schemaLocation="http://v33.facturacfdi.mx:80/WSCancelacionService?xsd=3" namespace="http://cancelacfd.sat.gob.mx" />
+  <xs:import schemaLocation="http://www.w3.org/2005/05/xmlmime" namespace="http://www.w3.org/2005/05/xmlmime" />
+  <xs:element name="AceptarRechazarSolicitudCancelacion_1" type="tns:AceptarRechazarSolicitudCancelacion_1" />
+  <xs:element name="AceptarRechazarSolicitudCancelacion_1Response" type="tns:AceptarRechazarSolicitudCancelacion_1Response" />
+  <xs:element name="AceptarRechazarSolicitudCancelacion_2" type="tns:AceptarRechazarSolicitudCancelacion_2" />
+  <xs:element name="AceptarRechazarSolicitudCancelacion_2Response" nillable="true" type="tns:AceptarRechazarSolicitudCancelacion_1Response" />
+  <xs:element name="BuzonPeticionesCancelacion" type="tns:BuzonPeticionesCancelacion" />
+  <xs:element name="BuzonPeticionesCancelacionResponse" type="tns:BuzonPeticionesCancelacionResponse" />
+  <xs:element name="Cancelacion_1" type="tns:Cancelacion_1" />
+  <xs:element name="Cancelacion_1Response" nillable="true" type="tns:Cancelacion_2Response" />
+  <xs:element name="Cancelacion_2" type="tns:Cancelacion_2" />
+  <xs:element name="Cancelacion_2Response" type="tns:Cancelacion_2Response" />
+  <xs:element name="ConsultarCFDIRelacionado_1" type="tns:ConsultarCFDIRelacionado_1" />
+  <xs:element name="ConsultarCFDIRelacionado_1Response" type="tns:ConsultarCFDIRelacionado_1Response" />
+  <xs:element name="ConsultarCFDIRelacionado_2" type="tns:ConsultarCFDIRelacionado_2" />
+  <xs:element name="ConsultarCFDIRelacionado_2Response" nillable="true" type="tns:ConsultarCFDIRelacionado_1Response" />
+  <xs:element name="ConsultarEstatusCFDI_1" type="tns:ConsultarEstatusCFDI_1" />
+  <xs:element name="ConsultarEstatusCFDI_1Response" type="tns:ConsultarEstatusCFDI_1Response" />
+  <xs:element name="ConsultarEstatusCFDI_2" type="tns:ConsultarEstatusCFDI_2" />
+  <xs:element name="ConsultarEstatusCFDI_2Response" nillable="true" type="tns:ConsultarEstatusCFDI_1Response" />
+  <xs:complexType name="ConsultarEstatusCFDI_2">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="rfcEmisor" type="xs:string" />
+      <xs:element minOccurs="0" name="rfcReceptor" type="xs:string" />
+      <xs:element minOccurs="0" name="totalCFDI" type="xs:string" />
+      <xs:element minOccurs="0" name="uuid" type="xs:string" />
+      <xs:element minOccurs="0" name="selloCFDI" type="xs:string" />
+      <xs:element minOccurs="0" name="accesos" type="tns:accesos" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="accesos">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="password" type="xs:string" />
+      <xs:element minOccurs="0" name="usuario" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ConsultarEstatusCFDI_1Response">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:wsConsultarEstatusCFDIResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wsConsultarEstatusCFDIResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="codigoEstatus" type="xs:string" />
+      <xs:element minOccurs="0" name="esCancelable" type="xs:string" />
+      <xs:element minOccurs="0" name="estado" type="xs:string" />
+      <xs:element minOccurs="0" name="estatusCancelacion" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ConsultarEstatusCFDI_1">
+    <xs:sequence>
+      <xs:element xmime:expectedContentTypes="text/xml" minOccurs="0" name="xmlCFDI" type="xs:string" />
+      <xs:element minOccurs="0" name="accesos" type="tns:accesos" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Cancelacion_2">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="rfcEmisor" type="xs:string" />
+      <xs:element minOccurs="0" name="fecha" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="folios" type="xs:string" />
+      <xs:element minOccurs="0" name="signatureType" type="ns1:SignatureType" />
+      <xs:element minOccurs="0" name="accesos" type="tns:accesos" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Cancelacion_2Response">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:wsCancelacionResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wsCancelacionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="acuse" type="xs:string" />
+      <xs:element minOccurs="0" name="codEstatus" type="xs:string" />
+      <xs:element minOccurs="0" name="folios" type="tns:wsFoliosResponse" />
+      <xs:element minOccurs="0" name="mensaje" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wsFoliosResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="folio" nillable="true" type="tns:folio" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="folio">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="estatusUUID" type="xs:string" />
+      <xs:element minOccurs="0" name="mensaje" type="xs:string" />
+      <xs:element minOccurs="0" name="uuid" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Cancelacion_1">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="rfcEmisor" type="xs:string" />
+      <xs:element minOccurs="0" name="fecha" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="folios" type="xs:string" />
+      <xs:element minOccurs="0" name="publicKey" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="privateKey" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="password" type="xs:string" />
+      <xs:element minOccurs="0" name="accesos" type="tns:accesos" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BuzonPeticionesCancelacion">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="rfcReceptor" type="xs:string" />
+      <xs:element minOccurs="0" name="accesos" type="tns:accesos" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BuzonPeticionesCancelacionResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:wsBuzonPeticionesCancelacionResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wsBuzonPeticionesCancelacionResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ns2:AcusePeticionesPendientes">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="mensaje" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ConsultarCFDIRelacionado_1">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="rfcEmisor" type="xs:string" />
+      <xs:element minOccurs="0" name="rfcReceptor" type="xs:string" />
+      <xs:element minOccurs="0" name="uuid" type="xs:string" />
+      <xs:element minOccurs="0" name="publicKey" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="privateKey" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="password" type="xs:string" />
+      <xs:element minOccurs="0" name="accesos" type="tns:accesos" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ConsultarCFDIRelacionado_1Response">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:wsConsultarCFDIRelacionadoResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wsConsultarCFDIRelacionadoResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ns2:ConsultaRelacionados">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="codigo" type="xs:string" />
+          <xs:element minOccurs="0" name="mensaje" type="xs:string" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="AceptarRechazarSolicitudCancelacion_1">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="folios" type="tns:wsFolioSolicitud" />
+      <xs:element minOccurs="0" name="fecha" type="xs:string" />
+      <xs:element minOccurs="0" name="rfcReceptor" type="xs:string" />
+      <xs:element minOccurs="0" name="publicKey" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="privateKey" nillable="true" type="xs:base64Binary" />
+      <xs:element minOccurs="0" name="password" type="xs:string" />
+      <xs:element minOccurs="0" name="accesos" type="tns:accesos" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wsFolioSolicitud">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="respuesta" type="xs:string" />
+      <xs:element minOccurs="0" name="UUID" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AceptarRechazarSolicitudCancelacion_1Response">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="return" type="tns:wsSolicitudAceptacionRechazoResponse" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="wsSolicitudAceptacionRechazoResponse">
+    <xs:complexContent mixed="false">
+      <xs:extension base="ns2:AcuseAceptacionRechazo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="mensaje" type="xs:string" />
+          <xs:element minOccurs="0" maxOccurs="unbounded" name="folios" nillable="true">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element minOccurs="0" form="qualified" name="UUID" type="xs:string" />
+                <xs:element minOccurs="0" form="qualified" name="EstatusUUID" type="xs:string" />
+              </xs:sequence>
+              <xs:attribute name="Respuesta" type="xs:string" />
+            </xs:complexType>
+          </xs:element>
+          <xs:element minOccurs="0" name="acuse" type="xs:string" />
+          <xs:element minOccurs="0" name="rfcReceptor" type="xs:string" />
+          <xs:element minOccurs="0" name="rfcPac" type="xs:string" />
+          <xs:element minOccurs="0" name="codEstatus" type="xs:string" />
+          <xs:element minOccurs="0" name="fecha" type="xs:anySimpleType" />
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ConsultarCFDIRelacionado_2">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="rfcEmisor" type="xs:string" />
+      <xs:element minOccurs="0" name="rfcReceptor" type="xs:string" />
+      <xs:element minOccurs="0" name="uuid" type="xs:string" />
+      <xs:element minOccurs="0" name="signatureType" type="ns1:SignatureType" />
+      <xs:element minOccurs="0" name="accesos" type="tns:accesos" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AceptarRechazarSolicitudCancelacion_2">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="folios" type="tns:wsFolioSolicitud" />
+      <xs:element minOccurs="0" name="fecha" type="xs:string" />
+      <xs:element minOccurs="0" name="rfcReceptor" type="xs:string" />
+      <xs:element minOccurs="0" name="signatureType" type="ns1:SignatureType" />
+      <xs:element minOccurs="0" name="accesos" type="tns:accesos" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

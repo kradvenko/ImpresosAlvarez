@@ -52,5 +52,17 @@ namespace ImpresosAlvarez
             FacturaDigital factura = new FacturaDigital();
             factura.Show();
         }
+
+        private void btnComplemento_Click(object sender, RoutedEventArgs e)
+        {
+            ComplementoPago complemento = new ComplementoPago();
+            complemento.Show();
+        }
+
+        private void btnControlFacturas_Click(object sender, RoutedEventArgs e)
+        {
+            ControlFacturas control = new ControlFacturas();
+            control.Show();
+        }
     }
 }

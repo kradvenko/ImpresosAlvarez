@@ -324,6 +324,8 @@ namespace ImpresosAlvarez
                 double unitario = total / cantidad;
                 unitario = Math.Round(unitario, 2);
                 tbPrecioUnitario.Text = unitario.ToString();
+
+                CalcularTotal();
             }
             catch (Exception exc)
             {

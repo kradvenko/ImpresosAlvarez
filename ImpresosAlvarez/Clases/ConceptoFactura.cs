@@ -17,6 +17,7 @@ namespace ImpresosAlvarez.Clases
         public String Unidad { get; set; }
         public String Clave { get; set; }
         public ProductosServicios Servicio { get; set; }
+        public  int IdOrden { get; set; }
 
         public String cantidad;
         public String unidad;
@@ -41,6 +42,7 @@ namespace ImpresosAlvarez.Clases
         public String saldoAnterior;
         public String importePagado;
         public String saldoInsoluto;
+        public String idFactura;
 
         public ConceptoFactura()
         {

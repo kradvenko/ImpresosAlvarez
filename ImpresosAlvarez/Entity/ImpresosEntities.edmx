@@ -121,6 +121,13 @@
           <Property Name="id_factura" Type="int" Nullable="false" />
           <Property Name="xml" Type="text" />
           <Property Name="para_recibo" Type="nvarchar" MaxLength="5" />
+          <Property Name="acuse" Type="text" />
+          <Property Name="fecha_cancelado" Type="datetime" />
+          <Property Name="sello_cfdi" Type="text" />
+          <Property Name="sello_sat" Type="text" />
+          <Property Name="cadena_original" Type="text" />
+          <Property Name="forma_pago" Type="nvarchar" MaxLength="50" />
+          <Property Name="uso_cfdi" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="FacturaOrden">
           <Key>
@@ -1246,6 +1253,13 @@
           <Property Name="id_factura" Type="Int32" Nullable="false" />
           <Property Name="xml" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="para_recibo" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="acuse" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_cancelado" Type="DateTime" Precision="3" />
+          <Property Name="sello_cfdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="sello_sat" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="cadena_original" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="forma_pago" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="uso_cfdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="FacturaOrden">
           <Key>
@@ -2971,6 +2985,13 @@
           <EntitySetMapping Name="FacturaDigital">
             <EntityTypeMapping TypeName="ImpresosBDModel.FacturaDigital">
               <MappingFragment StoreEntitySet="FacturaDigital">
+                <ScalarProperty Name="uso_cfdi" ColumnName="uso_cfdi" />
+                <ScalarProperty Name="forma_pago" ColumnName="forma_pago" />
+                <ScalarProperty Name="cadena_original" ColumnName="cadena_original" />
+                <ScalarProperty Name="sello_sat" ColumnName="sello_sat" />
+                <ScalarProperty Name="sello_cfdi" ColumnName="sello_cfdi" />
+                <ScalarProperty Name="fecha_cancelado" ColumnName="fecha_cancelado" />
+                <ScalarProperty Name="acuse" ColumnName="acuse" />
                 <ScalarProperty Name="id_factura_digital" ColumnName="id_factura_digital" />
                 <ScalarProperty Name="id_factura" ColumnName="id_factura" />
                 <ScalarProperty Name="xml" ColumnName="xml" />

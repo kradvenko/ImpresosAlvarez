@@ -118,11 +118,8 @@ namespace ImpresosAlvarez
             datosFacturaElectronica.usoCFDITexto = "P01 Por definir";
             datosFacturaElectronica.formaPago = "99";
             datosFacturaElectronica.formaPagoTexto = "99 Por definir";
-            datosFacturaElectronica.fechaDocumento = DateTime.Now;
             datosFacturaElectronica.metodoPago = "PUE";
             datosFacturaElectronica.metodoPagoTexto = "Pago en una sola exhibición";
-            datosFacturaElectronica.escritura = "";
-            datosFacturaElectronica.predial = "";
 
             datosFacturaElectronica.numeroCertificadoSAT = "CSD";
             datosFacturaElectronica.numeroCertificado = "NC";
@@ -142,8 +139,8 @@ namespace ImpresosAlvarez
                 cbUsosCFDI.SelectedValuePath = "Clave";
                 cbUsosCFDI.DisplayMemberPath = "Uso";
             }
-            
-            cbUsosCFDI.SelectedIndex = 0;
+
+            cbUsosCFDI.SelectedIndex = cbUsosCFDI.Items.Count - 1;
             cbFormasPago.SelectedIndex = cbFormasPago.Items.Count - 1;
             
             if (datosFacturaElectronica.metodoPago == "PUE")
@@ -312,6 +309,10 @@ namespace ImpresosAlvarez
 
         private void btnFacturar_Click(object sender, RoutedEventArgs e)
         {
+            if (MessageBox.Show("Desea facturar?", "ATENCION", MessageBoxButton.YesNo) == MessageBoxResult.No)
+            {
+                return;
+            }
             if (cbContribuyentes.Text.Contains("JOSE"))
             {
                 rutaCertificado = @"C:\Impresos\Jose\Certificado.cer";
@@ -536,6 +537,14 @@ namespace ImpresosAlvarez
             datosFacturaElectronica.formaPago = xAttrib.Value;
 
             xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@MetodoPago", nms);
+            if (cbMetodoPago.SelectedIndex == 0)
+            {
+                datosFacturaElectronica.metodoPago = "PUE";
+            }
+            else
+            {
+                datosFacturaElectronica.metodoPago = "PPD";
+            }
             xAttrib.Value = datosFacturaElectronica.metodoPago;
             datosFacturaElectronica.metodoPago = xAttrib.Value;
 
@@ -1771,7 +1780,6 @@ namespace ImpresosAlvarez
 
         private void GuardarFactura()
         {
-            /*
             using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
             {
                 using (DbContextTransaction transaction = dbContext.Database.BeginTransaction())
@@ -1779,35 +1787,20 @@ namespace ImpresosAlvarez
                     try
                     {
                         Facturas factura = new Facturas();
-                        DetalleFacturas detalle = new DetalleFacturas();
+                        DetalleFactura detalle = new DetalleFactura();
 
-                        factura.IdCliente = _clienteElegido.IdCliente;
-                        factura.IdContribuyente = ((Contribuyentes)cbContribuyentes.SelectedItem).IdContribuyente;
-                        factura.Subtotal = Subtotal;
-                        factura.Total = Total;
-                        factura.Estado = "ACTIVO";
-                        factura.Fecha = DateTime.Now.ToString();
-                        factura.Numero = FolioActual.ToString();
-                        factura.XML = XML;
-                        factura.Escritura = datosFacturaElectronica.escritura;
-                        factura.Predial = datosFacturaElectronica.predial;
-                        factura.SelloCFDI = datosFacturaElectronica.selloCFD;
-                        factura.SelloSAT = datosFacturaElectronica.selloSAT;
-                        factura.CadenaOriginal = datosFacturaElectronica.cadenaOriginalSAT;
-                        factura.FormaPago = datosFacturaElectronica.formaPago;
-                        factura.UsoCFDI = datosFacturaElectronica.usoCFDI;
-                        factura.NumeroDocumento = datosFacturaElectronica.numeroDocumento;
-                        factura.FechaDocumento = datosFacturaElectronica.fechaDocumento;
-                        factura.MontoDocumento = datosFacturaElectronica.montoDocumento;
-                        factura.TotalDocumento = datosFacturaElectronica.totalDocumento;
-                        factura.ImpuestosRPP = double.Parse(datosFacturaElectronica.derechosRPP);
-                        factura.ImpuestosOtros = double.Parse(datosFacturaElectronica.otrosDerechos);
-                        factura.ImpuestosAdquisiciones = double.Parse(datosFacturaElectronica.adquisicion);
-                        factura.ImpuestosIVA = double.Parse(datosFacturaElectronica.iva);
-                        factura.ImpuestosIVARetencion = double.Parse(datosFacturaElectronica.retencionIva);
-                        factura.ImpuestosISRRetencion = double.Parse(datosFacturaElectronica.retencionIsr);
-                        factura.Honorarios = double.Parse(datosFacturaElectronica.honorarios);
-                        factura.ImpuestosRetencionCedular = double.Parse(datosFacturaElectronica.retencionCedular);
+                        factura.id_cliente = _clienteElegido.id_cliente;
+                        factura.id_contribuyente = ((Contribuyentes)cbContribuyentes.SelectedItem).id_contribuyente;
+                        factura.subtotal = Subtotal;
+                        factura.total = Math.Round(Total, 2);
+                        factura.estado = "ACTIVO";
+                        factura.fecha = DateTime.Now.ToString().Substring(0, 10);
+                        factura.numero = FolioActual.ToString();
+                        factura.pagada = "NO";
+                        factura.estado = "ACTIVO";
+                        factura.razon_cancelado = "";
+                        factura.amparada_por = "";
+                        factura.usuario = "";
 
                         dbContext.Facturas.Add(factura);
 
@@ -1815,24 +1808,48 @@ namespace ImpresosAlvarez
 
                         foreach (ConceptoFactura item in _conceptos)
                         {
-                            detalle = new DetalleFacturas();
+                            detalle = new DetalleFactura();
 
-                            detalle.IdFactura = factura.IdFactura;
-                            detalle.Cantidad = item.Cantidad;
-                            detalle.Descripcion = item.Descripcion;
-                            detalle.Importe = item.Importe;
+                            detalle.id_factura = factura.id_factura;
+                            detalle.cantidad = item.Cantidad;
+                            detalle.descripcion = item.Descripcion;
+                            detalle.importe = item.Importe;
+                            /*
                             detalle.PrecioUnitario = item.PrecioUnitario;
                             detalle.ClaveServicio = item.Clave;
                             detalle.Unidad = item.Unidad;
-
-                            dbContext.DetalleFacturas.Add(detalle);
+                            */
+                            dbContext.DetalleFactura.Add(detalle);
 
                             dbContext.SaveChanges();
                         }
 
-                        int IdContribuyente = int.Parse(cbContribuyentes.SelectedValue.ToString());
-                        FoliosFacturas Fol = dbContext.FoliosFacturas.Where(F => F.IdContribuyente == IdContribuyente).FirstOrDefault();
-                        Fol.Folio = Fol.Folio + 1;
+                        Contribuyentes cont = new Contribuyentes();
+                        int idContribuyente = int.Parse(cbContribuyentes.SelectedValue.ToString());
+
+                        cont = dbContext.Contribuyentes.Where(C => C.id_contribuyente == idContribuyente).FirstOrDefault();
+                        cont.numero_factura = (int.Parse(cont.numero_factura) + 1).ToString();
+
+                        dbContext.SaveChanges();
+
+                        Entity.FacturaDigital fdigital = new Entity.FacturaDigital();
+                        fdigital.id_factura = factura.id_factura;
+                        fdigital.xml = XML;
+                        if (datosFacturaElectronica.metodoPago == "PUE")
+                        {
+                            fdigital.para_recibo = "SI";
+                        }
+                        else
+                        {
+                            fdigital.para_recibo = "NO";
+                        }
+                        fdigital.sello_cfdi = datosFacturaElectronica.selloCFD;
+                        fdigital.sello_sat = datosFacturaElectronica.selloSAT;
+                        fdigital.cadena_original = datosFacturaElectronica.cadenaOriginalSAT;
+                        fdigital.uso_cfdi = datosFacturaElectronica.usoCFDI;
+                        fdigital.forma_pago = datosFacturaElectronica.formaPago;
+
+                        dbContext.FacturaDigital.Add(fdigital);
 
                         dbContext.SaveChanges();
 
@@ -1847,7 +1864,6 @@ namespace ImpresosAlvarez
                     }
                 }
             }
-            */
         }
 
         private void btnInfoFactura_Click(object sender, RoutedEventArgs e)
@@ -1895,6 +1911,78 @@ namespace ImpresosAlvarez
         private void cbRetencionCedular_Click(object sender, RoutedEventArgs e)
         {
             CalcularTotal();
+        }
+
+        private void cbFormasPago_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            datosFacturaElectronica.formaPago = cbFormasPago.SelectedValue.ToString();
+            datosFacturaElectronica.formaPagoTexto = cbFormasPago.Text;
+        }
+
+        private void cbUsosCFDI_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            datosFacturaElectronica.usoCFDI = cbUsosCFDI.SelectedValue.ToString();
+            datosFacturaElectronica.usoCFDITexto = cbUsosCFDI.Text;
+        }
+
+        private void cbMetodoPago_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbMetodoPago.SelectedIndex == 0)
+            {
+                datosFacturaElectronica.metodoPago = "PUE";
+                datosFacturaElectronica.metodoPagoTexto = cbMetodoPago.Text;
+            }
+            else
+            {
+                datosFacturaElectronica.metodoPago = "PPD";
+                datosFacturaElectronica.metodoPagoTexto = cbMetodoPago.Text;
+            }
+        }
+
+        private void EnviarPorCorreo()
+        {
+            /*
+            try
+            {
+                foreach (DataGridViewRow item in dgvCorreos.Rows)
+                {
+                    cConfiguracion config = new cConfiguracion();
+                    MailMessage mail = new MailMessage();
+                    SmtpClient SmtpServer = new SmtpClient("smtp.live.com");
+                    //mail.From = new MailAddress("alvarezimpresores_16@hotmail.com");
+                    mail.From = new MailAddress(config.ObtenerCorreo());
+
+                    mail.To.Add(item.Cells[2].Value.ToString());
+                    mail.Subject = "Envío de información de facturas - Alvarez Impresores";
+                    mail.Body = "Saludos, envío la información de las facturas. Recuerde: después de 72 horas no se pueden cancelar.";
+
+                    if (rutaPDF.Length > 0)
+                    {
+                        System.Net.Mail.Attachment attachment;
+                        attachment = new System.Net.Mail.Attachment(@rutaPDF);
+                        mail.Attachments.Add(attachment);
+                    }
+                    if (rutaXML.Length > 0)
+                    {
+                        System.Net.Mail.Attachment attachment;
+                        attachment = new System.Net.Mail.Attachment(@rutaXML);
+                        mail.Attachments.Add(attachment);
+                    }
+
+                    SmtpServer.Port = 587;
+                    SmtpServer.Credentials = new System.Net.NetworkCredential(config.ObtenerUsuarioCorreo(), config.ObtenerPasswordCorreo());
+                    SmtpServer.EnableSsl = true;
+
+                    SmtpServer.Send(mail);
+                    MessageBox.Show("Correo enviado a " + item.Cells[2].Value.ToString());
+                }
+                pbLoading.Value = 100;
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+            */
         }
     }
 }

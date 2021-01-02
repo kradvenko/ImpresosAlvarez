@@ -32,5 +32,15 @@ namespace ImpresosAlvarez.Properties {
                 return ((string)(this["ImpresosAlvarez_mx_facturacfdi_v33_WSForcogsaService"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://v33.facturacfdi.mx:80/WSCancelacionService")]
+        public string ImpresosAlvarez_mx_facturacfdi_v331_WSCancelacionService {
+            get {
+                return ((string)(this["ImpresosAlvarez_mx_facturacfdi_v331_WSCancelacionService"]));
+            }
+        }
     }
 }

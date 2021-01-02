@@ -18,5 +18,12 @@ namespace ImpresosAlvarez.Entity
         public int id_factura { get; set; }
         public string xml { get; set; }
         public string para_recibo { get; set; }
+        public string acuse { get; set; }
+        public Nullable<System.DateTime> fecha_cancelado { get; set; }
+        public string sello_cfdi { get; set; }
+        public string sello_sat { get; set; }
+        public string cadena_original { get; set; }
+        public string forma_pago { get; set; }
+        public string uso_cfdi { get; set; }
     }
 }

@@ -45,6 +45,7 @@ namespace ImpresosAlvarez.Clases
         public String usoCFDI;
         //Conceptos de la Factura Electrónica
         public List<ConceptoFactura> conceptos;
+        public List<ComplementoPagoData> pagos;
         //Impuestos
         public String derechosRPP;
         public String otrosDerechos;
@@ -54,19 +55,10 @@ namespace ImpresosAlvarez.Clases
         public String retencionIsr;
         public String retencionCedular;
         public String honorarios;
-        //Más datos
-        public String escritura;
-        public String predial;
+        //Más datos        
         public String usoCFDITexto;
         public String formaPagoTexto;
-        public String metodoPagoTexto;
-
-        //public String totalImpuestos;
-        //Complemento enajenación
-        public String numeroDocumento;
-        public DateTime fechaDocumento;
-        public String montoDocumento;
-        public String totalDocumento;
+        public String metodoPagoTexto;        
 
         public Factura()
         {

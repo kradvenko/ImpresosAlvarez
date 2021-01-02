@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://cancelacfd.sat.gob.mx" xmlns:ns1="http://www.w3.org/2000/09/xmldsig#" elementFormDefault="qualified" targetNamespace="http://cancelacfd.sat.gob.mx" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://v33.facturacfdi.mx:80/WSCancelacionService?xsd=1" namespace="http://www.w3.org/2000/09/xmldsig#" />
+  <xs:element name="CancelaCFD">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="Cancelacion" type="tns:Cancelacion" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CancelaCFDResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="CancelaCFDResult" type="tns:Acuse" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="Cancelacion">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Folios">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="UUID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" ref="ns1:Signature" />
+    </xs:sequence>
+    <xs:attribute name="RfcEmisor" type="xs:string" />
+    <xs:attribute name="Fecha" type="xs:dateTime" use="required" />
+  </xs:complexType>
+  <xs:complexType name="Acuse">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Folios">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="UUID" type="xs:string" />
+            <xs:element minOccurs="0" name="EstatusUUID" type="xs:string" />
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" ref="ns1:Signature" />
+    </xs:sequence>
+    <xs:attribute name="CodEstatus" type="xs:string" />
+    <xs:attribute name="Fecha" type="xs:dateTime" use="required" />
+    <xs:attribute name="RfcEmisor" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="AcusePeticionesPendientes">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UUID" type="xs:string" />
+    </xs:sequence>
+    <xs:attribute name="CodEstatus" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="ConsultaRelacionados">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="UuidConsultado" type="xs:string" />
+      <xs:element minOccurs="0" name="Resultado" type="xs:string" />
+      <xs:element minOccurs="0" name="UuidsRelacionadosPadres" type="tns:ArrayOfUuidPadre" />
+      <xs:element minOccurs="0" name="UuidsRelacionadosHijos" type="tns:ArrayOfUuidRelacionado" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfUuidPadre">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UuidPadre" nillable="true" type="tns:UuidPadre" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UuidPadre">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Uuid" type="xs:string" />
+      <xs:element minOccurs="0" name="RfcEmisor" type="xs:string" />
+      <xs:element minOccurs="0" name="RfcReceptor" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfUuidRelacionado">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="UuidRelacionado" nillable="true" type="tns:UuidRelacionado" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="UuidRelacionado">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="Uuid" type="xs:string" />
+      <xs:element minOccurs="0" name="RfcEmisor" type="xs:string" />
+      <xs:element minOccurs="0" name="RfcReceptor" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AcuseAceptacionRechazo">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="Folios">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="UUID" type="xs:string" />
+            <xs:element minOccurs="0" name="EstatusUUID" type="xs:string" />
+          </xs:sequence>
+          <xs:attribute name="Respuesta" type="xs:string" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element minOccurs="0" ref="ns1:Signature" />
+    </xs:sequence>
+    <xs:attribute name="RfcReceptor" type="xs:string" />
+    <xs:attribute name="RfcPac" type="xs:string" />
+    <xs:attribute name="CodEstatus" type="xs:string" />
+    <xs:attribute name="Fecha" type="xs:dateTime" use="required" />
+  </xs:complexType>
+</xs:schema>

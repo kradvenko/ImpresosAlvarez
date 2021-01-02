@@ -152,13 +152,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Clases\ComplementoPagoData.cs" />
     <Compile Include="Clases\ConceptoFactura.cs" />
     <Compile Include="Clases\CotizacionLlenado.cs" />
     <Compile Include="Clases\Factura.cs" />
+    <Compile Include="Clases\FacturaComplemento.cs" />
     <Compile Include="Clases\opensslkey.cs" />
     <Compile Include="Clases\ProductoServicioAutocomplete.cs" />
+    <Compile Include="ComplementoPago.xaml.cs">
+      <DependentUpon>ComplementoPago.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ComplementoPagoControl.xaml.cs">
+      <DependentUpon>ComplementoPagoControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ControlConceptoFactura.xaml.cs">
       <DependentUpon>ControlConceptoFactura.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlFacturas.xaml.cs">
+      <DependentUpon>ControlFacturas.xaml</DependentUpon>
     </Compile>
     <Compile Include="Entity\Bitacora.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
@@ -364,12 +375,32 @@
     <Compile Include="VerCotizacionesArticuloInfo.xaml.cs">
       <DependentUpon>VerCotizacionesArticuloInfo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VerFactura.xaml.cs">
+      <DependentUpon>VerFactura.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\mx.facturacfdi.v331\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
     <Compile Include="Web References\mx.facturacfdi.v33\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Page Include="ComplementoPago.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ComplementoPagoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ControlConceptoFactura.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlFacturas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -404,6 +435,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="VerFactura.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -423,6 +458,38 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Web References\mx.facturacfdi.v331\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\mx.facturacfdi.v331\wsBuzonPeticionesCancelacionResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\mx.facturacfdi.v331\wsCancelacionResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\mx.facturacfdi.v331\WSCancelacionService.wsdl" />
+    <None Include="Web References\mx.facturacfdi.v331\WSCancelacionService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\mx.facturacfdi.v331\WSCancelacionService0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\mx.facturacfdi.v331\WSCancelacionService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\mx.facturacfdi.v331\wsConsultarCFDIRelacionadoResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\mx.facturacfdi.v331\wsConsultarEstatusCFDIResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\mx.facturacfdi.v331\wsSolicitudAceptacionRechazoResponse.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
+    <None Include="Web References\mx.facturacfdi.v331\xmlmime.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Web References\mx.facturacfdi.v33\Reference.map">
       <Generator>MSDiscoCodeGenerator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -513,6 +580,17 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
+    <WebReferenceUrl Include="https://v33.facturacfdi.mx/WSCancelacionService%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\mx.facturacfdi.v331\</RelPath>
+      <UpdateFromURL>https://v33.facturacfdi.mx/WSCancelacionService%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>ImpresosAlvarez_mx_facturacfdi_v331_WSCancelacionService</CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="https://v33.facturacfdi.mx/WSForcogsaService%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\mx.facturacfdi.v33\</RelPath>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Results>
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://www.w3.org/2005/05/xmlmime.xsd" filename="xmlmime.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://v33.facturacfdi.mx/WSCancelacionService?xsd=1" filename="WSCancelacionService.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://v33.facturacfdi.mx/WSCancelacionService?xsd=2" filename="WSCancelacionService0.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="https://v33.facturacfdi.mx/WSCancelacionService?wsdl" filename="WSCancelacionService.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://v33.facturacfdi.mx/WSCancelacionService?xsd=3" filename="WSCancelacionService1.xsd" />
+  </Results>
+</DiscoveryClientResultsFile>

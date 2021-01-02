@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://wservicios/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="WSCancelacionService" targetNamespace="http://wservicios/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://v33.facturacfdi.mx:80/WSCancelacionService?xsd=1" namespace="http://www.w3.org/2000/09/xmldsig#" />
+    </xsd:schema>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://v33.facturacfdi.mx:80/WSCancelacionService?xsd=2" namespace="http://wservicios/" />
+    </xsd:schema>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://v33.facturacfdi.mx:80/WSCancelacionService?xsd=3" namespace="http://cancelacfd.sat.gob.mx" />
+    </xsd:schema>
+  </types>
+  <message name="Cancelacion_2">
+    <part name="parameters" element="tns:Cancelacion_2" />
+  </message>
+  <message name="Cancelacion_2Response">
+    <part name="parameters" element="tns:Cancelacion_2Response" />
+  </message>
+  <message name="Cancelacion_1">
+    <part name="parameters" element="tns:Cancelacion_1" />
+  </message>
+  <message name="Cancelacion_1Response">
+    <part name="parameters" element="tns:Cancelacion_1Response" />
+  </message>
+  <message name="ConsultarEstatusCFDI_1">
+    <part name="parameters" element="tns:ConsultarEstatusCFDI_1" />
+  </message>
+  <message name="ConsultarEstatusCFDI_1Response">
+    <part name="parameters" element="tns:ConsultarEstatusCFDI_1Response" />
+  </message>
+  <message name="ConsultarEstatusCFDI_2">
+    <part name="parameters" element="tns:ConsultarEstatusCFDI_2" />
+  </message>
+  <message name="ConsultarEstatusCFDI_2Response">
+    <part name="parameters" element="tns:ConsultarEstatusCFDI_2Response" />
+  </message>
+  <message name="ConsultarCFDIRelacionado_1">
+    <part name="parameters" element="tns:ConsultarCFDIRelacionado_1" />
+  </message>
+  <message name="ConsultarCFDIRelacionado_1Response">
+    <part name="parameters" element="tns:ConsultarCFDIRelacionado_1Response" />
+  </message>
+  <message name="ConsultarCFDIRelacionado_2">
+    <part name="parameters" element="tns:ConsultarCFDIRelacionado_2" />
+  </message>
+  <message name="ConsultarCFDIRelacionado_2Response">
+    <part name="parameters" element="tns:ConsultarCFDIRelacionado_2Response" />
+  </message>
+  <message name="BuzonPeticionesCancelacion">
+    <part name="parameters" element="tns:BuzonPeticionesCancelacion" />
+  </message>
+  <message name="BuzonPeticionesCancelacionResponse">
+    <part name="parameters" element="tns:BuzonPeticionesCancelacionResponse" />
+  </message>
+  <message name="AceptarRechazarSolicitudCancelacion_1">
+    <part name="parameters" element="tns:AceptarRechazarSolicitudCancelacion_1" />
+  </message>
+  <message name="AceptarRechazarSolicitudCancelacion_1Response">
+    <part name="parameters" element="tns:AceptarRechazarSolicitudCancelacion_1Response" />
+  </message>
+  <message name="AceptarRechazarSolicitudCancelacion_2">
+    <part name="parameters" element="tns:AceptarRechazarSolicitudCancelacion_2" />
+  </message>
+  <message name="AceptarRechazarSolicitudCancelacion_2Response">
+    <part name="parameters" element="tns:AceptarRechazarSolicitudCancelacion_2Response" />
+  </message>
+  <portType name="WSCancelacion">
+    <operation name="Cancelacion_2">
+      <input wsam:Action="http://wservicios/WSCancelacion/Cancelacion_2Request" message="tns:Cancelacion_2" />
+      <output wsam:Action="http://wservicios/WSCancelacion/Cancelacion_2Response" message="tns:Cancelacion_2Response" />
+    </operation>
+    <operation name="Cancelacion_1">
+      <input wsam:Action="http://wservicios/WSCancelacion/Cancelacion_1Request" message="tns:Cancelacion_1" />
+      <output wsam:Action="http://wservicios/WSCancelacion/Cancelacion_1Response" message="tns:Cancelacion_1Response" />
+    </operation>
+    <operation name="ConsultarEstatusCFDI_1">
+      <input wsam:Action="http://wservicios/WSCancelacion/ConsultarEstatusCFDI_1Request" message="tns:ConsultarEstatusCFDI_1" />
+      <output wsam:Action="http://wservicios/WSCancelacion/ConsultarEstatusCFDI_1Response" message="tns:ConsultarEstatusCFDI_1Response" />
+    </operation>
+    <operation name="ConsultarEstatusCFDI_2">
+      <input wsam:Action="http://wservicios/WSCancelacion/ConsultarEstatusCFDI_2Request" message="tns:ConsultarEstatusCFDI_2" />
+      <output wsam:Action="http://wservicios/WSCancelacion/ConsultarEstatusCFDI_2Response" message="tns:ConsultarEstatusCFDI_2Response" />
+    </operation>
+    <operation name="ConsultarCFDIRelacionado_1">
+      <input wsam:Action="http://wservicios/WSCancelacion/ConsultarCFDIRelacionado_1Request" message="tns:ConsultarCFDIRelacionado_1" />
+      <output wsam:Action="http://wservicios/WSCancelacion/ConsultarCFDIRelacionado_1Response" message="tns:ConsultarCFDIRelacionado_1Response" />
+    </operation>
+    <operation name="ConsultarCFDIRelacionado_2">
+      <input wsam:Action="http://wservicios/WSCancelacion/ConsultarCFDIRelacionado_2Request" message="tns:ConsultarCFDIRelacionado_2" />
+      <output wsam:Action="http://wservicios/WSCancelacion/ConsultarCFDIRelacionado_2Response" message="tns:ConsultarCFDIRelacionado_2Response" />
+    </operation>
+    <operation name="BuzonPeticionesCancelacion">
+      <input wsam:Action="http://wservicios/WSCancelacion/BuzonPeticionesCancelacionRequest" message="tns:BuzonPeticionesCancelacion" />
+      <output wsam:Action="http://wservicios/WSCancelacion/BuzonPeticionesCancelacionResponse" message="tns:BuzonPeticionesCancelacionResponse" />
+    </operation>
+    <operation name="AceptarRechazarSolicitudCancelacion_1">
+      <input wsam:Action="http://wservicios/WSCancelacion/AceptarRechazarSolicitudCancelacion_1Request" message="tns:AceptarRechazarSolicitudCancelacion_1" />
+      <output wsam:Action="http://wservicios/WSCancelacion/AceptarRechazarSolicitudCancelacion_1Response" message="tns:AceptarRechazarSolicitudCancelacion_1Response" />
+    </operation>
+    <operation name="AceptarRechazarSolicitudCancelacion_2">
+      <input wsam:Action="http://wservicios/WSCancelacion/AceptarRechazarSolicitudCancelacion_2Request" message="tns:AceptarRechazarSolicitudCancelacion_2" />
+      <output wsam:Action="http://wservicios/WSCancelacion/AceptarRechazarSolicitudCancelacion_2Response" message="tns:AceptarRechazarSolicitudCancelacion_2Response" />
+    </operation>
+  </portType>
+  <binding name="WSCancelacionPortBinding" type="tns:WSCancelacion">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="Cancelacion_2">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Cancelacion_1">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ConsultarEstatusCFDI_1">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ConsultarEstatusCFDI_2">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ConsultarCFDIRelacionado_1">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="ConsultarCFDIRelacionado_2">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="BuzonPeticionesCancelacion">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="AceptarRechazarSolicitudCancelacion_1">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="AceptarRechazarSolicitudCancelacion_2">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="WSCancelacionService">
+    <port name="WSCancelacionPort" binding="tns:WSCancelacionPortBinding">
+      <soap:address location="http://v33.facturacfdi.mx:80/WSCancelacionService" />
+    </port>
+  </service>
+</definitions>
