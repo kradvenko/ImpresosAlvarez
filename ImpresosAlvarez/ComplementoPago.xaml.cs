@@ -1,6 +1,17 @@
-﻿using ImpresosAlvarez.Clases;
+﻿using Gma.QrCodeNet.Encoding;
+using Gma.QrCodeNet.Encoding.Windows.Render;
+using ImpresosAlvarez.Clases;
 using ImpresosAlvarez.Entity;
 using ImpresosAlvarez.mx.facturacfdi.v33;
+using iText.IO.Font.Constants;
+using iText.IO.Image;
+using iText.Kernel.Colors;
+using iText.Kernel.Font;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,7 +24,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
+
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -59,6 +70,8 @@ namespace ImpresosAlvarez
         String CadenaOriginal;
 
         private int idParcialidad;
+
+        int FolioActual;
 
         private String fechaFactura;
 
@@ -616,6 +629,7 @@ namespace ImpresosAlvarez
 
                     Contribuyentes cont = new Contribuyentes();
                     cont = dbContext.Contribuyentes.Where(C => C.id_contribuyente == idContribuyente).FirstOrDefault();
+                    FolioActual = int.Parse(cont.num_complemento);
                     cont.num_complemento = (int.Parse(cont.num_complemento) + 1).ToString();
                     dbContext.SaveChanges();
 
@@ -650,7 +664,6 @@ namespace ImpresosAlvarez
         }
         void ImprimirPDF(Boolean SAT)
         {
-            /*
             System.IO.Directory.CreateDirectory(@"C:\Impresos\Facturas\" + datosFacturaElectronica.nombreReceptor);
             String Directorio = @"C:\Impresos\Facturas\" + datosFacturaElectronica.nombreReceptor;
             string fileName;
@@ -727,7 +740,10 @@ namespace ImpresosAlvarez
                 .Add(new Paragraph("Serie y folio: " + FolioActual.ToString())));
 
             //Renglon
-            
+            /*
+            pdfImg.SetHeight(150);
+            pdfImg.SetFixedPosition(50, 50);
+            */
             pdfImg.SetHeight(120);
 
 
@@ -760,7 +776,177 @@ namespace ImpresosAlvarez
                 .SetFontSize(fs)
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                 .Add(new Paragraph("Regimen fiscal: Persona física con actividad empresarial y profesional")));
-           
+
+            /*
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(fb)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("No. serie CSD")));
+            */
+
+            //Renglon 4
+            /*
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph(datosFacturaElectronica.domicilioEmisorColonia)));
+
+            table.AddCell(new Cell(1, 4)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("")));
+
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph(datosFacturaElectronica.numeroCertificadoSAT)));
+
+            //Renglon 5
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph(datosFacturaElectronica.domicilioEmisorMunicipio)));
+
+            table.AddCell(new Cell(1, 4)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("")));
+
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(fb)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("Folio fiscal")));
+
+            //Renglon 6
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph(datosFacturaElectronica.domicilioEmisorEstado + "C.P. " + datosFacturaElectronica.domicilioEmisorCodigoPostal)));
+
+            table.AddCell(new Cell(1, 4)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("")));
+
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph(datosFacturaElectronica.uuid)));
+
+            //Renglon 7
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("PERSONAS FISICAS CON ACTIVIDADES EMPRESARIALES Y PROFESIONALES")));
+
+            table.AddCell(new Cell(1, 4)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("")));
+
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(fb)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("Fecha y hora de certificación")));
+
+            //Renglon 8
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("Teléfonos: ")));
+
+            table.AddCell(new Cell(1, 4)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("")));
+
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph(datosFacturaElectronica.fechaTimbrado)));
+
+            //Renglon 9
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("")));
+
+            table.AddCell(new Cell(1, 4)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("")));
+
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(fb)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("")));
+            */
+            //Renglon 9
+            /*
+            table.AddCell(new Cell(1, 10)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(fb)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("Tipo de comprobante: I")));
+            */
             //Datos cliente
             //Renglon
             table.AddCell(new Cell(1, 10)
@@ -916,7 +1102,37 @@ namespace ImpresosAlvarez
                 .SetFontSize(fs)
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                 .Add(new Paragraph(datosFacturaElectronica.formaPagoTexto)));
-            
+
+            //Renglón
+            /*
+            table.AddCell(new Cell(1, 2)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(fb)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("Escritura")));
+
+            table.AddCell(new Cell(1, 4)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph(datosFacturaElectronica.escritura)));
+
+            table.AddCell(new Cell(1, 2)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(fb)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("Predial")));
+
+            table.AddCell(new Cell(1, 2)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph(datosFacturaElectronica.predial)));
+            */
             //Conceptos
             //Renglón 1
             table.AddCell(new Cell(1, 1)
@@ -973,7 +1189,7 @@ namespace ImpresosAlvarez
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                 .Add(new Paragraph("Importe")));
 
-            foreach (ConceptoFactura item in _conceptos)
+            foreach (ComplementoPagoData item in _complementos)
             {
                 table.AddCell(new Cell(1, 1)
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
@@ -1226,7 +1442,7 @@ namespace ImpresosAlvarez
                 datosFacturaElectronica.numeroCertificadoSAT = "00001000000412961981";
                 datosFacturaElectronica.fechaTimbrado = "2020-11-04T17:22:20";
                 */
-            /*
+
                 if (!timbreValido)
                 {
                     return;
@@ -1361,7 +1577,7 @@ namespace ImpresosAlvarez
                     .Add(new Paragraph(datosFacturaElectronica.cadenaOriginalSAT)));
             }
 
-            
+
             document.Add(table);
             if (SAT)
             {
@@ -1379,7 +1595,7 @@ namespace ImpresosAlvarez
                 prc.StartInfo.FileName = fileName;
                 prc.Start();
                 */
-            //}
+            }
         }
 
         private void dgFacturas_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -1460,6 +1676,21 @@ namespace ImpresosAlvarez
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+        private String AddDecimals(String o)
+        {
+            String n = "";
+
+            if (o.Contains("."))
+            {
+                n = o;
+            }
+            else
+            {
+                n = o + ".00";
+            }
+
+            return n;
         }
     }
 }
