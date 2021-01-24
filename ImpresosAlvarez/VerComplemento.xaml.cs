@@ -19,16 +19,16 @@ using System.Windows.Shapes;
 namespace ImpresosAlvarez
 {
     /// <summary>
-    /// Lógica de interacción para VerFactura.xaml
+    /// Lógica de interacción para VerComplemento.xaml
     /// </summary>
-    public partial class VerFactura : Window
+    public partial class VerComplemento : Window
     {
         Facturas _factura;
-        ControlFacturas _parent;
+        ControlComplementos _parent;
 
-        List<ConceptoFactura> _conceptos;
+        List<Parcialidades> _conceptos;
         List<Contribuyentes> _contribuyentes;
-        List<DetalleFactura> _detalle;
+        List<Parcialidades> _detalle;
 
         private Factura datosFacturaElectronica;
         private ImpresosAlvarez.Entity.FacturaDigital datosFacturaDigital;
@@ -45,7 +45,7 @@ namespace ImpresosAlvarez
         private String contraseñaFacturacion;
         private String curp;
         private String regimen;
-        public VerFactura(ControlFacturas Parent, Facturas Factura)
+        public VerComplemento(ControlComplementos Parent, Facturas Factura)
         {
             InitializeComponent();
             this._parent = Parent;
@@ -71,10 +71,10 @@ namespace ImpresosAlvarez
                 lblNombre.Content = _cliente.nombre;
                 lblRFC.Content = _cliente.rfc;
 
-                _detalle = dbContext.DetalleFactura.Where(D => D.id_factura == _factura.id_factura).ToList();
+                _detalle = dbContext.Parcialidades.Where(D => D.id_factura == _factura.id_factura).ToList();
 
-                _conceptos = new List<ConceptoFactura>();
-
+                _conceptos = new List<Parcialidades>();
+                /*
                 foreach (DetalleFactura item in _detalle)
                 {
                     ConceptoFactura c = new ConceptoFactura();
@@ -92,11 +92,12 @@ namespace ImpresosAlvarez
                         c.PrecioUnitario = c.Importe / c.Cantidad;
                         c.Unidad = "";
                         c.Clave = "";
-                    }                    
+                    }
                     _conceptos.Add(c);
                 }
                 dgConceptos.ItemsSource = _conceptos;
-
+                */
+                dgConceptos.ItemsSource = _detalle;
                 lblTotal.Content = "$ " + Math.Round((double)_factura.total, 2).ToString();
                 lblEstado.Content = _factura.estado;
 
@@ -106,67 +107,67 @@ namespace ImpresosAlvarez
             }
         }
 
-        private void bntCancelarFactura_Click(object sender, RoutedEventArgs e)
+        private void btnCancelarComplemento_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Desea cancelar la factura?", "ATENCIÓN", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBox.Show("Desea cancelar el complemento?", "ATENCIÓN", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 if (cbContribuyentes.Text.Contains("JOSE"))
-            {
-                rutaCertificado = @"C:\Impresos\Jose\Certificado.cer";
-                rutaLlave = @"C:\Impresos\Jose\Llave.key";
-                contraseñaLlave = "Musica47";
-                nombreEmisor = "JOSE ALVAREZ JIMENEZ";
-                rfcEmisor = "AAJJ470205DH1";
-                serie = "-";
-                usuarioFacturacion = "JoseAlvarezJi";
-                contraseñaFacturacion = "oF5r1o6S3";
-                curp = "AAJJ470205HNTLMS00";
-                regimen = "Regimen de incorporación fiscal";
+                {
+                    rutaCertificado = @"C:\Impresos\Jose\Certificado.cer";
+                    rutaLlave = @"C:\Impresos\Jose\Llave.key";
+                    contraseñaLlave = "Musica47";
+                    nombreEmisor = "JOSE ALVAREZ JIMENEZ";
+                    rfcEmisor = "AAJJ470205DH1";
+                    serie = "-";
+                    usuarioFacturacion = "JoseAlvarezJi";
+                    contraseñaFacturacion = "oF5r1o6S3";
+                    curp = "AAJJ470205HNTLMS00";
+                    regimen = "Regimen de incorporación fiscal";
 
-                datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 625 PTE";
-                datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
-                datosFacturaElectronica.domicilioEmisorMunicipio = "TEPIC ";
-                datosFacturaElectronica.domicilioEmisorEstado = "NAY";
-                datosFacturaElectronica.domicilioEmisorCodigoPostal = "63000";
-            }
-            else if (cbContribuyentes.Text.Contains("MARIA"))
-            {
-                rutaCertificado = @"C:\Impresos\Maria\Certificado.cer";
-                rutaLlave = @"C:\Impresos\Maria\Llave.key";
-                contraseñaLlave = "M1945luz";
-                nombreEmisor = "MARIA DE LA LUZ RAMIREZ GALVAN";
-                rfcEmisor = "RAGL450530F25";
-                serie = "-";
-                usuarioFacturacion = "VicMar";
-                contraseñaFacturacion = "773C8*8F1";
-                curp = "RAGL450530MDFMLZ00";
-                regimen = "Regimen de incorporación fiscal";
+                    datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 625 PTE";
+                    datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
+                    datosFacturaElectronica.domicilioEmisorMunicipio = "TEPIC ";
+                    datosFacturaElectronica.domicilioEmisorEstado = "NAY";
+                    datosFacturaElectronica.domicilioEmisorCodigoPostal = "63000";
+                }
+                else if (cbContribuyentes.Text.Contains("MARIA"))
+                {
+                    rutaCertificado = @"C:\Impresos\Maria\Certificado.cer";
+                    rutaLlave = @"C:\Impresos\Maria\Llave.key";
+                    contraseñaLlave = "M1945luz";
+                    nombreEmisor = "MARIA DE LA LUZ RAMIREZ GALVAN";
+                    rfcEmisor = "RAGL450530F25";
+                    serie = "-";
+                    usuarioFacturacion = "VicMar";
+                    contraseñaFacturacion = "773C8*8F1";
+                    curp = "RAGL450530MDFMLZ00";
+                    regimen = "Regimen de incorporación fiscal";
 
-                datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 625 PTE";
-                datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
-                datosFacturaElectronica.domicilioEmisorMunicipio = "TEPIC ";
-                datosFacturaElectronica.domicilioEmisorEstado = "NAY";
-                datosFacturaElectronica.domicilioEmisorCodigoPostal = "63000";
-            }
-            else if (cbContribuyentes.Text.Contains("VICTOR"))
-            {
-                rutaCertificado = @"C:\Impresos\Victor\Certificado.cer";
-                rutaLlave = @"C:\Impresos\Victor\Llave.key";
-                contraseñaLlave = "ALVA7209";
-                nombreEmisor = "VICTOR MANUEL ALVAREZ RAMIREZ";
-                rfcEmisor = "AARV720921E51";
-                serie = "-";
-                usuarioFacturacion = "VictorAlvarez";
-                contraseñaFacturacion = "g8r.83*.5";
-                curp = "AARV720921HDFLMC04";
-                regimen = "Regimen de incorporación fiscal";
+                    datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 625 PTE";
+                    datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
+                    datosFacturaElectronica.domicilioEmisorMunicipio = "TEPIC ";
+                    datosFacturaElectronica.domicilioEmisorEstado = "NAY";
+                    datosFacturaElectronica.domicilioEmisorCodigoPostal = "63000";
+                }
+                else if (cbContribuyentes.Text.Contains("VICTOR"))
+                {
+                    rutaCertificado = @"C:\Impresos\Victor\Certificado.cer";
+                    rutaLlave = @"C:\Impresos\Victor\Llave.key";
+                    contraseñaLlave = "ALVA7209";
+                    nombreEmisor = "VICTOR MANUEL ALVAREZ RAMIREZ";
+                    rfcEmisor = "AARV720921E51";
+                    serie = "-";
+                    usuarioFacturacion = "VictorAlvarez";
+                    contraseñaFacturacion = "g8r.83*.5";
+                    curp = "AARV720921HDFLMC04";
+                    regimen = "Regimen de incorporación fiscal";
 
-                datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 619 PTE";
-                datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
-                datosFacturaElectronica.domicilioEmisorMunicipio = "TEPIC ";
-                datosFacturaElectronica.domicilioEmisorEstado = "NAY";
-                datosFacturaElectronica.domicilioEmisorCodigoPostal = "63000";
-            }
+                    datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 619 PTE";
+                    datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
+                    datosFacturaElectronica.domicilioEmisorMunicipio = "TEPIC ";
+                    datosFacturaElectronica.domicilioEmisorEstado = "NAY";
+                    datosFacturaElectronica.domicilioEmisorCodigoPostal = "63000";
+                }
 
                 string usuario = usuarioFacturacion;
                 string pass = contraseñaFacturacion;
@@ -179,6 +180,8 @@ namespace ImpresosAlvarez
 
                 try
                 {
+                    Parcialidades comp = _detalle[0];
+
                     accesos acc = new accesos();
                     acc.usuario = usuario;
                     acc.password = pass;
@@ -186,7 +189,7 @@ namespace ImpresosAlvarez
                     byte[] llavePublicaBytes = File.ReadAllBytes(rutaCertificado);
                     byte[] llavePrivadaBytes = File.ReadAllBytes(strPathLlave);
 
-                    string[] cadenaOriginal = datosFacturaDigital.cadena_original.Split('|');
+                    string[] cadenaOriginal = comp.cadena_original.Split('|');
 
                     folios[0] = cadenaOriginal[4];
 
@@ -194,47 +197,39 @@ namespace ImpresosAlvarez
 
                     resCancelacion = serCancel.Cancelacion_1(rfcEmisor, fecha, folios, llavePublicaBytes, llavePrivadaBytes, contraseñaLlave, acc);
 
-                    File.WriteAllText(@"C:\Impresos\Facturacion\Acuse.xml", resCancelacion.acuse);
+                    File.WriteAllText(@"C:\Impresos\Complementos\Acuse.xml", resCancelacion.acuse);
 
                     switch (resCancelacion.folios[0].estatusUUID)
                     {
                         case "201":
                             using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                             {
-                                Entity.FacturaDigital f = dbContext.FacturaDigital.Where(F => F.id_factura == _factura.id_factura).FirstOrDefault();
-                                f.acuse = resCancelacion.acuse;
-                                f.fecha_cancelado = DateTime.UtcNow.AddHours(-7);
-
-                                Facturas fac = dbContext.Facturas.Where(F => F.id_factura == _factura.id_factura).FirstOrDefault();
-                                fac.estado = "CANCELADO";
-
-                                List<FacturaOrden> facturaOrdenes = dbContext.FacturaOrden.Where(FO => FO.id_factura == _factura.id_factura).ToList();
-
-                                foreach (FacturaOrden item in facturaOrdenes)
+                                foreach (Parcialidades item in _detalle)
                                 {
-                                    dbContext.Modificar_Tipo_Orden_Grupo(_factura.id_factura, "COTIZACION");
-                                    dbContext.Borrar_FacturaOrden(_factura.id_factura);
-                                    dbContext.Cambiar_Estado_Factura(_factura.id_factura, "CANCELADO");
-                                    dbContext.Factura_Razon_Cancelado(_factura.id_factura, "");
+                                    Parcialidades p = dbContext.Parcialidades.Where(P => P.id_parcialidad == item.id_parcialidad).FirstOrDefault();
+                                    p.acuse = resCancelacion.acuse;
+                                    p.fecha_cancelado = DateTime.UtcNow.AddHours(-7);
+
+                                    p.estado = "CANCELADO";
                                 }
 
                                 dbContext.SaveChanges();
                                 _parent.ActualizarLista();
-                                MessageBox.Show("Se ha cancelado la factura.");
+                                MessageBox.Show("Se ha cancelado el complemento.");
                                 this.Close();
                             }
                             break;
                         case "202":
-                            MessageBox.Show("La factura ya ha sido cancelada anteriormente.");
+                            MessageBox.Show("El complemento ya ha sido cancelado anteriormente.");
                             break;
                         case "203":
-                            MessageBox.Show("La factura no se ha encontrado.");
+                            MessageBox.Show("El complemento no se ha encontrado.");
                             break;
                         case "204":
-                            MessageBox.Show("La factura no se puede cancelar.");
+                            MessageBox.Show("El complemento no se puede cancelar.");
                             break;
                         case "205":
-                            MessageBox.Show("La factura no existe.");
+                            MessageBox.Show("El complemento no existe.");
                             break;
                         default:
                             break;

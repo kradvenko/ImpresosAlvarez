@@ -52,6 +52,15 @@
           <Property Name="comentario" Type="nvarchar(max)" Nullable="false" />
           <Property Name="fecha" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="Configuracion">
+          <Key>
+            <PropertyRef Name="id_configuracion" />
+          </Key>
+          <Property Name="usuario_correo" Type="nvarchar" MaxLength="150" />
+          <Property Name="password_correo" Type="nvarchar" MaxLength="150" />
+          <Property Name="correo" Type="nvarchar" MaxLength="150" />
+          <Property Name="id_configuracion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
         <EntityType Name="Contribuyentes">
           <Key>
             <PropertyRef Name="id_contribuyente" />
@@ -79,6 +88,9 @@
           <Property Name="cantidad" Type="int" />
           <Property Name="descripcion" Type="nvarchar(max)" />
           <Property Name="importe" Type="float" />
+          <Property Name="precio_unitario" Type="float" />
+          <Property Name="clave_servicio" Type="nvarchar" MaxLength="50" />
+          <Property Name="unidad" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="DetalleNota">
           <Key>
@@ -318,6 +330,12 @@
           <Property Name="pagado" Type="float" />
           <Property Name="insoluto" Type="float" />
           <Property Name="parcialidad" Type="int" />
+          <Property Name="acuse" Type="text" />
+          <Property Name="fecha_cancelado" Type="datetime" />
+          <Property Name="sello_cfdi" Type="text" />
+          <Property Name="sello_sat" Type="text" />
+          <Property Name="cadena_original" Type="text" />
+          <Property Name="estado" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ProductosServicios">
           <Key>
@@ -399,6 +417,14 @@
           <Property Name="pass" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="tipo" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="estado" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Valores">
+          <Key>
+            <PropertyRef Name="id_valor" />
+          </Key>
+          <Property Name="numero_orden" Type="nvarchar" MaxLength="50" />
+          <Property Name="ultimo_cambio" Type="nvarchar" MaxLength="50" />
+          <Property Name="id_valor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <Association Name="FK__Bitacora__id_ord__24E777C3">
           <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="1" />
@@ -1066,6 +1092,7 @@
           <EntitySet Name="Bitacora" EntityType="Self.Bitacora" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comentarios" EntityType="Self.Comentarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Configuracion" EntityType="Self.Configuracion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contribuyentes" EntityType="Self.Contribuyentes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Correos" EntityType="Self.Correos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetalleFactura" EntityType="Self.DetalleFactura" Schema="dbo" store:Type="Tables" />
@@ -1094,6 +1121,7 @@
           <EntitySet Name="Unidades" EntityType="Self.Unidades" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UsosCFDI" EntityType="Self.UsosCFDI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Valores" EntityType="Self.Valores" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Bitacora__id_ord__24E777C3" Association="Self.FK__Bitacora__id_ord__24E777C3">
             <End Role="Ordenes" EntitySet="Ordenes" />
             <End Role="Bitacora" EntitySet="Bitacora" />
@@ -1131,559 +1159,7 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ImpresosBDModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="Bitacora">
-          <Key>
-            <PropertyRef Name="id_bitacora" />
-          </Key>
-          <Property Name="id_bitacora" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_orden" Type="Int32" Nullable="false" />
-          <Property Name="id_usuario" Type="Int32" />
-          <Property Name="nombre_cliente" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="hora_entrada" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="muestras" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="salida" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fecha_entrega" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fecha_inicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ruta_trabajo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Ordenes" Relationship="Self.FK__Bitacora__id_ord__24E777C3" FromRole="Bitacora" ToRole="Ordenes" />
-          <NavigationProperty Name="Usuarios" Relationship="Self.FK__Bitacora__id_usu__25DB9BFC" FromRole="Bitacora" ToRole="Usuarios" />
-        </EntityType>
-        <EntityType Name="Clientes">
-          <Key>
-            <PropertyRef Name="id_cliente" />
-          </Key>
-          <Property Name="id_cliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="domicilio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="colonia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ciudad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="codigo_postal" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="tipo_persona" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="telefono1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="telefono2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="telefono3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="telefono4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="contacto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="rfc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="pseudonimo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="numero_exterior" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="numero_interior" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Comentarios">
-          <Key>
-            <PropertyRef Name="id_comentario" />
-          </Key>
-          <Property Name="id_comentario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_orden" Type="Int32" Nullable="false" />
-          <Property Name="comentario" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fecha" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Contribuyentes">
-          <Key>
-            <PropertyRef Name="id_contribuyente" />
-          </Key>
-          <Property Name="id_contribuyente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="numero_factura" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="tipo_factura" Type="Int32" />
-          <Property Name="num_complemento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="Correos">
-          <Key>
-            <PropertyRef Name="id_correo" />
-          </Key>
-          <Property Name="id_correo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_cliente" Type="Int32" Nullable="false" />
-          <Property Name="correo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-        </EntityType>
-        <EntityType Name="DetalleFactura">
-          <Key>
-            <PropertyRef Name="id_detallefactura" />
-          </Key>
-          <Property Name="id_detallefactura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_factura" Type="Int32" Nullable="false" />
-          <Property Name="cantidad" Type="Int32" />
-          <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="importe" Type="Double" />
-        </EntityType>
-        <EntityType Name="DetalleNota">
-          <Key>
-            <PropertyRef Name="id_detallenota" />
-          </Key>
-          <Property Name="id_detallenota" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_nota" Type="Int32" Nullable="false" />
-          <Property Name="cantidad" Type="Int32" />
-          <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="importe" Type="Double" />
-        </EntityType>
-        <EntityType Name="Disenos">
-          <Key>
-            <PropertyRef Name="id_diseno" />
-          </Key>
-          <Property Name="id_diseno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_orden" Type="Int32" Nullable="false" />
-          <Property Name="id_usuario" Type="Int32" Nullable="false" />
-          <Property Name="fecha_inicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fecha_fin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="hora_inicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="hora_fin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Ordenes" Relationship="Self.FK__Disenos__id_orde__26CFC035" FromRole="Disenos" ToRole="Ordenes" />
-          <NavigationProperty Name="Usuarios" Relationship="Self.FK__Disenos__id_usua__27C3E46E" FromRole="Disenos" ToRole="Usuarios" />
-        </EntityType>
-        <EntityType Name="Entrega">
-          <Key>
-            <PropertyRef Name="id_entrega" />
-          </Key>
-          <Property Name="id_entrega" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_orden" Type="Int32" Nullable="false" />
-          <Property Name="id_usuario" Type="Int32" Nullable="false" />
-          <Property Name="fecha" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="hora" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Ordenes" Relationship="Self.FK__Entrega__id_orde__28B808A7" FromRole="Entrega" ToRole="Ordenes" />
-          <NavigationProperty Name="Usuarios" Relationship="Self.FK__Entrega__id_usua__29AC2CE0" FromRole="Entrega" ToRole="Usuarios" />
-        </EntityType>
-        <EntityType Name="FacturaDigital">
-          <Key>
-            <PropertyRef Name="id_factura_digital" />
-          </Key>
-          <Property Name="id_factura_digital" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_factura" Type="Int32" Nullable="false" />
-          <Property Name="xml" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="para_recibo" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
-          <Property Name="acuse" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="fecha_cancelado" Type="DateTime" Precision="3" />
-          <Property Name="sello_cfdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="sello_sat" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="cadena_original" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="forma_pago" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="uso_cfdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="FacturaOrden">
-          <Key>
-            <PropertyRef Name="id_facturaorden" />
-          </Key>
-          <Property Name="id_facturaorden" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_factura" Type="Int32" Nullable="false" />
-          <Property Name="id_orden" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Facturas">
-          <Key>
-            <PropertyRef Name="id_factura" />
-          </Key>
-          <Property Name="id_factura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_cliente" Type="Int32" Nullable="false" />
-          <Property Name="id_contribuyente" Type="Int32" Nullable="false" />
-          <Property Name="subtotal" Type="Double" />
-          <Property Name="total" Type="Double" />
-          <Property Name="pagada" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fecha" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="numero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="razon_cancelado" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="amparada_por" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Impresion">
-          <Key>
-            <PropertyRef Name="id_impresion" />
-          </Key>
-          <Property Name="id_impresion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_orden" Type="Int32" Nullable="false" />
-          <Property Name="id_usuario" Type="Int32" Nullable="false" />
-          <Property Name="fecha_inicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="hora_inicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fecha_fin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="hora_fin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="notas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Materia">
-          <Key>
-            <PropertyRef Name="id_materia" />
-          </Key>
-          <Property Name="id_materia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_tipomateria" Type="Int32" Nullable="false" />
-          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="cantidad" Type="Double" />
-          <Property Name="unidad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="minimo" Type="Double" />
-        </EntityType>
-        <EntityType Name="NotaOrden">
-          <Key>
-            <PropertyRef Name="id_notaorden" />
-          </Key>
-          <Property Name="id_notaorden" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_orden" Type="Int32" Nullable="false" />
-          <Property Name="id_nota" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Notas">
-          <Key>
-            <PropertyRef Name="id_nota" />
-          </Key>
-          <Property Name="id_nota" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_cliente" Type="Int32" />
-          <Property Name="total" Type="Double" />
-          <Property Name="pagada" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fecha" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="numero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="NumeroNota">
-          <Key>
-            <PropertyRef Name="id_numeronota" />
-          </Key>
-          <Property Name="id_numeronota" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="numero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Ordenes">
-          <Key>
-            <PropertyRef Name="id_orden" />
-          </Key>
-          <Property Name="id_orden" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_cliente" Type="Int32" />
-          <Property Name="numero" Type="Double" Nullable="false" />
-          <Property Name="telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="solicitante" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fecha_solicita" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="quien_recibio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="inicio_diseno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="nombre_trabajo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="cantidad" Type="Int32" />
-          <Property Name="color_tintas" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="tipo_papel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="con_folio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="del_numero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="al_numero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="tamano" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="otros_1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="otros_2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="copia_1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="copia_2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="copia_3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="copia_4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="otros_3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="otros_4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="pegado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="engrapado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="perforacion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="rojo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="blanco" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="especificaciones" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="total" Type="Double" />
-          <Property Name="muestra" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fecha_muestra" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="prioridad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="anticipo" Type="Double" />
-          <Property Name="fecha_entregado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="pagado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="inicio_impresion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="inicio_terminado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="inicio_por_entregar" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="costo_anterior" Type="Double" />
-          <Property Name="autorizado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="hora_solicita" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ruta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Bitacora" Relationship="Self.FK__Bitacora__id_ord__24E777C3" FromRole="Ordenes" ToRole="Bitacora" />
-          <NavigationProperty Name="Disenos" Relationship="Self.FK__Disenos__id_orde__26CFC035" FromRole="Ordenes" ToRole="Disenos" />
-          <NavigationProperty Name="Entrega" Relationship="Self.FK__Entrega__id_orde__28B808A7" FromRole="Ordenes" ToRole="Entrega" />
-          <NavigationProperty Name="Terminado" Relationship="Self.FK__Terminado__id_or__2AA05119" FromRole="Ordenes" ToRole="Terminado" />
-        </EntityType>
-        <EntityType Name="OrdenMateria">
-          <Key>
-            <PropertyRef Name="id_ordenmateria" />
-          </Key>
-          <Property Name="id_ordenmateria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_orden" Type="Int32" Nullable="false" />
-          <Property Name="id_materia" Type="Int32" Nullable="false" />
-          <Property Name="cantidad" Type="Double" />
-          <Property Name="unidad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fecha_solicitado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="hora_solicitado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="notas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Pagos">
-          <Key>
-            <PropertyRef Name="id_pago" />
-          </Key>
-          <Property Name="id_pago" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_factura" Type="Int32" Nullable="false" />
-          <Property Name="tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="cantidad" Type="Double" Nullable="false" />
-          <Property Name="fecha" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="numero_cheque" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="banco" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="numero_recibo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="notas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="PagosNotas">
-          <Key>
-            <PropertyRef Name="id_pagonota" />
-          </Key>
-          <Property Name="id_pagonota" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_nota" Type="Int32" Nullable="false" />
-          <Property Name="tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="cantidad" Type="Double" Nullable="false" />
-          <Property Name="fecha" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="numero_cheque" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="banco" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="numero_recibo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="notas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Parcialidades">
-          <Key>
-            <PropertyRef Name="id_parcialidad" />
-          </Key>
-          <Property Name="id_parcialidad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_factura" Type="Int32" />
-          <Property Name="xml" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="fecha" Type="DateTime" Precision="3" />
-          <Property Name="anterior" Type="Double" />
-          <Property Name="pagado" Type="Double" />
-          <Property Name="insoluto" Type="Double" />
-          <Property Name="parcialidad" Type="Int32" />
-        </EntityType>
-        <EntityType Name="ProductosServicios">
-          <Key>
-            <PropertyRef Name="id_productoservicio" />
-          </Key>
-          <Property Name="id_productoservicio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="clave" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Recordatorios">
-          <Key>
-            <PropertyRef Name="id_recordatorio" />
-          </Key>
-          <Property Name="id_recordatorio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_cliente" Type="Int32" Nullable="false" />
-          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="notas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="recordar_cada" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fecha_inicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="dias_antes" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="dias_despues" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Salidas">
-          <Key>
-            <PropertyRef Name="id_salida" />
-          </Key>
-          <Property Name="id_salida" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_material" Type="Int32" Nullable="false" />
-          <Property Name="cantidad" Type="Double" />
-          <Property Name="unidad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fecha_salida" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="hora_salida" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="notas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Terminado">
-          <Key>
-            <PropertyRef Name="id_terminado" />
-          </Key>
-          <Property Name="id_terminado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_orden" Type="Int32" Nullable="false" />
-          <Property Name="id_usuario" Type="Int32" Nullable="false" />
-          <Property Name="fecha_inicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="hora_inicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fecha_fin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="hora_fin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="tipo_terminado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Ordenes" Relationship="Self.FK__Terminado__id_or__2AA05119" FromRole="Terminado" ToRole="Ordenes" />
-          <NavigationProperty Name="Usuarios" Relationship="Self.FK__Terminado__id_us__2B947552" FromRole="Terminado" ToRole="Usuarios" />
-        </EntityType>
-        <EntityType Name="TipoMateria">
-          <Key>
-            <PropertyRef Name="id_tipomateria" />
-          </Key>
-          <Property Name="id_tipomateria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Unidades">
-          <Key>
-            <PropertyRef Name="id_unidad" />
-          </Key>
-          <Property Name="id_unidad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="clave" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="unidad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Usuarios">
-          <Key>
-            <PropertyRef Name="id_usuario" />
-          </Key>
-          <Property Name="id_usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="pass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Bitacora" Relationship="Self.FK__Bitacora__id_usu__25DB9BFC" FromRole="Usuarios" ToRole="Bitacora" />
-          <NavigationProperty Name="Disenos" Relationship="Self.FK__Disenos__id_usua__27C3E46E" FromRole="Usuarios" ToRole="Disenos" />
-          <NavigationProperty Name="Entrega" Relationship="Self.FK__Entrega__id_usua__29AC2CE0" FromRole="Usuarios" ToRole="Entrega" />
-          <NavigationProperty Name="Terminado" Relationship="Self.FK__Terminado__id_us__2B947552" FromRole="Usuarios" ToRole="Terminado" />
-        </EntityType>
-        <Association Name="FK__Bitacora__id_ord__24E777C3">
-          <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="1" />
-          <End Role="Bitacora" Type="Self.Bitacora" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Ordenes">
-              <PropertyRef Name="id_orden" />
-            </Principal>
-            <Dependent Role="Bitacora">
-              <PropertyRef Name="id_orden" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Bitacora__id_usu__25DB9BFC">
-          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
-          <End Role="Bitacora" Type="Self.Bitacora" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuarios">
-              <PropertyRef Name="id_usuario" />
-            </Principal>
-            <Dependent Role="Bitacora">
-              <PropertyRef Name="id_usuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Disenos__id_orde__26CFC035">
-          <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="1" />
-          <End Role="Disenos" Type="Self.Disenos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Ordenes">
-              <PropertyRef Name="id_orden" />
-            </Principal>
-            <Dependent Role="Disenos">
-              <PropertyRef Name="id_orden" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Disenos__id_usua__27C3E46E">
-          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="Disenos" Type="Self.Disenos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuarios">
-              <PropertyRef Name="id_usuario" />
-            </Principal>
-            <Dependent Role="Disenos">
-              <PropertyRef Name="id_usuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Entrega__id_orde__28B808A7">
-          <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="1" />
-          <End Role="Entrega" Type="Self.Entrega" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Ordenes">
-              <PropertyRef Name="id_orden" />
-            </Principal>
-            <Dependent Role="Entrega">
-              <PropertyRef Name="id_orden" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Entrega__id_usua__29AC2CE0">
-          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="Entrega" Type="Self.Entrega" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuarios">
-              <PropertyRef Name="id_usuario" />
-            </Principal>
-            <Dependent Role="Entrega">
-              <PropertyRef Name="id_usuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Terminado__id_or__2AA05119">
-          <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="1" />
-          <End Role="Terminado" Type="Self.Terminado" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Ordenes">
-              <PropertyRef Name="id_orden" />
-            </Principal>
-            <Dependent Role="Terminado">
-              <PropertyRef Name="id_orden" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__Terminado__id_us__2B947552">
-          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
-          <End Role="Terminado" Type="Self.Terminado" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Usuarios">
-              <PropertyRef Name="id_usuario" />
-            </Principal>
-            <Dependent Role="Terminado">
-              <PropertyRef Name="id_usuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="ImpresosBDEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Bitacora" EntityType="Self.Bitacora" />
-          <EntitySet Name="Clientes" EntityType="Self.Clientes" />
-          <EntitySet Name="Comentarios" EntityType="Self.Comentarios" />
-          <EntitySet Name="Contribuyentes" EntityType="Self.Contribuyentes" />
-          <EntitySet Name="Correos" EntityType="Self.Correos" />
-          <EntitySet Name="DetalleFactura" EntityType="Self.DetalleFactura" />
-          <EntitySet Name="DetalleNota" EntityType="Self.DetalleNota" />
-          <EntitySet Name="Disenos" EntityType="Self.Disenos" />
-          <EntitySet Name="Entrega" EntityType="Self.Entrega" />
-          <EntitySet Name="FacturaDigital" EntityType="Self.FacturaDigital" />
-          <EntitySet Name="FacturaOrden" EntityType="Self.FacturaOrden" />
-          <EntitySet Name="Facturas" EntityType="Self.Facturas" />
-          <EntitySet Name="Impresion" EntityType="Self.Impresion" />
-          <EntitySet Name="Materia" EntityType="Self.Materia" />
-          <EntitySet Name="NotaOrden" EntityType="Self.NotaOrden" />
-          <EntitySet Name="Notas" EntityType="Self.Notas" />
-          <EntitySet Name="NumeroNota" EntityType="Self.NumeroNota" />
-          <EntitySet Name="Ordenes" EntityType="Self.Ordenes" />
-          <EntitySet Name="OrdenMateria" EntityType="Self.OrdenMateria" />
-          <EntitySet Name="Pagos" EntityType="Self.Pagos" />
-          <EntitySet Name="PagosNotas" EntityType="Self.PagosNotas" />
-          <EntitySet Name="Parcialidades" EntityType="Self.Parcialidades" />
-          <EntitySet Name="ProductosServicios" EntityType="Self.ProductosServicios" />
-          <EntitySet Name="Recordatorios" EntityType="Self.Recordatorios" />
-          <EntitySet Name="Salidas" EntityType="Self.Salidas" />
-          <EntitySet Name="Terminado" EntityType="Self.Terminado" />
-          <EntitySet Name="TipoMateria" EntityType="Self.TipoMateria" />
-          <EntitySet Name="Unidades" EntityType="Self.Unidades" />
-          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" />
-          <AssociationSet Name="FK__Bitacora__id_ord__24E777C3" Association="Self.FK__Bitacora__id_ord__24E777C3">
-            <End Role="Ordenes" EntitySet="Ordenes" />
-            <End Role="Bitacora" EntitySet="Bitacora" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Bitacora__id_usu__25DB9BFC" Association="Self.FK__Bitacora__id_usu__25DB9BFC">
-            <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="Bitacora" EntitySet="Bitacora" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Disenos__id_orde__26CFC035" Association="Self.FK__Disenos__id_orde__26CFC035">
-            <End Role="Ordenes" EntitySet="Ordenes" />
-            <End Role="Disenos" EntitySet="Disenos" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Disenos__id_usua__27C3E46E" Association="Self.FK__Disenos__id_usua__27C3E46E">
-            <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="Disenos" EntitySet="Disenos" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Entrega__id_orde__28B808A7" Association="Self.FK__Entrega__id_orde__28B808A7">
-            <End Role="Ordenes" EntitySet="Ordenes" />
-            <End Role="Entrega" EntitySet="Entrega" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Entrega__id_usua__29AC2CE0" Association="Self.FK__Entrega__id_usua__29AC2CE0">
-            <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="Entrega" EntitySet="Entrega" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Terminado__id_or__2AA05119" Association="Self.FK__Terminado__id_or__2AA05119">
-            <End Role="Ordenes" EntitySet="Ordenes" />
-            <End Role="Terminado" EntitySet="Terminado" />
-          </AssociationSet>
-          <AssociationSet Name="FK__Terminado__id_us__2B947552" Association="Self.FK__Terminado__id_us__2B947552">
-            <End Role="Usuarios" EntitySet="Usuarios" />
-            <End Role="Terminado" EntitySet="Terminado" />
-          </AssociationSet>
           <FunctionImport Name="Actualizar_Amparo_Factura">
             <Parameter Name="id_factura" Mode="In" Type="Int32" />
             <Parameter Name="amparo" Mode="In" Type="String" />
@@ -2250,9 +1726,72 @@
             <Parameter Name="nombre" Mode="In" Type="String" />
             <Parameter Name="password" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="Bitacora" EntityType="ImpresosBDModel.Bitacora" />
+          <EntitySet Name="Clientes" EntityType="ImpresosBDModel.Clientes" />
+          <EntitySet Name="Comentarios" EntityType="ImpresosBDModel.Comentarios" />
+          <EntitySet Name="Contribuyentes" EntityType="ImpresosBDModel.Contribuyentes" />
+          <EntitySet Name="Correos" EntityType="ImpresosBDModel.Correos" />
+          <EntitySet Name="DetalleFactura" EntityType="ImpresosBDModel.DetalleFactura" />
+          <EntitySet Name="DetalleNota" EntityType="ImpresosBDModel.DetalleNota" />
+          <EntitySet Name="Disenos" EntityType="ImpresosBDModel.Disenos" />
+          <EntitySet Name="Entrega" EntityType="ImpresosBDModel.Entrega" />
+          <EntitySet Name="FacturaDigital" EntityType="ImpresosBDModel.FacturaDigital" />
+          <EntitySet Name="FacturaOrden" EntityType="ImpresosBDModel.FacturaOrden" />
+          <EntitySet Name="Facturas" EntityType="ImpresosBDModel.Facturas" />
           <EntitySet Name="FormasPago" EntityType="ImpresosBDModel.FormasPago" />
+          <EntitySet Name="Impresion" EntityType="ImpresosBDModel.Impresion" />
+          <EntitySet Name="Materia" EntityType="ImpresosBDModel.Materia" />
+          <EntitySet Name="NotaOrden" EntityType="ImpresosBDModel.NotaOrden" />
+          <EntitySet Name="Notas" EntityType="ImpresosBDModel.Notas" />
+          <EntitySet Name="NumeroNota" EntityType="ImpresosBDModel.NumeroNota" />
+          <EntitySet Name="Ordenes" EntityType="ImpresosBDModel.Ordenes" />
+          <EntitySet Name="OrdenMateria" EntityType="ImpresosBDModel.OrdenMateria" />
+          <EntitySet Name="Pagos" EntityType="ImpresosBDModel.Pagos" />
+          <EntitySet Name="PagosNotas" EntityType="ImpresosBDModel.PagosNotas" />
+          <EntitySet Name="Parcialidades" EntityType="ImpresosBDModel.Parcialidades" />
+          <EntitySet Name="ProductosServicios" EntityType="ImpresosBDModel.ProductosServicios" />
+          <EntitySet Name="Recordatorios" EntityType="ImpresosBDModel.Recordatorios" />
+          <EntitySet Name="Salidas" EntityType="ImpresosBDModel.Salidas" />
+          <EntitySet Name="Terminado" EntityType="ImpresosBDModel.Terminado" />
+          <EntitySet Name="TipoMateria" EntityType="ImpresosBDModel.TipoMateria" />
+          <EntitySet Name="Unidades" EntityType="ImpresosBDModel.Unidades" />
           <EntitySet Name="UsosCFDI" EntityType="ImpresosBDModel.UsosCFDI" />
-        </EntityContainer>
+          <EntitySet Name="Usuarios" EntityType="ImpresosBDModel.Usuarios" />
+          <AssociationSet Name="FK__Bitacora__id_ord__24E777C3" Association="ImpresosBDModel.FK__Bitacora__id_ord__24E777C3">
+            <End Role="Ordenes" EntitySet="Ordenes" />
+            <End Role="Bitacora" EntitySet="Bitacora" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Bitacora__id_usu__25DB9BFC" Association="ImpresosBDModel.FK__Bitacora__id_usu__25DB9BFC">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Bitacora" EntitySet="Bitacora" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disenos__id_orde__26CFC035" Association="ImpresosBDModel.FK__Disenos__id_orde__26CFC035">
+            <End Role="Ordenes" EntitySet="Ordenes" />
+            <End Role="Disenos" EntitySet="Disenos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Disenos__id_usua__27C3E46E" Association="ImpresosBDModel.FK__Disenos__id_usua__27C3E46E">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Disenos" EntitySet="Disenos" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Entrega__id_orde__28B808A7" Association="ImpresosBDModel.FK__Entrega__id_orde__28B808A7">
+            <End Role="Ordenes" EntitySet="Ordenes" />
+            <End Role="Entrega" EntitySet="Entrega" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Entrega__id_usua__29AC2CE0" Association="ImpresosBDModel.FK__Entrega__id_usua__29AC2CE0">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Entrega" EntitySet="Entrega" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Terminado__id_or__2AA05119" Association="ImpresosBDModel.FK__Terminado__id_or__2AA05119">
+            <End Role="Ordenes" EntitySet="Ordenes" />
+            <End Role="Terminado" EntitySet="Terminado" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Terminado__id_us__2B947552" Association="ImpresosBDModel.FK__Terminado__id_us__2B947552">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="Terminado" EntitySet="Terminado" />
+          </AssociationSet>
+          <EntitySet Name="Configuracion" EntityType="ImpresosBDModel.Configuracion" />
+          <EntitySet Name="Valores" EntityType="ImpresosBDModel.Valores" />
+          </EntityContainer>
         <ComplexType Name="Obtener_Bitacora_Diaria_Result">
           <Property Type="String" Name="nombre" Nullable="false" MaxLength="50" />
           <Property Type="Double" Name="numero" Nullable="false" />
@@ -2843,6 +2382,164 @@
           <Property Type="String" Name="hora_inicio" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="tipo_terminado1" Nullable="true" MaxLength="50" />
         </ComplexType>
+        <EntityType Name="Bitacora">
+          <Key>
+            <PropertyRef Name="id_bitacora" />
+          </Key>
+          <Property Name="id_bitacora" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_orden" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario" Type="Int32" />
+          <Property Name="nombre_cliente" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hora_entrada" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="muestras" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="salida" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_entrega" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_inicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ruta_trabajo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Ordenes" Relationship="ImpresosBDModel.FK__Bitacora__id_ord__24E777C3" FromRole="Bitacora" ToRole="Ordenes" />
+          <NavigationProperty Name="Usuarios" Relationship="ImpresosBDModel.FK__Bitacora__id_usu__25DB9BFC" FromRole="Bitacora" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="Clientes">
+          <Key>
+            <PropertyRef Name="id_cliente" />
+          </Key>
+          <Property Name="id_cliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="domicilio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="colonia" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ciudad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="codigo_postal" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="tipo_persona" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="telefono1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="telefono2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="telefono3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="telefono4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="contacto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="rfc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="pseudonimo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="numero_exterior" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="numero_interior" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Comentarios">
+          <Key>
+            <PropertyRef Name="id_comentario" />
+          </Key>
+          <Property Name="id_comentario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_orden" Type="Int32" Nullable="false" />
+          <Property Name="comentario" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fecha" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Contribuyentes">
+          <Key>
+            <PropertyRef Name="id_contribuyente" />
+          </Key>
+          <Property Name="id_contribuyente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="numero_factura" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tipo_factura" Type="Int32" />
+          <Property Name="num_complemento" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Correos">
+          <Key>
+            <PropertyRef Name="id_correo" />
+          </Key>
+          <Property Name="id_correo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_cliente" Type="Int32" Nullable="false" />
+          <Property Name="correo" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DetalleFactura">
+          <Key>
+            <PropertyRef Name="id_detallefactura" />
+          </Key>
+          <Property Name="id_detallefactura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_factura" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Int32" />
+          <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="importe" Type="Double" />
+          <Property Name="precio_unitario" Type="Double" />
+          <Property Name="clave_servicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="unidad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="DetalleNota">
+          <Key>
+            <PropertyRef Name="id_detallenota" />
+          </Key>
+          <Property Name="id_detallenota" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_nota" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Int32" />
+          <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="importe" Type="Double" />
+        </EntityType>
+        <EntityType Name="Disenos">
+          <Key>
+            <PropertyRef Name="id_diseno" />
+          </Key>
+          <Property Name="id_diseno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_orden" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario" Type="Int32" Nullable="false" />
+          <Property Name="fecha_inicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_fin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hora_inicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hora_fin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Ordenes" Relationship="ImpresosBDModel.FK__Disenos__id_orde__26CFC035" FromRole="Disenos" ToRole="Ordenes" />
+          <NavigationProperty Name="Usuarios" Relationship="ImpresosBDModel.FK__Disenos__id_usua__27C3E46E" FromRole="Disenos" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="Entrega">
+          <Key>
+            <PropertyRef Name="id_entrega" />
+          </Key>
+          <Property Name="id_entrega" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_orden" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hora" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Ordenes" Relationship="ImpresosBDModel.FK__Entrega__id_orde__28B808A7" FromRole="Entrega" ToRole="Ordenes" />
+          <NavigationProperty Name="Usuarios" Relationship="ImpresosBDModel.FK__Entrega__id_usua__29AC2CE0" FromRole="Entrega" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="FacturaDigital">
+          <Key>
+            <PropertyRef Name="id_factura_digital" />
+          </Key>
+          <Property Name="id_factura_digital" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_factura" Type="Int32" Nullable="false" />
+          <Property Name="xml" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="para_recibo" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="acuse" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_cancelado" Type="DateTime" Precision="3" />
+          <Property Name="sello_cfdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="sello_sat" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="cadena_original" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="forma_pago" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="uso_cfdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="FacturaOrden">
+          <Key>
+            <PropertyRef Name="id_facturaorden" />
+          </Key>
+          <Property Name="id_facturaorden" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_factura" Type="Int32" Nullable="false" />
+          <Property Name="id_orden" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Facturas">
+          <Key>
+            <PropertyRef Name="id_factura" />
+          </Key>
+          <Property Name="id_factura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_cliente" Type="Int32" Nullable="false" />
+          <Property Name="id_contribuyente" Type="Int32" Nullable="false" />
+          <Property Name="subtotal" Type="Double" />
+          <Property Name="total" Type="Double" />
+          <Property Name="pagada" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="numero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="razon_cancelado" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="amparada_por" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
         <EntityType Name="FormasPago">
           <Key>
             <PropertyRef Name="IdFormaPago" />
@@ -2850,6 +2547,238 @@
           <Property Name="IdFormaPago" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Clave" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="FormaPago" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Impresion">
+          <Key>
+            <PropertyRef Name="id_impresion" />
+          </Key>
+          <Property Name="id_impresion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_orden" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario" Type="Int32" Nullable="false" />
+          <Property Name="fecha_inicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hora_inicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_fin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hora_fin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="notas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Materia">
+          <Key>
+            <PropertyRef Name="id_materia" />
+          </Key>
+          <Property Name="id_materia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_tipomateria" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="cantidad" Type="Double" />
+          <Property Name="unidad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="minimo" Type="Double" />
+        </EntityType>
+        <EntityType Name="NotaOrden">
+          <Key>
+            <PropertyRef Name="id_notaorden" />
+          </Key>
+          <Property Name="id_notaorden" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_orden" Type="Int32" Nullable="false" />
+          <Property Name="id_nota" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Notas">
+          <Key>
+            <PropertyRef Name="id_nota" />
+          </Key>
+          <Property Name="id_nota" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_cliente" Type="Int32" />
+          <Property Name="total" Type="Double" />
+          <Property Name="pagada" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="numero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="NumeroNota">
+          <Key>
+            <PropertyRef Name="id_numeronota" />
+          </Key>
+          <Property Name="id_numeronota" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Ordenes">
+          <Key>
+            <PropertyRef Name="id_orden" />
+          </Key>
+          <Property Name="id_orden" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_cliente" Type="Int32" />
+          <Property Name="numero" Type="Double" Nullable="false" />
+          <Property Name="telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="solicitante" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_solicita" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="quien_recibio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="inicio_diseno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="nombre_trabajo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="cantidad" Type="Int32" />
+          <Property Name="color_tintas" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tipo_papel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="con_folio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="del_numero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="al_numero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tamano" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="otros_1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="otros_2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="copia_1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="copia_2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="copia_3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="copia_4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="otros_3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="otros_4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="pegado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="engrapado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="perforacion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="rojo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="blanco" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="especificaciones" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="estado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tipo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="total" Type="Double" />
+          <Property Name="muestra" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_muestra" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="prioridad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="anticipo" Type="Double" />
+          <Property Name="fecha_entregado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="pagado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="inicio_impresion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="inicio_terminado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="inicio_por_entregar" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="costo_anterior" Type="Double" />
+          <Property Name="autorizado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hora_solicita" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ruta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bitacora" Relationship="ImpresosBDModel.FK__Bitacora__id_ord__24E777C3" FromRole="Ordenes" ToRole="Bitacora" />
+          <NavigationProperty Name="Disenos" Relationship="ImpresosBDModel.FK__Disenos__id_orde__26CFC035" FromRole="Ordenes" ToRole="Disenos" />
+          <NavigationProperty Name="Entrega" Relationship="ImpresosBDModel.FK__Entrega__id_orde__28B808A7" FromRole="Ordenes" ToRole="Entrega" />
+          <NavigationProperty Name="Terminado" Relationship="ImpresosBDModel.FK__Terminado__id_or__2AA05119" FromRole="Ordenes" ToRole="Terminado" />
+        </EntityType>
+        <EntityType Name="OrdenMateria">
+          <Key>
+            <PropertyRef Name="id_ordenmateria" />
+          </Key>
+          <Property Name="id_ordenmateria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_orden" Type="Int32" Nullable="false" />
+          <Property Name="id_materia" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Double" />
+          <Property Name="unidad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_solicitado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hora_solicitado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="notas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Pagos">
+          <Key>
+            <PropertyRef Name="id_pago" />
+          </Key>
+          <Property Name="id_pago" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_factura" Type="Int32" Nullable="false" />
+          <Property Name="tipo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="cantidad" Type="Double" Nullable="false" />
+          <Property Name="fecha" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="numero_cheque" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="banco" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="numero_recibo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="notas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PagosNotas">
+          <Key>
+            <PropertyRef Name="id_pagonota" />
+          </Key>
+          <Property Name="id_pagonota" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_nota" Type="Int32" Nullable="false" />
+          <Property Name="tipo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="cantidad" Type="Double" Nullable="false" />
+          <Property Name="fecha" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="numero_cheque" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="banco" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="numero_recibo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="notas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Parcialidades">
+          <Key>
+            <PropertyRef Name="id_parcialidad" />
+          </Key>
+          <Property Name="id_parcialidad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_factura" Type="Int32" />
+          <Property Name="xml" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="anterior" Type="Double" />
+          <Property Name="pagado" Type="Double" />
+          <Property Name="insoluto" Type="Double" />
+          <Property Name="parcialidad" Type="Int32" />
+          <Property Name="acuse" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="fecha_cancelado" Type="DateTime" Precision="3" />
+          <Property Name="sello_cfdi" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="sello_sat" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="cadena_original" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ProductosServicios">
+          <Key>
+            <PropertyRef Name="id_productoservicio" />
+          </Key>
+          <Property Name="id_productoservicio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clave" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Recordatorios">
+          <Key>
+            <PropertyRef Name="id_recordatorio" />
+          </Key>
+          <Property Name="id_recordatorio" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_cliente" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="notas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="recordar_cada" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_inicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dias_antes" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="dias_despues" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Salidas">
+          <Key>
+            <PropertyRef Name="id_salida" />
+          </Key>
+          <Property Name="id_salida" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_material" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Double" />
+          <Property Name="unidad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_salida" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hora_salida" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="notas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Terminado">
+          <Key>
+            <PropertyRef Name="id_terminado" />
+          </Key>
+          <Property Name="id_terminado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_orden" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario" Type="Int32" Nullable="false" />
+          <Property Name="fecha_inicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hora_inicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_fin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hora_fin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tipo_terminado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Ordenes" Relationship="ImpresosBDModel.FK__Terminado__id_or__2AA05119" FromRole="Terminado" ToRole="Ordenes" />
+          <NavigationProperty Name="Usuarios" Relationship="ImpresosBDModel.FK__Terminado__id_us__2B947552" FromRole="Terminado" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="TipoMateria">
+          <Key>
+            <PropertyRef Name="id_tipomateria" />
+          </Key>
+          <Property Name="id_tipomateria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="tipo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Unidades">
+          <Key>
+            <PropertyRef Name="id_unidad" />
+          </Key>
+          <Property Name="id_unidad" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clave" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="unidad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="UsosCFDI">
           <Key>
@@ -2859,420 +2788,139 @@
           <Property Name="Clave" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="Uso" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
-      </Schema>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="id_usuario" />
+          </Key>
+          <Property Name="id_usuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="pass" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tipo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="estado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Bitacora" Relationship="ImpresosBDModel.FK__Bitacora__id_usu__25DB9BFC" FromRole="Usuarios" ToRole="Bitacora" />
+          <NavigationProperty Name="Disenos" Relationship="ImpresosBDModel.FK__Disenos__id_usua__27C3E46E" FromRole="Usuarios" ToRole="Disenos" />
+          <NavigationProperty Name="Entrega" Relationship="ImpresosBDModel.FK__Entrega__id_usua__29AC2CE0" FromRole="Usuarios" ToRole="Entrega" />
+          <NavigationProperty Name="Terminado" Relationship="ImpresosBDModel.FK__Terminado__id_us__2B947552" FromRole="Usuarios" ToRole="Terminado" />
+        </EntityType>
+        <Association Name="FK__Bitacora__id_ord__24E777C3">
+          <End Type="ImpresosBDModel.Ordenes" Role="Ordenes" Multiplicity="1" />
+          <End Type="ImpresosBDModel.Bitacora" Role="Bitacora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ordenes">
+              <PropertyRef Name="id_orden" />
+            </Principal>
+            <Dependent Role="Bitacora">
+              <PropertyRef Name="id_orden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Bitacora__id_usu__25DB9BFC">
+          <End Type="ImpresosBDModel.Usuarios" Role="Usuarios" Multiplicity="0..1" />
+          <End Type="ImpresosBDModel.Bitacora" Role="Bitacora" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="Bitacora">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disenos__id_orde__26CFC035">
+          <End Type="ImpresosBDModel.Ordenes" Role="Ordenes" Multiplicity="1" />
+          <End Type="ImpresosBDModel.Disenos" Role="Disenos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ordenes">
+              <PropertyRef Name="id_orden" />
+            </Principal>
+            <Dependent Role="Disenos">
+              <PropertyRef Name="id_orden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Disenos__id_usua__27C3E46E">
+          <End Type="ImpresosBDModel.Usuarios" Role="Usuarios" Multiplicity="1" />
+          <End Type="ImpresosBDModel.Disenos" Role="Disenos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="Disenos">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Entrega__id_orde__28B808A7">
+          <End Type="ImpresosBDModel.Ordenes" Role="Ordenes" Multiplicity="1" />
+          <End Type="ImpresosBDModel.Entrega" Role="Entrega" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ordenes">
+              <PropertyRef Name="id_orden" />
+            </Principal>
+            <Dependent Role="Entrega">
+              <PropertyRef Name="id_orden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Entrega__id_usua__29AC2CE0">
+          <End Type="ImpresosBDModel.Usuarios" Role="Usuarios" Multiplicity="1" />
+          <End Type="ImpresosBDModel.Entrega" Role="Entrega" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="Entrega">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Terminado__id_or__2AA05119">
+          <End Type="ImpresosBDModel.Ordenes" Role="Ordenes" Multiplicity="1" />
+          <End Type="ImpresosBDModel.Terminado" Role="Terminado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ordenes">
+              <PropertyRef Name="id_orden" />
+            </Principal>
+            <Dependent Role="Terminado">
+              <PropertyRef Name="id_orden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Terminado__id_us__2B947552">
+          <End Type="ImpresosBDModel.Usuarios" Role="Usuarios" Multiplicity="1" />
+          <End Type="ImpresosBDModel.Terminado" Role="Terminado" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="id_usuario" />
+            </Principal>
+            <Dependent Role="Terminado">
+              <PropertyRef Name="id_usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Configuracion">
+          <Key>
+            <PropertyRef Name="id_configuracion" />
+          </Key>
+          <Property Name="usuario_correo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="password_correo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="correo" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="id_configuracion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Valores">
+          <Key>
+            <PropertyRef Name="id_valor" />
+          </Key>
+          <Property Name="numero_orden" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ultimo_cambio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id_valor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ImpresosBDModelStoreContainer" CdmEntityContainer="ImpresosBDEntities">
-          <EntitySetMapping Name="Bitacora">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Bitacora">
-              <MappingFragment StoreEntitySet="Bitacora">
-                <ScalarProperty Name="id_bitacora" ColumnName="id_bitacora" />
-                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
-                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
-                <ScalarProperty Name="nombre_cliente" ColumnName="nombre_cliente" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="hora_entrada" ColumnName="hora_entrada" />
-                <ScalarProperty Name="muestras" ColumnName="muestras" />
-                <ScalarProperty Name="salida" ColumnName="salida" />
-                <ScalarProperty Name="fecha_entrega" ColumnName="fecha_entrega" />
-                <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
-                <ScalarProperty Name="ruta_trabajo" ColumnName="ruta_trabajo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Clientes">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Clientes">
-              <MappingFragment StoreEntitySet="Clientes">
-                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="domicilio" ColumnName="domicilio" />
-                <ScalarProperty Name="colonia" ColumnName="colonia" />
-                <ScalarProperty Name="ciudad" ColumnName="ciudad" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="codigo_postal" ColumnName="codigo_postal" />
-                <ScalarProperty Name="tipo_persona" ColumnName="tipo_persona" />
-                <ScalarProperty Name="telefono1" ColumnName="telefono1" />
-                <ScalarProperty Name="telefono2" ColumnName="telefono2" />
-                <ScalarProperty Name="telefono3" ColumnName="telefono3" />
-                <ScalarProperty Name="telefono4" ColumnName="telefono4" />
-                <ScalarProperty Name="contacto" ColumnName="contacto" />
-                <ScalarProperty Name="rfc" ColumnName="rfc" />
-                <ScalarProperty Name="pseudonimo" ColumnName="pseudonimo" />
-                <ScalarProperty Name="numero_exterior" ColumnName="numero_exterior" />
-                <ScalarProperty Name="numero_interior" ColumnName="numero_interior" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Comentarios">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Comentarios">
-              <MappingFragment StoreEntitySet="Comentarios">
-                <ScalarProperty Name="id_comentario" ColumnName="id_comentario" />
-                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
-                <ScalarProperty Name="comentario" ColumnName="comentario" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Contribuyentes">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Contribuyentes">
-              <MappingFragment StoreEntitySet="Contribuyentes">
-                <ScalarProperty Name="id_contribuyente" ColumnName="id_contribuyente" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="numero_factura" ColumnName="numero_factura" />
-                <ScalarProperty Name="tipo_factura" ColumnName="tipo_factura" />
-                <ScalarProperty Name="num_complemento" ColumnName="num_complemento" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Correos">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Correos">
-              <MappingFragment StoreEntitySet="Correos">
-                <ScalarProperty Name="id_correo" ColumnName="id_correo" />
-                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
-                <ScalarProperty Name="correo" ColumnName="correo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DetalleFactura">
-            <EntityTypeMapping TypeName="ImpresosBDModel.DetalleFactura">
-              <MappingFragment StoreEntitySet="DetalleFactura">
-                <ScalarProperty Name="id_detallefactura" ColumnName="id_detallefactura" />
-                <ScalarProperty Name="id_factura" ColumnName="id_factura" />
-                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="importe" ColumnName="importe" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DetalleNota">
-            <EntityTypeMapping TypeName="ImpresosBDModel.DetalleNota">
-              <MappingFragment StoreEntitySet="DetalleNota">
-                <ScalarProperty Name="id_detallenota" ColumnName="id_detallenota" />
-                <ScalarProperty Name="id_nota" ColumnName="id_nota" />
-                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="importe" ColumnName="importe" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Disenos">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Disenos">
-              <MappingFragment StoreEntitySet="Disenos">
-                <ScalarProperty Name="id_diseno" ColumnName="id_diseno" />
-                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
-                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
-                <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
-                <ScalarProperty Name="fecha_fin" ColumnName="fecha_fin" />
-                <ScalarProperty Name="hora_inicio" ColumnName="hora_inicio" />
-                <ScalarProperty Name="hora_fin" ColumnName="hora_fin" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Entrega">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Entrega">
-              <MappingFragment StoreEntitySet="Entrega">
-                <ScalarProperty Name="id_entrega" ColumnName="id_entrega" />
-                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
-                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-                <ScalarProperty Name="hora" ColumnName="hora" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FacturaDigital">
-            <EntityTypeMapping TypeName="ImpresosBDModel.FacturaDigital">
-              <MappingFragment StoreEntitySet="FacturaDigital">
-                <ScalarProperty Name="uso_cfdi" ColumnName="uso_cfdi" />
-                <ScalarProperty Name="forma_pago" ColumnName="forma_pago" />
-                <ScalarProperty Name="cadena_original" ColumnName="cadena_original" />
-                <ScalarProperty Name="sello_sat" ColumnName="sello_sat" />
-                <ScalarProperty Name="sello_cfdi" ColumnName="sello_cfdi" />
-                <ScalarProperty Name="fecha_cancelado" ColumnName="fecha_cancelado" />
-                <ScalarProperty Name="acuse" ColumnName="acuse" />
-                <ScalarProperty Name="id_factura_digital" ColumnName="id_factura_digital" />
-                <ScalarProperty Name="id_factura" ColumnName="id_factura" />
-                <ScalarProperty Name="xml" ColumnName="xml" />
-                <ScalarProperty Name="para_recibo" ColumnName="para_recibo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="FacturaOrden">
-            <EntityTypeMapping TypeName="ImpresosBDModel.FacturaOrden">
-              <MappingFragment StoreEntitySet="FacturaOrden">
-                <ScalarProperty Name="id_facturaorden" ColumnName="id_facturaorden" />
-                <ScalarProperty Name="id_factura" ColumnName="id_factura" />
-                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Facturas">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Facturas">
-              <MappingFragment StoreEntitySet="Facturas">
-                <ScalarProperty Name="id_factura" ColumnName="id_factura" />
-                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
-                <ScalarProperty Name="id_contribuyente" ColumnName="id_contribuyente" />
-                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
-                <ScalarProperty Name="total" ColumnName="total" />
-                <ScalarProperty Name="pagada" ColumnName="pagada" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-                <ScalarProperty Name="numero" ColumnName="numero" />
-                <ScalarProperty Name="razon_cancelado" ColumnName="razon_cancelado" />
-                <ScalarProperty Name="amparada_por" ColumnName="amparada_por" />
-                <ScalarProperty Name="usuario" ColumnName="usuario" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Impresion">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Impresion">
-              <MappingFragment StoreEntitySet="Impresion">
-                <ScalarProperty Name="id_impresion" ColumnName="id_impresion" />
-                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
-                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
-                <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
-                <ScalarProperty Name="hora_inicio" ColumnName="hora_inicio" />
-                <ScalarProperty Name="fecha_fin" ColumnName="fecha_fin" />
-                <ScalarProperty Name="hora_fin" ColumnName="hora_fin" />
-                <ScalarProperty Name="notas" ColumnName="notas" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Materia">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Materia">
-              <MappingFragment StoreEntitySet="Materia">
-                <ScalarProperty Name="id_materia" ColumnName="id_materia" />
-                <ScalarProperty Name="id_tipomateria" ColumnName="id_tipomateria" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
-                <ScalarProperty Name="unidad" ColumnName="unidad" />
-                <ScalarProperty Name="minimo" ColumnName="minimo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="NotaOrden">
-            <EntityTypeMapping TypeName="ImpresosBDModel.NotaOrden">
-              <MappingFragment StoreEntitySet="NotaOrden">
-                <ScalarProperty Name="id_notaorden" ColumnName="id_notaorden" />
-                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
-                <ScalarProperty Name="id_nota" ColumnName="id_nota" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Notas">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Notas">
-              <MappingFragment StoreEntitySet="Notas">
-                <ScalarProperty Name="id_nota" ColumnName="id_nota" />
-                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
-                <ScalarProperty Name="total" ColumnName="total" />
-                <ScalarProperty Name="pagada" ColumnName="pagada" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-                <ScalarProperty Name="numero" ColumnName="numero" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="NumeroNota">
-            <EntityTypeMapping TypeName="ImpresosBDModel.NumeroNota">
-              <MappingFragment StoreEntitySet="NumeroNota">
-                <ScalarProperty Name="id_numeronota" ColumnName="id_numeronota" />
-                <ScalarProperty Name="numero" ColumnName="numero" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Ordenes">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Ordenes">
-              <MappingFragment StoreEntitySet="Ordenes">
-                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
-                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
-                <ScalarProperty Name="numero" ColumnName="numero" />
-                <ScalarProperty Name="telefono" ColumnName="telefono" />
-                <ScalarProperty Name="solicitante" ColumnName="solicitante" />
-                <ScalarProperty Name="fecha_solicita" ColumnName="fecha_solicita" />
-                <ScalarProperty Name="quien_recibio" ColumnName="quien_recibio" />
-                <ScalarProperty Name="inicio_diseno" ColumnName="inicio_diseno" />
-                <ScalarProperty Name="nombre_trabajo" ColumnName="nombre_trabajo" />
-                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
-                <ScalarProperty Name="color_tintas" ColumnName="color_tintas" />
-                <ScalarProperty Name="tipo_papel" ColumnName="tipo_papel" />
-                <ScalarProperty Name="con_folio" ColumnName="con_folio" />
-                <ScalarProperty Name="del_numero" ColumnName="del_numero" />
-                <ScalarProperty Name="al_numero" ColumnName="al_numero" />
-                <ScalarProperty Name="tamano" ColumnName="tamano" />
-                <ScalarProperty Name="otros_1" ColumnName="otros_1" />
-                <ScalarProperty Name="otros_2" ColumnName="otros_2" />
-                <ScalarProperty Name="copia_1" ColumnName="copia_1" />
-                <ScalarProperty Name="copia_2" ColumnName="copia_2" />
-                <ScalarProperty Name="copia_3" ColumnName="copia_3" />
-                <ScalarProperty Name="copia_4" ColumnName="copia_4" />
-                <ScalarProperty Name="otros_3" ColumnName="otros_3" />
-                <ScalarProperty Name="otros_4" ColumnName="otros_4" />
-                <ScalarProperty Name="pegado" ColumnName="pegado" />
-                <ScalarProperty Name="engrapado" ColumnName="engrapado" />
-                <ScalarProperty Name="perforacion" ColumnName="perforacion" />
-                <ScalarProperty Name="rojo" ColumnName="rojo" />
-                <ScalarProperty Name="blanco" ColumnName="blanco" />
-                <ScalarProperty Name="especificaciones" ColumnName="especificaciones" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="tipo" ColumnName="tipo" />
-                <ScalarProperty Name="total" ColumnName="total" />
-                <ScalarProperty Name="muestra" ColumnName="muestra" />
-                <ScalarProperty Name="fecha_muestra" ColumnName="fecha_muestra" />
-                <ScalarProperty Name="prioridad" ColumnName="prioridad" />
-                <ScalarProperty Name="anticipo" ColumnName="anticipo" />
-                <ScalarProperty Name="fecha_entregado" ColumnName="fecha_entregado" />
-                <ScalarProperty Name="pagado" ColumnName="pagado" />
-                <ScalarProperty Name="inicio_impresion" ColumnName="inicio_impresion" />
-                <ScalarProperty Name="inicio_terminado" ColumnName="inicio_terminado" />
-                <ScalarProperty Name="inicio_por_entregar" ColumnName="inicio_por_entregar" />
-                <ScalarProperty Name="costo_anterior" ColumnName="costo_anterior" />
-                <ScalarProperty Name="autorizado" ColumnName="autorizado" />
-                <ScalarProperty Name="hora_solicita" ColumnName="hora_solicita" />
-                <ScalarProperty Name="ruta" ColumnName="ruta" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrdenMateria">
-            <EntityTypeMapping TypeName="ImpresosBDModel.OrdenMateria">
-              <MappingFragment StoreEntitySet="OrdenMateria">
-                <ScalarProperty Name="id_ordenmateria" ColumnName="id_ordenmateria" />
-                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
-                <ScalarProperty Name="id_materia" ColumnName="id_materia" />
-                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
-                <ScalarProperty Name="unidad" ColumnName="unidad" />
-                <ScalarProperty Name="fecha_solicitado" ColumnName="fecha_solicitado" />
-                <ScalarProperty Name="hora_solicitado" ColumnName="hora_solicitado" />
-                <ScalarProperty Name="notas" ColumnName="notas" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Pagos">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Pagos">
-              <MappingFragment StoreEntitySet="Pagos">
-                <ScalarProperty Name="id_pago" ColumnName="id_pago" />
-                <ScalarProperty Name="id_factura" ColumnName="id_factura" />
-                <ScalarProperty Name="tipo" ColumnName="tipo" />
-                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-                <ScalarProperty Name="numero_cheque" ColumnName="numero_cheque" />
-                <ScalarProperty Name="banco" ColumnName="banco" />
-                <ScalarProperty Name="numero_recibo" ColumnName="numero_recibo" />
-                <ScalarProperty Name="notas" ColumnName="notas" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PagosNotas">
-            <EntityTypeMapping TypeName="ImpresosBDModel.PagosNotas">
-              <MappingFragment StoreEntitySet="PagosNotas">
-                <ScalarProperty Name="id_pagonota" ColumnName="id_pagonota" />
-                <ScalarProperty Name="id_nota" ColumnName="id_nota" />
-                <ScalarProperty Name="tipo" ColumnName="tipo" />
-                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-                <ScalarProperty Name="numero_cheque" ColumnName="numero_cheque" />
-                <ScalarProperty Name="banco" ColumnName="banco" />
-                <ScalarProperty Name="numero_recibo" ColumnName="numero_recibo" />
-                <ScalarProperty Name="notas" ColumnName="notas" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Parcialidades">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Parcialidades">
-              <MappingFragment StoreEntitySet="Parcialidades">
-                <ScalarProperty Name="id_parcialidad" ColumnName="id_parcialidad" />
-                <ScalarProperty Name="id_factura" ColumnName="id_factura" />
-                <ScalarProperty Name="xml" ColumnName="xml" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-                <ScalarProperty Name="anterior" ColumnName="anterior" />
-                <ScalarProperty Name="pagado" ColumnName="pagado" />
-                <ScalarProperty Name="insoluto" ColumnName="insoluto" />
-                <ScalarProperty Name="parcialidad" ColumnName="parcialidad" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ProductosServicios">
-            <EntityTypeMapping TypeName="ImpresosBDModel.ProductosServicios">
-              <MappingFragment StoreEntitySet="ProductosServicios">
-                <ScalarProperty Name="id_productoservicio" ColumnName="id_productoservicio" />
-                <ScalarProperty Name="clave" ColumnName="clave" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Recordatorios">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Recordatorios">
-              <MappingFragment StoreEntitySet="Recordatorios">
-                <ScalarProperty Name="id_recordatorio" ColumnName="id_recordatorio" />
-                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="notas" ColumnName="notas" />
-                <ScalarProperty Name="recordar_cada" ColumnName="recordar_cada" />
-                <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
-                <ScalarProperty Name="dias_antes" ColumnName="dias_antes" />
-                <ScalarProperty Name="dias_despues" ColumnName="dias_despues" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Salidas">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Salidas">
-              <MappingFragment StoreEntitySet="Salidas">
-                <ScalarProperty Name="id_salida" ColumnName="id_salida" />
-                <ScalarProperty Name="id_material" ColumnName="id_material" />
-                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
-                <ScalarProperty Name="unidad" ColumnName="unidad" />
-                <ScalarProperty Name="fecha_salida" ColumnName="fecha_salida" />
-                <ScalarProperty Name="hora_salida" ColumnName="hora_salida" />
-                <ScalarProperty Name="notas" ColumnName="notas" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Terminado">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Terminado">
-              <MappingFragment StoreEntitySet="Terminado">
-                <ScalarProperty Name="id_terminado" ColumnName="id_terminado" />
-                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
-                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
-                <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
-                <ScalarProperty Name="hora_inicio" ColumnName="hora_inicio" />
-                <ScalarProperty Name="fecha_fin" ColumnName="fecha_fin" />
-                <ScalarProperty Name="hora_fin" ColumnName="hora_fin" />
-                <ScalarProperty Name="tipo_terminado" ColumnName="tipo_terminado" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="TipoMateria">
-            <EntityTypeMapping TypeName="ImpresosBDModel.TipoMateria">
-              <MappingFragment StoreEntitySet="TipoMateria">
-                <ScalarProperty Name="id_tipomateria" ColumnName="id_tipomateria" />
-                <ScalarProperty Name="tipo" ColumnName="tipo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Unidades">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Unidades">
-              <MappingFragment StoreEntitySet="Unidades">
-                <ScalarProperty Name="id_unidad" ColumnName="id_unidad" />
-                <ScalarProperty Name="clave" ColumnName="clave" />
-                <ScalarProperty Name="unidad" ColumnName="unidad" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Usuarios">
-            <EntityTypeMapping TypeName="ImpresosBDModel.Usuarios">
-              <MappingFragment StoreEntitySet="Usuarios">
-                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
-                <ScalarProperty Name="pass" ColumnName="pass" />
-                <ScalarProperty Name="tipo" ColumnName="tipo" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="Actualizar_Amparo_Factura" FunctionName="ImpresosBDModel.Store.Actualizar_Amparo_Factura" />
           <FunctionImportMapping FunctionImportName="Actualizar_Cantidad_Materia" FunctionName="ImpresosBDModel.Store.Actualizar_Cantidad_Materia" />
           <FunctionImportMapping FunctionImportName="Actualizar_Cotizacion" FunctionName="ImpresosBDModel.Store.Actualizar_Cotizacion" />
@@ -4053,12 +3701,418 @@
           <FunctionImportMapping FunctionImportName="Terminar_Impresion" FunctionName="ImpresosBDModel.Store.Terminar_Impresion" />
           <FunctionImportMapping FunctionImportName="Terminar_Terminado" FunctionName="ImpresosBDModel.Store.Terminar_Terminado" />
           <FunctionImportMapping FunctionImportName="Verificar_Usuario" FunctionName="ImpresosBDModel.Store.Verificar_Usuario" />
+          <EntitySetMapping Name="Bitacora">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Bitacora">
+              <MappingFragment StoreEntitySet="Bitacora">
+                <ScalarProperty Name="ruta_trabajo" ColumnName="ruta_trabajo" />
+                <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+                <ScalarProperty Name="fecha_entrega" ColumnName="fecha_entrega" />
+                <ScalarProperty Name="salida" ColumnName="salida" />
+                <ScalarProperty Name="muestras" ColumnName="muestras" />
+                <ScalarProperty Name="hora_entrada" ColumnName="hora_entrada" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="nombre_cliente" ColumnName="nombre_cliente" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
+                <ScalarProperty Name="id_bitacora" ColumnName="id_bitacora" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clientes">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Clientes">
+              <MappingFragment StoreEntitySet="Clientes">
+                <ScalarProperty Name="numero_interior" ColumnName="numero_interior" />
+                <ScalarProperty Name="numero_exterior" ColumnName="numero_exterior" />
+                <ScalarProperty Name="pseudonimo" ColumnName="pseudonimo" />
+                <ScalarProperty Name="rfc" ColumnName="rfc" />
+                <ScalarProperty Name="contacto" ColumnName="contacto" />
+                <ScalarProperty Name="telefono4" ColumnName="telefono4" />
+                <ScalarProperty Name="telefono3" ColumnName="telefono3" />
+                <ScalarProperty Name="telefono2" ColumnName="telefono2" />
+                <ScalarProperty Name="telefono1" ColumnName="telefono1" />
+                <ScalarProperty Name="tipo_persona" ColumnName="tipo_persona" />
+                <ScalarProperty Name="codigo_postal" ColumnName="codigo_postal" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+                <ScalarProperty Name="colonia" ColumnName="colonia" />
+                <ScalarProperty Name="domicilio" ColumnName="domicilio" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Comentarios">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Comentarios">
+              <MappingFragment StoreEntitySet="Comentarios">
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="comentario" ColumnName="comentario" />
+                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
+                <ScalarProperty Name="id_comentario" ColumnName="id_comentario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contribuyentes">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Contribuyentes">
+              <MappingFragment StoreEntitySet="Contribuyentes">
+                <ScalarProperty Name="num_complemento" ColumnName="num_complemento" />
+                <ScalarProperty Name="tipo_factura" ColumnName="tipo_factura" />
+                <ScalarProperty Name="numero_factura" ColumnName="numero_factura" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id_contribuyente" ColumnName="id_contribuyente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Correos">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Correos">
+              <MappingFragment StoreEntitySet="Correos">
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
+                <ScalarProperty Name="id_correo" ColumnName="id_correo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetalleFactura">
+            <EntityTypeMapping TypeName="ImpresosBDModel.DetalleFactura">
+              <MappingFragment StoreEntitySet="DetalleFactura">
+                <ScalarProperty Name="unidad" ColumnName="unidad" />
+                <ScalarProperty Name="clave_servicio" ColumnName="clave_servicio" />
+                <ScalarProperty Name="precio_unitario" ColumnName="precio_unitario" />
+                <ScalarProperty Name="importe" ColumnName="importe" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="id_factura" ColumnName="id_factura" />
+                <ScalarProperty Name="id_detallefactura" ColumnName="id_detallefactura" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DetalleNota">
+            <EntityTypeMapping TypeName="ImpresosBDModel.DetalleNota">
+              <MappingFragment StoreEntitySet="DetalleNota">
+                <ScalarProperty Name="importe" ColumnName="importe" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="id_nota" ColumnName="id_nota" />
+                <ScalarProperty Name="id_detallenota" ColumnName="id_detallenota" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Disenos">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Disenos">
+              <MappingFragment StoreEntitySet="Disenos">
+                <ScalarProperty Name="hora_fin" ColumnName="hora_fin" />
+                <ScalarProperty Name="hora_inicio" ColumnName="hora_inicio" />
+                <ScalarProperty Name="fecha_fin" ColumnName="fecha_fin" />
+                <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
+                <ScalarProperty Name="id_diseno" ColumnName="id_diseno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Entrega">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Entrega">
+              <MappingFragment StoreEntitySet="Entrega">
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="hora" ColumnName="hora" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
+                <ScalarProperty Name="id_entrega" ColumnName="id_entrega" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FacturaDigital">
+            <EntityTypeMapping TypeName="ImpresosBDModel.FacturaDigital">
+              <MappingFragment StoreEntitySet="FacturaDigital">
+                <ScalarProperty Name="uso_cfdi" ColumnName="uso_cfdi" />
+                <ScalarProperty Name="forma_pago" ColumnName="forma_pago" />
+                <ScalarProperty Name="cadena_original" ColumnName="cadena_original" />
+                <ScalarProperty Name="sello_sat" ColumnName="sello_sat" />
+                <ScalarProperty Name="sello_cfdi" ColumnName="sello_cfdi" />
+                <ScalarProperty Name="fecha_cancelado" ColumnName="fecha_cancelado" />
+                <ScalarProperty Name="acuse" ColumnName="acuse" />
+                <ScalarProperty Name="para_recibo" ColumnName="para_recibo" />
+                <ScalarProperty Name="xml" ColumnName="xml" />
+                <ScalarProperty Name="id_factura" ColumnName="id_factura" />
+                <ScalarProperty Name="id_factura_digital" ColumnName="id_factura_digital" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FacturaOrden">
+            <EntityTypeMapping TypeName="ImpresosBDModel.FacturaOrden">
+              <MappingFragment StoreEntitySet="FacturaOrden">
+                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
+                <ScalarProperty Name="id_factura" ColumnName="id_factura" />
+                <ScalarProperty Name="id_facturaorden" ColumnName="id_facturaorden" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Facturas">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Facturas">
+              <MappingFragment StoreEntitySet="Facturas">
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="amparada_por" ColumnName="amparada_por" />
+                <ScalarProperty Name="razon_cancelado" ColumnName="razon_cancelado" />
+                <ScalarProperty Name="numero" ColumnName="numero" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="pagada" ColumnName="pagada" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+                <ScalarProperty Name="id_contribuyente" ColumnName="id_contribuyente" />
+                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
+                <ScalarProperty Name="id_factura" ColumnName="id_factura" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="FormasPago">
             <EntityTypeMapping TypeName="ImpresosBDModel.FormasPago">
               <MappingFragment StoreEntitySet="FormasPago">
                 <ScalarProperty Name="FormaPago" ColumnName="FormaPago" />
                 <ScalarProperty Name="Clave" ColumnName="Clave" />
                 <ScalarProperty Name="IdFormaPago" ColumnName="IdFormaPago" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Impresion">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Impresion">
+              <MappingFragment StoreEntitySet="Impresion">
+                <ScalarProperty Name="notas" ColumnName="notas" />
+                <ScalarProperty Name="hora_fin" ColumnName="hora_fin" />
+                <ScalarProperty Name="fecha_fin" ColumnName="fecha_fin" />
+                <ScalarProperty Name="hora_inicio" ColumnName="hora_inicio" />
+                <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
+                <ScalarProperty Name="id_impresion" ColumnName="id_impresion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Materia">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Materia">
+              <MappingFragment StoreEntitySet="Materia">
+                <ScalarProperty Name="minimo" ColumnName="minimo" />
+                <ScalarProperty Name="unidad" ColumnName="unidad" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id_tipomateria" ColumnName="id_tipomateria" />
+                <ScalarProperty Name="id_materia" ColumnName="id_materia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NotaOrden">
+            <EntityTypeMapping TypeName="ImpresosBDModel.NotaOrden">
+              <MappingFragment StoreEntitySet="NotaOrden">
+                <ScalarProperty Name="id_nota" ColumnName="id_nota" />
+                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
+                <ScalarProperty Name="id_notaorden" ColumnName="id_notaorden" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Notas">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Notas">
+              <MappingFragment StoreEntitySet="Notas">
+                <ScalarProperty Name="numero" ColumnName="numero" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="pagada" ColumnName="pagada" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
+                <ScalarProperty Name="id_nota" ColumnName="id_nota" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NumeroNota">
+            <EntityTypeMapping TypeName="ImpresosBDModel.NumeroNota">
+              <MappingFragment StoreEntitySet="NumeroNota">
+                <ScalarProperty Name="numero" ColumnName="numero" />
+                <ScalarProperty Name="id_numeronota" ColumnName="id_numeronota" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ordenes">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Ordenes">
+              <MappingFragment StoreEntitySet="Ordenes">
+                <ScalarProperty Name="ruta" ColumnName="ruta" />
+                <ScalarProperty Name="hora_solicita" ColumnName="hora_solicita" />
+                <ScalarProperty Name="autorizado" ColumnName="autorizado" />
+                <ScalarProperty Name="costo_anterior" ColumnName="costo_anterior" />
+                <ScalarProperty Name="inicio_por_entregar" ColumnName="inicio_por_entregar" />
+                <ScalarProperty Name="inicio_terminado" ColumnName="inicio_terminado" />
+                <ScalarProperty Name="inicio_impresion" ColumnName="inicio_impresion" />
+                <ScalarProperty Name="pagado" ColumnName="pagado" />
+                <ScalarProperty Name="fecha_entregado" ColumnName="fecha_entregado" />
+                <ScalarProperty Name="anticipo" ColumnName="anticipo" />
+                <ScalarProperty Name="prioridad" ColumnName="prioridad" />
+                <ScalarProperty Name="fecha_muestra" ColumnName="fecha_muestra" />
+                <ScalarProperty Name="muestra" ColumnName="muestra" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="especificaciones" ColumnName="especificaciones" />
+                <ScalarProperty Name="blanco" ColumnName="blanco" />
+                <ScalarProperty Name="rojo" ColumnName="rojo" />
+                <ScalarProperty Name="perforacion" ColumnName="perforacion" />
+                <ScalarProperty Name="engrapado" ColumnName="engrapado" />
+                <ScalarProperty Name="pegado" ColumnName="pegado" />
+                <ScalarProperty Name="otros_4" ColumnName="otros_4" />
+                <ScalarProperty Name="otros_3" ColumnName="otros_3" />
+                <ScalarProperty Name="copia_4" ColumnName="copia_4" />
+                <ScalarProperty Name="copia_3" ColumnName="copia_3" />
+                <ScalarProperty Name="copia_2" ColumnName="copia_2" />
+                <ScalarProperty Name="copia_1" ColumnName="copia_1" />
+                <ScalarProperty Name="otros_2" ColumnName="otros_2" />
+                <ScalarProperty Name="otros_1" ColumnName="otros_1" />
+                <ScalarProperty Name="tamano" ColumnName="tamano" />
+                <ScalarProperty Name="al_numero" ColumnName="al_numero" />
+                <ScalarProperty Name="del_numero" ColumnName="del_numero" />
+                <ScalarProperty Name="con_folio" ColumnName="con_folio" />
+                <ScalarProperty Name="tipo_papel" ColumnName="tipo_papel" />
+                <ScalarProperty Name="color_tintas" ColumnName="color_tintas" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="nombre_trabajo" ColumnName="nombre_trabajo" />
+                <ScalarProperty Name="inicio_diseno" ColumnName="inicio_diseno" />
+                <ScalarProperty Name="quien_recibio" ColumnName="quien_recibio" />
+                <ScalarProperty Name="fecha_solicita" ColumnName="fecha_solicita" />
+                <ScalarProperty Name="solicitante" ColumnName="solicitante" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="numero" ColumnName="numero" />
+                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
+                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrdenMateria">
+            <EntityTypeMapping TypeName="ImpresosBDModel.OrdenMateria">
+              <MappingFragment StoreEntitySet="OrdenMateria">
+                <ScalarProperty Name="notas" ColumnName="notas" />
+                <ScalarProperty Name="hora_solicitado" ColumnName="hora_solicitado" />
+                <ScalarProperty Name="fecha_solicitado" ColumnName="fecha_solicitado" />
+                <ScalarProperty Name="unidad" ColumnName="unidad" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="id_materia" ColumnName="id_materia" />
+                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
+                <ScalarProperty Name="id_ordenmateria" ColumnName="id_ordenmateria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pagos">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Pagos">
+              <MappingFragment StoreEntitySet="Pagos">
+                <ScalarProperty Name="notas" ColumnName="notas" />
+                <ScalarProperty Name="numero_recibo" ColumnName="numero_recibo" />
+                <ScalarProperty Name="banco" ColumnName="banco" />
+                <ScalarProperty Name="numero_cheque" ColumnName="numero_cheque" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="id_factura" ColumnName="id_factura" />
+                <ScalarProperty Name="id_pago" ColumnName="id_pago" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PagosNotas">
+            <EntityTypeMapping TypeName="ImpresosBDModel.PagosNotas">
+              <MappingFragment StoreEntitySet="PagosNotas">
+                <ScalarProperty Name="notas" ColumnName="notas" />
+                <ScalarProperty Name="numero_recibo" ColumnName="numero_recibo" />
+                <ScalarProperty Name="banco" ColumnName="banco" />
+                <ScalarProperty Name="numero_cheque" ColumnName="numero_cheque" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="id_nota" ColumnName="id_nota" />
+                <ScalarProperty Name="id_pagonota" ColumnName="id_pagonota" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parcialidades">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Parcialidades">
+              <MappingFragment StoreEntitySet="Parcialidades">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="cadena_original" ColumnName="cadena_original" />
+                <ScalarProperty Name="sello_sat" ColumnName="sello_sat" />
+                <ScalarProperty Name="sello_cfdi" ColumnName="sello_cfdi" />
+                <ScalarProperty Name="fecha_cancelado" ColumnName="fecha_cancelado" />
+                <ScalarProperty Name="acuse" ColumnName="acuse" />
+                <ScalarProperty Name="parcialidad" ColumnName="parcialidad" />
+                <ScalarProperty Name="insoluto" ColumnName="insoluto" />
+                <ScalarProperty Name="pagado" ColumnName="pagado" />
+                <ScalarProperty Name="anterior" ColumnName="anterior" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="xml" ColumnName="xml" />
+                <ScalarProperty Name="id_factura" ColumnName="id_factura" />
+                <ScalarProperty Name="id_parcialidad" ColumnName="id_parcialidad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductosServicios">
+            <EntityTypeMapping TypeName="ImpresosBDModel.ProductosServicios">
+              <MappingFragment StoreEntitySet="ProductosServicios">
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="id_productoservicio" ColumnName="id_productoservicio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Recordatorios">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Recordatorios">
+              <MappingFragment StoreEntitySet="Recordatorios">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="dias_despues" ColumnName="dias_despues" />
+                <ScalarProperty Name="dias_antes" ColumnName="dias_antes" />
+                <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+                <ScalarProperty Name="recordar_cada" ColumnName="recordar_cada" />
+                <ScalarProperty Name="notas" ColumnName="notas" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
+                <ScalarProperty Name="id_recordatorio" ColumnName="id_recordatorio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Salidas">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Salidas">
+              <MappingFragment StoreEntitySet="Salidas">
+                <ScalarProperty Name="notas" ColumnName="notas" />
+                <ScalarProperty Name="hora_salida" ColumnName="hora_salida" />
+                <ScalarProperty Name="fecha_salida" ColumnName="fecha_salida" />
+                <ScalarProperty Name="unidad" ColumnName="unidad" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="id_material" ColumnName="id_material" />
+                <ScalarProperty Name="id_salida" ColumnName="id_salida" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Terminado">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Terminado">
+              <MappingFragment StoreEntitySet="Terminado">
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="tipo_terminado" ColumnName="tipo_terminado" />
+                <ScalarProperty Name="hora_fin" ColumnName="hora_fin" />
+                <ScalarProperty Name="fecha_fin" ColumnName="fecha_fin" />
+                <ScalarProperty Name="hora_inicio" ColumnName="hora_inicio" />
+                <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
+                <ScalarProperty Name="id_terminado" ColumnName="id_terminado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoMateria">
+            <EntityTypeMapping TypeName="ImpresosBDModel.TipoMateria">
+              <MappingFragment StoreEntitySet="TipoMateria">
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="id_tipomateria" ColumnName="id_tipomateria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Unidades">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Unidades">
+              <MappingFragment StoreEntitySet="Unidades">
+                <ScalarProperty Name="unidad" ColumnName="unidad" />
+                <ScalarProperty Name="clave" ColumnName="clave" />
+                <ScalarProperty Name="id_unidad" ColumnName="id_unidad" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -4071,7 +4125,37 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Usuarios">
+              <MappingFragment StoreEntitySet="Usuarios">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="pass" ColumnName="pass" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Configuracion">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Configuracion">
+              <MappingFragment StoreEntitySet="Configuracion">
+                <ScalarProperty Name="id_configuracion" ColumnName="id_configuracion" />
+                <ScalarProperty Name="correo" ColumnName="correo" />
+                <ScalarProperty Name="password_correo" ColumnName="password_correo" />
+                <ScalarProperty Name="usuario_correo" ColumnName="usuario_correo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Valores">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Valores">
+              <MappingFragment StoreEntitySet="Valores">
+                <ScalarProperty Name="id_valor" ColumnName="id_valor" />
+                <ScalarProperty Name="ultimo_cambio" ColumnName="ultimo_cambio" />
+                <ScalarProperty Name="numero_orden" ColumnName="numero_orden" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

@@ -69,7 +69,7 @@ namespace ImpresosAlvarez
                 tbCantidad.Text = _Concepto.Cantidad.ToString();
                 tbDescripcion.Text = _Concepto.Descripcion;
                 tbPrecioUnitario.Text = _Concepto.PrecioUnitario.ToString();
-                tbImporte.Text = "$ " + _Concepto.Importe.ToString();
+                tbImporte.Text = _Concepto.Importe.ToString();
                 tbServicios.Text = _Concepto.Servicio.descripcion;
                 lblClaveServicio.Content = _Concepto.Servicio.clave;
                 _ServicioSeleccionado = _Concepto.Servicio;
@@ -126,6 +126,7 @@ namespace ImpresosAlvarez
                     return;
                 }
 
+                CalcularTotal();
                 ConceptoFactura concepto = new ConceptoFactura();
                 concepto.IdServicio = _ServicioSeleccionado.id_productoservicio;
                 concepto.Cantidad = int.Parse(tbCantidad.Text);
@@ -183,6 +184,7 @@ namespace ImpresosAlvarez
                     return;
                 }
 
+                CalcularTotal();
                 _Concepto.IdServicio = _ServicioSeleccionado.id_productoservicio;
                 _Concepto.Cantidad = int.Parse(tbCantidad.Text);
                 _Concepto.Descripcion = tbDescripcion.Text;
@@ -235,8 +237,30 @@ namespace ImpresosAlvarez
             }
             try
             {
+                //Total = int.Parse(tbCantidad.Text) * float.Parse(tbPrecioUnitario.Text);
+                //tbImporte.Text = (int.Parse(tbCantidad.Text) * float.Parse(tbPrecioUnitario.Text)).ToString();
+                Total = float.Parse(tbImporte.Text);
+                double unitario = Total / int.Parse(tbCantidad.Text);
+                tbPrecioUnitario.Text = Math.Round(unitario, 6).ToString();
+            }
+            catch (Exception exc)
+            {
+
+            }
+        }
+        private void CalcularTotalUnitario()
+        {
+            if (tbCantidad is null || tbPrecioUnitario is null || tbImporte is null)
+            {
+                return;
+            }
+            try
+            {
                 Total = int.Parse(tbCantidad.Text) * float.Parse(tbPrecioUnitario.Text);
                 tbImporte.Text = (int.Parse(tbCantidad.Text) * float.Parse(tbPrecioUnitario.Text)).ToString();
+                Total = float.Parse(tbImporte.Text);
+                //double unitario = Total / int.Parse(tbCantidad.Text);
+                //tbPrecioUnitario.Text = Math.Round(unitario, 6).ToString();
             }
             catch (Exception exc)
             {
@@ -265,45 +289,53 @@ namespace ImpresosAlvarez
         }
         private void tbPrecioUnitario_KeyUp(object sender, KeyEventArgs e)
         {
-            if (tbPrecioUnitario.Text.Length == 0)
+            if (e.Key == Key.Enter)
             {
-                tbPrecioUnitario.Text = "0";
-                return;
+                if (tbPrecioUnitario.Text.Length == 0)
+                {
+                    tbPrecioUnitario.Text = "0";
+                    return;
+                }
+
+                double p;
+
+                if (!double.TryParse(tbPrecioUnitario.Text, out p))
+                {
+                    tbPrecioUnitario.Text = "0";
+                    return;
+                }
+
+                CalcularTotalUnitario();
             }
-
-            double p;
-
-            if (!double.TryParse(tbPrecioUnitario.Text, out p))
-            {
-                tbPrecioUnitario.Text = "0";
-                return;
-            }
-
-            CalcularTotal();
         }
 
         private void tbCantidad_KeyUp(object sender, KeyEventArgs e)
         {
-            if (tbCantidad.Text.Length == 0)
+            if (e.Key == Key.Enter)
             {
-                tbCantidad.Text = "1";
-                return;
+                if (tbCantidad.Text.Length == 0)
+                {
+                    tbCantidad.Text = "1";
+                    return;
+                }
+                else
+                {
+                    int c;
+
+                    if (!int.TryParse(tbCantidad.Text, out c))
+                    {
+                        tbCantidad.Text = "1";
+                        return;
+                    }
+                }
+
+                CalcularTotal();
             }
-
-            int c;
-
-            if (!int.TryParse(tbCantidad.Text, out c))
-            {
-                tbCantidad.Text = "1";
-                return;
-            }
-
-            CalcularTotal();
         }
 
         private void tbImporte_KeyUp(object sender, KeyEventArgs e)
         {
-            try
+            if (e.Key == Key.Enter)
             {
                 if (tbImporte.Text.Length == 0)
                 {
@@ -322,14 +354,12 @@ namespace ImpresosAlvarez
                 double total = double.Parse(tbImporte.Text);
                 int cantidad = int.Parse(tbCantidad.Text);
                 double unitario = total / cantidad;
-                unitario = Math.Round(unitario, 2);
-                tbPrecioUnitario.Text = unitario.ToString();
-
-                CalcularTotal();
-            }
-            catch (Exception exc)
-            {
-
+                unitario = Math.Round(unitario, 6);
+                if (unitario > 0)
+                {
+                    tbPrecioUnitario.Text = unitario.ToString();
+                    CalcularTotal();
+                }
             }
         }
     }

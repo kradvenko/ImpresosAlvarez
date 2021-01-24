@@ -12,15 +12,10 @@ namespace ImpresosAlvarez.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class DetalleFactura
+    public partial class Valores
     {
-        public int id_detallefactura { get; set; }
-        public int id_factura { get; set; }
-        public Nullable<int> cantidad { get; set; }
-        public string descripcion { get; set; }
-        public Nullable<double> importe { get; set; }
-        public Nullable<double> precio_unitario { get; set; }
-        public string clave_servicio { get; set; }
-        public string unidad { get; set; }
+        public string numero_orden { get; set; }
+        public string ultimo_cambio { get; set; }
+        public int id_valor { get; set; }
     }
 }

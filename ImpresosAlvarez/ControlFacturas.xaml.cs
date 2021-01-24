@@ -196,6 +196,7 @@ namespace ImpresosAlvarez
                                .ToList();
                         //MessageBox.Show(dpFecha.SelectedDate.ToString().Substring(0, 10));
                         dgFacturas.ItemsSource = facts;
+
                     }
                 }
                 catch (Exception exc)

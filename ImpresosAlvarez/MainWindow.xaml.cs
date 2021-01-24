@@ -64,5 +64,17 @@ namespace ImpresosAlvarez
             ControlFacturas control = new ControlFacturas();
             control.Show();
         }
+
+        private void btnControlComplementos_Click(object sender, RoutedEventArgs e)
+        {
+            ControlComplementos control = new ControlComplementos();
+            control.Show();
+        }
+
+        private void btnCalculadora_Click(object sender, RoutedEventArgs e)
+        {
+            Calculadora calc = new Calculadora();
+            calc.Show();
+        }
     }
 }

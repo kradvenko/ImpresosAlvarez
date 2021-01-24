@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -24,7 +25,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -86,6 +86,8 @@ namespace ImpresosAlvarez
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            datosFacturaElectronica = new Factura();
+            datosFacturaElectronica.pagos = new List<ComplementoPagoData>();
             using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
             {
                 _clientes = dbContext.Clientes.ToList();
@@ -112,8 +114,7 @@ namespace ImpresosAlvarez
 
             _complementos = new List<ComplementoPagoData>();
 
-            datosFacturaElectronica = new Factura();
-            datosFacturaElectronica.pagos = new List<ComplementoPagoData>();
+            
         }
 
         private void tbClientes_SelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -156,7 +157,7 @@ namespace ImpresosAlvarez
                                 Pagada = f.pagada
                             }
                         )
-                        .Where(F => F.IdCliente == c.id_cliente && F.Estado == "ACTIVO" && F.IdContribuyente == cb.id_contribuyente)
+                        .Where(F => F.IdCliente == c.id_cliente && F.Estado == "ACTIVO" && F.IdContribuyente == cb.id_contribuyente && F.Pagada == "NO")
                         .ToList();
 
                     dgFacturas.ItemsSource = facts;
@@ -175,6 +176,16 @@ namespace ImpresosAlvarez
             {
                 return;
             }
+
+            foreach (ComplementoPagoData item in dgComplemento.Items)
+            {
+                if (item.Pagado == "0")
+                {
+                    MessageBox.Show("No ha ingresado un monto mayor a 0 para el pago.");
+                    return;
+                }
+            }
+
             CargarXMLTemplate();
             InsertarParcialidad();
 
@@ -238,10 +249,10 @@ namespace ImpresosAlvarez
 
             FacturacionElectronica(true);
             ImprimirPDF(true);
-            ActualizarParcialidad();
             if (timbreValido)
             {
                 ActualizarParcialidad();
+                EnviarPorCorreo();
             }
         }
         public static byte[] HexToString(string hex)
@@ -307,6 +318,8 @@ namespace ImpresosAlvarez
                 XML = XML.Replace("NoCertificado=\"\"", "NoCertificado=\"" + numCertificado + "\"");
                 XML = XML.Replace("Certificado=\"\"", "Certificado=\"" + certificadoStr + "\"");
 
+                datosFacturaElectronica.numeroCertificado = numCertificado;
+
                 File.WriteAllText(@"C:\Impresos\COMP_1_0.xml", XML);
 
                 CrearComplemento(); //!!
@@ -362,7 +375,7 @@ namespace ImpresosAlvarez
                 if (respTimbre.cfdi != null && respTimbre.cfdi.Trim().Length > 0)
                 {
                     XMLTimbrado = respTimbre.cfdi;
-                    string fileName = @"C:\Impresos\Complementos\" + _clienteElegido.nombre + @"\fac_" + cbContribuyentes.Text + "_" + idParcialidad.ToString() + "_" + fechaFactura.Replace("/", "-").Replace(":", "-") + ".xml";
+                    string fileName = @"C:\Impresos\Complementos\" + _clienteElegido.nombre + @"\fac_" + cbContribuyentes.SelectedValue.ToString() + "_" + idParcialidad.ToString() + "_" + fechaFactura.Replace("/", "-").Replace(":", "-") + ".xml";
                     File.WriteAllText(fileName, XMLTimbrado);
                     rutaXML = fileName;
                     XML = XMLTimbrado;
@@ -620,6 +633,7 @@ namespace ImpresosAlvarez
                     parce.insoluto = insoluto;
                     parce.parcialidad = parcialidad;
                     parce.fecha = DateTime.Now;
+                    parce.estado = "ACTIVO";
 
                     dbContext.Parcialidades.Add(parce);
 
@@ -657,6 +671,9 @@ namespace ImpresosAlvarez
                     Parcialidades parce = dbContext.Parcialidades.Where(P => P.id_parcialidad == idParcialidad).FirstOrDefault();
 
                     parce.xml = XML;
+                    parce.sello_cfdi = datosFacturaElectronica.selloCFD;
+                    parce.sello_sat = datosFacturaElectronica.selloSAT;
+                    parce.cadena_original = datosFacturaElectronica.cadenaOriginalSAT;
 
                     dbContext.SaveChanges();
                 }
@@ -664,16 +681,16 @@ namespace ImpresosAlvarez
         }
         void ImprimirPDF(Boolean SAT)
         {
-            System.IO.Directory.CreateDirectory(@"C:\Impresos\Facturas\" + datosFacturaElectronica.nombreReceptor);
-            String Directorio = @"C:\Impresos\Facturas\" + datosFacturaElectronica.nombreReceptor;
+            System.IO.Directory.CreateDirectory(@"C:\Impresos\Complementos\" + datosFacturaElectronica.nombreReceptor);
+            String Directorio = @"C:\Impresos\Complementos\" + datosFacturaElectronica.nombreReceptor;
             string fileName;
             if (SAT)
             {
-                fileName = @"C:\Impresos\Facturas\" + datosFacturaElectronica.nombreReceptor + "\\fac_" + cbContribuyentes.Text + "_" + FolioActual + "_" + datosFacturaElectronica.fechaExpedicion.Replace("/", "-").Replace(":", "-") + ".pdf";
+                fileName = @"C:\Impresos\Complementos\" + datosFacturaElectronica.nombreReceptor + @"\com_" + cbContribuyentes.SelectedValue.ToString() + "_" + FolioActual + "_" + datosFacturaElectronica.fechaExpedicion.Replace("/", "-").Replace(":", "-") + ".pdf";
             }
             else
             {
-                fileName = @"C:\Impresos\Facturas\" + datosFacturaElectronica.nombreReceptor + "\\pre_" + cbContribuyentes.Text + "_" + FolioActual + "_" + datosFacturaElectronica.fechaExpedicion.Replace("/", "-").Replace(":", "-") + ".pdf";
+                fileName = @"C:\Impresos\Complementos\" + datosFacturaElectronica.nombreReceptor + @"\pre_" + cbContribuyentes.SelectedValue.ToString() + "_" + FolioActual + "_" + datosFacturaElectronica.fechaExpedicion.Replace("/", "-").Replace(":", "-") + ".pdf";
             }
 
             Document document = null;
@@ -721,7 +738,7 @@ namespace ImpresosAlvarez
                 .SetFont(fb)
                 .SetFontSize(fs)
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Factura")));
+                .Add(new Paragraph("Complemento")));
 
             //Renglon           
 
@@ -775,178 +792,8 @@ namespace ImpresosAlvarez
                 .SetFont(fb)
                 .SetFontSize(fs)
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Regimen fiscal: Persona física con actividad empresarial y profesional")));
-
-            /*
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(fb)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("No. serie CSD")));
-            */
-
-            //Renglon 4
-            /*
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(datosFacturaElectronica.domicilioEmisorColonia)));
-
-            table.AddCell(new Cell(1, 4)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("")));
-
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(datosFacturaElectronica.numeroCertificadoSAT)));
-
-            //Renglon 5
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(datosFacturaElectronica.domicilioEmisorMunicipio)));
-
-            table.AddCell(new Cell(1, 4)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("")));
-
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(fb)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Folio fiscal")));
-
-            //Renglon 6
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(datosFacturaElectronica.domicilioEmisorEstado + "C.P. " + datosFacturaElectronica.domicilioEmisorCodigoPostal)));
-
-            table.AddCell(new Cell(1, 4)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("")));
-
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(datosFacturaElectronica.uuid)));
-
-            //Renglon 7
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("PERSONAS FISICAS CON ACTIVIDADES EMPRESARIALES Y PROFESIONALES")));
-
-            table.AddCell(new Cell(1, 4)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("")));
-
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(fb)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Fecha y hora de certificación")));
-
-            //Renglon 8
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Teléfonos: ")));
-
-            table.AddCell(new Cell(1, 4)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("")));
-
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(datosFacturaElectronica.fechaTimbrado)));
-
-            //Renglon 9
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("")));
-
-            table.AddCell(new Cell(1, 4)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("")));
-
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceGray(0.75f))
-                .SetFont(fb)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("")));
-            */
-            //Renglon 9
-            /*
-            table.AddCell(new Cell(1, 10)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(fb)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Tipo de comprobante: I")));
-            */
+                .Add(new Paragraph(regimen)));
+           
             //Datos cliente
             //Renglon
             table.AddCell(new Cell(1, 10)
@@ -1014,7 +861,7 @@ namespace ImpresosAlvarez
                 .SetFont(f)
                 .SetFontSize(fs)
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(datosFacturaElectronica.usoCFDITexto)));
+                .Add(new Paragraph(datosFacturaElectronica.usoCFDI)));
 
             //Renglón 3
             table.AddCell(new Cell(1, 2)
@@ -1102,47 +949,16 @@ namespace ImpresosAlvarez
                 .SetFontSize(fs)
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                 .Add(new Paragraph(datosFacturaElectronica.formaPagoTexto)));
-
-            //Renglón
-            /*
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(fb)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Escritura")));
-
-            table.AddCell(new Cell(1, 4)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(datosFacturaElectronica.escritura)));
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(fb)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Predial")));
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(datosFacturaElectronica.predial)));
-            */
             //Conceptos
             //Renglón 1
-            table.AddCell(new Cell(1, 1)
+            table.AddCell(new Cell(1, 5)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                 .SetBackgroundColor(new DeviceRgb(0, 0, 0))
                 .SetFontColor(new DeviceRgb(255, 255, 255))
                 .SetFont(fb)
                 .SetFontSize(fs)
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("ProdServ")));
+                .Add(new Paragraph("UUID")));
 
             table.AddCell(new Cell(1, 1)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
@@ -1151,25 +967,7 @@ namespace ImpresosAlvarez
                 .SetFont(fb)
                 .SetFontSize(fs)
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Cantidad")));
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetFont(fb)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Clave Unidad")));
-
-            table.AddCell(new Cell(1, 4)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetFont(fb)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Descripción")));
+                .Add(new Paragraph("Saldo Anterior")));
 
             table.AddCell(new Cell(1, 1)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
@@ -1178,7 +976,7 @@ namespace ImpresosAlvarez
                 .SetFont(fb)
                 .SetFontSize(fs)
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Precio Unitario")));
+                .Add(new Paragraph("Monto pagado")));
 
             table.AddCell(new Cell(1, 1)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
@@ -1187,63 +985,71 @@ namespace ImpresosAlvarez
                 .SetFont(fb)
                 .SetFontSize(fs)
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Importe")));
+                .Add(new Paragraph("Saldo insoluto")));
+
+            table.AddCell(new Cell(1, 1)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                .SetFontColor(new DeviceRgb(255, 255, 255))
+                .SetFont(fb)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("Parcialidad")));
+
+            table.AddCell(new Cell(1, 1)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                .SetFontColor(new DeviceRgb(255, 255, 255))
+                .SetFont(fb)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("Folio")));
 
             foreach (ComplementoPagoData item in _complementos)
             {
-                table.AddCell(new Cell(1, 1)
+                table.AddCell(new Cell(1, 5)
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                     .SetFont(f)
                     .SetFontSize(fs)
                     .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph(item.Clave)));
+                    .Add(new Paragraph(item.IdDocto)));
 
                 table.AddCell(new Cell(1, 1)
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                     .SetFont(f)
                     .SetFontSize(fs)
                     .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph(item.Cantidad.ToString())));
-
-                table.AddCell(new Cell(1, 2)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                    .SetFont(f)
-                    .SetFontSize(fs)
-                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph(item.Unidad)));
-
-                table.AddCell(new Cell(1, 4)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                    .SetFont(f)
-                    .SetFontSize(fs)
-                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph(item.Descripcion)));
+                    .Add(new Paragraph(item.SaldoAnterior.ToString())));
 
                 table.AddCell(new Cell(1, 1)
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                     .SetFont(f)
                     .SetFontSize(fs)
                     .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("$ " + AddDecimals(item.PrecioUnitario.ToString()))));
+                    .Add(new Paragraph(item.ImportePagado)));
 
                 table.AddCell(new Cell(1, 1)
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                     .SetFont(f)
                     .SetFontSize(fs)
                     .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("$ " + AddDecimals(item.Importe.ToString()))));
+                    .Add(new Paragraph(item.SaldoInsoluto)));
+
+                table.AddCell(new Cell(1, 1)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(item.Parcialidad.ToString())));
+
+                table.AddCell(new Cell(1, 1)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(item.Folio.ToString())));
             }
 
-            table.AddCell(new Cell(1, 10)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(fb)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(" ")));
-
-
-            //Totales
-            //Renglón 1
             table.AddCell(new Cell(1, 9)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
                 .SetFont(fb)
@@ -1274,152 +1080,12 @@ namespace ImpresosAlvarez
                 .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
                 .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.iva))));
 
-            if (datosFacturaElectronica.retencionIva != "0")
-            {
-                table.AddCell(new Cell(1, 9)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
-                    .SetFont(fb)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("Retención IVA: ")));
-
-                table.AddCell(new Cell(1, 1)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                    .SetFont(f)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.retencionIva))));
-            }
-
-            if (datosFacturaElectronica.retencionIsr != "0")
-            {
-                table.AddCell(new Cell(1, 9)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
-                    .SetFont(fb)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("Retención ISR: ")));
-
-                table.AddCell(new Cell(1, 1)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                    .SetFont(f)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.retencionIsr))));
-            }
-
-            if (datosFacturaElectronica.retencionCedular != "0")
-            {
-                table.AddCell(new Cell(1, 9)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
-                    .SetFont(fb)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("Retención Cedular: ")));
-
-                table.AddCell(new Cell(1, 1)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                    .SetFont(f)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.retencionCedular))));
-            }
-
-            table.AddCell(new Cell(1, 9)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
+            table.AddCell(new Cell(1, 10)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                 .SetFont(fb)
                 .SetFontSize(fs)
-                .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Total: ")));
-
-            table.AddCell(new Cell(1, 1)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.total))));
-
-            if (datosFacturaElectronica.derechosRPP != "0")
-            {
-                table.AddCell(new Cell(1, 7)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                    .SetFont(fb)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("Cobro derechos RPP: ")));
-
-                table.AddCell(new Cell(1, 3)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
-                    .SetFont(f)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.derechosRPP))));
-            }
-
-            if (datosFacturaElectronica.otrosDerechos != "0")
-            {
-                table.AddCell(new Cell(1, 7)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                    .SetFont(fb)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("Otros derechos: ")));
-
-                table.AddCell(new Cell(1, 3)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
-                    .SetFont(f)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.otrosDerechos))));
-            }
-
-            if (datosFacturaElectronica.derechosRPP != "0")
-            {
-                table.AddCell(new Cell(1, 7)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                    .SetFont(fb)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("Impuesto por adquisición: ")));
-
-                table.AddCell(new Cell(1, 3)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
-                    .SetFont(f)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.adquisicion))));
-            }
-
-            if (datosFacturaElectronica.honorarios != "0")
-            {
-                table.AddCell(new Cell(1, 7)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                    .SetFont(fb)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("Honorarios: ")));
-
-                table.AddCell(new Cell(1, 3)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
-                    .SetFont(f)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.honorarios))));
-            }
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph(" ")));
 
             table.AddCell(new Cell(1, 10)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
@@ -1589,72 +1255,90 @@ namespace ImpresosAlvarez
             if (MessageBox.Show("Desea abrir el PDF generado?", "Atención", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 Process.Start(Directorio);
-                /*
                 rutaPDF = fileName;
                 Process prc = new System.Diagnostics.Process();
                 prc.StartInfo.FileName = fileName;
+                while (!File.Exists(fileName))
+                {
+
+                }
                 prc.Start();
-                */
+
             }
         }
 
         private void dgFacturas_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (dgFacturas.SelectedItem != null)
+            try
             {
-                String uuid = "";
-                String serie = "-";
-                String folio = "";
-                String parcialidad = "1";
-                String saldoAnterior = "0";
-                String pagado = "0";
-                String saldoInsoluto = "0";
-                String IdFactura = "0";
-
-                FacturaComplemento fact = (FacturaComplemento)dgFacturas.SelectedItem;
-
-                IdFactura = fact.IdFactura.ToString();
-
-                XmlDocument xDoc = new XmlDocument();
-                xDoc.LoadXml(fact.XML);
-
-                XmlNamespaceManager nms = new XmlNamespaceManager(xDoc.NameTable);
-                nms.AddNamespace("cfdi", "http://www.sat.gob.mx/cfd/3");
-                nms.AddNamespace("tfd", "http://www.sat.gob.mx/cfd/3");
-
-                XmlAttribute xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Complemento//@UUID", nms);
-                uuid = xAttrib.Value;
-
-                xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@Folio", nms);
-                if (xAttrib != null)
+                if (dgFacturas.SelectedItem != null)
                 {
-                    folio = xAttrib.Value;
-                }
-                else
-                {
-                    MessageBox.Show("Error. No se encontró el folio.");
-                    return;
-                }
+                    String uuid = "";
+                    String serie = "-";
+                    String folio = "";
+                    String parcialidad = "1";
+                    String saldoAnterior = "0";
+                    String pagado = "0";
+                    String saldoInsoluto = "0";
+                    String IdFactura = "0";
 
-                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
-                {
-                    Parcialidades parce = dbContext.Parcialidades.Where(P => P.id_factura == fact.IdFactura).OrderByDescending(P => P.id_parcialidad).FirstOrDefault();
+                    FacturaComplemento fact = (FacturaComplemento)dgFacturas.SelectedItem;
 
-                    if (parce != null)
+                    if (fact.Estado == "CANCELADO")
                     {
-                        parcialidad = (parce.parcialidad + 1).ToString();
-                        saldoAnterior = parce.insoluto.ToString();
+                        MessageBox.Show("La factura esta cancelada. No se puede utilizar.", "ATENCION", MessageBoxButton.OK);
+                        return;
+                    }
+
+                    IdFactura = fact.IdFactura.ToString();
+
+                    XmlDocument xDoc = new XmlDocument();
+                    xDoc.LoadXml(fact.XML);
+
+                    XmlNamespaceManager nms = new XmlNamespaceManager(xDoc.NameTable);
+                    nms.AddNamespace("cfdi", "http://www.sat.gob.mx/cfd/3");
+                    nms.AddNamespace("tfd", "http://www.sat.gob.mx/cfd/3");
+
+                    XmlAttribute xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Complemento//@UUID", nms);
+                    uuid = xAttrib.Value;
+
+                    xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@Folio", nms);
+                    if (xAttrib != null)
+                    {
+                        folio = xAttrib.Value;
                     }
                     else
                     {
-                        saldoAnterior = fact.Total;
+                        MessageBox.Show("Error. No se encontró el folio.");
+                        return;
                     }
 
-                    ComplementoPagoData comp = new ComplementoPagoData { UUID = uuid, Serie = serie, Folio = folio, Parcialidad = parcialidad, SaldoAnterior = saldoAnterior, Pagado = pagado, SaldoInsoluto = saldoInsoluto, IdFactura = IdFactura };
-                    _complementos.Add(comp);
-                    dgComplemento.ItemsSource = null;
-                    dgComplemento.ItemsSource = _complementos;
+                    using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                    {
+                        Parcialidades parce = dbContext.Parcialidades.Where(P => P.id_factura == fact.IdFactura).OrderByDescending(P => P.id_parcialidad).FirstOrDefault();
+
+                        if (parce != null)
+                        {
+                            parcialidad = (parce.parcialidad + 1).ToString();
+                            saldoAnterior = parce.insoluto.ToString();
+                        }
+                        else
+                        {
+                            saldoAnterior = "0";
+                            saldoInsoluto = fact.Total;
+                        }
+
+                        ComplementoPagoData comp = new ComplementoPagoData { UUID = uuid, Serie = serie, Folio = folio, Parcialidad = parcialidad, SaldoAnterior = saldoAnterior, Pagado = pagado, SaldoInsoluto = saldoInsoluto, IdFactura = IdFactura };
+                        _complementos.Add(comp);
+                        dgComplemento.ItemsSource = null;
+                        dgComplemento.ItemsSource = _complementos;
+                    }
+                    CalcularTotal();
                 }
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show("No se puede agregar la factura.");
             }
         }
 
@@ -1671,6 +1355,7 @@ namespace ImpresosAlvarez
         {
             dgComplemento.ItemsSource = null;
             dgComplemento.ItemsSource = _complementos;
+            CalcularTotal();
         }
 
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
@@ -1691,6 +1376,180 @@ namespace ImpresosAlvarez
             }
 
             return n;
+        }
+
+        private void cbFormasPago_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            datosFacturaElectronica.formaPago = cbFormasPago.SelectedValue.ToString();
+            datosFacturaElectronica.formaPagoTexto = (e.AddedItems[0] as FormasPago).FormaPago;
+        }
+
+        private void cbMetodoPago_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbMetodoPago.SelectedIndex == 0)
+            {
+                datosFacturaElectronica.metodoPago = "PUE";
+                datosFacturaElectronica.metodoPagoTexto = "Pago en una sola exhibición";
+            }
+            else
+            {
+                datosFacturaElectronica.metodoPago = "PPD";
+                datosFacturaElectronica.metodoPagoTexto = "Pago en parcialidades o diferido";
+            }
+        }
+        private void EnviarPorCorreo()
+        {
+            try
+            {
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    List<Correos> correos = dbContext.Correos.Where(C => C.id_cliente == _clienteElegido.id_cliente).ToList();
+
+                    foreach (Correos item in correos)
+                    {
+                        Configuracion config = dbContext.Configuracion.Single();
+                        MailMessage mail = new MailMessage();
+                        SmtpClient SmtpServer = new SmtpClient("smtp.live.com");
+                        //mail.From = new MailAddress("alvarezimpresores_16@hotmail.com");
+                        mail.From = new MailAddress(config.correo);
+
+                        mail.To.Add(item.correo);
+                        mail.Subject = "Envío de información de facturas - Alvarez Impresores";
+                        mail.Body = "Saludos, envío la información de las facturas. Recuerde: después de 72 horas no se pueden cancelar.";
+
+                        if (rutaPDF.Length > 0)
+                        {
+                            System.Net.Mail.Attachment attachment;
+                            attachment = new System.Net.Mail.Attachment(@rutaPDF);
+                            mail.Attachments.Add(attachment);
+                        }
+                        if (rutaXML.Length > 0)
+                        {
+                            System.Net.Mail.Attachment attachment;
+                            attachment = new System.Net.Mail.Attachment(@rutaXML);
+                            mail.Attachments.Add(attachment);
+                        }
+
+                        SmtpServer.Port = 587;
+                        SmtpServer.Credentials = new System.Net.NetworkCredential(config.usuario_correo, config.password_correo);
+                        SmtpServer.EnableSsl = true;
+
+                        SmtpServer.Send(mail);
+                        MessageBox.Show("Correo enviado a " + item.correo);
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+        }
+
+        private void btnPagarTodos_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (ComplementoPagoData item in _complementos)
+            {
+                item.Pagado = item.SaldoInsoluto;
+                item.SaldoInsoluto = "0";
+            }
+
+            dgComplemento.ItemsSource = null;
+            dgComplemento.ItemsSource = _complementos;
+
+            CalcularTotal();
+        }
+
+        private void dgComplemento_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                if (dgComplemento.SelectedItem != null)
+                {
+                    ComplementoPagoData rem = (ComplementoPagoData)dgComplemento.SelectedItem;
+                    _complementos.Remove(rem);
+                    dgComplemento.ItemsSource = null;
+                    dgComplemento.ItemsSource = _complementos;
+                    CalcularTotal();
+                }
+            }
+        }
+
+        private void btnAgregarTodos_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (var item in dgFacturas.SelectedItems)
+            {
+                FacturaComplemento fact = (FacturaComplemento)item;
+
+                try
+                {
+                    if (dgFacturas.SelectedItem != null)
+                    {
+                        String uuid = "";
+                        String serie = "-";
+                        String folio = "";
+                        String parcialidad = "1";
+                        String saldoAnterior = "0";
+                        String pagado = "0";
+                        String saldoInsoluto = "0";
+                        String IdFactura = "0";                        
+
+                        if (fact.Estado == "CANCELADO")
+                        {
+                            MessageBox.Show("La factura esta cancelada. No se puede utilizar.", "ATENCION", MessageBoxButton.OK);
+                            return;
+                        }
+
+                        IdFactura = fact.IdFactura.ToString();
+
+                        XmlDocument xDoc = new XmlDocument();
+                        xDoc.LoadXml(fact.XML);
+
+                        XmlNamespaceManager nms = new XmlNamespaceManager(xDoc.NameTable);
+                        nms.AddNamespace("cfdi", "http://www.sat.gob.mx/cfd/3");
+                        nms.AddNamespace("tfd", "http://www.sat.gob.mx/cfd/3");
+
+                        XmlAttribute xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Complemento//@UUID", nms);
+                        uuid = xAttrib.Value;
+
+                        xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@Folio", nms);
+                        if (xAttrib != null)
+                        {
+                            folio = xAttrib.Value;
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error. No se encontró el folio.");
+                            return;
+                        }
+
+                        using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                        {
+                            Parcialidades parce = dbContext.Parcialidades.Where(P => P.id_factura == fact.IdFactura).OrderByDescending(P => P.id_parcialidad).FirstOrDefault();
+
+                            if (parce != null)
+                            {
+                                parcialidad = (parce.parcialidad + 1).ToString();
+                                saldoAnterior = parce.insoluto.ToString();
+                            }
+                            else
+                            {
+                                saldoAnterior = fact.Total;
+                                saldoInsoluto = fact.Total;
+                            }
+
+                            ComplementoPagoData comp = new ComplementoPagoData { UUID = uuid, Serie = serie, Folio = folio, Parcialidad = parcialidad, SaldoAnterior = saldoAnterior, Pagado = pagado, SaldoInsoluto = saldoInsoluto, IdFactura = IdFactura };
+                            _complementos.Add(comp);
+                            dgComplemento.ItemsSource = null;
+                            dgComplemento.ItemsSource = _complementos;
+                        }
+                        CalcularTotal();
+                    }
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show("No se puede agregar la factura.");
+                }
+            }
         }
     }
 }

@@ -33,6 +33,7 @@ using System.Xml.Xsl;
 using System.Data.Entity;
 using System.Data;
 using ImpresosAlvarez.mx.facturacfdi.v33;
+using System.Net.Mail;
 
 namespace ImpresosAlvarez
 {
@@ -140,8 +141,11 @@ namespace ImpresosAlvarez
                 cbUsosCFDI.DisplayMemberPath = "Uso";
             }
 
-            cbUsosCFDI.SelectedIndex = cbUsosCFDI.Items.Count - 1;
+            //cbUsosCFDI.SelectedIndex = cbUsosCFDI.Items.Count - 1;
+            cbUsosCFDI.SelectedIndex = 12;
+            datosFacturaElectronica.usoCFDITexto = cbUsosCFDI.Text;
             cbFormasPago.SelectedIndex = cbFormasPago.Items.Count - 1;
+            datosFacturaElectronica.formaPagoTexto = cbFormasPago.Text;
             
             if (datosFacturaElectronica.metodoPago == "PUE")
             {
@@ -156,6 +160,7 @@ namespace ImpresosAlvarez
                 _clienteElegido = (Clientes)tbClientes.SelectedItem;
                 lblNombre.Content = _clienteElegido.nombre;
                 lblRFC.Content = _clienteElegido.rfc;
+                lblDomicilio.Content = _clienteElegido.domicilio + " " + _clienteElegido.colonia + " " + _clienteElegido.ciudad;
             }
         }
 
@@ -372,11 +377,12 @@ namespace ImpresosAlvarez
             }
 
             CargarXMLTemplate();
-            FacturacionElectronica(true);
-            ImprimirPDF(true);
+            FacturacionElectronica(true);            
             if (timbreValido)
             {
+                ImprimirPDF(true);
                 GuardarFactura();
+                EnviarPorCorreo();
             }
         }
 
@@ -440,7 +446,7 @@ namespace ImpresosAlvarez
                 File.WriteAllText(@"C:\Impresos\XML_3_3.xml", XML);
 
                 Directory.CreateDirectory(@"C:\Impresos\Facturas\" + _clienteElegido.nombre);
-                string fileName = @"C:\Impresos\Facturas\" + _clienteElegido.nombre + @"\pre_" + cbContribuyentes.Text + "_" + FolioActual + "_" + fechaFactura.Replace("/", "-").Replace(":", "-") + ".xml";
+                string fileName = @"C:\Impresos\Facturas\" + _clienteElegido.nombre + @"\pre_" + cbContribuyentes.SelectedValue.ToString() + "_" + FolioActual + "_" + fechaFactura.Replace("/", "-").Replace(":", "-") + ".xml";
 
                 File.WriteAllText(fileName, XML);
 
@@ -476,7 +482,7 @@ namespace ImpresosAlvarez
                 if (respTimbre.cfdi != null && respTimbre.cfdi.Trim().Length > 0)
                 {
                     XMLTimbrado = respTimbre.cfdi;
-                    string fileName = @"C:\Impresos\Facturas\" + _clienteElegido.nombre + @"\fac_" + cbContribuyentes.Text + "_" + FolioActual + "_" + fechaFactura.Replace("/", "-").Replace(":", "-") + ".xml";
+                    string fileName = @"C:\Impresos\Facturas\" + _clienteElegido.nombre + @"\fac_" + cbContribuyentes.SelectedValue.ToString() + "_" + FolioActual + "_" + fechaFactura.Replace("/", "-").Replace(":", "-") + ".xml";
                     File.WriteAllText(fileName, XMLTimbrado);
                     rutaXML = fileName;
                     GenerarComplemento();
@@ -787,11 +793,11 @@ namespace ImpresosAlvarez
             string fileName;
             if (SAT)
             {
-                fileName = @"C:\Impresos\Facturas\" + datosFacturaElectronica.nombreReceptor + "\\fac_" + cbContribuyentes.Text + "_" + FolioActual + "_" + datosFacturaElectronica.fechaExpedicion.Replace("/", "-").Replace(":", "-") + ".pdf";
+                fileName = @"C:\Impresos\Facturas\" + datosFacturaElectronica.nombreReceptor + @"\fac_" + cbContribuyentes.SelectedValue.ToString() + "_" + FolioActual + "_" + datosFacturaElectronica.fechaExpedicion.Replace("/", "-").Replace(":", "-") + ".pdf";
             }
             else
             {
-                fileName = @"C:\Impresos\Facturas\" + datosFacturaElectronica.nombreReceptor + "\\pre_" + cbContribuyentes.Text + "_" + FolioActual + "_" + datosFacturaElectronica.fechaExpedicion.Replace("/", "-").Replace(":", "-") + ".pdf";
+                fileName = @"C:\Impresos\Facturas\" + datosFacturaElectronica.nombreReceptor + @"\pre_" + cbContribuyentes.SelectedValue.ToString() + "_" + FolioActual + "_" + datosFacturaElectronica.fechaExpedicion.Replace("/", "-").Replace(":", "-") + ".pdf";
             }
 
             Document document = null;
@@ -817,14 +823,10 @@ namespace ImpresosAlvarez
             iText.Layout.Element.Image pdfImg = new iText.Layout.Element.Image(imgLogo);
 
             //Renglon 1
-            pdfImg.SetHeight(90);
+            pdfImg.SetHeight(70);
 
             table.AddCell(new Cell(4, 4)
-                .SetFont(fb)
-                .SetFontSize(fs)
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .SetHorizontalAlignment(iText.Layout.Properties.HorizontalAlignment.CENTER)
-                .SetVerticalAlignment(iText.Layout.Properties.VerticalAlignment.MIDDLE)
                 .Add(pdfImg));
 
             table.AddCell(new Cell(1, 4)
@@ -862,8 +864,6 @@ namespace ImpresosAlvarez
             pdfImg.SetHeight(150);
             pdfImg.SetFixedPosition(50, 50);
             */
-            pdfImg.SetHeight(120);
-
             
             table.AddCell(new Cell(1, 4)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
@@ -893,7 +893,7 @@ namespace ImpresosAlvarez
                 .SetFont(fb)
                 .SetFontSize(fs)
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Regimen fiscal: Persona física con actividad empresarial y profesional")));
+                .Add(new Paragraph(regimen)));
 
             /*
             table.AddCell(new Cell(1, 3)
@@ -1271,7 +1271,7 @@ namespace ImpresosAlvarez
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                 .Add(new Paragraph("Cantidad")));
 
-            table.AddCell(new Cell(1, 2)
+            table.AddCell(new Cell(1, 1)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                 .SetBackgroundColor(new DeviceRgb(0, 0, 0))
                 .SetFontColor(new DeviceRgb(255, 255, 255))
@@ -1280,7 +1280,7 @@ namespace ImpresosAlvarez
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                 .Add(new Paragraph("Clave Unidad")));
 
-            table.AddCell(new Cell(1, 4)
+            table.AddCell(new Cell(1, 5)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                 .SetBackgroundColor(new DeviceRgb(0, 0, 0))
                 .SetFontColor(new DeviceRgb(255, 255, 255))
@@ -1323,14 +1323,14 @@ namespace ImpresosAlvarez
                     .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                     .Add(new Paragraph(item.Cantidad.ToString())));
 
-                table.AddCell(new Cell(1, 2)
+                table.AddCell(new Cell(1, 1)
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                     .SetFont(f)
                     .SetFontSize(fs)
                     .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                     .Add(new Paragraph(item.Unidad)));
 
-                table.AddCell(new Cell(1, 4)
+                table.AddCell(new Cell(1, 5)
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                     .SetFont(f)
                     .SetFontSize(fs)
@@ -1707,12 +1707,14 @@ namespace ImpresosAlvarez
             if (MessageBox.Show("Desea abrir el PDF generado?", "Atención", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 Process.Start(Directorio);
-                /*
                 rutaPDF = fileName;
                 Process prc = new System.Diagnostics.Process();
                 prc.StartInfo.FileName = fileName;
+                while (!File.Exists(fileName))
+                {
+                    
+                }
                 prc.Start();
-                */
             }
 
         }
@@ -1813,13 +1815,18 @@ namespace ImpresosAlvarez
                             detalle.id_factura = factura.id_factura;
                             detalle.cantidad = item.Cantidad;
                             detalle.descripcion = item.Descripcion;
-                            detalle.importe = item.Importe;
-                            /*
-                            detalle.PrecioUnitario = item.PrecioUnitario;
-                            detalle.ClaveServicio = item.Clave;
-                            detalle.Unidad = item.Unidad;
-                            */
+                            detalle.importe = item.Importe;                            
+                            detalle.precio_unitario = item.PrecioUnitario;
+                            detalle.clave_servicio = item.Clave;
+                            detalle.unidad = item.Unidad;
+                            
                             dbContext.DetalleFactura.Add(detalle);
+
+                            if (item.IdOrden > 0)
+                            {
+                                dbContext.Adjuntar_Orden_Factura(item.IdOrden, factura.id_factura);
+                                dbContext.Modificar_Tipo_Orden(item.IdOrden, "FACTURA");
+                            }
 
                             dbContext.SaveChanges();
                         }
@@ -1834,7 +1841,7 @@ namespace ImpresosAlvarez
 
                         Entity.FacturaDigital fdigital = new Entity.FacturaDigital();
                         fdigital.id_factura = factura.id_factura;
-                        fdigital.xml = XML;
+                        fdigital.xml = XMLTimbrado;
                         if (datosFacturaElectronica.metodoPago == "PUE")
                         {
                             fdigital.para_recibo = "SI";
@@ -1916,13 +1923,13 @@ namespace ImpresosAlvarez
         private void cbFormasPago_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             datosFacturaElectronica.formaPago = cbFormasPago.SelectedValue.ToString();
-            datosFacturaElectronica.formaPagoTexto = cbFormasPago.Text;
+            datosFacturaElectronica.formaPagoTexto = (e.AddedItems[0] as FormasPago).FormaPago;
         }
 
         private void cbUsosCFDI_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             datosFacturaElectronica.usoCFDI = cbUsosCFDI.SelectedValue.ToString();
-            datosFacturaElectronica.usoCFDITexto = cbUsosCFDI.Text;
+            datosFacturaElectronica.usoCFDITexto = (e.AddedItems[0] as UsosCFDI).Uso;
         }
 
         private void cbMetodoPago_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1930,59 +1937,92 @@ namespace ImpresosAlvarez
             if (cbMetodoPago.SelectedIndex == 0)
             {
                 datosFacturaElectronica.metodoPago = "PUE";
-                datosFacturaElectronica.metodoPagoTexto = cbMetodoPago.Text;
+                datosFacturaElectronica.metodoPagoTexto = "Pago en una sola exhibición";
             }
             else
             {
                 datosFacturaElectronica.metodoPago = "PPD";
-                datosFacturaElectronica.metodoPagoTexto = cbMetodoPago.Text;
+                datosFacturaElectronica.metodoPagoTexto = "Pago en parcialidades o diferido";
             }
         }
 
         private void EnviarPorCorreo()
         {
-            /*
             try
             {
-                foreach (DataGridViewRow item in dgvCorreos.Rows)
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                 {
-                    cConfiguracion config = new cConfiguracion();
-                    MailMessage mail = new MailMessage();
-                    SmtpClient SmtpServer = new SmtpClient("smtp.live.com");
-                    //mail.From = new MailAddress("alvarezimpresores_16@hotmail.com");
-                    mail.From = new MailAddress(config.ObtenerCorreo());
+                    List<Correos> correos = dbContext.Correos.Where(C => C.id_cliente == _clienteElegido.id_cliente).ToList();
 
-                    mail.To.Add(item.Cells[2].Value.ToString());
-                    mail.Subject = "Envío de información de facturas - Alvarez Impresores";
-                    mail.Body = "Saludos, envío la información de las facturas. Recuerde: después de 72 horas no se pueden cancelar.";
-
-                    if (rutaPDF.Length > 0)
+                    foreach (Correos item in correos)
                     {
-                        System.Net.Mail.Attachment attachment;
-                        attachment = new System.Net.Mail.Attachment(@rutaPDF);
-                        mail.Attachments.Add(attachment);
-                    }
-                    if (rutaXML.Length > 0)
-                    {
-                        System.Net.Mail.Attachment attachment;
-                        attachment = new System.Net.Mail.Attachment(@rutaXML);
-                        mail.Attachments.Add(attachment);
-                    }
+                        Configuracion config = dbContext.Configuracion.Single();
+                        MailMessage mail = new MailMessage();
+                        SmtpClient SmtpServer = new SmtpClient("smtp.live.com");
+                        //mail.From = new MailAddress("alvarezimpresores_16@hotmail.com");
+                        mail.From = new MailAddress(config.correo);
 
-                    SmtpServer.Port = 587;
-                    SmtpServer.Credentials = new System.Net.NetworkCredential(config.ObtenerUsuarioCorreo(), config.ObtenerPasswordCorreo());
-                    SmtpServer.EnableSsl = true;
+                        mail.To.Add(item.correo);
+                        mail.Subject = "Envío de información de facturas - Alvarez Impresores";
+                        mail.Body = "Saludos, envío la información de las facturas. Recuerde: después de 72 horas no se pueden cancelar.";
 
-                    SmtpServer.Send(mail);
-                    MessageBox.Show("Correo enviado a " + item.Cells[2].Value.ToString());
-                }
-                pbLoading.Value = 100;
+                        if (rutaPDF.Length > 0)
+                        {
+                            System.Net.Mail.Attachment attachment;
+                            attachment = new System.Net.Mail.Attachment(@rutaPDF);
+                            mail.Attachments.Add(attachment);
+                        }
+                        if (rutaXML.Length > 0)
+                        {
+                            System.Net.Mail.Attachment attachment;
+                            attachment = new System.Net.Mail.Attachment(@rutaXML);
+                            mail.Attachments.Add(attachment);
+                        }
+
+                        SmtpServer.Port = 587;
+                        SmtpServer.Credentials = new System.Net.NetworkCredential(config.usuario_correo, config.password_correo);
+                        SmtpServer.EnableSsl = true;
+
+                        SmtpServer.Send(mail);
+                        MessageBox.Show("Correo enviado a " + item.correo);
+                    }
+                }                  
             }
             catch (Exception exc)
             {
                 MessageBox.Show(exc.Message);
+            }            
+        }
+
+        private void btnBuscarOrdenes_Click(object sender, RoutedEventArgs e)
+        {
+            BuscarOrdenes ordenes = new BuscarOrdenes(_clienteElegido.id_cliente, this);
+            ordenes.ShowDialog();
+        }
+
+        public bool OrdenAgregada(int IdOrden)
+        {
+            if (dgConceptos.ItemsSource is null)
+            {
+                return false;
             }
-            */
+            foreach (ConceptoFactura item in dgConceptos.ItemsSource)
+            {
+                if (item.IdOrden != null)
+                {
+                    if (IdOrden == item.IdOrden)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+        public void AgregarOrden(ConceptoFactura nuevaOrden)
+        {
+            _conceptos.Add(nuevaOrden);
+            dgConceptos.ItemsSource = null;
+            dgConceptos.ItemsSource = _conceptos;
         }
     }
 }

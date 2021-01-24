@@ -28,7 +28,7 @@
     <UpdateUrl>http://impresosalvarez.atwebpages.com/</UpdateUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>14</ApplicationRevision>
+    <ApplicationRevision>34</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -152,6 +152,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BuscarOrdenes.xaml.cs">
+      <DependentUpon>BuscarOrdenes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Calculadora.xaml.cs">
+      <DependentUpon>Calculadora.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Clases\CalcElement.cs" />
     <Compile Include="Clases\ComplementoPagoData.cs" />
     <Compile Include="Clases\ConceptoFactura.cs" />
     <Compile Include="Clases\CotizacionLlenado.cs" />
@@ -164,6 +171,9 @@
     </Compile>
     <Compile Include="ComplementoPagoControl.xaml.cs">
       <DependentUpon>ComplementoPagoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlComplementos.xaml.cs">
+      <DependentUpon>ControlComplementos.xaml</DependentUpon>
     </Compile>
     <Compile Include="ControlConceptoFactura.xaml.cs">
       <DependentUpon>ControlConceptoFactura.xaml</DependentUpon>
@@ -178,6 +188,9 @@
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\Comentarios.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Configuracion.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\Contribuyentes.cs">
@@ -366,8 +379,14 @@
     <Compile Include="Entity\Usuarios.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\Valores.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="FacturaDigital.xaml.cs">
       <DependentUpon>FacturaDigital.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="VerComplemento.xaml.cs">
+      <DependentUpon>VerComplemento.xaml</DependentUpon>
     </Compile>
     <Compile Include="VerCotizaciones.xaml.cs">
       <DependentUpon>VerCotizaciones.xaml</DependentUpon>
@@ -388,11 +407,23 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Page Include="BuscarOrdenes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Calculadora.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ComplementoPago.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ComplementoPagoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlComplementos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -427,6 +458,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="VerComplemento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="VerCotizaciones.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

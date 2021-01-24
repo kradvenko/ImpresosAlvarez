@@ -515,6 +515,9 @@
             <Button x:Name="btnFacturaDigital" Grid.Row="0" Grid.Column="2" Style="{StaticResource btnInterfaz01}" Content="Factura Digital" Click="btnFacturaDigital_Click"></Button>
             <Button x:Name="btnComplemento" Grid.Row="0" Grid.Column="3" Style="{StaticResource btnInterfaz01}" Content="Complementos" Click="btnComplemento_Click"></Button>
             <Button x:Name="btnControlFacturas" Grid.Row="0" Grid.Column="4" Style="{StaticResource btnInterfaz01}" Content="Control Facturas" Click="btnControlFacturas_Click"></Button>
+            <Button x:Name="btnControlComplementos" Grid.Row="0" Grid.Column="5" Style="{StaticResource btnInterfaz01}" Content="Control Complementos" Click="btnControlComplementos_Click"></Button>
+
+            <Button x:Name="btnCalculadora" Grid.Row="1" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Calculadora" Click="btnCalculadora_Click"></Button>
         </Grid>
     </Grid>
 </Window>

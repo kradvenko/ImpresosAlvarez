@@ -55,7 +55,7 @@
         <TextBox x:Name="tbImporte" Grid.Column="1" Grid.Row="4" Style="{StaticResource TextBox01}" Text="0" KeyUp="tbImporte_KeyUp"></TextBox>
 
         <Label Grid.Column="0" Grid.Row="5" Style="{StaticResource LabelBlack}" Content="Unidad"></Label>
-        <ComboBox x:Name="cbUnidad" Grid.Column="1" Grid.Row="5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+        <ComboBox x:Name="cbUnidad" Grid.Column="1" Grid.Row="5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Style="{StaticResource ComboBoxFlatStyle}">
         </ComboBox>
 
         <Label Grid.Column="0" Grid.Row="6" Style="{StaticResource LabelBlack}" Content="Servicio"></Label>

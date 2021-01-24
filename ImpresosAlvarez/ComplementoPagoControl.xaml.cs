@@ -34,9 +34,9 @@ namespace ImpresosAlvarez
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            tbCantidad.Text = _cpd.SaldoAnterior;
-            lblInsoluto.Content = "$ 0";
-            lblAnterior.Content = "$ " + _cpd.SaldoAnterior;
+            tbCantidad.Text = _cpd.Pagado;
+            tbInsoluto.Text = _cpd.SaldoInsoluto;
+            tbAnterior.Text = _cpd.SaldoAnterior;
         }
 
         private void tbCantidad_KeyUp(object sender, KeyEventArgs e)
@@ -49,7 +49,7 @@ namespace ImpresosAlvarez
             try
             {
                 float ins = float.Parse(_cpd.SaldoAnterior) - float.Parse(tbCantidad.Text);
-                lblInsoluto.Content = "$ " + ins.ToString();
+                tbInsoluto.Text = ins.ToString();
                 insoluto = ins.ToString();
             }
             catch (Exception exc)
@@ -60,9 +60,10 @@ namespace ImpresosAlvarez
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            CalcularTotal();
+            //CalcularTotal();
             _cpd.Pagado = tbCantidad.Text;
-            _cpd.SaldoInsoluto = insoluto;
+            _cpd.SaldoInsoluto = tbInsoluto.Text;
+            _cpd.SaldoAnterior = tbAnterior.Text;
             _parent.ActualizarComplemento();
             this.Close();
         }

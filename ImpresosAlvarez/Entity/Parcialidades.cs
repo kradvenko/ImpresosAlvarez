@@ -22,5 +22,11 @@ namespace ImpresosAlvarez.Entity
         public Nullable<double> pagado { get; set; }
         public Nullable<double> insoluto { get; set; }
         public Nullable<int> parcialidad { get; set; }
+        public string acuse { get; set; }
+        public Nullable<System.DateTime> fecha_cancelado { get; set; }
+        public string sello_cfdi { get; set; }
+        public string sello_sat { get; set; }
+        public string cadena_original { get; set; }
+        public string estado { get; set; }
     }
 }
