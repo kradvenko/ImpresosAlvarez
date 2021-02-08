@@ -1,0 +1,60 @@
+﻿<Window x:Class="ImpresosAlvarez.ControlEntradaInventario"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImpresosAlvarez"
+        mc:Ignorable="d"
+        Title="Entrada de Inventario" Height="300" Width="400" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="8">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <LinearGradientBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                            <RotateTransform Angle="90" CenterY="0.5" CenterX="0.5"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </LinearGradientBrush.RelativeTransform>
+                    <GradientStop Color="#FF000530" Offset="1"/>
+                    <GradientStop Color="#FF000530"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBlack}" Content="Fecha"></Label>
+        
+
+        <Label Grid.Column="0" Grid.Row="2" Style="{StaticResource LabelBlack}" Content="Proveedor"></Label>
+        <TextBox x:Name="tbProveedor" Grid.Column="1" Grid.Row="2" Style="{StaticResource TextBox01}"></TextBox>
+
+        <Label Grid.Column="0" Grid.Row="3" Style="{StaticResource LabelBlack}" Content="Factura"></Label>
+        <TextBox x:Name="tbFactura" Grid.Column="1" Grid.Row="3" Style="{StaticResource TextBox01}"></TextBox>
+
+        <Label Grid.Column="0" Grid.Row="4" Style="{StaticResource LabelBlack}" Content="Cantidad"></Label>
+        <TextBox x:Name="tbCantidad" Grid.Column="1" Grid.Row="4" Style="{StaticResource TextBox01}"></TextBox>
+
+        <Label Grid.Column="0" Grid.Row="5" Style="{StaticResource LabelBlack}" Content="Insumo"></Label>
+        
+
+        <Button x:Name="btnAgregarEntrada" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Guardar" Click="btnAgregarEntrada_Click"></Button>
+        <Button x:Name="btnCerrar" Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cerrar" Click="btnCerrar_Click"></Button>
+    </Grid>
+</Window>

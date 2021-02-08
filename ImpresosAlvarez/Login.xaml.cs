@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImpresosAlvarez.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,11 @@ namespace ImpresosAlvarez
     /// </summary>
     public partial class Login : Window
     {
-        public Login()
+        MainWindow parent;
+        public Login(MainWindow parent)
         {
             InitializeComponent();
+            this.parent = parent;
         }
 
         private void tbUsuario_KeyDown(object sender, KeyEventArgs e)
@@ -32,12 +35,39 @@ namespace ImpresosAlvarez
             }
         }
 
-        private void TbPass_KeyDown(object sender, KeyEventArgs e)
+        private void tbClave_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    Usuarios cu = dbContext.Usuarios.Where(U => U.pass == tbClave.Password).FirstOrDefault();
+
+                    if (cu != null)
+                    {
+                        parent.CurrentUser = cu;
+                        parent.SetMainWindow();
+                        this.Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("No se puede iniciar sesion.");
+                    }
+                }
+            }
+        }
+
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
                 this.Close();
             }
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            tbClave.Focus();
         }
     }
 }

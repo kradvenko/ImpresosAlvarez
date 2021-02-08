@@ -161,9 +161,10 @@
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="6">
+            <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="7">
                 <Border.Background>
                     <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                         <LinearGradientBrush.RelativeTransform>
@@ -180,7 +181,7 @@
                 </Border.Background>                
             </Border>
 
-            <Button Grid.Column="0">
+            <Button x:Name="btnRecepcion" Grid.Column="0" Visibility="Hidden" Click="btnRecepcion_Click">
                 <Button.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Button.Effect>
@@ -224,7 +225,7 @@
                     <Label Style="{StaticResource LabelBold}">Recepción</Label>
                 </Button.Content>
             </Button>
-            <Button Grid.Row="1">
+            <Button x:Name="btnDiseno" Grid.Row="1" Visibility="Hidden">
                 <Button.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Button.Effect>
@@ -268,7 +269,7 @@
                     <Label Style="{StaticResource LabelBold}">Diseño</Label>
                 </Button.Content>
             </Button>
-            <Button Grid.Row="2">
+            <Button x:Name="btnImpresion" Grid.Row="2" Visibility="Hidden">
                 <Button.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Button.Effect>
@@ -312,7 +313,7 @@
                     <Label Style="{StaticResource LabelBold}">Impresión</Label>
                 </Button.Content>
             </Button>
-            <Button Grid.Row="3">
+            <Button x:Name="btnTerminado" Grid.Row="3" Visibility="Hidden">
                 <Button.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Button.Effect>
@@ -356,7 +357,7 @@
                     <Label Style="{StaticResource LabelBold}">Terminado</Label>
                 </Button.Content>
             </Button>
-            <Button Grid.Row="4">
+            <Button x:Name="btnInventario" Grid.Row="4" Visibility="Hidden" Click="btnInventario_Click">
                 <Button.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Button.Effect>
@@ -400,7 +401,7 @@
                     <Label Style="{StaticResource LabelBold}">Inventario</Label>
                 </Button.Content>
             </Button>
-            <Button Grid.Row="5">
+            <Button x:Name="btnContabilidad" Grid.Row="5" Visibility="Hidden">
                 <Button.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Button.Effect>
@@ -444,7 +445,7 @@
                     <Label Style="{StaticResource LabelBold}">Contabilidad</Label>
                 </Button.Content>
             </Button>
-            <Button Grid.Row="6">
+            <Button x:Name="btnAdministracion" Grid.Row="6" Visibility="Hidden">
                 <Button.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Button.Effect>
@@ -489,7 +490,7 @@
                 </Button.Content>
             </Button>            
         </Grid>
-        <Grid Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="5">
+        <Grid x:Name="gRecepcion" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="5" Visibility="Hidden">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -519,5 +520,34 @@
 
             <Button x:Name="btnCalculadora" Grid.Row="1" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Calculadora" Click="btnCalculadora_Click"></Button>
         </Grid>
+
+        <Grid x:Name="gInventario" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="5" Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Button x:Name="btnExistencias" Grid.Row="0" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Existencias" Click="btnExistencias_Click"></Button>
+            <Button x:Name="btnEntradas" Grid.Row="0" Grid.Column="2" Style="{StaticResource btnInterfaz01}" Content="Entradas" Click="btnEntradas_Click"></Button>
+            <Button x:Name="btnSalidas" Grid.Row="0" Grid.Column="3" Style="{StaticResource btnInterfaz01}" Content="Salidas" Click="btnSalidas_Click"></Button>
+        </Grid>
     </Grid>
 </Window>
+
+    

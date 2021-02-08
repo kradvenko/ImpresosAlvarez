@@ -28,7 +28,7 @@
     <UpdateUrl>http://impresosalvarez.atwebpages.com/</UpdateUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>34</ApplicationRevision>
+    <ApplicationRevision>36</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -178,8 +178,17 @@
     <Compile Include="ControlConceptoFactura.xaml.cs">
       <DependentUpon>ControlConceptoFactura.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ControlEntradaInventario.xaml.cs">
+      <DependentUpon>ControlEntradaInventario.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ControlFacturas.xaml.cs">
       <DependentUpon>ControlFacturas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlInsumo.xaml.cs">
+      <DependentUpon>ControlInsumo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlSalidaInventario.xaml.cs">
+      <DependentUpon>ControlSalidaInventario.xaml</DependentUpon>
     </Compile>
     <Compile Include="Entity\Bitacora.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
@@ -382,8 +391,17 @@
     <Compile Include="Entity\Valores.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entradas.xaml.cs">
+      <DependentUpon>Entradas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Existencias.xaml.cs">
+      <DependentUpon>Existencias.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FacturaDigital.xaml.cs">
       <DependentUpon>FacturaDigital.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Salidas.xaml.cs">
+      <DependentUpon>Salidas.xaml</DependentUpon>
     </Compile>
     <Compile Include="VerComplemento.xaml.cs">
       <DependentUpon>VerComplemento.xaml</DependentUpon>
@@ -431,7 +449,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ControlEntradaInventario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ControlFacturas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlInsumo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlSalidaInventario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Entradas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Existencias.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -458,6 +496,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Salidas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="VerComplemento.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

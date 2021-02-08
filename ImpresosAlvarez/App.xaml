@@ -58,6 +58,8 @@
         </Style>
         <!--Password Box-->
         <Style x:Key="PasswordBox" TargetType="PasswordBox">
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
             <Setter Property="BorderBrush" Value="Black"></Setter>
             <Setter Property="BorderThickness" Value="0,0,0,1"></Setter>
             <Setter Property="SelectionBrush" Value="Black"></Setter>

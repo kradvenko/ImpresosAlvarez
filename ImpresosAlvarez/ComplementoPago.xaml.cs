@@ -158,6 +158,7 @@ namespace ImpresosAlvarez
                             }
                         )
                         .Where(F => F.IdCliente == c.id_cliente && F.Estado == "ACTIVO" && F.IdContribuyente == cb.id_contribuyente && F.Pagada == "NO")
+                        //.Where(F => F.IdCliente == c.id_cliente && F.Estado == "ACTIVO" && F.IdContribuyente == cb.id_contribuyente)
                         .ToList();
 
                     dgFacturas.ItemsSource = facts;
@@ -1055,30 +1056,14 @@ namespace ImpresosAlvarez
                 .SetFont(fb)
                 .SetFontSize(fs)
                 .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Subtotal ")));
+                .Add(new Paragraph("Total ")));
 
             table.AddCell(new Cell(1, 1)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                 .SetFont(f)
                 .SetFontSize(fs)
                 .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("$ " + AddDecimals(Subtotal.ToString()))));
-
-            table.AddCell(new Cell(1, 9)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
-                .SetFont(fb)
-                .SetFontSize(fs)
-                .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("16% IVA: ")));
-
-            table.AddCell(new Cell(1, 1)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.iva))));
+                .Add(new Paragraph("$ " + AddDecimals(Total.ToString()))));
 
             table.AddCell(new Cell(1, 10)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
@@ -1524,7 +1509,7 @@ namespace ImpresosAlvarez
 
                         using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                         {
-                            Parcialidades parce = dbContext.Parcialidades.Where(P => P.id_factura == fact.IdFactura).OrderByDescending(P => P.id_parcialidad).FirstOrDefault();
+                            Parcialidades parce = dbContext.Parcialidades.Where(P => P.id_factura == fact.IdFactura && P.estado == "ACTIVO").OrderByDescending(P => P.id_parcialidad).FirstOrDefault();
 
                             if (parce != null)
                             {

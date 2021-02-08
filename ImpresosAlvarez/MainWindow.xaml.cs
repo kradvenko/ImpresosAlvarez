@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImpresosAlvarez.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ namespace ImpresosAlvarez
     /// </summary>
     public partial class MainWindow : Window
     {
+        public Usuarios CurrentUser;
         public MainWindow()
         {
             InitializeComponent();
@@ -27,8 +29,32 @@ namespace ImpresosAlvarez
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            /*Login login = new Login();
-            login.ShowDialog();*/
+            Login login = new Login(this);
+            login.ShowDialog();
+        }
+
+        public void SetMainWindow()
+        {
+            switch (CurrentUser.tipo)
+            {
+                case "ADMIN":
+                    btnRecepcion.Visibility = Visibility.Visible;
+                    btnDiseno.Visibility = Visibility.Visible;
+                    btnImpresion.Visibility = Visibility.Visible;
+                    btnTerminado.Visibility = Visibility.Visible;
+                    btnInventario.Visibility = Visibility.Visible;
+                    btnContabilidad.Visibility = Visibility.Visible;
+                    btnAdministracion.Visibility = Visibility.Visible;
+                    break;
+                case "RECEPCION":
+                    btnRecepcion.Visibility = Visibility.Visible;
+                    break;
+                case "INVENTARIO":
+                    btnInventario.Visibility = Visibility.Visible;
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void btnMinimizar_Click(object sender, RoutedEventArgs e)
@@ -75,6 +101,36 @@ namespace ImpresosAlvarez
         {
             Calculadora calc = new Calculadora();
             calc.Show();
+        }
+
+        private void btnRecepcion_Click(object sender, RoutedEventArgs e)
+        {
+            gRecepcion.Visibility = Visibility.Visible;
+            gInventario.Visibility = Visibility.Hidden;
+        }
+
+        private void btnExistencias_Click(object sender, RoutedEventArgs e)
+        {
+            Existencias existencia = new Existencias();
+            existencia.Show();
+        }
+
+        private void btnInventario_Click(object sender, RoutedEventArgs e)
+        {
+            gRecepcion.Visibility = Visibility.Hidden;
+            gInventario.Visibility = Visibility.Visible;
+        }
+
+        private void btnEntradas_Click(object sender, RoutedEventArgs e)
+        {
+            Entradas entrada = new Entradas();
+            entrada.Show();
+        }
+
+        private void btnSalidas_Click(object sender, RoutedEventArgs e)
+        {
+            Salidas salida = new Salidas();
+            salida.Show();
         }
     }
 }

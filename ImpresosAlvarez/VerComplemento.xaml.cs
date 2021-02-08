@@ -189,6 +189,22 @@ namespace ImpresosAlvarez
                     byte[] llavePublicaBytes = File.ReadAllBytes(rutaCertificado);
                     byte[] llavePrivadaBytes = File.ReadAllBytes(strPathLlave);
 
+                    if (comp.cadena_original == null)
+                    {
+                        using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                        {
+                            Parcialidades del = dbContext.Parcialidades.Where(P => P.id_parcialidad == comp.id_parcialidad).FirstOrDefault();
+
+                            dbContext.Parcialidades.Remove(del);
+
+                            dbContext.SaveChanges();
+
+                            _parent.ActualizarLista();
+                            MessageBox.Show("Se ha eliminado el complemento.");
+                            this.Close();
+                            return;
+                        }
+                    }
                     string[] cadenaOriginal = comp.cadena_original.Split('|');
 
                     folios[0] = cadenaOriginal[4];
