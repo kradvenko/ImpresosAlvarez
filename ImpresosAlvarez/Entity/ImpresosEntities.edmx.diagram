@@ -46,6 +46,10 @@
         <AssociationConnector Association="ImpresosBDModel.FK__Terminado__id_us__2B947552" />
         <EntityTypeShape EntityType="ImpresosBDModel.Configuracion" Width="1.5" PointX="14.375" PointY="16.75" />
         <EntityTypeShape EntityType="ImpresosBDModel.Valores" Width="1.5" PointX="16.375" PointY="16.75" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Categorias" Width="1.5" PointX="17.375" PointY="0.75" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Insumos" Width="1.5" PointX="17.375" PointY="3.75" />
+        <EntityTypeShape EntityType="ImpresosBDModel.EntradasInventario" Width="1.5" PointX="17.375" PointY="6.75" />
+        <EntityTypeShape EntityType="ImpresosBDModel.SalidasInventario" Width="1.5" PointX="17.375" PointY="9.5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

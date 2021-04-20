@@ -28,5 +28,6 @@ namespace ImpresosAlvarez.Entity
         public string sello_sat { get; set; }
         public string cadena_original { get; set; }
         public string estado { get; set; }
+        public string folio { get; set; }
     }
 }

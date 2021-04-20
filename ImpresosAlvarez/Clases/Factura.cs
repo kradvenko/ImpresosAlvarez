@@ -58,7 +58,14 @@ namespace ImpresosAlvarez.Clases
         //Más datos        
         public String usoCFDITexto;
         public String formaPagoTexto;
-        public String metodoPagoTexto;        
+        public String metodoPagoTexto;
+        //Complemento INE
+        public String IneTipoProceso;
+        public String IneTipoComite;
+        public String IneClaveContabilidad;
+        public String IneEntidad;
+        public String IneAmbito;
+        public String IneIdContabilidad;
 
         public Factura()
         {

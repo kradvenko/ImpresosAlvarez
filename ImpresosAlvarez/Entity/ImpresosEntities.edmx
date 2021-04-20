@@ -21,6 +21,13 @@
           <Property Name="fecha_inicio" Type="nvarchar" MaxLength="50" />
           <Property Name="ruta_trabajo" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="Categorias">
+          <Key>
+            <PropertyRef Name="id_categoria" />
+          </Key>
+          <Property Name="id_categoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="Clientes">
           <Key>
             <PropertyRef Name="id_cliente" />
@@ -114,6 +121,18 @@
           <Property Name="hora_inicio" Type="nvarchar" MaxLength="50" />
           <Property Name="hora_fin" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="EntradasInventario">
+          <Key>
+            <PropertyRef Name="id_entrada" />
+          </Key>
+          <Property Name="id_entrada" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fecha" Type="date" />
+          <Property Name="proveedor" Type="nvarchar" MaxLength="150" />
+          <Property Name="factura" Type="nvarchar" MaxLength="50" />
+          <Property Name="cantidad" Type="float" />
+          <Property Name="id_insumo" Type="int" />
+          <Property Name="descripcion_insumo" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="Entrega">
           <Key>
             <PropertyRef Name="id_entrega" />
@@ -140,6 +159,12 @@
           <Property Name="cadena_original" Type="text" />
           <Property Name="forma_pago" Type="nvarchar" MaxLength="50" />
           <Property Name="uso_cfdi" Type="nvarchar" MaxLength="50" />
+          <Property Name="ine_tipo_proceso" Type="nvarchar" MaxLength="50" />
+          <Property Name="ine_tipo_comite" Type="nvarchar" MaxLength="50" />
+          <Property Name="ine_clave_contabilidad" Type="nvarchar" MaxLength="10" />
+          <Property Name="ine_entidad" Type="nvarchar" MaxLength="10" />
+          <Property Name="ine_ambito" Type="nvarchar" MaxLength="10" />
+          <Property Name="ine_id_contabilidad" Type="nvarchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="FacturaOrden">
           <Key>
@@ -186,6 +211,16 @@
           <Property Name="fecha_fin" Type="nvarchar" MaxLength="50" />
           <Property Name="hora_fin" Type="nvarchar" MaxLength="50" />
           <Property Name="notas" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Insumos">
+          <Key>
+            <PropertyRef Name="id_insumo" />
+          </Key>
+          <Property Name="id_insumo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_categoria" Type="int" Nullable="false" />
+          <Property Name="descripcion" Type="nvarchar" MaxLength="100" />
+          <Property Name="stock" Type="float" />
+          <Property Name="estado" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Materia">
           <Key>
@@ -336,6 +371,7 @@
           <Property Name="sello_sat" Type="text" />
           <Property Name="cadena_original" Type="text" />
           <Property Name="estado" Type="nvarchar" MaxLength="50" />
+          <Property Name="folio" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ProductosServicios">
           <Key>
@@ -370,6 +406,19 @@
           <Property Name="fecha_salida" Type="nvarchar" MaxLength="50" />
           <Property Name="hora_salida" Type="nvarchar" MaxLength="50" />
           <Property Name="notas" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="SalidasInventario">
+          <Key>
+            <PropertyRef Name="id_salida" />
+          </Key>
+          <Property Name="id_salida" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fecha" Type="date" />
+          <Property Name="presupuesto" Type="float" />
+          <Property Name="factura" Type="nvarchar" MaxLength="50" />
+          <Property Name="orden_trabajo" Type="nvarchar" MaxLength="50" />
+          <Property Name="cantidad" Type="float" />
+          <Property Name="id_insumo" Type="int" />
+          <Property Name="descripcion" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Terminado">
           <Key>
@@ -1090,6 +1139,7 @@
         </Function>
         <EntityContainer Name="ImpresosBDModelStoreContainer">
           <EntitySet Name="Bitacora" EntityType="Self.Bitacora" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Categorias" EntityType="Self.Categorias" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comentarios" EntityType="Self.Comentarios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Configuracion" EntityType="Self.Configuracion" Schema="dbo" store:Type="Tables" />
@@ -1098,12 +1148,14 @@
           <EntitySet Name="DetalleFactura" EntityType="Self.DetalleFactura" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetalleNota" EntityType="Self.DetalleNota" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Disenos" EntityType="Self.Disenos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EntradasInventario" EntityType="Self.EntradasInventario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Entrega" EntityType="Self.Entrega" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FacturaDigital" EntityType="Self.FacturaDigital" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FacturaOrden" EntityType="Self.FacturaOrden" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Facturas" EntityType="Self.Facturas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FormasPago" EntityType="Self.FormasPago" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Impresion" EntityType="Self.Impresion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Insumos" EntityType="Self.Insumos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Materia" EntityType="Self.Materia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NotaOrden" EntityType="Self.NotaOrden" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notas" EntityType="Self.Notas" Schema="dbo" store:Type="Tables" />
@@ -1116,6 +1168,7 @@
           <EntitySet Name="ProductosServicios" EntityType="Self.ProductosServicios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Recordatorios" EntityType="Self.Recordatorios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Salidas" EntityType="Self.Salidas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalidasInventario" EntityType="Self.SalidasInventario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Terminado" EntityType="Self.Terminado" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TipoMateria" EntityType="Self.TipoMateria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Unidades" EntityType="Self.Unidades" Schema="dbo" store:Type="Tables" />
@@ -1791,6 +1844,10 @@
           </AssociationSet>
           <EntitySet Name="Configuracion" EntityType="ImpresosBDModel.Configuracion" />
           <EntitySet Name="Valores" EntityType="ImpresosBDModel.Valores" />
+          <EntitySet Name="Categorias" EntityType="ImpresosBDModel.Categorias" />
+          <EntitySet Name="Insumos" EntityType="ImpresosBDModel.Insumos" />
+          <EntitySet Name="EntradasInventario" EntityType="ImpresosBDModel.EntradasInventario" />
+          <EntitySet Name="SalidasInventario" EntityType="ImpresosBDModel.SalidasInventario" />
           </EntityContainer>
         <ComplexType Name="Obtener_Bitacora_Diaria_Result">
           <Property Type="String" Name="nombre" Nullable="false" MaxLength="50" />
@@ -2514,6 +2571,12 @@
           <Property Name="cadena_original" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="forma_pago" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="uso_cfdi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ine_tipo_proceso" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ine_tipo_comite" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ine_clave_contabilidad" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ine_entidad" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ine_ambito" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="ine_id_contabilidad" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="FacturaOrden">
           <Key>
@@ -2714,6 +2777,7 @@
           <Property Name="sello_sat" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="cadena_original" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="folio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ProductosServicios">
           <Key>
@@ -2914,6 +2978,48 @@
           <Property Name="numero_orden" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ultimo_cambio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="id_valor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="Categorias">
+          <Key>
+            <PropertyRef Name="id_categoria" />
+          </Key>
+          <Property Name="id_categoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Insumos">
+          <Key>
+            <PropertyRef Name="id_insumo" />
+          </Key>
+          <Property Name="id_insumo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_categoria" Type="Int32" Nullable="false" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="stock" Type="Double" />
+          <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="EntradasInventario">
+          <Key>
+            <PropertyRef Name="id_entrada" />
+          </Key>
+          <Property Name="id_entrada" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fecha" Type="DateTime" Precision="0" />
+          <Property Name="proveedor" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="factura" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="cantidad" Type="Double" />
+          <Property Name="id_insumo" Type="Int32" />
+          <Property Name="descripcion_insumo" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SalidasInventario">
+          <Key>
+            <PropertyRef Name="id_salida" />
+          </Key>
+          <Property Name="id_salida" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fecha" Type="DateTime" Precision="0" />
+          <Property Name="presupuesto" Type="Double" />
+          <Property Name="factura" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="orden_trabajo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="cantidad" Type="Double" />
+          <Property Name="id_insumo" Type="Int32" />
+          <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3824,6 +3930,12 @@
           <EntitySetMapping Name="FacturaDigital">
             <EntityTypeMapping TypeName="ImpresosBDModel.FacturaDigital">
               <MappingFragment StoreEntitySet="FacturaDigital">
+                <ScalarProperty Name="ine_id_contabilidad" ColumnName="ine_id_contabilidad" />
+                <ScalarProperty Name="ine_ambito" ColumnName="ine_ambito" />
+                <ScalarProperty Name="ine_entidad" ColumnName="ine_entidad" />
+                <ScalarProperty Name="ine_clave_contabilidad" ColumnName="ine_clave_contabilidad" />
+                <ScalarProperty Name="ine_tipo_comite" ColumnName="ine_tipo_comite" />
+                <ScalarProperty Name="ine_tipo_proceso" ColumnName="ine_tipo_proceso" />
                 <ScalarProperty Name="uso_cfdi" ColumnName="uso_cfdi" />
                 <ScalarProperty Name="forma_pago" ColumnName="forma_pago" />
                 <ScalarProperty Name="cadena_original" ColumnName="cadena_original" />
@@ -4030,6 +4142,7 @@
           <EntitySetMapping Name="Parcialidades">
             <EntityTypeMapping TypeName="ImpresosBDModel.Parcialidades">
               <MappingFragment StoreEntitySet="Parcialidades">
+                <ScalarProperty Name="folio" ColumnName="folio" />
                 <ScalarProperty Name="estado" ColumnName="estado" />
                 <ScalarProperty Name="cadena_original" ColumnName="cadena_original" />
                 <ScalarProperty Name="sello_sat" ColumnName="sello_sat" />
@@ -4152,6 +4265,52 @@
                 <ScalarProperty Name="id_valor" ColumnName="id_valor" />
                 <ScalarProperty Name="ultimo_cambio" ColumnName="ultimo_cambio" />
                 <ScalarProperty Name="numero_orden" ColumnName="numero_orden" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Categorias">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Categorias">
+              <MappingFragment StoreEntitySet="Categorias">
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id_categoria" ColumnName="id_categoria" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Insumos">
+            <EntityTypeMapping TypeName="ImpresosBDModel.Insumos">
+              <MappingFragment StoreEntitySet="Insumos">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="stock" ColumnName="stock" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="id_categoria" ColumnName="id_categoria" />
+                <ScalarProperty Name="id_insumo" ColumnName="id_insumo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EntradasInventario">
+            <EntityTypeMapping TypeName="ImpresosBDModel.EntradasInventario">
+              <MappingFragment StoreEntitySet="EntradasInventario">
+                <ScalarProperty Name="descripcion_insumo" ColumnName="descripcion_insumo" />
+                <ScalarProperty Name="id_insumo" ColumnName="id_insumo" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="factura" ColumnName="factura" />
+                <ScalarProperty Name="proveedor" ColumnName="proveedor" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="id_entrada" ColumnName="id_entrada" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalidasInventario">
+            <EntityTypeMapping TypeName="ImpresosBDModel.SalidasInventario">
+              <MappingFragment StoreEntitySet="SalidasInventario">
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="id_insumo" ColumnName="id_insumo" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="orden_trabajo" ColumnName="orden_trabajo" />
+                <ScalarProperty Name="factura" ColumnName="factura" />
+                <ScalarProperty Name="presupuesto" ColumnName="presupuesto" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="id_salida" ColumnName="id_salida" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

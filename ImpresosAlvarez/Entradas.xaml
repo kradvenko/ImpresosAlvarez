@@ -19,7 +19,7 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -50,14 +50,14 @@
         </Border>
 
         <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Fecha"></Label>
+        <DatePicker x:Name="dpFecha" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" SelectedDateChanged="dpFecha_SelectedDateChanged"/>
 
-        <DataGrid x:Name="dgConceptos" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="8" Grid.RowSpan="9" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid x:Name="dgEntradas" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="8" Grid.RowSpan="9" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Proveedor" Binding="{Binding Path=Cantidad}" Width="2*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Factura" Binding="{Binding Path=Descripcion}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Cantidad" Binding="{Binding Path=Descripcion}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Código" Binding="{Binding Path=Descripcion}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Descripción" Binding="{Binding Path=Descripcion}" Width="5*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Proveedor" Binding="{Binding Path=proveedor}" Width="2*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Factura" Binding="{Binding Path=factura}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Cantidad" Binding="{Binding Path=cantidad}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Descripción" Binding="{Binding Path=descripcion_insumo}" Width="5*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 

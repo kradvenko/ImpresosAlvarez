@@ -21,6 +21,7 @@ using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -44,6 +45,7 @@ namespace ImpresosAlvarez
         Clientes _clienteElegido;
         List<Contribuyentes> _contribuyentes;
         List<ComplementoPagoData> _complementos;
+        List<Parcialidades> _parcialidades;
 
         public float Subtotal;
         public float Total;
@@ -157,8 +159,8 @@ namespace ImpresosAlvarez
                                 Pagada = f.pagada
                             }
                         )
-                        .Where(F => F.IdCliente == c.id_cliente && F.Estado == "ACTIVO" && F.IdContribuyente == cb.id_contribuyente && F.Pagada == "NO")
-                        //.Where(F => F.IdCliente == c.id_cliente && F.Estado == "ACTIVO" && F.IdContribuyente == cb.id_contribuyente)
+                        //.Where(F => F.IdCliente == c.id_cliente && F.Estado == "ACTIVO" && F.IdContribuyente == cb.id_contribuyente && F.Pagada == "NO")
+                        .Where(F => F.IdCliente == c.id_cliente && F.Estado == "ACTIVO" && F.IdContribuyente == cb.id_contribuyente)
                         .ToList();
 
                     dgFacturas.ItemsSource = facts;
@@ -253,7 +255,10 @@ namespace ImpresosAlvarez
             if (timbreValido)
             {
                 ActualizarParcialidad();
-                EnviarPorCorreo();
+                Thread email = new Thread(EnviarPorCorreo);
+                email.Start();
+                this.Close();
+                //EnviarPorCorreo();
             }
         }
         public static byte[] HexToString(string hex)
@@ -480,7 +485,7 @@ namespace ImpresosAlvarez
             xPago.Attributes.Append(xa);
 
             xa = xCom.CreateAttribute("Monto");
-            xa.Value = Total.ToString();
+            xa.Value = Math.Round(Total, 2).ToString();
             xPago.Attributes.Append(xa);
 
             foreach (ComplementoPagoData item in dgComplemento.Items)
@@ -646,6 +651,9 @@ namespace ImpresosAlvarez
                     cont = dbContext.Contribuyentes.Where(C => C.id_contribuyente == idContribuyente).FirstOrDefault();
                     FolioActual = int.Parse(cont.num_complemento);
                     cont.num_complemento = (int.Parse(cont.num_complemento) + 1).ToString();
+
+                    parce.folio = FolioActual.ToString();
+
                     dbContext.SaveChanges();
 
                     idParcialidad = int.Parse(cont.num_complemento);
@@ -1399,8 +1407,8 @@ namespace ImpresosAlvarez
                         mail.From = new MailAddress(config.correo);
 
                         mail.To.Add(item.correo);
-                        mail.Subject = "Envío de información de facturas - Alvarez Impresores";
-                        mail.Body = "Saludos, envío la información de las facturas. Recuerde: después de 72 horas no se pueden cancelar.";
+                        mail.Subject = "Envío de información de complementos - Alvarez Impresores";
+                        mail.Body = "Saludos, envío la información de los complementos. Recuerde: después de 72 horas no se pueden cancelar.";
 
                         if (rutaPDF.Length > 0)
                         {
@@ -1514,15 +1522,19 @@ namespace ImpresosAlvarez
                             if (parce != null)
                             {
                                 parcialidad = (parce.parcialidad + 1).ToString();
+                                parcialidad = AddDecimals(parcialidad);
                                 saldoAnterior = parce.insoluto.ToString();
+                                saldoAnterior = AddDecimals(saldoAnterior);
                             }
                             else
                             {
                                 saldoAnterior = fact.Total;
+                                saldoAnterior = AddDecimals(saldoAnterior);
                                 saldoInsoluto = fact.Total;
+                                saldoInsoluto = AddDecimals(saldoInsoluto);
                             }
 
-                            ComplementoPagoData comp = new ComplementoPagoData { UUID = uuid, Serie = serie, Folio = folio, Parcialidad = parcialidad, SaldoAnterior = saldoAnterior, Pagado = pagado, SaldoInsoluto = saldoInsoluto, IdFactura = IdFactura };
+                            ComplementoPagoData comp = new ComplementoPagoData { UUID = uuid, Serie = serie, Folio = folio, Parcialidad = parcialidad, SaldoAnterior = saldoAnterior, Pagado = AddDecimals(pagado), SaldoInsoluto = saldoInsoluto, IdFactura = IdFactura };
                             _complementos.Add(comp);
                             dgComplemento.ItemsSource = null;
                             dgComplemento.ItemsSource = _complementos;
@@ -1534,6 +1546,25 @@ namespace ImpresosAlvarez
                 {
                     MessageBox.Show("No se puede agregar la factura.");
                 }
+            }
+        }
+
+        private void dgFacturas_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            try
+            {
+                FacturaComplemento f = (FacturaComplemento)dgFacturas.SelectedItem;
+
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    _parcialidades = dbContext.Parcialidades.Where(P => P.id_factura == f.IdFactura).ToList();
+                    dgParcialidades.ItemsSource = null;
+                    dgParcialidades.ItemsSource = _parcialidades;
+                }
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show("Error: " + exc.Message);
             }
         }
     }

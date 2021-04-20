@@ -261,16 +261,19 @@ namespace ImpresosAlvarez
 
         private void tbFolio_KeyUp(object sender, KeyEventArgs e)
         {
-            int folio = 0;
-            if (tbFolio.Text.Length > 0)
+            if (e.Key == Key.Enter)
             {
-                if (int.TryParse(tbFolio.Text, out folio))
+                int folio = 0;
+                if (tbFolio.Text.Length > 0)
                 {
-                    folio = int.Parse(tbFolio.Text);
+                    if (int.TryParse(tbFolio.Text, out folio))
+                    {
+                        folio = int.Parse(tbFolio.Text);
+                    }
                 }
+                TipoBusqueda = "FOLIO";
+                BuscarComplementos();
             }
-            TipoBusqueda = "FOLIO";
-            BuscarComplementos();
         }
 
         private void btnVerTodas_Click(object sender, RoutedEventArgs e)
@@ -285,7 +288,7 @@ namespace ImpresosAlvarez
                 using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                 {
                     //_facturas = dbContext.Facturas.Where(F => F.Numero == folio.ToString()).ToList();
-                    String fecha = dpFecha.SelectedDate.Value.ToShortDateString();
+                    //String fecha = dpFecha.SelectedDate.Value.ToShortDateString();
 
                     var comps = dbContext.Parcialidades
                         .Join(
@@ -316,7 +319,7 @@ namespace ImpresosAlvarez
                                 f.NumeroFactura,
                                 FechaFactura = f.FechaFactura.Substring(0, 10),
                                 f.NumeroParcialidad,
-                                FechaComplemento = f.FechaComplemento.Value.ToShortDateString(),
+                                FechaComplemento = f.FechaComplemento.Value,
                                 f.EstadoComplemento,
                                 TotalComplemento = Math.Round((double)f.TotalComplemento, 2),
                                 Contribuyente = c.nombre

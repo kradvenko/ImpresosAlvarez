@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImpresosAlvarez.Entity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,7 @@ namespace ImpresosAlvarez
     /// </summary>
     public partial class Salidas : Window
     {
+        List<SalidasInventario> SalidasDia;
         public Salidas()
         {
             InitializeComponent();
@@ -26,17 +28,37 @@ namespace ImpresosAlvarez
 
         private void btnNuevaSalida_Click(object sender, RoutedEventArgs e)
         {
-
+            ControlSalidaInventario salida = new ControlSalidaInventario(this, "NUEVO", null);
+            salida.ShowDialog();
         }
 
         private void btnCerrar_Click(object sender, RoutedEventArgs e)
         {
-
+            this.Close();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        public void CargarSalidas()
+        {
+            if (dpFecha.SelectedDate != null)
+            {
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    DateTime Fecha = dpFecha.SelectedDate.Value.Date;
+                    SalidasDia = dbContext.SalidasInventario.Where(E => E.fecha == Fecha).ToList();
+                    dgSalidas.ItemsSource = null;
+                    dgSalidas.ItemsSource = SalidasDia;
+                }
+            }
+        }
+
+        private void dpFecha_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CargarSalidas();
         }
     }
 }

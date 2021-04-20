@@ -6,7 +6,7 @@
         xmlns:Syncfusion="clr-namespace:Syncfusion.Windows.Controls.Input;assembly=Syncfusion.SfInput.Wpf"
         xmlns:local="clr-namespace:ImpresosAlvarez"
         mc:Ignorable="d"
-        Title="Control Complementos" Height="600" Width="970" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+        Title="Control Complementos" Height="600" Width="970" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" WindowState="Maximized">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -66,7 +66,7 @@
                 </DataTemplate>
             </Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
         </Syncfusion:SfTextBoxExt>
-        <Label Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Buscar Folio"></Label>
+        <Label Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Buscar Numero Factura"></Label>
         <TextBox x:Name="tbFolio" Grid.Column="5" Grid.Row="1" Style="{StaticResource TextBox01}" Text="" KeyUp="tbFolio_KeyUp"></TextBox>
         <Label Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Buscar Fecha"></Label>
         <DatePicker x:Name="dpFecha" Grid.Column="7" Grid.Row="1" SelectedDateChanged="dpFecha_SelectedDateChanged"></DatePicker>

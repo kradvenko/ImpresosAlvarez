@@ -42,17 +42,14 @@
         <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBlack}" Content="Categoría"></Label>
         <ComboBox x:Name="cbCategorias" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MaxHeight="50" Style="{StaticResource ComboBoxFlatStyle}">
         </ComboBox>
-
-        <Label Grid.Column="0" Grid.Row="2" Style="{StaticResource LabelBlack}" Content="Código"></Label>
-        <TextBox x:Name="tbCodigo" Grid.Column="1" Grid.Row="2" Style="{StaticResource TextBox01}"></TextBox>
-
-        <Label Grid.Column="0" Grid.Row="3" Style="{StaticResource LabelBlack}" Content="Descripción"></Label>
-        <TextBox x:Name="tbDescripcion" Grid.Column="1" Grid.Row="3" Style="{StaticResource TextBox01}"></TextBox>
-
-        <Label Grid.Column="0" Grid.Row="4" Style="{StaticResource LabelBlack}" Content="Stock"></Label>
-        <TextBox x:Name="tbStock" Grid.Column="1" Grid.Row="4" Style="{StaticResource TextBox01}"></TextBox>
         
-        <Button x:Name="btnAgregarConcepto" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Guardar" Click="btnAgregarConcepto_Click"></Button>
+        <Label Grid.Column="0" Grid.Row="2" Style="{StaticResource LabelBlack}" Content="Descripción"></Label>
+        <TextBox x:Name="tbDescripcion" Grid.Column="1" Grid.Row="2" Style="{StaticResource TextBox01}"></TextBox>
+
+        <Label Grid.Column="0" Grid.Row="3" Style="{StaticResource LabelBlack}" Content="Stock"></Label>
+        <TextBox x:Name="tbStock" Grid.Column="1" Grid.Row="3" Style="{StaticResource TextBox01}"></TextBox>
+        
+        <Button x:Name="btnGuardar" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Guardar" Click="btnGuardar_Click"></Button>
         <Button x:Name="btnCerrar" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cerrar" Click="btnCerrar_Click"></Button>
     </Grid>
 </Window>

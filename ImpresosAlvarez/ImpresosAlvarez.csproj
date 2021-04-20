@@ -13,10 +13,10 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <Deterministic>true</Deterministic>
-    <IsWebBootstrapper>true</IsWebBootstrapper>
-    <PublishUrl>publish\</PublishUrl>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>C:\Publish\ImpresosAlvarez\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Web</InstallFrom>
+    <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -24,12 +24,10 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <InstallUrl>http://impresosalvarez.atwebpages.com/</InstallUrl>
     <UpdateUrl>http://impresosalvarez.atwebpages.com/</UpdateUrl>
-    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>36</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationVersion>1.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -162,15 +160,20 @@
     <Compile Include="Clases\ComplementoPagoData.cs" />
     <Compile Include="Clases\ConceptoFactura.cs" />
     <Compile Include="Clases\CotizacionLlenado.cs" />
+    <Compile Include="Clases\Entrada.cs" />
     <Compile Include="Clases\Factura.cs" />
     <Compile Include="Clases\FacturaComplemento.cs" />
     <Compile Include="Clases\opensslkey.cs" />
     <Compile Include="Clases\ProductoServicioAutocomplete.cs" />
+    <Compile Include="Clases\Salida.cs" />
     <Compile Include="ComplementoPago.xaml.cs">
       <DependentUpon>ComplementoPago.xaml</DependentUpon>
     </Compile>
     <Compile Include="ComplementoPagoControl.xaml.cs">
       <DependentUpon>ComplementoPagoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlComplementoINE.xaml.cs">
+      <DependentUpon>ControlComplementoINE.xaml</DependentUpon>
     </Compile>
     <Compile Include="ControlComplementos.xaml.cs">
       <DependentUpon>ControlComplementos.xaml</DependentUpon>
@@ -191,6 +194,9 @@
       <DependentUpon>ControlSalidaInventario.xaml</DependentUpon>
     </Compile>
     <Compile Include="Entity\Bitacora.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Categorias.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\Clientes.cs">
@@ -215,6 +221,9 @@
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\Disenos.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\EntradasInventario.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\Entrega.cs">
@@ -249,6 +258,9 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ImpresosEntities.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\Insumos.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\Materia.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
@@ -373,6 +385,9 @@
     <Compile Include="Entity\Salidas.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\SalidasInventario.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\Terminado.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
@@ -438,6 +453,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ComplementoPagoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlComplementoINE.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

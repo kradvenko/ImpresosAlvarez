@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Syncfusion="clr-namespace:Syncfusion.Windows.Controls.Input;assembly=Syncfusion.SfInput.Wpf"
         xmlns:local="clr-namespace:ImpresosAlvarez"
         mc:Ignorable="d"
         Title="Entrada de Inventario" Height="300" Width="400" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
@@ -40,7 +41,7 @@
         </Border>
 
         <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBlack}" Content="Fecha"></Label>
-        
+        <DatePicker x:Name="dpFecha" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1"/>
 
         <Label Grid.Column="0" Grid.Row="2" Style="{StaticResource LabelBlack}" Content="Proveedor"></Label>
         <TextBox x:Name="tbProveedor" Grid.Column="1" Grid.Row="2" Style="{StaticResource TextBox01}"></TextBox>
@@ -52,6 +53,21 @@
         <TextBox x:Name="tbCantidad" Grid.Column="1" Grid.Row="4" Style="{StaticResource TextBox01}"></TextBox>
 
         <Label Grid.Column="0" Grid.Row="5" Style="{StaticResource LabelBlack}" Content="Insumo"></Label>
+        <Syncfusion:SfTextBoxExt Grid.Column="1" Grid.Row="5" Margin="2" x:Name="tbInsumos"
+                             Watermark="Escribe el nombre del insumo."                                     
+                             AutoCompleteMode="SuggestAppend" AutoCompleteSource="{Binding _insumos}" SearchItemPath="descripcion"
+                             SuggestionMode="Contains"
+                             WatermarkTemplate="{StaticResource WatermarkTemplate}"                             
+                             SelectedItemChanged="tbInsumos_SelectedItemChanged"
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CharacterCasing="Upper" Grid.ColumnSpan="4">
+            <Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding descripcion}" Margin="3 0 0 0" />
+                    </StackPanel>
+                </DataTemplate>
+            </Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+        </Syncfusion:SfTextBoxExt>
         
 
         <Button x:Name="btnAgregarEntrada" Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Guardar" Click="btnAgregarEntrada_Click"></Button>

@@ -25,5 +25,11 @@ namespace ImpresosAlvarez.Entity
         public string cadena_original { get; set; }
         public string forma_pago { get; set; }
         public string uso_cfdi { get; set; }
+        public string ine_tipo_proceso { get; set; }
+        public string ine_tipo_comite { get; set; }
+        public string ine_clave_contabilidad { get; set; }
+        public string ine_entidad { get; set; }
+        public string ine_ambito { get; set; }
+        public string ine_id_contabilidad { get; set; }
     }
 }

@@ -127,6 +127,14 @@ namespace ImpresosAlvarez
             datosFacturaElectronica.fechaTimbrado = "FECHATIMBRADO";
             datosFacturaElectronica.uuid = "UUID";
 
+            //Para complemento INE
+            datosFacturaElectronica.IneTipoProceso = "";
+            datosFacturaElectronica.IneTipoComite = "";
+            datosFacturaElectronica.IneIdContabilidad = "";
+            datosFacturaElectronica.IneEntidad = "";
+            datosFacturaElectronica.IneClaveContabilidad = "";
+            datosFacturaElectronica.IneAmbito = "";
+
             timbreValido = false;
 
             using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
@@ -217,7 +225,7 @@ namespace ImpresosAlvarez
             Total = float.Parse(Math.Round(Total, 2).ToString());
 
             //lblTotalImpuestos.Content = "$ " + datosFacturaElectronica.totalImpuestos;
-            lblTotal.Content = "$ " + Total.ToString();
+            lblTotal.Content = "$ " + Total.ToString() + " (" + ConvertirALetra(Total.ToString()) + ") ";
         }
 
         private void btnAgregarConcepto_Click(object sender, RoutedEventArgs e)
@@ -730,6 +738,69 @@ namespace ImpresosAlvarez
             xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Impuestos//@TotalImpuestosTrasladados", nms);
             xAttrib.Value = AddDecimals(impuestoTotal.ToString());
 
+            if (datosFacturaElectronica.IneTipoProceso.Length > 0)
+            {
+                XmlNode xComprobante = xDoc.SelectSingleNode("//cfdi:Comprobante", nms);
+                XmlNode xComplemento;
+
+                xComplemento = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Complemento", "http://www.sat.gob.mx/cfd/3");
+
+                XmlNode xComplementoINE = xDoc.CreateNode(XmlNodeType.Element, "ine", "INE", "http://www.sat.gob.mx/ine");
+
+                xa = xDoc.CreateAttribute("Version");
+                xa.Value = "1.1";
+                xComplementoINE.Attributes.Append(xa);
+
+                xa = xDoc.CreateAttribute("TipoProceso");
+                xa.Value = datosFacturaElectronica.IneTipoProceso;
+                xComplementoINE.Attributes.Append(xa);
+
+                if (datosFacturaElectronica.IneTipoProceso == "Ordinario")
+                {
+                    xa = xDoc.CreateAttribute("TipoComite");
+                    xa.Value = datosFacturaElectronica.IneTipoComite;
+                    xComplementoINE.Attributes.Append(xa);
+
+                    if (datosFacturaElectronica.IneTipoComite == "Ejecutivo Nacional")
+                    {
+                        xa = xDoc.CreateAttribute("IdContabilidad");
+                        xa.Value = datosFacturaElectronica.IneClaveContabilidad;
+                        xComplementoINE.Attributes.Append(xa);
+                    }
+
+                    xComplemento.AppendChild(xComplementoINE);
+                    xComprobante.AppendChild(xComplemento);
+                }
+                else
+                {
+                    XmlNode xNodoEntidad = xDoc.CreateNode(XmlNodeType.Element, "ine", "Entidad", "http://www.sat.gob.mx/ine");
+
+                    xa = xDoc.CreateAttribute("ClaveEntidad");
+                    xa.Value = datosFacturaElectronica.IneEntidad;
+                    xNodoEntidad.Attributes.Append(xa);
+
+                    xa = xDoc.CreateAttribute("Ambito");
+                    xa.Value = datosFacturaElectronica.IneAmbito;
+                    xNodoEntidad.Attributes.Append(xa);
+
+                    if (datosFacturaElectronica.IneIdContabilidad.Length > 0)
+                    {
+                        XmlNode xNodoIdContabilidad = xDoc.CreateNode(XmlNodeType.Element, "ine", "Contabilidad", "http://www.sat.gob.mx/ine");
+
+                        xa = xDoc.CreateAttribute("IdContabilidad");
+                        xa.Value = datosFacturaElectronica.IneIdContabilidad;
+                        xNodoIdContabilidad.Attributes.Append(xa);
+
+                        xNodoEntidad.AppendChild(xNodoIdContabilidad);
+                    }
+
+                    xComplementoINE.AppendChild(xNodoEntidad);
+                    xComplemento.AppendChild(xComplementoINE);
+                    xComprobante.AppendChild(xComplemento);
+                }
+
+            }
+
             XML = xDoc.InnerXml;
 
             File.WriteAllText(@"C:\Impresos\Facturacion\XML_3_3.xml", XML);
@@ -886,7 +957,7 @@ namespace ImpresosAlvarez
                 .SetFont(fb)
                 .SetFontSize(fs)
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(datosFacturaElectronica.domicilioEmisorColonia + " CP " + datosFacturaElectronica.domicilioEmisorCodigoPostal + " " + datosFacturaElectronica.domicilioEmisorMunicipio + " " + datosFacturaElectronica.domicilioEmisorEstado + "\nTel 212-66-46 Fax 216-64-22")));
+                .Add(new Paragraph(datosFacturaElectronica.domicilioEmisorColonia + " CP " + datosFacturaElectronica.domicilioEmisorCodigoPostal + " " + datosFacturaElectronica.domicilioEmisorMunicipio + " " + datosFacturaElectronica.domicilioEmisorEstado + "\nTel 311-217-13-35 311-217-85-17")));
 
             table.AddCell(new Cell(1, 2)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
@@ -1392,61 +1463,23 @@ namespace ImpresosAlvarez
                 .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
                 .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.iva))));
 
-            if (datosFacturaElectronica.retencionIva != "0")
+            if (datosFacturaElectronica.IneTipoProceso.Length > 0)
             {
-                table.AddCell(new Cell(1, 9)
+                table.AddCell(new Cell(1, 8)
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
                     .SetFont(fb)
                     .SetFontSize(fs)
                     .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
                     .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("Retención IVA: ")));
+                    .Add(new Paragraph("Complemento INE Tipo Proceso: ")));
 
-                table.AddCell(new Cell(1, 1)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                    .SetFont(f)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.retencionIva))));
-            }
-
-            if (datosFacturaElectronica.retencionIsr != "0")
-            {
-                table.AddCell(new Cell(1, 9)
+                table.AddCell(new Cell(1, 2)
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
                     .SetFont(fb)
                     .SetFontSize(fs)
                     .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
                     .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("Retención ISR: ")));
-
-                table.AddCell(new Cell(1, 1)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                    .SetFont(f)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.retencionIsr))));
-            }
-
-            if (datosFacturaElectronica.retencionCedular != "0")
-            {
-                table.AddCell(new Cell(1, 9)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
-                    .SetFont(fb)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("Retención Cedular: ")));
-
-                table.AddCell(new Cell(1, 1)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                    .SetFont(f)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.retencionCedular))));
+                    .Add(new Paragraph(datosFacturaElectronica.IneTipoProceso)));
             }
 
             table.AddCell(new Cell(1, 9)
@@ -1463,81 +1496,12 @@ namespace ImpresosAlvarez
                 .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
                 .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.total))));
 
-            if (datosFacturaElectronica.derechosRPP != "0")
-            {
-                table.AddCell(new Cell(1, 7)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                    .SetFont(fb)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("Cobro derechos RPP: ")));
-
-                table.AddCell(new Cell(1, 3)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
-                    .SetFont(f)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.derechosRPP))));
-            }
-
-            if (datosFacturaElectronica.otrosDerechos != "0")
-            {
-                table.AddCell(new Cell(1, 7)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                    .SetFont(fb)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("Otros derechos: ")));
-
-                table.AddCell(new Cell(1, 3)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
-                    .SetFont(f)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.otrosDerechos))));
-            }
-
-            if (datosFacturaElectronica.derechosRPP != "0")
-            {
-                table.AddCell(new Cell(1, 7)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                    .SetFont(fb)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("Impuesto por adquisición: ")));
-
-                table.AddCell(new Cell(1, 3)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
-                    .SetFont(f)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.adquisicion))));
-            }
-
-            if (datosFacturaElectronica.honorarios != "0")
-            {
-                table.AddCell(new Cell(1, 7)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                    .SetFont(fb)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("Honorarios: ")));
-
-                table.AddCell(new Cell(1, 3)
-                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
-                    .SetFont(f)
-                    .SetFontSize(fs)
-                    .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
-                    .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.honorarios))));
-            }
+            table.AddCell(new Cell(1, 10)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
+                .SetFont(fb)
+                .SetFontSize(fs)
+                .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph(ConvertirALetra(datosFacturaElectronica.total))));
 
             table.AddCell(new Cell(1, 10)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
@@ -2023,6 +1987,369 @@ namespace ImpresosAlvarez
             _conceptos.Add(nuevaOrden);
             dgConceptos.ItemsSource = null;
             dgConceptos.ItemsSource = _conceptos;
+        }
+        private string ConvertirALetra(string numero)
+        {
+            int longitud;
+            int pos;
+            string sinpunto;
+            string aLetra;
+            string tempL;
+            string conpunto;
+            tempL = "";
+            if (numero.Contains('.') == true)
+            {
+                sinpunto = numero.Remove(numero.IndexOf('.'));
+                conpunto = numero.Substring(numero.IndexOf('.') + 1);
+                if (conpunto.Length == 1)
+                {
+                    conpunto = conpunto + "0";
+                }
+                if (conpunto.Length > 2)
+                {
+                    conpunto = conpunto.Substring(0, 2);
+                }
+            }
+            else
+            {
+                sinpunto = numero;
+                conpunto = "00";
+            }
+
+            longitud = sinpunto.Length;
+
+            aLetra = "";
+
+            for (int i = 0; i < longitud; i++)
+            {
+                pos = longitud - i;
+                switch (sinpunto[i])
+                {
+                    case '0':
+                        tempL = "";
+                        break;
+                    case '1':
+                        switch (pos)
+                        {
+                            case 9:
+                            case 6:
+                            case 3:
+                                tempL = "UN CIENTO";
+                                break;
+                            case 8:
+                            case 5:
+                            case 2:
+                                switch (sinpunto[i + 1])
+                                {
+                                    case '1':
+                                        tempL = "ONCE";
+                                        break;
+                                    case '2':
+                                        tempL = "DOCE";
+                                        break;
+                                    case '3':
+                                        tempL = "TRECE";
+                                        break;
+                                    case '4':
+                                        tempL = "CATORCE";
+                                        break;
+                                    case '5':
+                                        tempL = "QUINCE";
+                                        break;
+                                    default:
+                                        tempL = "DIEZ";
+                                        break;
+                                }
+                                break;
+                            case 7:
+                            case 4:
+                            case 1:
+                                if (i - 1 < 0)
+                                {
+                                    tempL = "UN";
+                                }
+                                else
+                                {
+                                    switch (sinpunto[i - 1])
+                                    {
+                                        case '1':
+                                            tempL = "";
+                                            break;
+                                        default:
+                                            tempL = "Y UN";
+                                            break;
+                                    }
+                                }
+                                break;
+                        }
+                        break;
+                    case '2':
+                        switch (pos)
+                        {
+                            case 9:
+                            case 6:
+                            case 3:
+                                tempL = "DOS CIENTOS";
+                                break;
+                            case 8:
+                            case 5:
+                            case 2:
+                                tempL = "VEINTE";
+                                break;
+                            case 7:
+                            case 4:
+                            case 1:
+                                if (i - 1 < 0)
+                                {
+                                    tempL = "DOS";
+                                }
+                                else
+                                {
+                                    switch (sinpunto[i - 1])
+                                    {
+                                        case '1':
+                                            tempL = "";
+                                            break;
+                                        default:
+                                            tempL = "Y DOS";
+                                            break;
+                                    }
+                                }
+                                break;
+                        }
+                        break;
+                    case '3':
+                        switch (pos)
+                        {
+                            case 9:
+                            case 6:
+                            case 3:
+                                tempL = "TRES CIENTOS";
+                                break;
+                            case 8:
+                            case 5:
+                            case 2:
+                                tempL = "TREINTA";
+                                break;
+                            case 7:
+                            case 4:
+                            case 1:
+                                if (i - 1 < 0)
+                                {
+                                    tempL = "TRES";
+                                }
+                                else
+                                {
+                                    switch (sinpunto[i - 1])
+                                    {
+                                        case '1':
+                                            tempL = "";
+                                            break;
+                                        default:
+                                            tempL = "Y TRES";
+                                            break;
+                                    }
+                                }
+                                break;
+                        }
+                        break;
+                    case '4':
+                        switch (pos)
+                        {
+                            case 9:
+                            case 6:
+                            case 3:
+                                tempL = "CUATRO CIENTOS";
+                                break;
+                            case 8:
+                            case 5:
+                            case 2:
+                                tempL = "CUARENTA";
+                                break;
+                            case 7:
+                            case 4:
+                            case 1:
+                                if (i - 1 < 0)
+                                {
+                                    tempL = "CUATRO";
+                                }
+                                else
+                                {
+                                    switch (sinpunto[i - 1])
+                                    {
+                                        case '1':
+                                            tempL = "";
+                                            break;
+                                        default:
+                                            tempL = "Y CUATRO";
+                                            break;
+                                    }
+                                }
+                                break;
+                        }
+                        break;
+                    case '5':
+                        switch (pos)
+                        {
+                            case 9:
+                            case 6:
+                            case 3:
+                                tempL = "QUINIENTOS";
+                                break;
+                            case 8:
+                            case 5:
+                            case 2:
+                                tempL = "CINCUENTA";
+                                break;
+                            case 7:
+                            case 4:
+                            case 1:
+                                if (i - 1 < 0)
+                                {
+                                    tempL = "CINCO";
+                                }
+                                else
+                                {
+                                    switch (sinpunto[i - 1])
+                                    {
+                                        case '1':
+                                            tempL = "";
+                                            break;
+                                        default:
+                                            tempL = "Y CINCO";
+                                            break;
+                                    }
+                                }
+                                break;
+                        }
+                        break;
+                    case '6':
+                        switch (pos)
+                        {
+                            case 9:
+                            case 6:
+                            case 3:
+                                tempL = "SEIS CIENTOS";
+                                break;
+                            case 8:
+                            case 5:
+                            case 2:
+                                tempL = "SESENTA";
+                                break;
+                            case 7:
+                            case 4:
+                            case 1:
+                                if (i - 1 < 0)
+                                {
+                                    tempL = "SEIS";
+                                }
+                                else
+                                {
+                                    tempL = "Y SEIS";
+                                }
+                                break;
+                        }
+                        break;
+                    case '7':
+                        switch (pos)
+                        {
+                            case 9:
+                            case 6:
+                            case 3:
+                                tempL = "SIETE CIENTOS";
+                                break;
+                            case 8:
+                            case 5:
+                            case 2:
+                                tempL = "SETENTA";
+                                break;
+                            case 7:
+                            case 4:
+                            case 1:
+                                if (i - 1 < 0)
+                                {
+                                    tempL = "SIETE";
+                                }
+                                else
+                                {
+                                    tempL = "Y SIETE";
+                                }
+                                break;
+                        }
+                        break;
+                    case '8':
+                        switch (pos)
+                        {
+                            case 9:
+                            case 6:
+                            case 3:
+                                tempL = "OCHO CIENTOS";
+                                break;
+                            case 8:
+                            case 5:
+                            case 2:
+                                tempL = "OCHENTA";
+                                break;
+                            case 7:
+                            case 4:
+                            case 1:
+                                if (i - 1 < 0)
+                                {
+                                    tempL = "OCHO";
+                                }
+                                else
+                                {
+                                    tempL = "Y OCHO";
+                                }
+                                break;
+                        }
+                        break;
+                    case '9':
+                        switch (pos)
+                        {
+                            case 9:
+                            case 6:
+                            case 3:
+                                tempL = "NOVECIENTOS";
+                                break;
+                            case 8:
+                            case 5:
+                            case 2:
+                                tempL = "NOVENTA";
+                                break;
+                            case 7:
+                            case 4:
+                            case 1:
+                                if (i - 1 < 0)
+                                {
+                                    tempL = "NUEVE";
+                                }
+                                else
+                                {
+                                    tempL = "Y NUEVE";
+                                }
+                                break;
+                        }
+                        break;
+                }
+
+                if (pos == 4)
+                {
+                    tempL = tempL + " MIL";
+                }
+                if (tempL != "")
+                {
+                    aLetra = aLetra + " " + tempL;
+                }
+            }
+
+            return (aLetra + " PESOS " + conpunto + "/100 M.N.");
+        }
+
+        private void btnComplementoINE_Click(object sender, RoutedEventArgs e)
+        {
+            ControlComplementoINE ine = new ControlComplementoINE(this, datosFacturaElectronica);
+            ine.ShowDialog();
         }
     }
 }
