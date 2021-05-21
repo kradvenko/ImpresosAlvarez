@@ -26,7 +26,7 @@
     <MapFileExtensions>true</MapFileExtensions>
     <UpdateUrl>http://impresosalvarez.atwebpages.com/</UpdateUrl>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>1.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -415,6 +415,9 @@
     <Compile Include="FacturaDigital.xaml.cs">
       <DependentUpon>FacturaDigital.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MovimientosInventario.xaml.cs">
+      <DependentUpon>MovimientosInventario.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Salidas.xaml.cs">
       <DependentUpon>Salidas.xaml</DependentUpon>
     </Compile>
@@ -515,6 +518,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MovimientosInventario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Salidas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

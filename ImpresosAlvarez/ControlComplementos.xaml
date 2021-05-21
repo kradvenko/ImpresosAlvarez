@@ -71,7 +71,7 @@
         <Label Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Buscar Fecha"></Label>
         <DatePicker x:Name="dpFecha" Grid.Column="7" Grid.Row="1" SelectedDateChanged="dpFecha_SelectedDateChanged"></DatePicker>
 
-        <DataGrid x:Name="dgComplementos" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="8" Grid.RowSpan="7" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid x:Name="dgComplementos" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="8" Grid.RowSpan="7" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
@@ -91,14 +91,14 @@
                 </Style>
             </DataGrid.RowStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Folio Factura" Binding="{Binding Path=NumeroFactura}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Folio" Binding="{Binding Path=Folio}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Fecha Factura" Binding="{Binding Path=FechaFactura}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Contribuyente" Binding="{Binding Path=Contribuyente}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Cliente" Binding="{Binding Path=Cliente}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Parcialidad" Binding="{Binding Path=NumeroParcialidad}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Fecha Complemento" Binding="{Binding Path=FechaComplemento}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Total Complemento" Binding="{Binding Path=TotalComplemento}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Estado Complemento" Binding="{Binding Path=EstadoComplemento}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Pagada" Binding="{Binding Path=Pagada}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 

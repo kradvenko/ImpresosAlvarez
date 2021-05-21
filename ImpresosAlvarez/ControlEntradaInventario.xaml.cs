@@ -37,6 +37,7 @@ namespace ImpresosAlvarez
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            dpFecha.SelectedDate = DateTime.Now;
             CargarInsumos();
             if (Modo == "MODIFICAR")
             {

@@ -34,7 +34,7 @@ namespace ImpresosAlvarez
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            dpFecha.SelectedDate = DateTime.Now;
         }
 
         private void btnCerrar_Click(object sender, RoutedEventArgs e)

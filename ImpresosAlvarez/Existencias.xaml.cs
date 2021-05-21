@@ -98,5 +98,15 @@ namespace ImpresosAlvarez
                 MessageBox.Show("No ha elegido un insumo.");
             }
         }
+
+        private void btnVerMovimientos_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgInsumos.SelectedItem != null)
+            {
+                Insumos Insumo = (Insumos)dgInsumos.SelectedItem;
+                MovimientosInventario movimientos = new MovimientosInventario(Insumo);
+                movimientos.ShowDialog();
+            }
+        }
     }
 }

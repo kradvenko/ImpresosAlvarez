@@ -63,7 +63,9 @@ namespace ImpresosAlvarez
                                     NumeroParcialidad = parci.parcialidad,
                                     FechaComplemento = parci.fecha,
                                     TotalComplemento = parci.pagado,
-                                    EstadoComplemento = parci.estado
+                                    EstadoComplemento = parci.estado,
+                                    Folio = parci.folio,
+                                    Pagada = fact.pagada
                                 }
                             )
                             .Join(
@@ -79,6 +81,8 @@ namespace ImpresosAlvarez
                                     f.NumeroParcialidad,
                                     f.FechaComplemento,
                                     f.EstadoComplemento,
+                                    f.Folio,
+                                    f.Pagada,
                                     TotalComplemento = Math.Round((double)f.TotalComplemento, 2),
                                     Contribuyente = c.nombre
                                 }
@@ -96,6 +100,8 @@ namespace ImpresosAlvarez
                                     comb.NumeroParcialidad,
                                     comb.FechaComplemento,
                                     comb.EstadoComplemento,
+                                    comb.Folio,
+                                    comb.Pagada,
                                     comb.TotalComplemento,
                                     comb.Contribuyente,
                                     Cliente = cli.nombre
@@ -128,7 +134,9 @@ namespace ImpresosAlvarez
                                     NumeroParcialidad = parci.parcialidad,
                                     FechaComplemento = parci.fecha,
                                     TotalComplemento = parci.pagado,
-                                    EstadoComplemento = parci.estado
+                                    EstadoComplemento = parci.estado,
+                                    Folio = parci.folio,
+                                    Pagada = fact.pagada
                                 }
                             )
                             .Join(
@@ -144,6 +152,8 @@ namespace ImpresosAlvarez
                                     f.NumeroParcialidad,
                                     f.FechaComplemento,
                                     f.EstadoComplemento,
+                                    f.Folio,
+                                    f.Pagada,
                                     TotalComplemento = Math.Round((double)f.TotalComplemento, 2),
                                     Contribuyente = c.nombre
                                 }
@@ -161,6 +171,8 @@ namespace ImpresosAlvarez
                                     comb.NumeroParcialidad,
                                     comb.FechaComplemento,
                                     comb.EstadoComplemento,
+                                    comb.Folio,
+                                    comb.Pagada,
                                     comb.TotalComplemento,
                                     comb.Contribuyente,
                                     Cliente = cli.nombre
@@ -196,7 +208,9 @@ namespace ImpresosAlvarez
                                     NumeroParcialidad = parci.parcialidad,
                                     FechaComplemento = parci.fecha,
                                     TotalComplemento = parci.pagado,
-                                    EstadoComplemento = parci.estado
+                                    EstadoComplemento = parci.estado,
+                                    Folio = parci.folio,
+                                    Pagada = fact.pagada
                                 }
                             )
                             .Join(
@@ -212,6 +226,8 @@ namespace ImpresosAlvarez
                                     f.NumeroParcialidad,
                                     f.FechaComplemento,
                                     f.EstadoComplemento,
+                                    f.Folio,
+                                    f.Pagada,
                                     TotalComplemento = Math.Round((double)f.TotalComplemento, 2),
                                     Contribuyente = c.nombre
                                 }
@@ -229,6 +245,8 @@ namespace ImpresosAlvarez
                                     comb.NumeroParcialidad,
                                     comb.FechaComplemento,
                                     comb.EstadoComplemento,
+                                    comb.Folio,
+                                    comb.Pagada,
                                     comb.TotalComplemento,
                                     comb.Contribuyente,
                                     Cliente = cli.nombre
@@ -291,58 +309,64 @@ namespace ImpresosAlvarez
                     //String fecha = dpFecha.SelectedDate.Value.ToShortDateString();
 
                     var comps = dbContext.Parcialidades
-                        .Join(
-                            dbContext.Facturas,
-                            parci => parci.id_factura,
-                            fact => fact.id_factura,
-                            (parci, fact) => new
-                            {
-                                fact.id_contribuyente,
-                                fact.id_factura,
-                                fact.id_cliente,
-                                NumeroFactura = fact.numero,
-                                FechaFactura = fact.fecha,
-                                NumeroParcialidad = parci.parcialidad,
-                                FechaComplemento = parci.fecha,
-                                TotalComplemento = parci.pagado,
-                                EstadoComplemento = parci.estado
-                            }
-                        )
-                        .Join(
-                            dbContext.Contribuyentes,
-                            f => f.id_contribuyente,
-                            c => c.id_contribuyente,
-                            (f, c) => new
-                            {
-                                f.id_cliente,
-                                f.id_factura,
-                                f.NumeroFactura,
-                                FechaFactura = f.FechaFactura.Substring(0, 10),
-                                f.NumeroParcialidad,
-                                FechaComplemento = f.FechaComplemento.Value,
-                                f.EstadoComplemento,
-                                TotalComplemento = Math.Round((double)f.TotalComplemento, 2),
-                                Contribuyente = c.nombre
-                            }
-                        )
-                        .Join(
-                            dbContext.Clientes,
-                            comb => comb.id_cliente,
-                            cli => cli.id_cliente,
-                            (comb, cli) => new
-                            {
-                                comb.id_cliente,
-                                comb.id_factura,
-                                comb.NumeroFactura,
-                                comb.FechaFactura,
-                                comb.NumeroParcialidad,
-                                comb.FechaComplemento,
-                                comb.EstadoComplemento,
-                                comb.TotalComplemento,
-                                comb.Contribuyente,
-                                Cliente = cli.nombre
-                            }
-                        )
+                            .Join(
+                                dbContext.Facturas,
+                                parci => parci.id_factura,
+                                fact => fact.id_factura,
+                                (parci, fact) => new
+                                {
+                                    fact.id_contribuyente,
+                                    fact.id_factura,
+                                    fact.id_cliente,
+                                    NumeroFactura = fact.numero,
+                                    FechaFactura = fact.fecha,
+                                    NumeroParcialidad = parci.parcialidad,
+                                    FechaComplemento = parci.fecha,
+                                    TotalComplemento = parci.pagado,
+                                    EstadoComplemento = parci.estado,
+                                    Folio = parci.folio,
+                                    Pagada = fact.pagada
+                                }
+                            )
+                            .Join(
+                                dbContext.Contribuyentes,
+                                f => f.id_contribuyente,
+                                c => c.id_contribuyente,
+                                (f, c) => new
+                                {
+                                    f.id_cliente,
+                                    f.id_factura,
+                                    f.NumeroFactura,
+                                    FechaFactura = f.FechaFactura.Substring(0, 10),
+                                    f.NumeroParcialidad,
+                                    f.FechaComplemento,
+                                    f.EstadoComplemento,
+                                    f.Folio,
+                                    f.Pagada,
+                                    TotalComplemento = Math.Round((double)f.TotalComplemento, 2),
+                                    Contribuyente = c.nombre
+                                }
+                            )
+                            .Join(
+                                dbContext.Clientes,
+                                comb => comb.id_cliente,
+                                cli => cli.id_cliente,
+                                (comb, cli) => new
+                                {
+                                    comb.id_cliente,
+                                    comb.id_factura,
+                                    comb.NumeroFactura,
+                                    comb.FechaFactura,
+                                    comb.NumeroParcialidad,
+                                    comb.FechaComplemento,
+                                    comb.EstadoComplemento,
+                                    comb.Folio,
+                                    comb.Pagada,
+                                    comb.TotalComplemento,
+                                    comb.Contribuyente,
+                                    Cliente = cli.nombre
+                                }
+                            )
                         .ToList();
                     dgComplementos.ItemsSource = comps;
                 }

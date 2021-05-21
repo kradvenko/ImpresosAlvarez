@@ -39,7 +39,7 @@ namespace ImpresosAlvarez
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-
+            dpFecha.SelectedDate = DateTime.Now;
         }
 
         public void CargarSalidas()
@@ -59,6 +59,93 @@ namespace ImpresosAlvarez
         private void dpFecha_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
             CargarSalidas();
+        }
+
+        private void Label_KeyUp(object sender, KeyEventArgs e)
+        {
+            
+        }
+
+        private void tbOrden_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Double numOrden = 0;
+
+                if (double.TryParse(tbOrden.Text, out numOrden))
+                {
+                    numOrden = double.Parse(tbOrden.Text);
+                    using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                    {
+                        Ordenes orden = dbContext.Ordenes.Where(O => O.numero == numOrden).FirstOrDefault();
+
+                        if (orden != null)
+                        {
+                            Clientes cliente = dbContext.Clientes.Where(C => C.id_cliente == orden.id_cliente).First();
+
+                            lblCliente.Content = cliente.pseudonimo;
+                            lblFechaSolicita.Content = orden.fecha_solicita;
+                            lblTrabajo.Content = orden.nombre_trabajo;
+                            lblPapel.Content = orden.tipo_papel;
+                            lblCantidad.Content = orden.cantidad;
+                            lblTintas.Content = orden.color_tintas;
+                            lblTamano.Content = orden.tamano;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void dgSalidas_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgSalidas.SelectedItem != null)
+            {
+                SalidasInventario salida = (SalidasInventario)dgSalidas.SelectedItem;
+
+                if (salida.orden_trabajo.Length == 0)
+                {
+                    return;
+                }
+
+                Double numOrden = Double.Parse(salida.orden_trabajo);
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    Ordenes orden = dbContext.Ordenes.Where(O => O.numero == numOrden).FirstOrDefault();
+
+                    if (orden != null)
+                    {
+                        Clientes cliente = dbContext.Clientes.Where(C => C.id_cliente == orden.id_cliente).First();
+
+                        lblCliente.Content = cliente.pseudonimo;
+                        lblFechaSolicita.Content = orden.fecha_solicita;
+                        lblTrabajo.Content = orden.nombre_trabajo;
+                        lblPapel.Content = orden.tipo_papel;
+                        lblCantidad.Content = orden.cantidad;
+                        lblTintas.Content = orden.color_tintas;
+                        lblTamano.Content = orden.tamano;
+                    }
+                    else
+                    {
+                        lblCliente.Content = "";
+                        lblFechaSolicita.Content = "";
+                        lblTrabajo.Content = "";
+                        lblPapel.Content = "";
+                        lblCantidad.Content = "";
+                        lblTintas.Content = "";
+                        lblTamano.Content = "";
+                    }
+                }
+            }
+        }
+
+        private void btnModificar_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgSalidas.SelectedItem != null)
+            {
+                SalidasInventario salidaInventario = (SalidasInventario)dgSalidas.SelectedItem;
+                ControlSalidaInventario salida = new ControlSalidaInventario(this, "MODIFICAR", salidaInventario);
+                salida.ShowDialog();
+            }
         }
     }
 }

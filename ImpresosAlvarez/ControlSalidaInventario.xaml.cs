@@ -24,9 +24,9 @@ namespace ImpresosAlvarez
         Salidas Parent;
         String Modo;
         List<Insumos> _insumos;
-        Salida SalidaInventario;
+        SalidasInventario SalidaInventario;
         Insumos InsumoElegido;
-        public ControlSalidaInventario(Salidas Parent, String Modo, Salida SalidaInventario)
+        public ControlSalidaInventario(Salidas Parent, String Modo, SalidasInventario SalidaInventario)
         {
             InitializeComponent();
             this.Parent = Parent;
@@ -36,10 +36,16 @@ namespace ImpresosAlvarez
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            dpFecha.SelectedDate = DateTime.Now;
             CargarInsumos();
             if (Modo == "MODIFICAR")
             {
-
+                dpFecha.SelectedDate = SalidaInventario.fecha;
+                tbPresupuesto.Text = SalidaInventario.presupuesto.ToString();
+                tbFactura.Text = SalidaInventario.factura;
+                tbOrdenTrabajo.Text = SalidaInventario.orden_trabajo;
+                tbCantidad.Text = SalidaInventario.cantidad.ToString();
+                tbInsumos.Text = SalidaInventario.descripcion;
             }
         }
 
@@ -101,7 +107,54 @@ namespace ImpresosAlvarez
             }
             else if (Modo == "MODIFICAR")
             {
+                if (dpFecha.SelectedDate == null)
+                {
+                    MessageBox.Show("No ha elegido una fecha.");
+                    dpFecha.Focus();
+                    return;
+                }
+                float cantidad;
+                if (!float.TryParse(tbCantidad.Text, out cantidad))
+                {
+                    MessageBox.Show("No ha ingresado una cantidad correcta.");
+                    tbCantidad.Focus();
+                    return;
+                }
+                if (tbInsumos.SelectedItem == null)
+                {
+                    MessageBox.Show("No ha elegido un insumo.");
+                    tbInsumos.Focus();
+                    return;
+                }
 
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    SalidasInventario modificar = dbContext.SalidasInventario.Where(S => S.id_salida == SalidaInventario.id_salida).FirstOrDefault();
+
+                    modificar.fecha = dpFecha.SelectedDate.Value;
+                    modificar.presupuesto = float.Parse(tbPresupuesto.Text);
+                    modificar.orden_trabajo = tbOrdenTrabajo.Text;
+                    modificar.factura = tbFactura.Text;
+                    modificar.cantidad = float.Parse(tbCantidad.Text);
+                    modificar.id_insumo = InsumoElegido.id_insumo;
+                    modificar.descripcion = InsumoElegido.descripcion;
+
+                    dbContext.SaveChanges();
+
+                    Insumos insumoInicial = dbContext.Insumos.Where(I => I.id_insumo == SalidaInventario.id_insumo).First();
+                    insumoInicial.stock = insumoInicial.stock + SalidaInventario.cantidad;
+
+                    dbContext.SaveChanges();
+
+                    Insumos insumo = dbContext.Insumos.Where(I => I.id_insumo == InsumoElegido.id_insumo).First();
+                    insumo.stock = insumo.stock - modificar.cantidad;
+
+                    dbContext.SaveChanges();
+
+                    Parent.CargarSalidas();
+
+                    this.Close();
+                }
             }
         }
 

@@ -21,11 +21,26 @@
             <Setter Property="FontFamily" Value="Fonts/#Raleway"/>
             <Setter Property="FontWeight" Value="Bold"></Setter>
         </Style>
+        <Style x:Key="LabelBold02" TargetType="{x:Type Label}">
+            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="Height" Value="30"></Setter>
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="FontFamily" Value="Fonts/#Raleway"/>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+        </Style>
         <Style x:Key="LabelBlack" TargetType="{x:Type Label}">
             <Setter Property="FontFamily" Value="Fonts/#Montserrat"></Setter>
             <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
             <Setter Property="Height" Value="30"></Setter>
             <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="Foreground" Value="Black"></Setter>
+        </Style>
+        <Style x:Key="LabelBlack2" TargetType="{x:Type Label}">
+            <Setter Property="FontFamily" Value="Fonts/#Montserrat"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+            <Setter Property="Height" Value="30"></Setter>
+            <Setter Property="FontSize" Value="12"></Setter>
             <Setter Property="Foreground" Value="Black"></Setter>
         </Style>
         <Style x:Key="LabelBoldred" TargetType="{x:Type Label}">
