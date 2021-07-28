@@ -13,6 +13,8 @@ namespace ImpresosAlvarez.Clases
         public String Descripcion { get; set; }
         public double PrecioUnitario { get; set; }
         public double Importe { get; set; }
+        public int IdInsumo { get; set; }
+        public String DescripcionInsumo { get; set; }
 
         public CotizacionLlenado()
         {

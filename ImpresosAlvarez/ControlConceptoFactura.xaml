@@ -23,6 +23,7 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
         <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="8">
@@ -78,7 +79,24 @@
         <Label Grid.Column="0" Grid.Row="7" Style="{StaticResource LabelBlack}" Content="Clave del producto"></Label>
         <Label x:Name="lblClaveServicio" Grid.Column="1" Grid.Row="7" Style="{StaticResource LabelBoldBlack}" Content=""></Label>
 
-        <Button x:Name="btnAgregarConcepto" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Guardar" Click="btnAgregarConcepto_Click"></Button>
-        <Button x:Name="btnCancelar" Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cancelar" Click="btnCancelar_Click"></Button>
+        <Label Grid.Column="0" Grid.Row="8" Style="{StaticResource LabelBlack}" Content="Producto"></Label>
+        <Syncfusion:SfTextBoxExt Grid.Column="3" Grid.Row="8" Margin="2" x:Name="tbProductos"
+                             Watermark="Escribe el nombre del producto."                                     
+                             AutoCompleteMode="SuggestAppend" AutoCompleteSource="{Binding Productos}" SearchItemPath="descripcion"
+                             SuggestionMode="Contains"
+                             WatermarkTemplate="{StaticResource WatermarkTemplate}"                             
+                             SelectedItemChanged="tbProductos_SelectedItemChanged"
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CharacterCasing="Upper" Grid.ColumnSpan="4">
+            <Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding descripcion}" Margin="3 0 0 0" />
+                    </StackPanel>
+                </DataTemplate>
+            </Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+        </Syncfusion:SfTextBoxExt>
+
+        <Button x:Name="btnAgregarConcepto" Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Guardar" Click="btnAgregarConcepto_Click"></Button>
+        <Button x:Name="btnCancelar" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cancelar" Click="btnCancelar_Click"></Button>
     </Grid>
 </Window>

@@ -1793,7 +1793,29 @@ namespace ImpresosAlvarez
                             }
 
                             dbContext.SaveChanges();
+
+                            if (item.IdInsumo > 0)
+                            {
+                                SalidasInventario nueva = new SalidasInventario();
+                                nueva.fecha = DateTime.Now.Date;
+                                nueva.presupuesto = 0;
+                                nueva.orden_trabajo = "";
+                                nueva.nota = "";
+                                nueva.cantidad = item.Cantidad;
+                                nueva.id_insumo = item.IdInsumo;
+                                nueva.descripcion = item.DescripcionInsumo;
+                                nueva.factura = factura.id_factura.ToString();
+
+                                dbContext.SalidasInventario.Add(nueva);
+
+                                Insumos insumo = dbContext.Insumos.Where(I => I.id_insumo == item.IdInsumo).First();
+                                insumo.stock = insumo.stock - nueva.cantidad;
+
+                                detalle.id_articulo = item.IdInsumo;
+                            }
                         }
+
+                        dbContext.SaveChanges();
 
                         Contribuyentes cont = new Contribuyentes();
                         int idContribuyente = int.Parse(cbContribuyentes.SelectedValue.ToString());

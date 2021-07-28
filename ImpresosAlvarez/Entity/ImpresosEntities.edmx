@@ -98,6 +98,7 @@
           <Property Name="precio_unitario" Type="float" />
           <Property Name="clave_servicio" Type="nvarchar" MaxLength="50" />
           <Property Name="unidad" Type="nvarchar" MaxLength="50" />
+          <Property Name="id_articulo" Type="int" />
         </EntityType>
         <EntityType Name="DetalleNota">
           <Key>
@@ -108,6 +109,7 @@
           <Property Name="cantidad" Type="int" />
           <Property Name="descripcion" Type="nvarchar(max)" />
           <Property Name="importe" Type="float" />
+          <Property Name="id_articulo" Type="int" />
         </EntityType>
         <EntityType Name="Disenos">
           <Key>
@@ -415,6 +417,7 @@
           <Property Name="fecha" Type="date" />
           <Property Name="presupuesto" Type="float" />
           <Property Name="factura" Type="nvarchar" MaxLength="50" />
+          <Property Name="nota" Type="nvarchar" MaxLength="50" />
           <Property Name="orden_trabajo" Type="nvarchar" MaxLength="50" />
           <Property Name="cantidad" Type="float" />
           <Property Name="id_insumo" Type="int" />
@@ -2518,6 +2521,7 @@
           <Property Name="precio_unitario" Type="Double" />
           <Property Name="clave_servicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="unidad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id_articulo" Type="Int32" />
         </EntityType>
         <EntityType Name="DetalleNota">
           <Key>
@@ -2528,6 +2532,7 @@
           <Property Name="cantidad" Type="Int32" />
           <Property Name="descripcion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="importe" Type="Double" />
+          <Property Name="id_articulo" Type="Int32" />
         </EntityType>
         <EntityType Name="Disenos">
           <Key>
@@ -3020,6 +3025,7 @@
           <Property Name="cantidad" Type="Double" />
           <Property Name="id_insumo" Type="Int32" />
           <Property Name="descripcion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="nota" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3880,6 +3886,7 @@
           <EntitySetMapping Name="DetalleFactura">
             <EntityTypeMapping TypeName="ImpresosBDModel.DetalleFactura">
               <MappingFragment StoreEntitySet="DetalleFactura">
+                <ScalarProperty Name="id_articulo" ColumnName="id_articulo" />
                 <ScalarProperty Name="unidad" ColumnName="unidad" />
                 <ScalarProperty Name="clave_servicio" ColumnName="clave_servicio" />
                 <ScalarProperty Name="precio_unitario" ColumnName="precio_unitario" />
@@ -3894,6 +3901,7 @@
           <EntitySetMapping Name="DetalleNota">
             <EntityTypeMapping TypeName="ImpresosBDModel.DetalleNota">
               <MappingFragment StoreEntitySet="DetalleNota">
+                <ScalarProperty Name="id_articulo" ColumnName="id_articulo" />
                 <ScalarProperty Name="importe" ColumnName="importe" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
                 <ScalarProperty Name="cantidad" ColumnName="cantidad" />
@@ -4303,6 +4311,7 @@
           <EntitySetMapping Name="SalidasInventario">
             <EntityTypeMapping TypeName="ImpresosBDModel.SalidasInventario">
               <MappingFragment StoreEntitySet="SalidasInventario">
+                <ScalarProperty Name="nota" ColumnName="nota" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
                 <ScalarProperty Name="id_insumo" ColumnName="id_insumo" />
                 <ScalarProperty Name="cantidad" ColumnName="cantidad" />

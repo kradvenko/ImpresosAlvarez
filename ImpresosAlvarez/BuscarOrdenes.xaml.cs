@@ -34,7 +34,14 @@ namespace ImpresosAlvarez
 
         private void btnAgregar_Click(object sender, RoutedEventArgs e)
         {
-            AgregarOrden();
+            if (dgOrdenes.SelectedItems.Count > 0)
+            {
+                foreach (var item in dgOrdenes.SelectedItems)
+                {
+                    Obtener_Ordenes_Para_Factura_Result orden = (Obtener_Ordenes_Para_Factura_Result)item;
+                    AgregarOrden(orden);
+                }
+            }
         }
 
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
@@ -53,16 +60,25 @@ namespace ImpresosAlvarez
 
         private void dgOrdenes_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            AgregarOrden();
+            if (dgOrdenes.SelectedItems.Count > 0)
+            {
+                foreach (var item in dgOrdenes.SelectedItems)
+                {
+                    Obtener_Ordenes_Para_Factura_Result orden = (Obtener_Ordenes_Para_Factura_Result)item;
+                    AgregarOrden(orden);
+                }
+            }
         }
-        private void AgregarOrden()
+        private void AgregarOrden(Obtener_Ordenes_Para_Factura_Result orden)
         {
+            /*
             if (dgOrdenes.SelectedItem is null)
             {
                 MessageBox.Show("No ha elegido una orden.");
                 return;
             }
-            Obtener_Ordenes_Para_Factura_Result orden = (Obtener_Ordenes_Para_Factura_Result)dgOrdenes.SelectedItem;
+            */
+            //Obtener_Ordenes_Para_Factura_Result orden = (Obtener_Ordenes_Para_Factura_Result)dgOrdenes.SelectedItem;
             if (orden.autorizado == "NO")
             {
                 MessageBox.Show("La orden no ha sido autorizada.");

@@ -30,6 +30,8 @@ namespace ImpresosAlvarez
         List<Unidades> _unidades;
 
         List<ProductoServicioAutocomplete> _serviciosAutocomplete;
+
+        List<Insumos> Productos;
         public ControlConceptoFactura(FacturaDigital Parent, String Modo, ConceptoFactura Concepto)
         {
             InitializeComponent();
@@ -63,6 +65,10 @@ namespace ImpresosAlvarez
                 cbUnidad.ItemsSource = _unidades;
                 cbUnidad.DisplayMemberPath = "unidad";
                 cbUnidad.SelectedValuePath = "clave";
+
+                Productos = dbContext.Insumos.ToList();
+
+                tbProductos.AutoCompleteSource = Productos;
             }
             if (_Modo == "MODIFICAR")
             {
@@ -74,6 +80,8 @@ namespace ImpresosAlvarez
                 lblClaveServicio.Content = _Concepto.Servicio.clave;
                 _ServicioSeleccionado = _Concepto.Servicio;
                 cbUnidad.Text = _Concepto.Unidad;
+
+                tbProductos.Text = _Concepto.DescripcionInsumo;
             }
             else
             {
@@ -138,6 +146,18 @@ namespace ImpresosAlvarez
                 concepto.claveUnidad = cbUnidad.SelectedValue.ToString();
                 concepto.Servicio = _ServicioSeleccionado;
 
+                if (tbProductos.Text != "")
+                {
+                    Insumos Ins = (Insumos)tbProductos.SelectedItem;
+                    concepto.IdInsumo = Ins.id_insumo;
+                    concepto.DescripcionInsumo = Ins.descripcion;
+                }
+                else
+                {
+                    concepto.IdInsumo = 0;
+                    concepto.DescripcionInsumo = "";
+                }
+
                 _Parent.AgregarConcepto(concepto);
 
                 this.Close();
@@ -194,6 +214,18 @@ namespace ImpresosAlvarez
                 _Concepto.Clave = _ServicioSeleccionado.clave;
                 _Concepto.claveUnidad = cbUnidad.SelectedValue.ToString();
                 _Concepto.Servicio = _ServicioSeleccionado;
+
+                if (tbProductos.Text != "")
+                {
+                    Insumos Ins = (Insumos)tbProductos.SelectedItem;
+                    _Concepto.IdInsumo = Ins.id_insumo;
+                    _Concepto.DescripcionInsumo = Ins.descripcion;
+                }
+                else
+                {
+                    _Concepto.IdInsumo = 0;
+                    _Concepto.DescripcionInsumo = "";
+                }
 
                 _Parent.ActualizarConceptos();
 
@@ -361,6 +393,11 @@ namespace ImpresosAlvarez
                     CalcularTotal();
                 }
             }
+        }
+
+        private void tbProductos_SelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+
         }
     }
 }

@@ -18,6 +18,9 @@ namespace ImpresosAlvarez.Clases
         public String Clave { get; set; }
         public ProductosServicios Servicio { get; set; }
         public  int IdOrden { get; set; }
+        public int IdInsumo { get; set; }
+        public String DescripcionInsumo { get; set; }
+
 
         public String cantidad;
         public String unidad;

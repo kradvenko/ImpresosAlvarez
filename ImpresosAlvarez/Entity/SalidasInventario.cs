@@ -22,5 +22,6 @@ namespace ImpresosAlvarez.Entity
         public Nullable<double> cantidad { get; set; }
         public Nullable<int> id_insumo { get; set; }
         public string descripcion { get; set; }
+        public string nota { get; set; }
     }
 }

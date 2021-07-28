@@ -22,5 +22,6 @@ namespace ImpresosAlvarez.Entity
         public Nullable<double> precio_unitario { get; set; }
         public string clave_servicio { get; set; }
         public string unidad { get; set; }
+        public Nullable<int> id_articulo { get; set; }
     }
 }

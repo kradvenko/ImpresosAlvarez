@@ -200,6 +200,26 @@ namespace ImpresosAlvarez
 
                                     dbContext.NotaOrden.Add(nd);
                                 }
+
+                                if (item.IdInsumo > 0)
+                                {
+                                    SalidasInventario nueva = new SalidasInventario();
+                                    nueva.fecha = dpFechaNota.SelectedDate.Value;
+                                    nueva.presupuesto = 0;
+                                    nueva.orden_trabajo = "";
+                                    nueva.factura = "";
+                                    nueva.cantidad = item.Cantidad;
+                                    nueva.id_insumo = item.IdInsumo;
+                                    nueva.descripcion = item.DescripcionInsumo;
+                                    nueva.nota = Nota.id_nota.ToString();
+
+                                    dbContext.SalidasInventario.Add(nueva);
+
+                                    Insumos insumo = dbContext.Insumos.Where(I => I.id_insumo == item.IdInsumo).First();
+                                    insumo.stock = insumo.stock - nueva.cantidad;
+
+                                    Detalle.id_articulo = item.IdInsumo;
+                                }
                             }
 
                             dbContext.SaveChanges();
@@ -612,23 +632,7 @@ namespace ImpresosAlvarez
 
         private void dgNotasPasadas_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (dgNotasPasadas.Items.Count > 0)
-            {
-                CotizacionLlenado _articulo = new CotizacionLlenado();
-                Obtener_Cotizaciones_Fecha_Result a = new Obtener_Cotizaciones_Fecha_Result();
-
-                a = (Obtener_Cotizaciones_Fecha_Result)dgNotasPasadas.SelectedItem;
-
-                _articulo.IdOrden = a.id_orden;
-                _articulo.Cantidad = (int)a.cantidad;
-                _articulo.Descripcion = a.nombre_trabajo + " TAMAÑO: " + a.tamano + " COLOR: " + a.color_tintas + " PAPEL: " + a.tipo_papel;
-                _articulo.PrecioUnitario = (double)a.total / (int)a.cantidad;
-                _articulo.Importe = (double)a.total;
-
-                _cotizacion.Add(_articulo);
-
-                CalcularTotales();
-            }
+            
         }
 
         private void dpFechaRecepcion_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -653,6 +657,45 @@ namespace ImpresosAlvarez
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            if (dgCotizacion.SelectedItem != null)
+            {
+                CotizacionLlenado c = (CotizacionLlenado)dgCotizacion.SelectedItem;
+                _cotizacion.Remove(c);
+                dgCotizacion.ItemsSource = null;
+                dgCotizacion.ItemsSource = _cotizacion;
+                CalcularTotales();
+            }
+            else
+            {
+                MessageBox.Show("No ha elegido un articulo.");
+            }
+        }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            if (dgNotasPasadas.SelectedItems.Count > 0)
+            {
+                foreach (Obtener_Cotizaciones_Fecha_Result item in dgNotasPasadas.SelectedItems)
+                {
+                    CotizacionLlenado _articulo = new CotizacionLlenado();
+                    Obtener_Cotizaciones_Fecha_Result a = new Obtener_Cotizaciones_Fecha_Result();
+
+                    a = (Obtener_Cotizaciones_Fecha_Result)item;
+
+                    _articulo.IdOrden = a.id_orden;
+                    _articulo.Cantidad = (int)a.cantidad;
+                    _articulo.Descripcion = a.nombre_trabajo + " TAMAÑO: " + a.tamano + " COLOR: " + a.color_tintas + " PAPEL: " + a.tipo_papel;
+                    _articulo.PrecioUnitario = (double)a.total / (int)a.cantidad;
+                    _articulo.Importe = (double)a.total;
+
+                    _cotizacion.Add(_articulo);
+                }
+                CalcularTotales();
+            }
         }
     }
 }
