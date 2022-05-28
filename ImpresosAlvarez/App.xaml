@@ -358,6 +358,7 @@
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
             <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
             <Setter Property="TextElement.Foreground" Value="Black"/>
+            <Setter Property="MaxHeight" Value="40"></Setter>
             <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -422,5 +423,9 @@
             </Setter>
         </Style>
         <!-- End of Flat ComboBox -->
+        <Style x:Key="CheckBoxStyle01" TargetType="CheckBox">
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        </Style>
     </Application.Resources>
 </Application>

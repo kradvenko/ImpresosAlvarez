@@ -1,0 +1,258 @@
+﻿<Window x:Class="ImpresosAlvarez.NuevaOrden"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Syncfusion="clr-namespace:Syncfusion.Windows.Controls.Input;assembly=Syncfusion.SfInput.Wpf"
+        xmlns:local="clr-namespace:ImpresosAlvarez"
+        mc:Ignorable="d"
+        Title="Nueva Orden" Height="900" Width="1000" WindowStartupLocation="CenterScreen" WindowState="Maximized" Loaded="Window_Loaded">
+    <Grid Margin="5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="1.5*"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Label Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Prioridad del trabajo"></Label>
+        <ComboBox x:Name="cbPrioridad" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource ComboBoxFlatStyle}">
+            <ComboBoxItem IsSelected="True">NORMAL</ComboBoxItem>
+            <ComboBoxItem>URGENTE</ComboBoxItem>
+        </ComboBox>
+        <Label Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Folio"></Label>
+        <Label x:Name="lblFolioOrden" Grid.Column="5" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldred}" Content="-"></Label>
+
+        <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Orden de trabajo"></Label>
+        <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="6" Background="AliceBlue">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>                
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Cliente"></Label>
+            <Syncfusion:SfTextBoxExt Grid.Column="1" Grid.Row="0" Margin="2" x:Name="tbClientes" MaxHeight="40"
+                             Watermark="Escribe el nombre del cliente."                                     
+                             AutoCompleteMode="SuggestAppend" AutoCompleteSource="{Binding _clientes}" SearchItemPath="pseudonimo"
+                             SuggestionMode="Contains"
+                             WatermarkTemplate="{StaticResource WatermarkTemplate}"                             
+                             SelectedItemChanged="tbClientes_SelectedItemChanged"
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CharacterCasing="Upper" Grid.ColumnSpan="1">
+                <Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding pseudonimo}" Margin="3 0 0 0" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+            </Syncfusion:SfTextBoxExt>
+
+            <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Teléfono"></Label>
+            <TextBox x:Name="tbTelefono" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+            <Label Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Solicitante"></Label>
+            <TextBox x:Name="tbSolicita" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+
+            <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Fecha que solicita"></Label>
+            <DatePicker x:Name="dtpFecha" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1" VerticalAlignment="Center"></DatePicker>
+            <Label Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Recibe"></Label>
+            <TextBox x:Name="tbRecibe" Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}"></TextBox>
+
+            <Label Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Orden Anterior"></Label>
+            <TextBox x:Name="tbOrdenAnterior" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+            <Label Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Fecha negativo"></Label>
+            <DatePicker x:Name="dtpFechaNegativo" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" VerticalAlignment="Center"></DatePicker>
+            
+
+            <Button x:Name="btnOrdenesAnteriores" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="1" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Ordenes anteriores" Click="btnOrdenesAnteriores_Click"></Button>
+        </Grid>
+
+        <Label Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Descripción"></Label>
+        <Grid Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="6" Background="PaleTurquoise">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Nombre del trabajo"></Label>
+            <TextBox x:Name="tbNombreTrabajo" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+            <Label Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Cantidad"></Label>
+            <TextBox x:Name="tbCantidad" Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40" PreviewTextInput="PreviewTextInput" KeyUp="tbCantidad_KeyUp"></TextBox>
+            <Label Grid.Column="5" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Color de tintas"></Label>
+            <TextBox x:Name="tbColorTintas" Grid.Column="6" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+            <Label Grid.Column="8" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Tipo de papel"></Label>
+            <TextBox x:Name="tbTipoPapel" Grid.Column="9" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+
+            <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Con folio"></Label>
+            <ComboBox x:Name="cbConFolio" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource ComboBoxFlatStyle}">
+                <ComboBoxItem DataContext="X">SI</ComboBoxItem>
+                <ComboBoxItem DataContext="" IsSelected="True">NO</ComboBoxItem>
+            </ComboBox>
+            <Label Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Del número"></Label>
+            <TextBox x:Name="tbDelNumero" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40" PreviewTextInput="PreviewTextInput" KeyUp="tbDelNumero_KeyUp"></TextBox>
+            <Label Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Al número"></Label>
+            <TextBox x:Name="tbAlNumero" Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40" PreviewTextInput="PreviewTextInput"></TextBox>
+            <Label Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Tamaño"></Label>
+            <ComboBox x:Name="cbTamaño" Grid.Column="9" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource ComboBoxFlatStyle}" IsEditable="True">
+                <ComboBoxItem>CARTA</ComboBoxItem>
+                <ComboBoxItem>1/2 CARTA</ComboBoxItem>
+                <ComboBoxItem>1/4 CARTA</ComboBoxItem>
+                <ComboBoxItem>OFICIO</ComboBoxItem>
+                <ComboBoxItem>1/2 OFICIO</ComboBoxItem>
+                <ComboBoxItem>1/4 OFICIO</ComboBoxItem>
+            </ComboBox>
+        </Grid>
+
+        <Label Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Número de copias"></Label>
+        <Grid Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="6" Background="LightGoldenrodYellow">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Primera copia"></Label>
+            <ComboBox x:Name="cbPrimeraCopia" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource ComboBoxFlatStyle}" IsEditable="True">
+                <ComboBoxItem>CANARIO</ComboBoxItem>
+                <ComboBoxItem>AZUL</ComboBoxItem>
+                <ComboBoxItem>ROSA</ComboBoxItem>
+                <ComboBoxItem>VERDE</ComboBoxItem>
+            </ComboBox>
+            <Label Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Segunda copia"></Label>
+            <ComboBox x:Name="cbSegundaCopia" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource ComboBoxFlatStyle}" IsEditable="True">
+                <ComboBoxItem>CANARIO</ComboBoxItem>
+                <ComboBoxItem>AZUL</ComboBoxItem>
+                <ComboBoxItem>ROSA</ComboBoxItem>
+                <ComboBoxItem>VERDE</ComboBoxItem>
+            </ComboBox>
+            <Label Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Tercera copia"></Label>
+            <ComboBox x:Name="cbTerceraCopia" Grid.Column="5" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource ComboBoxFlatStyle}" IsEditable="True">
+                <ComboBoxItem>CANARIO</ComboBoxItem>
+                <ComboBoxItem>AZUL</ComboBoxItem>
+                <ComboBoxItem>ROSA</ComboBoxItem>
+                <ComboBoxItem>VERDE</ComboBoxItem>
+            </ComboBox>
+            <Label Grid.Column="6" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Cuarta copia"></Label>
+            <ComboBox x:Name="cbCuartaCopia" Grid.Column="7" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource ComboBoxFlatStyle}" IsEditable="True">
+                <ComboBoxItem>CANARIO</ComboBoxItem>
+                <ComboBoxItem>AZUL</ComboBoxItem>
+                <ComboBoxItem>ROSA</ComboBoxItem>
+                <ComboBoxItem>VERDE</ComboBoxItem>
+            </ComboBox>
+
+            <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Otros"></Label>
+            <TextBox x:Name="tbOtros1" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+            <Label Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Otros"></Label>
+            <TextBox x:Name="tbOtros2" Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+        </Grid>
+
+        <Label Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Acabado"></Label>
+        <Grid Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="6" Background="LightCoral">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <CheckBox x:Name="chbPegado" Grid.Column="0" Grid.Row="0" Style="{StaticResource CheckBoxStyle01}" Content="Pegado"></CheckBox>
+            <CheckBox x:Name="chbEngrapado" Grid.Column="1" Grid.Row="0" Style="{StaticResource CheckBoxStyle01}" Content="Engrapado"></CheckBox>
+            <CheckBox x:Name="chbPerforacion" Grid.Column="2" Grid.Row="0" Style="{StaticResource CheckBoxStyle01}" Content="Perforación"></CheckBox>
+            <CheckBox x:Name="chbRojo" Grid.Column="3" Grid.Row="0" Style="{StaticResource CheckBoxStyle01}" Content="Rojo"></CheckBox>
+            <CheckBox x:Name="chbBlanco" Grid.Column="4" Grid.Row="0" Style="{StaticResource CheckBoxStyle01}" Content="Blanco"></CheckBox>
+            <Label Grid.Column="5" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Otros"></Label>
+            <TextBox x:Name="tbOtros3" Grid.Column="6" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+
+            <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Tipo de máquina"></Label>
+            <ComboBox x:Name="cbTipoMaquina" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource ComboBoxFlatStyle}" IsEditable="True">
+                <ComboBoxItem>RYOBI</ComboBoxItem>
+                <ComboBoxItem>PRINTMASTER</ComboBoxItem>
+            </ComboBox>
+        </Grid>
+
+        <Label Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Descripción"></Label>
+        <TextBox x:Name="tbDescripcion" Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="6" Style="{StaticResource TextBox01}" MaxHeight="70" HorizontalContentAlignment="Left" TextWrapping="Wrap" AcceptsReturn="True"  VerticalScrollBarVisibility="Visible"></TextBox>
+
+        <Grid Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Cotización"></Label>
+            <TextBox x:Name="tbCotizacion" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40" PreviewTextInput="PreviewTextInput"></TextBox>
+            <Label Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Anticipo"></Label>
+            <TextBox x:Name="tbAnticipo" Grid.Column="3" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40" PreviewTextInput="PreviewTextInput"></TextBox>
+
+            <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Costo anterior"></Label>
+            <TextBox x:Name="tbCostoAnterior" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40" PreviewTextInput="PreviewTextInput"></TextBox>
+            <Label Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Notas"></Label>
+            <TextBox x:Name="tbNotas" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+
+            <Button x:Name="btnGuardar" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="1" Grid.RowSpan="1" Style="{StaticResource btnInterfaz02}" Content="Guardar" Click="btnGuardar_Click"></Button>
+            <Button x:Name="btnCancelar" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="1" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cancelar" Click="btnCancelar_Click"></Button>
+        </Grid>        
+    </Grid>
+</Window>
+
+    

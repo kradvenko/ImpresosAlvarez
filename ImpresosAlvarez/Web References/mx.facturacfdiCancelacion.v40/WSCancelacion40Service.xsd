@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:ns1="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.sat.gob.mx/sitio_internet/cfd" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="http://v33.facturacfdi.mx:80/WSCancelacion40Service?xsd=1" namespace="http://www.w3.org/2000/09/xmldsig#" />
+  <xs:element name="Cancelacion">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" name="Folios">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Folio">
+                <xs:complexType>
+                  <xs:sequence />
+                  <xs:attribute name="UUID" type="xs:string" use="required" />
+                  <xs:attribute name="Motivo" type="xs:string" use="required" />
+                  <xs:attribute name="FolioSustitucion" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element form="qualified" name="Signature" type="ns1:SignatureType" />
+      </xs:sequence>
+      <xs:attribute name="RfcEmisor" type="xs:string" use="required" />
+      <xs:attribute name="Fecha" type="xs:anySimpleType" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

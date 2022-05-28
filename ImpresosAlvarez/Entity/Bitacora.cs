@@ -26,7 +26,7 @@ namespace ImpresosAlvarez.Entity
         public string fecha_inicio { get; set; }
         public string ruta_trabajo { get; set; }
     
-        public virtual Ordenes Ordenes { get; set; }
         public virtual Usuarios Usuarios { get; set; }
+        public virtual Ordenes Ordenes { get; set; }
     }
 }

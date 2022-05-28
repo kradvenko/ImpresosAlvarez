@@ -36,7 +36,6 @@ namespace ImpresosAlvarez.Entity
         public virtual DbSet<DetalleNota> DetalleNota { get; set; }
         public virtual DbSet<Disenos> Disenos { get; set; }
         public virtual DbSet<Entrega> Entrega { get; set; }
-        public virtual DbSet<FacturaDigital> FacturaDigital { get; set; }
         public virtual DbSet<FacturaOrden> FacturaOrden { get; set; }
         public virtual DbSet<Facturas> Facturas { get; set; }
         public virtual DbSet<FormasPago> FormasPago { get; set; }
@@ -45,7 +44,6 @@ namespace ImpresosAlvarez.Entity
         public virtual DbSet<NotaOrden> NotaOrden { get; set; }
         public virtual DbSet<Notas> Notas { get; set; }
         public virtual DbSet<NumeroNota> NumeroNota { get; set; }
-        public virtual DbSet<Ordenes> Ordenes { get; set; }
         public virtual DbSet<OrdenMateria> OrdenMateria { get; set; }
         public virtual DbSet<Pagos> Pagos { get; set; }
         public virtual DbSet<PagosNotas> PagosNotas { get; set; }
@@ -64,6 +62,8 @@ namespace ImpresosAlvarez.Entity
         public virtual DbSet<Insumos> Insumos { get; set; }
         public virtual DbSet<EntradasInventario> EntradasInventario { get; set; }
         public virtual DbSet<SalidasInventario> SalidasInventario { get; set; }
+        public virtual DbSet<Ordenes> Ordenes { get; set; }
+        public virtual DbSet<FacturaDigital> FacturaDigital { get; set; }
     
         public virtual int Actualizar_Amparo_Factura(Nullable<int> id_factura, string amparo)
         {

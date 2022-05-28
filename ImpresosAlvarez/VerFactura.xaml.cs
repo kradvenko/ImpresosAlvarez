@@ -1,6 +1,6 @@
 ﻿using ImpresosAlvarez.Clases;
 using ImpresosAlvarez.Entity;
-using ImpresosAlvarez.mx.facturacfdi.v331;
+using ImpresosAlvarez.mx.facturacfdiCancelacion.v40;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -45,6 +45,10 @@ namespace ImpresosAlvarez
         private String contraseñaFacturacion;
         private String curp;
         private String regimen;
+
+        String UUIDSustituye;
+        Entity.FacturaDigital FacturaElegida;
+        String Motivo;
         public VerFactura(ControlFacturas Parent, Facturas Factura)
         {
             InitializeComponent();
@@ -110,7 +114,21 @@ namespace ImpresosAlvarez
         {
             if (MessageBox.Show("Desea cancelar la factura?", "ATENCIÓN", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                if (cbContribuyentes.Text.Contains("JOSE"))
+                MotivosCancelacionFactura motivos = new MotivosCancelacionFactura(this);
+                motivos.ShowDialog();
+            }
+        }
+
+        public void ElegirFacturaRelacionada(String UUID, Entity.FacturaDigital FacturaElegida)
+        {
+            this.UUIDSustituye = UUID;
+            this.FacturaElegida = FacturaElegida;
+        }
+
+        public void Cancelacion(String Motivo)
+        {
+            this.Motivo = Motivo;
+            if (cbContribuyentes.Text.Contains("JOSE"))
             {
                 rutaCertificado = @"C:\Impresos\Jose\Certificado.cer";
                 rutaLlave = @"C:\Impresos\Jose\Llave.key";
@@ -152,7 +170,7 @@ namespace ImpresosAlvarez
             {
                 rutaCertificado = @"C:\Impresos\Victor\Certificado.cer";
                 rutaLlave = @"C:\Impresos\Victor\Llave.key";
-                contraseñaLlave = "ALVA7209";
+                contraseñaLlave = "ALVA7209E51";
                 nombreEmisor = "VICTOR MANUEL ALVAREZ RAMIREZ";
                 rfcEmisor = "AARV720921E51";
                 serie = "-";
@@ -168,83 +186,101 @@ namespace ImpresosAlvarez
                 datosFacturaElectronica.domicilioEmisorCodigoPostal = "63000";
             }
 
-                string usuario = usuarioFacturacion;
-                string pass = contraseñaFacturacion;
-                string strPathLlave = rutaLlave;
-                string strPathCert = rutaCertificado;
-                string[] folios = new string[1];
+            string usuario = usuarioFacturacion;
+            string pass = contraseñaFacturacion;
+            string strPathLlave = rutaLlave;
+            string strPathCert = rutaCertificado;
+            //string[] folios = new string[1];
+            wsFolios40[] folios = new wsFolios40[1];
+            
+            wsCancelacionResponse resCancelacion = new wsCancelacionResponse();
+            //WSCancelacionService serCancel = new WSCancelacionService();
+            WSCancelacion40Service serCancel = new WSCancelacion40Service();
 
-                wsCancelacionResponse resCancelacion = new wsCancelacionResponse();
-                WSCancelacionService serCancel = new WSCancelacionService();
+            try
+            {
+                accesos acc = new accesos();
+                acc.usuario = usuario;
+                acc.password = pass;
 
-                try
+                byte[] llavePublicaBytes = File.ReadAllBytes(rutaCertificado);
+                byte[] llavePrivadaBytes = File.ReadAllBytes(strPathLlave);
+
+                string[] cadenaOriginal = datosFacturaDigital.cadena_original.Split('|');
+
+                wsFolios40 fol = new wsFolios40();
+                fol.folio = new wsFolio();
+
+                if (UUIDSustituye != null)
                 {
-                    accesos acc = new accesos();
-                    acc.usuario = usuario;
-                    acc.password = pass;
-
-                    byte[] llavePublicaBytes = File.ReadAllBytes(rutaCertificado);
-                    byte[] llavePrivadaBytes = File.ReadAllBytes(strPathLlave);
-
-                    string[] cadenaOriginal = datosFacturaDigital.cadena_original.Split('|');
-
-                    folios[0] = cadenaOriginal[4];
-
-                    string fecha = DateTime.UtcNow.AddHours(-7).ToString("s");
-
-                    resCancelacion = serCancel.Cancelacion_1(rfcEmisor, fecha, folios, llavePublicaBytes, llavePrivadaBytes, contraseñaLlave, acc);
-
-                    File.WriteAllText(@"C:\Impresos\Facturacion\Acuse.xml", resCancelacion.acuse);
-
-                    switch (resCancelacion.folios[0].estatusUUID)
-                    {
-                        case "201":
-                            using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
-                            {
-                                Entity.FacturaDigital f = dbContext.FacturaDigital.Where(F => F.id_factura == _factura.id_factura).FirstOrDefault();
-                                f.acuse = resCancelacion.acuse;
-                                f.fecha_cancelado = DateTime.UtcNow.AddHours(-7);
-
-                                Facturas fac = dbContext.Facturas.Where(F => F.id_factura == _factura.id_factura).FirstOrDefault();
-                                fac.estado = "CANCELADO";
-
-                                List<FacturaOrden> facturaOrdenes = dbContext.FacturaOrden.Where(FO => FO.id_factura == _factura.id_factura).ToList();
-
-                                foreach (FacturaOrden item in facturaOrdenes)
-                                {
-                                    dbContext.Modificar_Tipo_Orden_Grupo(_factura.id_factura, "COTIZACION");
-                                    dbContext.Borrar_FacturaOrden(_factura.id_factura);
-                                    dbContext.Cambiar_Estado_Factura(_factura.id_factura, "CANCELADO");
-                                    dbContext.Factura_Razon_Cancelado(_factura.id_factura, "");
-                                }
-
-                                dbContext.SaveChanges();
-                                _parent.ActualizarLista();
-                                MessageBox.Show("Se ha cancelado la factura.");
-                                this.Close();
-                            }
-                            break;
-                        case "202":
-                            MessageBox.Show("La factura ya ha sido cancelada anteriormente.");
-                            break;
-                        case "203":
-                            MessageBox.Show("La factura no se ha encontrado.");
-                            break;
-                        case "204":
-                            MessageBox.Show("La factura no se puede cancelar.");
-                            break;
-                        case "205":
-                            MessageBox.Show("La factura no existe.");
-                            break;
-                        default:
-                            break;
-                    }
+                    fol.folio.uuid = cadenaOriginal[4];
+                    fol.folio.folioSustitucion = UUIDSustituye;
+                    fol.folio.motivo = Motivo;
+                    folios[0] = fol;
                 }
-                catch (Exception exc)
+                else
                 {
-                    MessageBox.Show(exc.Message);
+                    fol.folio.uuid = cadenaOriginal[4];
+                    fol.folio.folioSustitucion = "";
+                    fol.folio.motivo = Motivo;
+                    folios[0] = fol;
+                }
+
+                string fecha = DateTime.UtcNow.AddHours(-7).ToString("s");
+
+                resCancelacion = serCancel.Cancelacion40_1(rfcEmisor, fecha, folios, llavePublicaBytes, llavePrivadaBytes, contraseñaLlave, acc);
+
+                File.WriteAllText(@"C:\Impresos\Facturacion\Acuse.xml", resCancelacion.acuse);
+
+                switch (resCancelacion.folios[0].estatusUUID)
+                {
+                    case "201":
+                        using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                        {
+                            Entity.FacturaDigital f = dbContext.FacturaDigital.Where(F => F.id_factura == _factura.id_factura).FirstOrDefault();
+                            f.acuse = resCancelacion.acuse;
+                            f.fecha_cancelado = DateTime.UtcNow.AddHours(-7);
+
+                            Facturas fac = dbContext.Facturas.Where(F => F.id_factura == _factura.id_factura).FirstOrDefault();
+                            fac.estado = "CANCELADO";
+
+                            List<FacturaOrden> facturaOrdenes = dbContext.FacturaOrden.Where(FO => FO.id_factura == _factura.id_factura).ToList();
+
+                            foreach (FacturaOrden item in facturaOrdenes)
+                            {
+                                dbContext.Modificar_Tipo_Orden_Grupo(_factura.id_factura, "COTIZACION");
+                                dbContext.Borrar_FacturaOrden(_factura.id_factura);
+                                dbContext.Cambiar_Estado_Factura(_factura.id_factura, "CANCELADO");
+                                dbContext.Factura_Razon_Cancelado(_factura.id_factura, "");
+                            }
+
+                            dbContext.SaveChanges();
+                            _parent.ActualizarLista();
+                            MessageBox.Show("Se ha cancelado la factura.");
+                            this.Close();
+                        }
+                        break;
+                    case "202":
+                        MessageBox.Show("La factura ya ha sido cancelada anteriormente.");
+                        break;
+                    case "203":
+                        MessageBox.Show("La factura no se ha encontrado.");
+                        break;
+                    case "204":
+                        MessageBox.Show("La factura no se puede cancelar.");
+                        break;
+                    case "205":
+                        MessageBox.Show("La factura no existe.");
+                        break;
+                    default:
+                        MessageBox.Show("Clave de resultado " + resCancelacion.folios[0].estatusUUID);
+                        break;
                 }
             }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }            
         }
 
         private void btnCancelar_Click(object sender, RoutedEventArgs e)

@@ -84,6 +84,9 @@ namespace ImpresosAlvarez
         List<FormasPago> _FormasPago;
         List<UsosCFDI> _UsosCFDI;
 
+        Entity.FacturaDigital FacturaCancelada;
+        String UUIDCancelado;
+
         public FacturaDigital()
         {
             InitializeComponent();
@@ -159,6 +162,11 @@ namespace ImpresosAlvarez
             {
                 cbMetodoPago.SelectedIndex = 0;
             }
+
+            FacturaCancelada = null;
+
+            rutaPDF = "";
+            rutaXML = "";
         }
 
         private void tbClientes_SelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -256,7 +264,7 @@ namespace ImpresosAlvarez
         }
 
         private void btnPrefacturar_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             if (cbContribuyentes.Text.Contains("JOSE"))
             {
                 rutaCertificado = @"C:\Impresos\Jose\Certificado.cer";
@@ -274,7 +282,7 @@ namespace ImpresosAlvarez
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
                 datosFacturaElectronica.domicilioEmisorMunicipio = "TEPIC ";
                 datosFacturaElectronica.domicilioEmisorEstado = "NAY";
-                datosFacturaElectronica.domicilioEmisorCodigoPostal = "63000";
+                datosFacturaElectronica.domicilioEmisorCodigoPostal = "63080";
             }
             else if (cbContribuyentes.Text.Contains("MARIA"))
             {
@@ -293,13 +301,13 @@ namespace ImpresosAlvarez
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
                 datosFacturaElectronica.domicilioEmisorMunicipio = "TEPIC ";
                 datosFacturaElectronica.domicilioEmisorEstado = "NAY";
-                datosFacturaElectronica.domicilioEmisorCodigoPostal = "63000";
+                datosFacturaElectronica.domicilioEmisorCodigoPostal = "63080";
             }
             else if (cbContribuyentes.Text.Contains("VICTOR"))
             {
                 rutaCertificado = @"C:\Impresos\Victor\Certificado.cer";
                 rutaLlave = @"C:\Impresos\Victor\Llave.key";
-                contraseñaLlave = "ALVA7209";
+                contraseñaLlave = "ALVA7209E51";
                 nombreEmisor = "VICTOR MANUEL ALVAREZ RAMIREZ";
                 rfcEmisor = "AARV720921E51";
                 serie = "-";
@@ -312,12 +320,13 @@ namespace ImpresosAlvarez
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
                 datosFacturaElectronica.domicilioEmisorMunicipio = "TEPIC ";
                 datosFacturaElectronica.domicilioEmisorEstado = "NAY";
-                datosFacturaElectronica.domicilioEmisorCodigoPostal = "63000";
+                datosFacturaElectronica.domicilioEmisorCodigoPostal = "63080";
             }
 
             CargarXMLTemplate();
             FacturacionElectronica(false);
             ImprimirPDF(false);
+            //EnviarPorCorreo();
         }
 
         private void btnFacturar_Click(object sender, RoutedEventArgs e)
@@ -343,7 +352,7 @@ namespace ImpresosAlvarez
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
                 datosFacturaElectronica.domicilioEmisorMunicipio = "TEPIC ";
                 datosFacturaElectronica.domicilioEmisorEstado = "NAY";
-                datosFacturaElectronica.domicilioEmisorCodigoPostal = "63000";
+                datosFacturaElectronica.domicilioEmisorCodigoPostal = "63080";
             }
             else if (cbContribuyentes.Text.Contains("MARIA"))
             {
@@ -362,13 +371,13 @@ namespace ImpresosAlvarez
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
                 datosFacturaElectronica.domicilioEmisorMunicipio = "TEPIC ";
                 datosFacturaElectronica.domicilioEmisorEstado = "NAY";
-                datosFacturaElectronica.domicilioEmisorCodigoPostal = "63000";
+                datosFacturaElectronica.domicilioEmisorCodigoPostal = "63080";
             }
             else if (cbContribuyentes.Text.Contains("VICTOR"))
             {
                 rutaCertificado = @"C:\Impresos\Victor\Certificado.cer";
                 rutaLlave = @"C:\Impresos\Victor\Llave.key";
-                contraseñaLlave = "ALVA7209";
+                contraseñaLlave = "ALVA7209E51";
                 nombreEmisor = "VICTOR MANUEL ALVAREZ RAMIREZ";
                 rfcEmisor = "AARV720921E51";
                 serie = "-";
@@ -381,11 +390,11 @@ namespace ImpresosAlvarez
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
                 datosFacturaElectronica.domicilioEmisorMunicipio = "TEPIC ";
                 datosFacturaElectronica.domicilioEmisorEstado = "NAY";
-                datosFacturaElectronica.domicilioEmisorCodigoPostal = "63000";
+                datosFacturaElectronica.domicilioEmisorCodigoPostal = "63080";
             }
 
             CargarXMLTemplate();
-            FacturacionElectronica(true);            
+            FacturacionElectronica(true);
             if (timbreValido)
             {
                 ImprimirPDF(true);
@@ -416,7 +425,14 @@ namespace ImpresosAlvarez
 
         private void CargarXMLTemplate()
         {
-            XML = File.ReadAllText(@"C:\Impresos\Facturacion\XML_3_3_Template.xml");
+            if (FacturaCancelada == null)
+            {
+                XML = File.ReadAllText(@"C:\Impresos\Facturacion\XML_3_3_Template.xml");
+            }
+            else
+            {
+                XML = File.ReadAllText(@"C:\Impresos\Facturacion\XML_3_3_Template_Cancelacion.xml");
+            }
         }
 
         private void FacturacionElectronica(bool bTimbrar)
@@ -577,6 +593,18 @@ namespace ImpresosAlvarez
             xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@NoCertificado", nms);
             datosFacturaElectronica.numeroCertificado = xAttrib.Value;
 
+            if (FacturaCancelada != null)
+            {
+                XmlNode xCfdiRelacionados = xDoc.SelectSingleNode("//cfdi:CfdiRelacionados", nms);
+                XmlNode xCfdiRelacionado = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "CfdiRelacionado", "http://www.sat.gob.mx/cfd/3");
+
+                XmlAttribute xR = xDoc.CreateAttribute("UUID");
+                xR.Value = UUIDCancelado;
+                xCfdiRelacionado.Attributes.Append(xR);
+
+                xCfdiRelacionados.AppendChild(xCfdiRelacionado);
+            }
+
             xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Emisor//@Rfc", nms);
             xAttrib.Value = rfcEmisor;
             datosFacturaElectronica.rfcEmisor = xAttrib.Value;
@@ -586,7 +614,7 @@ namespace ImpresosAlvarez
             datosFacturaElectronica.nombreEmisor = xAttrib.Value;
 
             xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Emisor//@RegimenFiscal", nms);
-            xAttrib.Value = "612";
+            xAttrib.Value = "621";
 
             xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Receptor//@Rfc", nms);
             xAttrib.Value = _clienteElegido.rfc.Replace("-", "");
@@ -1292,6 +1320,24 @@ namespace ImpresosAlvarez
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                 .Add(new Paragraph(datosFacturaElectronica.formaPagoTexto)));
 
+            if (FacturaCancelada != null)
+            {
+                //Renglón especial
+                table.AddCell(new Cell(1, 4)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(fb)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("UUID factura relacionada por cancelación")));
+
+                table.AddCell(new Cell(1, 6)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(UUIDCancelado)));
+            }
+
             //Renglón
             /*
             table.AddCell(new Cell(1, 2)
@@ -1836,6 +1882,14 @@ namespace ImpresosAlvarez
                         {
                             fdigital.para_recibo = "NO";
                         }
+                        if (FacturaCancelada == null)
+                        {
+                            fdigital.para_cancelacion = "NO";
+                        }
+                        else
+                        {
+                            fdigital.para_cancelacion = "SI";
+                        }
                         fdigital.sello_cfdi = datosFacturaElectronica.selloCFD;
                         fdigital.sello_sat = datosFacturaElectronica.selloSAT;
                         fdigital.cadena_original = datosFacturaElectronica.cadenaOriginalSAT;
@@ -1944,7 +1998,8 @@ namespace ImpresosAlvarez
                     {
                         Configuracion config = dbContext.Configuracion.Single();
                         MailMessage mail = new MailMessage();
-                        SmtpClient SmtpServer = new SmtpClient("smtp.live.com");
+                        //SmtpClient SmtpServer = new SmtpClient("smtp.live.com");
+                        SmtpClient SmtpServer = new SmtpClient("smtp.office365.com");
                         //mail.From = new MailAddress("alvarezimpresores_16@hotmail.com");
                         mail.From = new MailAddress(config.correo);
 
@@ -1966,6 +2021,7 @@ namespace ImpresosAlvarez
                         }
 
                         SmtpServer.Port = 587;
+                        //SmtpServer.Port = 25;
                         SmtpServer.Credentials = new System.Net.NetworkCredential(config.usuario_correo, config.password_correo);
                         SmtpServer.EnableSsl = true;
 
@@ -2372,6 +2428,30 @@ namespace ImpresosAlvarez
         {
             ControlComplementoINE ine = new ControlComplementoINE(this, datosFacturaElectronica);
             ine.ShowDialog();
+        }
+
+        private void btnCancelacionFactura_Click(object sender, RoutedEventArgs e)
+        {
+            if (_clienteElegido is null)
+            {
+                return;
+            }
+            BuscarFacturaCancelada Buscar = new BuscarFacturaCancelada(this, _clienteElegido);
+            Buscar.ShowDialog();
+        }
+
+        public void ElegirFacturaCancelada(Entity.FacturaDigital FacturaElegida)
+        {
+            string[] parts = FacturaElegida.cadena_original.Split('|');
+            lblUUIDCancelada.Content = parts[4];
+            UUIDCancelado = parts[4];
+            FacturaCancelada = FacturaElegida;
+        }
+
+        private void btnLimpiarFacturaRelacionada_Click(object sender, RoutedEventArgs e)
+        {
+            FacturaCancelada = null;
+            lblUUIDCancelada.Content = "-";
         }
     }
 }

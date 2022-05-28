@@ -8,5 +8,8 @@
     <Setting Name="ImpresosAlvarez_mx_facturacfdi_v331_WSCancelacionService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://v33.facturacfdi.mx:80/WSCancelacionService</Value>
     </Setting>
+    <Setting Name="ImpresosAlvarez_mx_facturacfdi_v40_WSCancelacion40Service" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://v33.facturacfdi.mx:80/WSCancelacion40Service</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

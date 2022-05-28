@@ -69,6 +69,9 @@ namespace ImpresosAlvarez.Entity
         public string autorizado { get; set; }
         public string hora_solicita { get; set; }
         public string ruta { get; set; }
+        public string orden_anterior { get; set; }
+        public string fecha_negativo { get; set; }
+        public string tipo_maquina { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bitacora> Bitacora { get; set; }

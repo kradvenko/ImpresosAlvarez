@@ -24,7 +24,7 @@ namespace ImpresosAlvarez.Entity
         public string tipo_terminado { get; set; }
         public string descripcion { get; set; }
     
-        public virtual Ordenes Ordenes { get; set; }
         public virtual Usuarios Usuarios { get; set; }
+        public virtual Ordenes Ordenes { get; set; }
     }
 }

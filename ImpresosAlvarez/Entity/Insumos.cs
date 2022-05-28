@@ -15,7 +15,7 @@ namespace ImpresosAlvarez.Entity
     public partial class Insumos
     {
         public int id_insumo { get; set; }
-        public int id_categoria { get; set; }
+        public Nullable<int> id_categoria { get; set; }
         public string descripcion { get; set; }
         public Nullable<double> stock { get; set; }
         public string estado { get; set; }

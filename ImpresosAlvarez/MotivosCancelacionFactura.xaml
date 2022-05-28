@@ -1,0 +1,68 @@
+﻿<Window x:Class="ImpresosAlvarez.MotivosCancelacionFactura"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImpresosAlvarez"
+        mc:Ignorable="d"
+        Title="Motivos de Cancelación de Factura" Height="300" Width="750" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="8">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                    <LinearGradientBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                            <RotateTransform Angle="90" CenterY="0.5" CenterX="0.5"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </LinearGradientBrush.RelativeTransform>
+                    <GradientStop Color="#FF000530" Offset="1"/>
+                    <GradientStop Color="#FF000530"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+
+        <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource LabelBoldBlack}" Content="Motivo cancelación"></Label>
+        <ComboBox x:Name="cbMotivos" Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource ComboBoxFlatStyle}" SelectionChanged="cbMotivos_SelectionChanged">
+            <ComboBoxItem IsSelected="True">01 - Comprobante emitido con errores con relación.</ComboBoxItem>
+            <ComboBoxItem>02 - Comprobante emitido con errores sin relación.</ComboBoxItem>
+            <ComboBoxItem>03 - No se llevó a cabo la operación.</ComboBoxItem>
+            <ComboBoxItem>04 - Operación nominativa relacionada en la factura global.</ComboBoxItem>
+        </ComboBox>
+
+        <Label x:Name="lblInfo" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="4" Grid.RowSpan="2">
+            <Label.Content>
+                <TextBox 
+                  Name="tbInfo"
+                  TextWrapping="Wrap"
+                  AcceptsReturn="True"
+                  VerticalScrollBarVisibility="Disabled">
+                    01-Este supuesto aplica cuando la factura generada contiene un error en la clave del producto, valor unitario, descuento o cualquier otro dato, por lo que se debe reexpedir. En este caso, primero se sustituye la factura y cuando se solicita la cancelación, se incorpora el folio de la factura que sustituye a la cancelada.
+                </TextBox>
+            </Label.Content>
+        </Label>
+
+        <Button x:Name="btnCancelacionFactura" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz04}" Content="Factura relacionada" Click="btnCancelacionFactura_Click"></Button>
+        <Label x:Name="lblUUIDCancelada" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource LabelBoldBlack}" Content="-"></Label>
+        
+        <Button x:Name="bntCancelarFactura" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Solicitar Cancelación" Click="bntCancelarFactura_Click"></Button>
+        <Button x:Name="btnCancelar" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cancelar" Click="btnCancelar_Click"></Button>
+    </Grid>
+</Window>

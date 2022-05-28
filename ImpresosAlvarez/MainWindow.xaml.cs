@@ -52,6 +52,9 @@ namespace ImpresosAlvarez
                 case "INVENTARIO":
                     btnInventario.Visibility = Visibility.Visible;
                     break;
+                case "IMPRESION":
+                    btnImpresion.Visibility = Visibility.Visible;
+                    break;
                 default:
                     break;
             }
@@ -131,6 +134,45 @@ namespace ImpresosAlvarez
         {
             Salidas salida = new Salidas();
             salida.Show();
+        }
+
+        private void btnImpresion_Click(object sender, RoutedEventArgs e)
+        {
+            gImpresion.Visibility = Visibility.Visible;
+        }
+
+        private void btnTrabajosEnImpresion_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnDiseno_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void btnDisenoPendientes_Click(object sender, RoutedEventArgs e)
+        {
+            DisenoOrdenesPendientes pendientes = new DisenoOrdenesPendientes();
+            pendientes.ShowDialog();
+        }
+
+        private void btnNuevaOrden_Click(object sender, RoutedEventArgs e)
+        {
+            NuevaOrden orden = new NuevaOrden();
+            orden.Show();
+        }
+
+        private void btnReimprimirOrden_Click(object sender, RoutedEventArgs e)
+        {
+            ReimprimirOrden Re = new ReimprimirOrden();
+            Re.ShowDialog();
+        }
+
+        private void btnTrabajosEntregados_Click(object sender, RoutedEventArgs e)
+        {
+            TrabajosEntregados entregados = new TrabajosEntregados();
+            entregados.Show();
         }
     }
 }

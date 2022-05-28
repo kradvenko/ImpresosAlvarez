@@ -22,7 +22,7 @@ namespace ImpresosAlvarez.Entity
         public string hora_inicio { get; set; }
         public string hora_fin { get; set; }
     
-        public virtual Ordenes Ordenes { get; set; }
         public virtual Usuarios Usuarios { get; set; }
+        public virtual Ordenes Ordenes { get; set; }
     }
 }

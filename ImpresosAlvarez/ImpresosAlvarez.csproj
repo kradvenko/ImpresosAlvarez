@@ -13,10 +13,10 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <Deterministic>true</Deterministic>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <IsWebBootstrapper>true</IsWebBootstrapper>
     <PublishUrl>C:\Publish\ImpresosAlvarez\</PublishUrl>
     <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
+    <InstallFrom>Web</InstallFrom>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateMode>Foreground</UpdateMode>
     <UpdateInterval>7</UpdateInterval>
@@ -24,10 +24,12 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
+    <InstallUrl>http://impresosalvarez.atwebpages.com/</InstallUrl>
     <UpdateUrl>http://impresosalvarez.atwebpages.com/</UpdateUrl>
+    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>6</ApplicationRevision>
-    <ApplicationVersion>1.2.0.%2a</ApplicationVersion>
+    <ApplicationRevision>36</ApplicationRevision>
+    <ApplicationVersion>1.3.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -64,7 +66,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>ImpresosAlvarez.App</StartupObject>
@@ -150,6 +152,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BuscarFacturaCancelada.xaml.cs">
+      <DependentUpon>BuscarFacturaCancelada.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="BuscarFacturaRelacionadaCancelacion.xaml.cs">
+      <DependentUpon>BuscarFacturaRelacionadaCancelacion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BuscarOrdenes.xaml.cs">
       <DependentUpon>BuscarOrdenes.xaml</DependentUpon>
     </Compile>
@@ -192,6 +200,9 @@
     </Compile>
     <Compile Include="ControlSalidaInventario.xaml.cs">
       <DependentUpon>ControlSalidaInventario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DisenoOrdenesPendientes.xaml.cs">
+      <DependentUpon>DisenoOrdenesPendientes.xaml</DependentUpon>
     </Compile>
     <Compile Include="Entity\Bitacora.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
@@ -415,11 +426,26 @@
     <Compile Include="FacturaDigital.xaml.cs">
       <DependentUpon>FacturaDigital.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MotivosCancelacionFactura.xaml.cs">
+      <DependentUpon>MotivosCancelacionFactura.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MovimientosInventario.xaml.cs">
       <DependentUpon>MovimientosInventario.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NuevaOrden.xaml.cs">
+      <DependentUpon>NuevaOrden.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="OrdenesAnteriores.xaml.cs">
+      <DependentUpon>OrdenesAnteriores.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ReimprimirOrden.xaml.cs">
+      <DependentUpon>ReimprimirOrden.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Salidas.xaml.cs">
       <DependentUpon>Salidas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TrabajosEntregados.xaml.cs">
+      <DependentUpon>TrabajosEntregados.xaml</DependentUpon>
     </Compile>
     <Compile Include="VerComplemento.xaml.cs">
       <DependentUpon>VerComplemento.xaml</DependentUpon>
@@ -443,6 +469,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Compile Include="Web References\mx.facturacfdiCancelacion.v40\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Page Include="BuscarFacturaCancelada.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="BuscarFacturaRelacionadaCancelacion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="BuscarOrdenes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -487,6 +526,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="DisenoOrdenesPendientes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Entradas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -518,11 +561,31 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MotivosCancelacionFactura.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MovimientosInventario.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="NuevaOrden.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OrdenesAnteriores.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ReimprimirOrden.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Salidas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TrabajosEntregados.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -616,6 +679,23 @@
     <None Include="Web References\mx.facturacfdi.v33\wsTimbradoResponse.datasource">
       <DependentUpon>Reference.map</DependentUpon>
     </None>
+    <None Include="Web References\mx.facturacfdiCancelacion.v40\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Web References\mx.facturacfdiCancelacion.v40\WSCancelacion40Service.wsdl" />
+    <None Include="Web References\mx.facturacfdiCancelacion.v40\WSCancelacion40Service.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\mx.facturacfdiCancelacion.v40\WSCancelacion40Service0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\mx.facturacfdiCancelacion.v40\WSCancelacion40Service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Web References\mx.facturacfdiCancelacion.v40\wsCancelacionResponse1.datasource">
+      <DependentUpon>Reference.map</DependentUpon>
+    </None>
     <Resource Include="Fonts\Montserrat-Bold.ttf" />
     <Resource Include="Fonts\Montserrat-Regular.ttf" />
     <EntityDeploy Include="Entity\ImpresosEntities.edmx">
@@ -683,6 +763,17 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
+    <WebReferenceUrl Include="https://v33.facturacfdi.mx/WSCancelacion40Service%3fwsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\mx.facturacfdiCancelacion.v40\</RelPath>
+      <UpdateFromURL>https://v33.facturacfdi.mx/WSCancelacion40Service%3fwsdl</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>ImpresosAlvarez_mx_facturacfdi_v40_WSCancelacion40Service</CachedSettingsPropName>
+    </WebReferenceUrl>
     <WebReferenceUrl Include="https://v33.facturacfdi.mx/WSCancelacionService%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\mx.facturacfdi.v331\</RelPath>

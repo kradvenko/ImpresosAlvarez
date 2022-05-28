@@ -225,7 +225,7 @@
                     <Label Style="{StaticResource LabelBold}">Recepción</Label>
                 </Button.Content>
             </Button>
-            <Button x:Name="btnDiseno" Grid.Row="1" Visibility="Hidden">
+            <Button x:Name="btnDiseno" Grid.Row="1" Visibility="Hidden" Click="btnDiseno_Click">
                 <Button.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Button.Effect>
@@ -269,7 +269,7 @@
                     <Label Style="{StaticResource LabelBold}">Diseño</Label>
                 </Button.Content>
             </Button>
-            <Button x:Name="btnImpresion" Grid.Row="2" Visibility="Hidden">
+            <Button x:Name="btnImpresion" Grid.Row="2" Visibility="Hidden" Click="btnImpresion_Click">
                 <Button.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Button.Effect>
@@ -512,14 +512,69 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Button x:Name="btnNotas" Grid.Row="0" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Notas" Click="btnNotas_Click"></Button>
-            <Button x:Name="btnFacturaDigital" Grid.Row="0" Grid.Column="2" Style="{StaticResource btnInterfaz01}" Content="Factura Digital" Click="btnFacturaDigital_Click"></Button>
-            <Button x:Name="btnComplemento" Grid.Row="0" Grid.Column="3" Style="{StaticResource btnInterfaz01}" Content="Complementos" Click="btnComplemento_Click"></Button>
-            <Button x:Name="btnControlFacturas" Grid.Row="0" Grid.Column="4" Style="{StaticResource btnInterfaz01}" Content="Control Facturas" Click="btnControlFacturas_Click"></Button>
-            <Button x:Name="btnControlComplementos" Grid.Row="0" Grid.Column="5" Style="{StaticResource btnInterfaz01}" Content="Control Complementos" Click="btnControlComplementos_Click"></Button>
+            <Button x:Name="btnNuevaOrden" Grid.Row="0" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Nueva Orden" Click="btnNuevaOrden_Click"></Button>
+            <Button x:Name="btnReimprimirOrden" Grid.Row="0" Grid.Column="2" Style="{StaticResource btnInterfaz01}" Content="Reimprimir Orden" Click="btnReimprimirOrden_Click"></Button>
 
-            <Button x:Name="btnCalculadora" Grid.Row="1" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Calculadora" Click="btnCalculadora_Click"></Button>
+            <Button x:Name="btnNotas" Grid.Row="1" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Notas" Click="btnNotas_Click"></Button>
+            <Button x:Name="btnFacturaDigital" Grid.Row="1" Grid.Column="2" Style="{StaticResource btnInterfaz01}" Content="Factura Digital" Click="btnFacturaDigital_Click"></Button>
+            <Button x:Name="btnComplemento" Grid.Row="1" Grid.Column="3" Style="{StaticResource btnInterfaz01}" Content="Complementos" Click="btnComplemento_Click"></Button>
+            <Button x:Name="btnControlFacturas" Grid.Row="1" Grid.Column="4" Style="{StaticResource btnInterfaz01}" Content="Control Facturas" Click="btnControlFacturas_Click"></Button>
+            <Button x:Name="btnControlComplementos" Grid.Row="1" Grid.Column="5" Style="{StaticResource btnInterfaz01}" Content="Control Complementos" Click="btnControlComplementos_Click"></Button>
+
+            <Button x:Name="btnCalculadora" Grid.Row="2" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Calculadora" Click="btnCalculadora_Click"></Button>
+            <Button x:Name="btnTrabajosEntregados" Grid.Row="2" Grid.Column="2" Style="{StaticResource btnInterfaz01}" Content="Trabajos Entregados" Click="btnTrabajosEntregados_Click"></Button>
         </Grid>
+
+        <Grid x:Name="gImpresion" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="5" Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Button x:Name="btnTrabajosEnImpresion" Grid.Row="0" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Existencias" Click="btnTrabajosEnImpresion_Click"></Button>
+        </Grid>
+
+        <Grid x:Name="gDiseno" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="5" Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Button x:Name="btnDisenoPendientes" Grid.Row="0" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Ordenes Pendientes" Click="btnDisenoPendientes_Click"></Button>
+        </Grid>
+
 
         <Grid x:Name="gInventario" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="5" Visibility="Hidden">
             <Grid.ColumnDefinitions>
@@ -543,7 +598,7 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Button x:Name="btnExistencias" Grid.Row="0" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Existencias" Click="btnExistencias_Click"></Button>
+            <Button x:Name="btn" Grid.Row="0" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Existencias" Click="btnExistencias_Click"></Button>
             <Button x:Name="btnEntradas" Grid.Row="0" Grid.Column="2" Style="{StaticResource btnInterfaz01}" Content="Entradas" Click="btnEntradas_Click"></Button>
             <Button x:Name="btnSalidas" Grid.Row="0" Grid.Column="3" Style="{StaticResource btnInterfaz01}" Content="Salidas" Click="btnSalidas_Click"></Button>
         </Grid>

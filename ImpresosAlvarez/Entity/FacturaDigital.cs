@@ -31,5 +31,6 @@ namespace ImpresosAlvarez.Entity
         public string ine_entidad { get; set; }
         public string ine_ambito { get; set; }
         public string ine_id_contabilidad { get; set; }
+        public string para_cancelacion { get; set; }
     }
 }

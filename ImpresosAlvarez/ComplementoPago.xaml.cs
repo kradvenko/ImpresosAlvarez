@@ -234,7 +234,7 @@ namespace ImpresosAlvarez
             {
                 rutaCertificado = @"C:\Impresos\Victor\Certificado.cer";
                 rutaLlave = @"C:\Impresos\Victor\Llave.key";
-                contraseñaLlave = "ALVA7209";
+                contraseñaLlave = "ALVA7209E51";
                 nombreEmisor = "VICTOR MANUEL ALVAREZ RAMIREZ";
                 rfcEmisor = "AARV720921E51";
                 serie = "-";
@@ -346,7 +346,7 @@ namespace ImpresosAlvarez
                 File.WriteAllText(@"C:\Impresos\XML_3_3.xml", XML);
 
                 Directory.CreateDirectory(@"C:\Impresos\Complementos\" + _clienteElegido.nombre);
-                string fileName = @"C:\Impresos\Complementos\" + _clienteElegido.nombre + @"\c_pre_" + cbContribuyentes.SelectedValue.ToString() + "_" + idParcialidad.ToString() + "_" + fechaFactura.Replace("/", "-").Replace(":", "-") + ".xml";
+                string fileName = @"C:\Impresos\Complementos\" + _clienteElegido.nombre + @"\c_pre_" + cbContribuyentes.SelectedValue.ToString() + "_" + FolioActual + "_" + fechaFactura.Replace("/", "-").Replace(":", "-") + ".xml";
 
                 File.WriteAllText(fileName, XML);
 
@@ -381,7 +381,7 @@ namespace ImpresosAlvarez
                 if (respTimbre.cfdi != null && respTimbre.cfdi.Trim().Length > 0)
                 {
                     XMLTimbrado = respTimbre.cfdi;
-                    string fileName = @"C:\Impresos\Complementos\" + _clienteElegido.nombre + @"\fac_" + cbContribuyentes.SelectedValue.ToString() + "_" + idParcialidad.ToString() + "_" + fechaFactura.Replace("/", "-").Replace(":", "-") + ".xml";
+                    string fileName = @"C:\Impresos\Complementos\" + _clienteElegido.nombre + @"\fac_" + cbContribuyentes.SelectedValue.ToString() + "_" + FolioActual + "_" + fechaFactura.Replace("/", "-").Replace(":", "-") + ".xml";
                     File.WriteAllText(fileName, XMLTimbrado);
                     rutaXML = fileName;
                     XML = XMLTimbrado;
@@ -616,58 +616,65 @@ namespace ImpresosAlvarez
         private void InsertarParcialidad()
         {
             idParcialidad = 0;
-
-            foreach (ComplementoPagoData item in dgComplemento.Items)
+            try
             {
-                int idFactura = int.Parse(item.IdFactura);
-                String xml = XML;
-                float anterior = float.Parse(item.SaldoAnterior);
-                float pagado = float.Parse(item.Pagado);
-                float insoluto = float.Parse(item.SaldoInsoluto);
-                int parcialidad = int.Parse(item.Parcialidad);
 
-                int idContribuyente = int.Parse(cbContribuyentes.SelectedValue.ToString());
-
-                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                foreach (ComplementoPagoData item in dgComplemento.Items)
                 {
-                    Parcialidades parce = new Parcialidades();
+                    int idFactura = int.Parse(item.IdFactura);
+                    String xml = XML;
+                    float anterior = float.Parse(item.SaldoAnterior);
+                    float pagado = float.Parse(item.Pagado);
+                    float insoluto = float.Parse(item.SaldoInsoluto);
+                    int parcialidad = int.Parse(item.Parcialidad);
 
-                    parce.id_factura = idFactura;
-                    parce.xml = xml;
-                    parce.anterior = anterior;
-                    parce.pagado = pagado;
-                    parce.insoluto = insoluto;
-                    parce.parcialidad = parcialidad;
-                    parce.fecha = DateTime.Now;
-                    parce.estado = "ACTIVO";
+                    int idContribuyente = int.Parse(cbContribuyentes.SelectedValue.ToString());
 
-                    dbContext.Parcialidades.Add(parce);
+                    using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                    {
+                        Parcialidades parce = new Parcialidades();
 
-                    dbContext.SaveChanges();
+                        parce.id_factura = idFactura;
+                        parce.xml = xml;
+                        parce.anterior = anterior;
+                        parce.pagado = pagado;
+                        parce.insoluto = insoluto;
+                        parce.parcialidad = parcialidad;
+                        parce.fecha = DateTime.Now;
+                        parce.estado = "ACTIVO";
 
-                    //idParcialidad = parce.id_parcialidad;
+                        dbContext.Parcialidades.Add(parce);
 
-                    Contribuyentes cont = new Contribuyentes();
-                    cont = dbContext.Contribuyentes.Where(C => C.id_contribuyente == idContribuyente).FirstOrDefault();
-                    FolioActual = int.Parse(cont.num_complemento);
-                    cont.num_complemento = (int.Parse(cont.num_complemento) + 1).ToString();
+                        dbContext.SaveChanges();
 
-                    parce.folio = FolioActual.ToString();
+                        //idParcialidad = parce.id_parcialidad;
 
-                    dbContext.SaveChanges();
+                        Contribuyentes cont = new Contribuyentes();
+                        cont = dbContext.Contribuyentes.Where(C => C.id_contribuyente == idContribuyente).FirstOrDefault();
+                        FolioActual = int.Parse(cont.num_complemento);
+                        cont.num_complemento = (int.Parse(cont.num_complemento) + 1).ToString();
 
-                    idParcialidad = int.Parse(cont.num_complemento);
-                    datosFacturaElectronica.folio = idParcialidad.ToString();
+                        parce.folio = FolioActual.ToString();
 
-                    xml = xml.Replace("Folio=\"-\"", "Folio=\"" + idParcialidad.ToString() + "\"");
+                        dbContext.SaveChanges();
 
-                    parce.xml = xml;
-                    XML = xml;
+                        idParcialidad = int.Parse(cont.num_complemento);
+                        datosFacturaElectronica.folio = idParcialidad.ToString();
 
-                    dbContext.SaveChanges();
+                        xml = xml.Replace("Folio=\"-\"", "Folio=\"" + idParcialidad.ToString() + "\"");
 
-                    item.IdParcialidad = parce.id_parcialidad.ToString();
+                        parce.xml = xml;
+                        XML = xml;
+
+                        dbContext.SaveChanges();
+
+                        item.IdParcialidad = parce.id_parcialidad.ToString();
+                    }
                 }
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message + " " + exc.InnerException.Message);
             }
         }
         private void ActualizarParcialidad()
@@ -794,7 +801,7 @@ namespace ImpresosAlvarez
                 .SetFont(fb)
                 .SetFontSize(fs)
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(datosFacturaElectronica.domicilioEmisorColonia + " CP " + datosFacturaElectronica.domicilioEmisorCodigoPostal + " " + datosFacturaElectronica.domicilioEmisorMunicipio + " " + datosFacturaElectronica.domicilioEmisorEstado + "\nTel 212-66-46 Fax 216-64-22")));
+                .Add(new Paragraph(datosFacturaElectronica.domicilioEmisorColonia + " CP " + datosFacturaElectronica.domicilioEmisorCodigoPostal + " " + datosFacturaElectronica.domicilioEmisorMunicipio + " " + datosFacturaElectronica.domicilioEmisorEstado + "\nTel 311-217-13-35 311-217-85-17")));
 
             table.AddCell(new Cell(1, 2)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
@@ -1402,7 +1409,8 @@ namespace ImpresosAlvarez
                     {
                         Configuracion config = dbContext.Configuracion.Single();
                         MailMessage mail = new MailMessage();
-                        SmtpClient SmtpServer = new SmtpClient("smtp.live.com");
+                        //SmtpClient SmtpServer = new SmtpClient("smtp.live.com");
+                        SmtpClient SmtpServer = new SmtpClient("smtp.office365.com");
                         //mail.From = new MailAddress("alvarezimpresores_16@hotmail.com");
                         mail.From = new MailAddress(config.correo);
 
@@ -1522,7 +1530,7 @@ namespace ImpresosAlvarez
                             if (parce != null)
                             {
                                 parcialidad = (parce.parcialidad + 1).ToString();
-                                parcialidad = AddDecimals(parcialidad);
+                                //parcialidad = AddDecimals(parcialidad);
                                 saldoAnterior = parce.insoluto.ToString();
                                 saldoAnterior = AddDecimals(saldoAnterior);
                             }

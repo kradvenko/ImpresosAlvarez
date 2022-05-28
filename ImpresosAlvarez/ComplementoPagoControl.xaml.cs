@@ -49,6 +49,7 @@ namespace ImpresosAlvarez
             try
             {
                 float ins = float.Parse(_cpd.SaldoAnterior) - float.Parse(tbCantidad.Text);
+                ins = (float)Math.Round(ins, 2);
                 tbInsoluto.Text = ins.ToString();
                 insoluto = ins.ToString();
             }

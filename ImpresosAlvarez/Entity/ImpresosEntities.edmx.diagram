@@ -14,7 +14,6 @@
         <EntityTypeShape EntityType="ImpresosBDModel.DetalleNota" Width="1.5" PointX="9.75" PointY="3.75" />
         <EntityTypeShape EntityType="ImpresosBDModel.Disenos" Width="1.5" PointX="6" PointY="7.25" />
         <EntityTypeShape EntityType="ImpresosBDModel.Entrega" Width="1.5" PointX="3" PointY="7.375" />
-        <EntityTypeShape EntityType="ImpresosBDModel.FacturaDigital" Width="1.5" PointX="8.75" PointY="9.75" />
         <EntityTypeShape EntityType="ImpresosBDModel.FacturaOrden" Width="1.5" PointX="10.75" PointY="6.75" />
         <EntityTypeShape EntityType="ImpresosBDModel.Facturas" Width="1.5" PointX="10.75" PointY="9.75" />
         <EntityTypeShape EntityType="ImpresosBDModel.FormasPago" Width="1.5" PointX="11.75" PointY="0.75" />
@@ -23,7 +22,6 @@
         <EntityTypeShape EntityType="ImpresosBDModel.NotaOrden" Width="1.5" PointX="12.75" PointY="7.75" />
         <EntityTypeShape EntityType="ImpresosBDModel.Notas" Width="1.5" PointX="12.75" PointY="10.75" />
         <EntityTypeShape EntityType="ImpresosBDModel.NumeroNota" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="ImpresosBDModel.Ordenes" Width="1.5" PointX="0.75" PointY="16" />
         <EntityTypeShape EntityType="ImpresosBDModel.OrdenMateria" Width="1.5" PointX="7.75" PointY="13.75" />
         <EntityTypeShape EntityType="ImpresosBDModel.Pagos" Width="1.5" PointX="14.75" PointY="0.75" />
         <EntityTypeShape EntityType="ImpresosBDModel.PagosNotas" Width="1.5" PointX="14.75" PointY="4.75" />
@@ -36,13 +34,9 @@
         <EntityTypeShape EntityType="ImpresosBDModel.Unidades" Width="1.5" PointX="2.75" PointY="15.75" />
         <EntityTypeShape EntityType="ImpresosBDModel.UsosCFDI" Width="1.5" PointX="4.75" PointY="15.75" />
         <EntityTypeShape EntityType="ImpresosBDModel.Usuarios" Width="1.5" PointX="0.75" PointY="7.25" />
-        <AssociationConnector Association="ImpresosBDModel.FK__Bitacora__id_ord__24E777C3" />
         <AssociationConnector Association="ImpresosBDModel.FK__Bitacora__id_usu__25DB9BFC" />
-        <AssociationConnector Association="ImpresosBDModel.FK__Disenos__id_orde__26CFC035" />
         <AssociationConnector Association="ImpresosBDModel.FK__Disenos__id_usua__27C3E46E" />
-        <AssociationConnector Association="ImpresosBDModel.FK__Entrega__id_orde__28B808A7" />
         <AssociationConnector Association="ImpresosBDModel.FK__Entrega__id_usua__29AC2CE0" />
-        <AssociationConnector Association="ImpresosBDModel.FK__Terminado__id_or__2AA05119" />
         <AssociationConnector Association="ImpresosBDModel.FK__Terminado__id_us__2B947552" />
         <EntityTypeShape EntityType="ImpresosBDModel.Configuracion" Width="1.5" PointX="14.375" PointY="16.75" />
         <EntityTypeShape EntityType="ImpresosBDModel.Valores" Width="1.5" PointX="16.375" PointY="16.75" />
@@ -50,6 +44,12 @@
         <EntityTypeShape EntityType="ImpresosBDModel.Insumos" Width="1.5" PointX="17.375" PointY="3.75" />
         <EntityTypeShape EntityType="ImpresosBDModel.EntradasInventario" Width="1.5" PointX="17.375" PointY="6.75" />
         <EntityTypeShape EntityType="ImpresosBDModel.SalidasInventario" Width="1.5" PointX="17.375" PointY="9.5" />
+        <EntityTypeShape EntityType="ImpresosBDModel.Ordenes" Width="1.5" PointX="7.375" PointY="18.375" />
+        <AssociationConnector Association="ImpresosBDModel.FK__Bitacora__id_ord__24E777C3" />
+        <AssociationConnector Association="ImpresosBDModel.FK__Disenos__id_orde__26CFC035" />
+        <AssociationConnector Association="ImpresosBDModel.FK__Entrega__id_orde__28B808A7" />
+        <AssociationConnector Association="ImpresosBDModel.FK__Terminado__id_or__2AA05119" />
+        <EntityTypeShape EntityType="ImpresosBDModel.FacturaDigital" Width="1.5" PointX="8.5" PointY="8.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
