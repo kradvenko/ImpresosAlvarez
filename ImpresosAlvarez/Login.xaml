@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImpresosAlvarez"
         mc:Ignorable="d"
-        Title="Inicio de Sesión" Height="400" Width="350" WindowStyle="None" WindowStartupLocation="CenterScreen" KeyUp="Window_KeyUp" Loaded="Window_Loaded">
+        Title="Inicio de Sesión" Height="450" Width="350" WindowStyle="None" WindowStartupLocation="CenterScreen" KeyUp="Window_KeyUp" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -16,7 +16,8 @@
             <RowDefinition Height="3*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="0.5*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>            
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
         <Border Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3">
@@ -41,6 +42,8 @@
         <Label Grid.Column="1" Grid.Row="2" Style="{StaticResource LabelBold}" Content="Ingresa tu clave"></Label>
 
         <PasswordBox x:Name="tbClave" Grid.Column="1" Grid.Row="3" Style="{StaticResource PasswordBox}" KeyDown="tbClave_KeyDown"></PasswordBox>
-        
+
+        <Button x:Name="btnIngresoTaller" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="1" Style="{StaticResource btnInterfaz02}" Content="Taller" Click="btnIngresoTaller_Click"></Button>
+
     </Grid>
 </Window>

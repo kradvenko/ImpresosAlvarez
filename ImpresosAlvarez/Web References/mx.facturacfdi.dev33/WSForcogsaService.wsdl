@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://wservicios/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="WSForcogsaService" targetNamespace="http://wservicios/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://dev33.facturacfdi.mx:80/WSForcogsaService?xsd=1" namespace="http://www.w3.org/2000/09/xmldsig#" />
+    </xsd:schema>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://dev33.facturacfdi.mx:80/WSForcogsaService?xsd=2" namespace="http://wservicios/" />
+    </xsd:schema>
+    <xsd:schema>
+      <xsd:import schemaLocation="http://dev33.facturacfdi.mx:80/WSForcogsaService?xsd=3" namespace="http://cancelacfd.sat.gob.mx" />
+    </xsd:schema>
+  </types>
+  <message name="Cancelacion_1">
+    <part name="parameters" element="tns:Cancelacion_1" />
+  </message>
+  <message name="Cancelacion_1Response">
+    <part name="parameters" element="tns:Cancelacion_1Response" />
+  </message>
+  <message name="Cancelacion_2">
+    <part name="parameters" element="tns:Cancelacion_2" />
+  </message>
+  <message name="Cancelacion_2Response">
+    <part name="parameters" element="tns:Cancelacion_2Response" />
+  </message>
+  <message name="Autenticar">
+    <part name="parameters" element="tns:Autenticar" />
+  </message>
+  <message name="AutenticarResponse">
+    <part name="parameters" element="tns:AutenticarResponse" />
+  </message>
+  <message name="Timbrar">
+    <part name="parameters" element="tns:Timbrar" />
+  </message>
+  <message name="TimbrarResponse">
+    <part name="parameters" element="tns:TimbrarResponse" />
+  </message>
+  <message name="TimbrarV2">
+    <part name="parameters" element="tns:TimbrarV2" />
+  </message>
+  <message name="TimbrarV2Response">
+    <part name="parameters" element="tns:TimbrarV2Response" />
+  </message>
+  <portType name="WSForcogsa">
+    <operation name="Cancelacion_1">
+      <input wsam:Action="http://wservicios/WSForcogsa/Cancelacion_1Request" message="tns:Cancelacion_1" />
+      <output wsam:Action="http://wservicios/WSForcogsa/Cancelacion_1Response" message="tns:Cancelacion_1Response" />
+    </operation>
+    <operation name="Cancelacion_2">
+      <input wsam:Action="http://wservicios/WSForcogsa/Cancelacion_2Request" message="tns:Cancelacion_2" />
+      <output wsam:Action="http://wservicios/WSForcogsa/Cancelacion_2Response" message="tns:Cancelacion_2Response" />
+    </operation>
+    <operation name="Autenticar">
+      <input wsam:Action="http://wservicios/WSForcogsa/AutenticarRequest" message="tns:Autenticar" />
+      <output wsam:Action="http://wservicios/WSForcogsa/AutenticarResponse" message="tns:AutenticarResponse" />
+    </operation>
+    <operation name="Timbrar">
+      <input wsam:Action="http://wservicios/WSForcogsa/TimbrarRequest" message="tns:Timbrar" />
+      <output wsam:Action="http://wservicios/WSForcogsa/TimbrarResponse" message="tns:TimbrarResponse" />
+    </operation>
+    <operation name="TimbrarV2">
+      <input wsam:Action="http://wservicios/WSForcogsa/TimbrarV2Request" message="tns:TimbrarV2" />
+      <output wsam:Action="http://wservicios/WSForcogsa/TimbrarV2Response" message="tns:TimbrarV2Response" />
+    </operation>
+  </portType>
+  <binding name="WSForcogsaPortBinding" type="tns:WSForcogsa">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="Cancelacion_1">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Cancelacion_2">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Autenticar">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="Timbrar">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+    <operation name="TimbrarV2">
+      <soap:operation soapAction="" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="WSForcogsaService">
+    <port name="WSForcogsaPort" binding="tns:WSForcogsaPortBinding">
+      <soap:address location="http://dev33.facturacfdi.mx:80/WSForcogsaService" />
+    </port>
+  </service>
+</definitions>

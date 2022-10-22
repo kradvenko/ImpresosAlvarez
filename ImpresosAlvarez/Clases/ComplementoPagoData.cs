@@ -25,11 +25,12 @@ namespace ImpresosAlvarez.Clases
         public String MontoPago { get; set; }
         public String IdDocto { get; set; }
         public String MetodoPagoDR { get; set; }
+        public String IvaDR { get; set; }
         public ComplementoPagoData()
         {
 
         }
-        public ComplementoPagoData(String UUID, String Serie, String Folio, String Parcialidad, String SaldoAnterior, String Pagado, String SaldoInsoluto, String IdFactura)
+        public ComplementoPagoData(String UUID, String Serie, String Folio, String Parcialidad, String SaldoAnterior, String Pagado, String SaldoInsoluto, String IdFactura, String IvaDR)
         {
             this.UUID = UUID;
             this.Serie = Serie;
@@ -39,6 +40,7 @@ namespace ImpresosAlvarez.Clases
             this.Pagado = Pagado;
             this.SaldoInsoluto = SaldoInsoluto;
             this.IdFactura = IdFactura;
+            this.IvaDR = IvaDR;
         }
     }
 }

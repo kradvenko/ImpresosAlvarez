@@ -50,6 +50,7 @@
         <AssociationConnector Association="ImpresosBDModel.FK__Entrega__id_orde__28B808A7" />
         <AssociationConnector Association="ImpresosBDModel.FK__Terminado__id_or__2AA05119" />
         <EntityTypeShape EntityType="ImpresosBDModel.FacturaDigital" Width="1.5" PointX="8.5" PointY="8.875" />
+        <EntityTypeShape EntityType="ImpresosBDModel.InfoTaller" Width="1.5" PointX="17.375" PointY="13.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

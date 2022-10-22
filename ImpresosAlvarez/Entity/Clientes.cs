@@ -31,5 +31,7 @@ namespace ImpresosAlvarez.Entity
         public string pseudonimo { get; set; }
         public string numero_exterior { get; set; }
         public string numero_interior { get; set; }
+        public string nombre_constancia { get; set; }
+        public string regimen_fiscal { get; set; }
     }
 }

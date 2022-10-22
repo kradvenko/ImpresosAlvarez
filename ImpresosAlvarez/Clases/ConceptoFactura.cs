@@ -20,6 +20,7 @@ namespace ImpresosAlvarez.Clases
         public  int IdOrden { get; set; }
         public int IdInsumo { get; set; }
         public String DescripcionInsumo { get; set; }
+        public String ObjetoImp { get; set; }
 
 
         public String cantidad;

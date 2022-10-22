@@ -64,6 +64,7 @@ namespace ImpresosAlvarez.Entity
         public virtual DbSet<SalidasInventario> SalidasInventario { get; set; }
         public virtual DbSet<Ordenes> Ordenes { get; set; }
         public virtual DbSet<FacturaDigital> FacturaDigital { get; set; }
+        public virtual DbSet<InfoTaller> InfoTaller { get; set; }
     
         public virtual int Actualizar_Amparo_Factura(Nullable<int> id_factura, string amparo)
         {

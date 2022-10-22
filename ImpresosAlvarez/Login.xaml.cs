@@ -69,5 +69,24 @@ namespace ImpresosAlvarez
         {
             tbClave.Focus();
         }
+
+        private void btnIngresoTaller_Click(object sender, RoutedEventArgs e)
+        {
+            using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+            {
+                Usuarios cu = dbContext.Usuarios.Where(U => U.nombre == "TALLER" && U.pass == "TALLER").FirstOrDefault();
+
+                if (cu != null)
+                {
+                    parent.CurrentUser = cu;
+                    parent.SetMainWindow();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("No se puede iniciar sesion.");
+                }
+            }
+        }
     }
 }

@@ -523,6 +523,8 @@
 
             <Button x:Name="btnCalculadora" Grid.Row="2" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Calculadora" Click="btnCalculadora_Click"></Button>
             <Button x:Name="btnTrabajosEntregados" Grid.Row="2" Grid.Column="2" Style="{StaticResource btnInterfaz01}" Content="Trabajos Entregados" Click="btnTrabajosEntregados_Click"></Button>
+            <Button x:Name="btnServiciosProductos" Grid.Row="2" Grid.Column="3" Style="{StaticResource btnInterfaz01}" Content="Control Servicios y Productos" Click="btnServiciosProductos_Click"></Button>
+            
         </Grid>
 
         <Grid x:Name="gImpresion" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="5" Visibility="Hidden">
@@ -547,7 +549,7 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Button x:Name="btnTrabajosEnImpresion" Grid.Row="0" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Existencias" Click="btnTrabajosEnImpresion_Click"></Button>
+            <Button x:Name="btnTrabajosEnImpresion" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Content="Trabajos en Impresión y Terminado" Click="btnTrabajosEnImpresion_Click"></Button>
         </Grid>
 
         <Grid x:Name="gDiseno" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="5" Visibility="Hidden">
@@ -598,10 +600,11 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Button x:Name="btn" Grid.Row="0" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Existencias" Click="btnExistencias_Click"></Button>
+            <Button x:Name="btnExistencias" Grid.Row="0" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Existencias" Click="btnExistencias_Click"></Button>
             <Button x:Name="btnEntradas" Grid.Row="0" Grid.Column="2" Style="{StaticResource btnInterfaz01}" Content="Entradas" Click="btnEntradas_Click"></Button>
             <Button x:Name="btnSalidas" Grid.Row="0" Grid.Column="3" Style="{StaticResource btnInterfaz01}" Content="Salidas" Click="btnSalidas_Click"></Button>
         </Grid>
+        
     </Grid>
 </Window>
 

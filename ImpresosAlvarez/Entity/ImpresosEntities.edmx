@@ -49,6 +49,8 @@
           <Property Name="pseudonimo" Type="nvarchar" MaxLength="50" />
           <Property Name="numero_exterior" Type="nvarchar" MaxLength="50" />
           <Property Name="numero_interior" Type="nvarchar" MaxLength="50" />
+          <Property Name="nombre_constancia" Type="nvarchar" MaxLength="150" />
+          <Property Name="regimen_fiscal" Type="nvarchar" MaxLength="6" />
         </EntityType>
         <EntityType Name="Comentarios">
           <Key>
@@ -214,6 +216,16 @@
           <Property Name="fecha_fin" Type="nvarchar" MaxLength="50" />
           <Property Name="hora_fin" Type="nvarchar" MaxLength="50" />
           <Property Name="notas" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="InfoTaller">
+          <Key>
+            <PropertyRef Name="IdInfoTaller" />
+          </Key>
+          <Property Name="IdInfoTaller" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUsuarioLamina" Type="int" />
+          <Property Name="IdUsuarioNegativo" Type="int" />
+          <Property Name="Fecha" Type="datetime" />
+          <Property Name="IdUsuarioGuarda" Type="int" />
         </EntityType>
         <EntityType Name="Insumos">
           <Key>
@@ -1162,6 +1174,7 @@
           <EntitySet Name="Facturas" EntityType="Self.Facturas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FormasPago" EntityType="Self.FormasPago" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Impresion" EntityType="Self.Impresion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InfoTaller" EntityType="Self.InfoTaller" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Insumos" EntityType="Self.Insumos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Materia" EntityType="Self.Materia" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NotaOrden" EntityType="Self.NotaOrden" Schema="dbo" store:Type="Tables" />
@@ -1855,6 +1868,7 @@
             <End Role="Terminado" EntitySet="Terminado" />
           </AssociationSet>
           <EntitySet Name="FacturaDigital" EntityType="ImpresosBDModel.FacturaDigital" />
+          <EntitySet Name="InfoTaller" EntityType="ImpresosBDModel.InfoTaller" />
           </EntityContainer>
         <ComplexType Name="Obtener_Bitacora_Diaria_Result">
           <Property Type="String" Name="nombre" Nullable="false" MaxLength="50" />
@@ -2485,6 +2499,8 @@
           <Property Name="pseudonimo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="numero_exterior" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="numero_interior" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="nombre_constancia" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="regimen_fiscal" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Comentarios">
           <Key>
@@ -3034,6 +3050,16 @@
           <Property Name="ine_ambito" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="ine_id_contabilidad" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="para_cancelacion" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="InfoTaller">
+          <Key>
+            <PropertyRef Name="IdInfoTaller" />
+          </Key>
+          <Property Name="IdInfoTaller" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUsuarioLamina" Type="Int32" />
+          <Property Name="IdUsuarioNegativo" Type="Int32" />
+          <Property Name="Fecha" Type="DateTime" Precision="3" />
+          <Property Name="IdUsuarioGuarda" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -3841,6 +3867,8 @@
           <EntitySetMapping Name="Clientes">
             <EntityTypeMapping TypeName="ImpresosBDModel.Clientes">
               <MappingFragment StoreEntitySet="Clientes">
+                <ScalarProperty Name="regimen_fiscal" ColumnName="regimen_fiscal" />
+                <ScalarProperty Name="nombre_constancia" ColumnName="nombre_constancia" />
                 <ScalarProperty Name="numero_interior" ColumnName="numero_interior" />
                 <ScalarProperty Name="numero_exterior" ColumnName="numero_exterior" />
                 <ScalarProperty Name="pseudonimo" ColumnName="pseudonimo" />
@@ -4332,6 +4360,17 @@
                 <ScalarProperty Name="xml" ColumnName="xml" />
                 <ScalarProperty Name="id_factura" ColumnName="id_factura" />
                 <ScalarProperty Name="id_factura_digital" ColumnName="id_factura_digital" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InfoTaller">
+            <EntityTypeMapping TypeName="ImpresosBDModel.InfoTaller">
+              <MappingFragment StoreEntitySet="InfoTaller">
+                <ScalarProperty Name="IdUsuarioGuarda" ColumnName="IdUsuarioGuarda" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="IdUsuarioNegativo" ColumnName="IdUsuarioNegativo" />
+                <ScalarProperty Name="IdUsuarioLamina" ColumnName="IdUsuarioLamina" />
+                <ScalarProperty Name="IdInfoTaller" ColumnName="IdInfoTaller" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

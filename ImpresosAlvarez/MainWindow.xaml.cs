@@ -1,7 +1,9 @@
 ﻿using ImpresosAlvarez.Entity;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -54,9 +56,22 @@ namespace ImpresosAlvarez
                     break;
                 case "IMPRESION":
                     btnImpresion.Visibility = Visibility.Visible;
+                    gImpresion.Visibility = Visibility.Visible;
                     break;
                 default:
                     break;
+            }
+
+            string curFile = @"C:\Impresos\FileCheck.txt";
+            //MessageBox.Show(File.Exists(curFile) ? "File exists." : "File does not exist.");
+            if (!File.Exists(curFile))
+            {
+                using (var client = new WebClient())
+                {
+                    client.DownloadFile("http://impresosalvarez.atwebpages.com/FileCheck.txt", @"C:\Impresos\FileCheck.txt");
+                    client.DownloadFile("http://impresosalvarez.atwebpages.com/XLS_4_0.xslt", @"C:\Impresos\Facturacion\XLS_4_0.xslt");
+                    client.DownloadFile("http://impresosalvarez.atwebpages.com/XML_4_0_Template.xml", @"C:\Impresos\Facturacion\XML_4_0_Template.xml");
+                }
             }
         }
 
@@ -109,6 +124,7 @@ namespace ImpresosAlvarez
         private void btnRecepcion_Click(object sender, RoutedEventArgs e)
         {
             gRecepcion.Visibility = Visibility.Visible;
+            gImpresion.Visibility = Visibility.Hidden;
             gInventario.Visibility = Visibility.Hidden;
         }
 
@@ -121,6 +137,7 @@ namespace ImpresosAlvarez
         private void btnInventario_Click(object sender, RoutedEventArgs e)
         {
             gRecepcion.Visibility = Visibility.Hidden;
+            gImpresion.Visibility = Visibility.Hidden;
             gInventario.Visibility = Visibility.Visible;
         }
 
@@ -138,12 +155,15 @@ namespace ImpresosAlvarez
 
         private void btnImpresion_Click(object sender, RoutedEventArgs e)
         {
+            gRecepcion.Visibility = Visibility.Hidden;
             gImpresion.Visibility = Visibility.Visible;
+            gInventario.Visibility = Visibility.Hidden;
         }
 
         private void btnTrabajosEnImpresion_Click(object sender, RoutedEventArgs e)
         {
-
+            TrabajosImpresionTerminado pendientes = new TrabajosImpresionTerminado();
+            pendientes.ShowDialog();
         }
 
         private void btnDiseno_Click(object sender, RoutedEventArgs e)
@@ -173,6 +193,12 @@ namespace ImpresosAlvarez
         {
             TrabajosEntregados entregados = new TrabajosEntregados();
             entregados.Show();
+        }
+
+        private void btnServiciosProductos_Click(object sender, RoutedEventArgs e)
+        {
+            ControlServiciosProductos servicios = new ControlServiciosProductos();
+            servicios.Show();
         }
     }
 }
