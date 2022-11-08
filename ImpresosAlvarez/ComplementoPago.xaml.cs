@@ -3,6 +3,7 @@ using Gma.QrCodeNet.Encoding.Windows.Render;
 using ImpresosAlvarez.Clases;
 using ImpresosAlvarez.Entity;
 using ImpresosAlvarez.mx.facturacfdi.v33;
+//using ImpresosAlvarez.mx.facturacfdi.dev33;
 using iText.IO.Font.Constants;
 using iText.IO.Image;
 using iText.Kernel.Colors;
@@ -251,14 +252,31 @@ namespace ImpresosAlvarez
                 datosFacturaElectronica.domicilioEmisorEstado = "NAY";
                 datosFacturaElectronica.domicilioEmisorCodigoPostal = "63000";
             }
+            /*
+            rutaCertificado = @"C:\Impresos\Pruebas\Certificado.cer";
+            rutaLlave = @"C:\Impresos\Pruebas\Llave.key";
+            contraseñaLlave = "12345678a";
+            nombreEmisor = "XOCHILT CASAS CHAVEZ";
+            rfcEmisor = "CACX7605101P8";
+            serie = "-";
+            usuarioFacturacion = "pruebasWS";
+            contraseñaFacturacion = "pruebasWS";
+            curp = "-";
+            regimen = "Regimen de incorporación fiscal";
 
+            datosFacturaElectronica.domicilioEmisorCalle = "";
+            datosFacturaElectronica.domicilioEmisorColonia = "";
+            datosFacturaElectronica.domicilioEmisorMunicipio = " ";
+            datosFacturaElectronica.domicilioEmisorEstado = "";
+            datosFacturaElectronica.domicilioEmisorCodigoPostal = "44970";
+            */
             FacturacionElectronica(true);
             ImprimirPDF(true);
             if (timbreValido)
             {
                 ActualizarParcialidad();
-                //Thread email = new Thread(EnviarPorCorreo);
-                //email.Start();
+                Thread email = new Thread(EnviarPorCorreo);
+                email.Start();
                 this.Close();
                 //EnviarPorCorreo();
             }
@@ -340,6 +358,7 @@ namespace ImpresosAlvarez
 
                 //Resultado
                 cadenaOriginal = str.ToString();
+                cadenaOriginal = cadenaOriginal.Replace("\n", "").Replace("\r", "");
 
             }
             catch (Exception exc)
@@ -430,7 +449,7 @@ namespace ImpresosAlvarez
                 byte[] llavePrivadaBytes = File.ReadAllBytes(strPathLlave);
                 RSACryptoServiceProvider rsa = opensslkey.DecodeEncryptedPrivateKeyInfo(llavePrivadaBytes, passwordSeguro);
                 SHA256CryptoServiceProvider hasher = new SHA256CryptoServiceProvider();
-                byte[] bytesFirmados = rsa.SignData(Encoding.UTF8.GetBytes(GenerarCadenaOriginal()), hasher);
+                byte[] bytesFirmados = rsa.SignData(Encoding.UTF8.GetBytes(GenerarCadenaOriginal20()), hasher);
                 CadenaOriginal = GenerarCadenaOriginal20();
                 strSello = Convert.ToBase64String(bytesFirmados);
 
@@ -502,8 +521,18 @@ namespace ImpresosAlvarez
             xCom.LoadXml(XML);
 
             XmlNamespaceManager comNms = new XmlNamespaceManager(xCom.NameTable);
-            comNms.AddNamespace("cfdi", "http://www.sat.gob.mx/cfd/3");
-            comNms.AddNamespace("pago10", "http://www.sat.gob.mx/Pagos");
+            if (XML.Contains("cfd/3"))
+            {
+                comNms.AddNamespace("cfdi", "http://www.sat.gob.mx/cfd/3");
+                comNms.AddNamespace("pago10", "http://www.sat.gob.mx/Pagos");
+            }
+            else
+            {
+                comNms.AddNamespace("cfdi", "http://www.sat.gob.mx/cfd/4");
+                comNms.AddNamespace("pago20", "http://www.sat.gob.mx/Pagos20");
+
+            }
+            
 
             XmlAttribute xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Comprobante//@Serie", comNms);
             xAttrib.Value = "-";
@@ -711,11 +740,11 @@ namespace ImpresosAlvarez
             datosFacturaElectronica.rfcReceptor = xAttrib.Value;
 
             xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Receptor//@Nombre", comNms);
-            xAttrib.Value = _clienteElegido.nombre;
+            xAttrib.Value = _clienteElegido.nombre_constancia;
             datosFacturaElectronica.nombreReceptor = xAttrib.Value;
 
             xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Receptor//@UsoCFDI", comNms);
-            datosFacturaElectronica.usoCFDI = "P01";
+            datosFacturaElectronica.usoCFDI = "CP01";
             xAttrib.Value = datosFacturaElectronica.usoCFDI;
 
             xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Receptor//@DomicilioFiscalReceptor", comNms);
@@ -733,13 +762,15 @@ namespace ImpresosAlvarez
             int conceptosFacturaIndex = 0;
 
             xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Complemento//pago20:Pagos//@MontoTotalPagos", comNms);
-            xAttrib.Value = Total.ToString();
+            xAttrib.Value = AddDecimals(Total.ToString());
 
             xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Complemento//pago20:Pagos//@TotalTrasladosBaseIVA16", comNms);
-            xAttrib.Value = Total.ToString();
+            xAttrib.Value = (Total - IvaDRTotal).ToString();
+            xAttrib.Value = AddDecimals(xAttrib.Value);
 
             xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Complemento//pago20:Pagos//@TotalTrasladosImpuestoIVA16", comNms);
             xAttrib.Value = IvaDRTotal.ToString();
+            xAttrib.Value = AddDecimals(xAttrib.Value);
 
             XmlNode xPago = xCom.CreateNode(XmlNodeType.Element, "pago20", "Pago", "http://www.sat.gob.mx/Pagos20");
 
@@ -760,6 +791,7 @@ namespace ImpresosAlvarez
 
             xa = xCom.CreateAttribute("Monto");
             xa.Value = Math.Round(Total, 2).ToString();
+            xa.Value = AddDecimals(xa.Value);
             xPago.Attributes.Append(xa);
 
             xa = xCom.CreateAttribute("TipoCambioP");
@@ -794,6 +826,7 @@ namespace ImpresosAlvarez
                 xa.Value = "MXN";
                 xDocto.Attributes.Append(xa);
 
+                /*
                 xa = xCom.CreateAttribute("MetodoDePagoDR");
                 if (cbMetodoPago.SelectedIndex == 0)
                 {
@@ -803,11 +836,12 @@ namespace ImpresosAlvarez
                 {
                     datosFacturaElectronica.metodoPago = "PPD";
                 }
+               
                 datosFacturaElectronica.metodoPagoTexto = cbMetodoPago.Text;
                 xa.Value = datosFacturaElectronica.metodoPago;
                 xDocto.Attributes.Append(xa);
                 item.MetodoPagoDR = xa.Value;
-
+                */
                 xa = xCom.CreateAttribute("NumParcialidad");
                 xa.Value = item.Parcialidad;
                 xDocto.Attributes.Append(xa);
@@ -829,17 +863,21 @@ namespace ImpresosAlvarez
                 item.SaldoInsoluto = xa.Value;
 
                 xa = xCom.CreateAttribute("ObjetoImpDR");
-                xa.Value = "01";
+                xa.Value = "02";
+                xDocto.Attributes.Append(xa);
 
                 xa = xCom.CreateAttribute("EquivalenciaDR");
                 xa.Value = "1";
+                xDocto.Attributes.Append(xa);
 
                 XmlNode xImpuestosDR = xCom.CreateNode(XmlNodeType.Element, "pago20", "ImpuestosDR", "http://www.sat.gob.mx/Pagos20");
                 XmlNode xTrasladosDR = xCom.CreateNode(XmlNodeType.Element, "pago20", "TrasladosDR", "http://www.sat.gob.mx/Pagos20");
                 XmlNode xTrasladoDR = xCom.CreateNode(XmlNodeType.Element, "pago20", "TrasladoDR", "http://www.sat.gob.mx/Pagos20");
 
                 xa = xCom.CreateAttribute("BaseDR");
-                xa.Value = Total.ToString();
+                xa.Value = (Total - IvaDRTotal).ToString();
+                xa.Value = AddDecimals(xa.Value);
+                //xa.Value = Math.Round(Total - IvaDRTotal, 2).ToString();                
                 xTrasladoDR.Attributes.Append(xa);
 
                 xa = xCom.CreateAttribute("ImpuestoDR");
@@ -855,46 +893,60 @@ namespace ImpresosAlvarez
                 xTrasladoDR.Attributes.Append(xa);
 
                 xa = xCom.CreateAttribute("ImporteDR");
+                //xa.Value = Math.Round(IvaDRTotal, 2).ToString();
                 xa.Value = IvaDRTotal.ToString();
+                xa.Value = AddDecimals(xa.Value);
                 xTrasladoDR.Attributes.Append(xa);
 
                 xTrasladosDR.AppendChild(xTrasladoDR);
                 xImpuestosDR.AppendChild(xTrasladosDR);
-                xDocto.AppendChild(xImpuestosDR);
-
-                XmlNode xImpuestosP = xCom.CreateNode(XmlNodeType.Element, "pago20", "ImpuestosP", "http://www.sat.gob.mx/Pagos20");
-                XmlNode xTrasladosP = xCom.CreateNode(XmlNodeType.Element, "pago20", "TrasladosP", "http://www.sat.gob.mx/Pagos20");
-                XmlNode xTrasladoP = xCom.CreateNode(XmlNodeType.Element, "pago20", "TrasladoP", "http://www.sat.gob.mx/Pagos20");
-
-                xa = xCom.CreateAttribute("BaseDR");
-                xa.Value = Total.ToString();
-                xTrasladoP.Attributes.Append(xa);
-
-                xa = xCom.CreateAttribute("ImpuestoDR");
-                xa.Value = "002";
-                xTrasladoP.Attributes.Append(xa);
-
-                xa = xCom.CreateAttribute("TipoFactorDR");
-                xa.Value = "Tasa";
-                xTrasladoP.Attributes.Append(xa);
-
-                xa = xCom.CreateAttribute("TasaOCuotaDR");
-                xa.Value = "0.160000";
-                xTrasladoP.Attributes.Append(xa);
-
-                xa = xCom.CreateAttribute("ImporteDR");
-                xa.Value = IvaDRTotal.ToString();
-                xTrasladoP.Attributes.Append(xa);
-
-                xTrasladosP.AppendChild(xTrasladoP);
-                xImpuestosP.AppendChild(xTrasladosP);
-                xDocto.AppendChild(xImpuestosP);
+                xDocto.AppendChild(xImpuestosDR);                
 
                 //datosFacturaElectronica.conceptos[conceptosFacturaIndex] = item;
                 datosFacturaElectronica.pagos.Add(item);
                 conceptosFacturaIndex++;
 
                 xPago.AppendChild(xDocto);
+            }
+
+            foreach (ComplementoPagoData item in dgComplemento.Items)
+            {
+                item.FechaPago = xa.Value;
+                item.FormaPago = xa.Value;
+                item.MonedaPago = xa.Value;
+                item.MontoPago = xa.Value;
+
+                XmlNode xImpuestosP = xCom.CreateNode(XmlNodeType.Element, "pago20", "ImpuestosP", "http://www.sat.gob.mx/Pagos20");
+                XmlNode xTrasladosP = xCom.CreateNode(XmlNodeType.Element, "pago20", "TrasladosP", "http://www.sat.gob.mx/Pagos20");
+                XmlNode xTrasladoP = xCom.CreateNode(XmlNodeType.Element, "pago20", "TrasladoP", "http://www.sat.gob.mx/Pagos20");
+
+                xa = xCom.CreateAttribute("BaseP");
+                //xa.Value = Math.Round(Total - IvaDRTotal, 2).ToString();
+                xa.Value = (Total - IvaDRTotal).ToString();
+                xa.Value = AddDecimals(xa.Value);
+                xTrasladoP.Attributes.Append(xa);
+
+                xa = xCom.CreateAttribute("ImpuestoP");
+                xa.Value = "002";
+                xTrasladoP.Attributes.Append(xa);
+
+                xa = xCom.CreateAttribute("TipoFactorP");
+                xa.Value = "Tasa";
+                xTrasladoP.Attributes.Append(xa);
+
+                xa = xCom.CreateAttribute("TasaOCuotaP");
+                xa.Value = "0.160000";
+                xTrasladoP.Attributes.Append(xa);
+
+                xa = xCom.CreateAttribute("ImporteP");
+                //xa.Value = Math.Round(IvaDRTotal, 2).ToString();
+                xa.Value = IvaDRTotal.ToString();
+                xa.Value = AddDecimals(xa.Value);
+                xTrasladoP.Attributes.Append(xa);
+
+                xTrasladosP.AppendChild(xTrasladoP);
+                xImpuestosP.AppendChild(xTrasladosP);
+                xPago.AppendChild(xImpuestosP);
             }
 
             xPagos.AppendChild(xPago);
@@ -1445,7 +1497,7 @@ namespace ImpresosAlvarez
 
             if (SAT)
             {
-                
+                /*
                 datosFacturaElectronica.cadenaOriginalSAT = "||1.0|912B245D-275F-4F52-8E4A-7FBFCDBFD302|2017-04-26T14: 07:40 | acnCGJZrkojvGs8MxWaoEAmgVBu9t + r + Dp26DzDUcu7lu8 / 0LplKVlq1DnYDVCd6KxLnoCJ8amuhnCkUcoK68j0tKlBelwOLSFEsYAQepsT7ZJkhdJZ27Sz2nkFuLm5EKbRTZIPItN30DaKMAs8VcJe17QIp9vj / 3xddZoFD9fl0qsAYJTl22CkdWcuNoVz2WgAwOgDL + U2qHNuczvEk8ckoFM0om5D1PjSAGUM1hyXCxn8 + MMz4EfTT9X837ldQNRqXMSzfuhFbdMxOTCN9eUCjb4EIJgvE37LzGsokDW / tMMrus9jzVuEQFhZ5OFfOmVM / Q5sQQLpEquqvsL / G + Q ==| 00001000000405607284 || ";
                 datosFacturaElectronica.selloSAT = "V2XaPk+SsLYu4boX2rWS1vCJWuJUDx/1F9cPyTvJXcsEGESH84BS5nIIvb2aDqFhYoy1HLiTqUGRT0GbnnGTS1ZElonGA9AmCVeHshgEJypIY2s0WS0OKblUwgCQZWi2n6uMG2bvMPC3I9ChHH21c44Q6ZgV/y5W5A8Uawb/+jx2hVj9pnWTta0AD7yVfoiTLwdlpvoeqWlamBX2reAW7NIDaz8KVEesAdd9bTDqjsw1dFCjbYXmhubqtD2WMnsKb3aKPfD4aHnINNscm15nkgn1qMqnbFWLFm3kFU9fAVmQbf7eSolKKLsKVuvRw7keJeJgWzs5e0lLXnt+JUfDWg==";
                 datosFacturaElectronica.selloCFD = "acnCGJZrkojvGs8MxWaoEAmgVBu9t+r+Dp26DzDUcu7lu8/0LplKVlq1DnYDVCd6KxLnoCJ8amuhnCkUcoK68j0tKlBelwOLSFEsYAQepsT7ZJkhdJZ27Sz2nkFuLm5EKbRTZIPItN30DaKMAs8VcJe17QIp9vj / 3xddZoFD9fl0qsAYJTl22CkdWcuNoVz2WgAwOgDL + U2qHNuczvEk8ckoFM0om5D1PjSAGUM1hyXCxn8 + MMz4EfTT9X837ldQNRqXMSzfuhFbdMxOTCN9eUCjb4EIJgvE37LzGsokDW / tMMrus9jzVuEQFhZ5OFfOmVM / Q5sQQLpEquqvsL / G + Q == ";
@@ -1453,13 +1505,13 @@ namespace ImpresosAlvarez
                 datosFacturaElectronica.numeroCertificado = "00001000000408531476";
                 datosFacturaElectronica.numeroCertificadoSAT = "00001000000412961981";
                 datosFacturaElectronica.fechaTimbrado = "2020-11-04T17:22:20";
+                */
                 
-                /*
                 if (!timbreValido)
                 {
                     return;
                 }
-                */
+                
                 datosFacturaElectronica.selloSAT = datosFacturaElectronica.selloSAT.Insert(200, Environment.NewLine);
 
                 datosFacturaElectronica.cadenaOriginalSAT = datosFacturaElectronica.cadenaOriginalSAT.Insert(200, Environment.NewLine);
@@ -1718,7 +1770,15 @@ namespace ImpresosAlvarez
 
             if (o.Contains("."))
             {
-                n = o;
+                int found = o.IndexOf(".");
+                if (o.Substring(found).Length == 3)
+                {
+                    n = o;
+                }
+                else
+                {
+                    n = o + "0";
+                }                
             }
             else
             {
@@ -1857,8 +1917,18 @@ namespace ImpresosAlvarez
                         xDoc.LoadXml(fact.XML);
 
                         XmlNamespaceManager nms = new XmlNamespaceManager(xDoc.NameTable);
-                        nms.AddNamespace("cfdi", "http://www.sat.gob.mx/cfd/3");
-                        nms.AddNamespace("tfd", "http://www.sat.gob.mx/cfd/3");
+
+                        if (fact.XML.Contains("cfd/3"))
+                        {
+                            nms.AddNamespace("cfdi", "http://www.sat.gob.mx/cfd/3");
+                            nms.AddNamespace("tfd", "http://www.sat.gob.mx/cfd/3");
+                        }
+                        else
+                        {
+                            nms.AddNamespace("cfdi", "http://www.sat.gob.mx/cfd/4");
+                            nms.AddNamespace("tfd", "http://www.sat.gob.mx/cfd/4");
+
+                        }
 
                         XmlAttribute xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Complemento//@UUID", nms);
                         uuid = xAttrib.Value;
@@ -1906,7 +1976,7 @@ namespace ImpresosAlvarez
                 }
                 catch (Exception exc)
                 {
-                    MessageBox.Show("No se puede agregar la factura.");
+                    MessageBox.Show("No se puede agregar la factura." + exc.Message);
                 }
             }
         }
@@ -2006,8 +2076,26 @@ namespace ImpresosAlvarez
                 datosFacturaElectronica.domicilioEmisorEstado = "NAY";
                 datosFacturaElectronica.domicilioEmisorCodigoPostal = "63000";
             }
+            /*
+            rutaCertificado = @"C:\Impresos\Pruebas\Certificado.cer";
+            rutaLlave = @"C:\Impresos\Pruebas\Llave.key";
+            contraseñaLlave = "12345678a";
+            nombreEmisor = "XOCHILT CASAS CHAVEZ";
+            rfcEmisor = "CACX7605101P8";
+            serie = "-";
+            usuarioFacturacion = "pruebasWS";
+            contraseñaFacturacion = "pruebasWS";
+            curp = "-";
+            regimen = "Regimen de incorporación fiscal";
 
-            FacturacionElectronica40(false);
+            datosFacturaElectronica.domicilioEmisorCalle = "";
+            datosFacturaElectronica.domicilioEmisorColonia = "";
+            datosFacturaElectronica.domicilioEmisorMunicipio = " ";
+            datosFacturaElectronica.domicilioEmisorEstado = "";
+            datosFacturaElectronica.domicilioEmisorCodigoPostal = "44970";
+            */
+
+            FacturacionElectronica40(true);
             ImprimirPDF(true);
             if (timbreValido)
             {
