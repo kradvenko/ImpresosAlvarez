@@ -962,8 +962,17 @@ namespace ImpresosAlvarez
             xDoc.LoadXml(XML);
 
             XmlNamespaceManager nms = new XmlNamespaceManager(xDoc.NameTable);
-            nms.AddNamespace("cfdi", "http://www.sat.gob.mx/cfd/3");
-            nms.AddNamespace("tfd", "http://www.sat.gob.mx/TimbreFiscalDigital");
+
+            if (XML.Contains("cfd/3"))
+            {
+                nms.AddNamespace("cfdi", "http://www.sat.gob.mx/cfd/3");
+                nms.AddNamespace("tfd", "http://www.sat.gob.mx/TimbreFiscalDigital");
+            }
+            else
+            {
+                nms.AddNamespace("cfdi", "http://www.sat.gob.mx/cfd/4");
+                nms.AddNamespace("tfd", "http://www.sat.gob.mx/TimbreFiscalDigital");
+            }
 
             XmlAttribute xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Complemento//tfd:TimbreFiscalDigital//@Version", nms);
             datosFacturaElectronica.cadenaOriginalSAT = datosFacturaElectronica.cadenaOriginalSAT + "||" + xAttrib.Value + "|";
