@@ -104,6 +104,9 @@
 
         <Button x:Name="btnLlenadoCliente4" Grid.Row="3" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz04}" Content="Llenado datos 4.0" Click="btnLlenadoCliente4_Click"></Button>
 
+        <Label Grid.Column="8" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Aplica Retención"></Label>
+        <CheckBox x:Name="cbAplicaRetencion" Grid.Column="9" Grid.Row="3" Style="{StaticResource CheckBoxStyle01}" Content="Aplica" Click="cbAplicaRetencion_Click"></CheckBox>
+
         <Button x:Name="btnCancelacionFactura" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz04}" Content="Buscar factura cancelada" Click="btnCancelacionFactura_Click"></Button>
         <Label Grid.Column="4" Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource LabelBoldBlack}" Content="UUID de factura cancelada:"></Label>
         <Label x:Name="lblUUIDCancelada" Grid.Column="6" Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource LabelBoldBlack}" Content="-"></Label>

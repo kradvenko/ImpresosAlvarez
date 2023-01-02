@@ -51,6 +51,7 @@
           <Property Name="numero_interior" Type="nvarchar" MaxLength="50" />
           <Property Name="nombre_constancia" Type="nvarchar" MaxLength="150" />
           <Property Name="regimen_fiscal" Type="nvarchar" MaxLength="6" />
+          <Property Name="aplica_retencion" Type="nvarchar" MaxLength="40" />
         </EntityType>
         <EntityType Name="Comentarios">
           <Key>
@@ -2501,6 +2502,7 @@
           <Property Name="numero_interior" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="nombre_constancia" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="regimen_fiscal" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
+          <Property Name="aplica_retencion" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Comentarios">
           <Key>
@@ -3867,6 +3869,7 @@
           <EntitySetMapping Name="Clientes">
             <EntityTypeMapping TypeName="ImpresosBDModel.Clientes">
               <MappingFragment StoreEntitySet="Clientes">
+                <ScalarProperty Name="aplica_retencion" ColumnName="aplica_retencion" />
                 <ScalarProperty Name="regimen_fiscal" ColumnName="regimen_fiscal" />
                 <ScalarProperty Name="nombre_constancia" ColumnName="nombre_constancia" />
                 <ScalarProperty Name="numero_interior" ColumnName="numero_interior" />

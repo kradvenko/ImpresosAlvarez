@@ -33,5 +33,6 @@ namespace ImpresosAlvarez.Entity
         public string numero_interior { get; set; }
         public string nombre_constancia { get; set; }
         public string regimen_fiscal { get; set; }
+        public string aplica_retencion { get; set; }
     }
 }
