@@ -569,7 +569,7 @@ namespace ImpresosAlvarez
             datosFacturaElectronica.nombreEmisor = xAttrib.Value;
 
             xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Emisor//@RegimenFiscal", comNms);
-            xAttrib.Value = "621";
+            xAttrib.Value = "626";
 
             xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Receptor//@Rfc", comNms);
             xAttrib.Value = _clienteElegido.rfc.Replace("-", ""); ;
@@ -733,7 +733,7 @@ namespace ImpresosAlvarez
             datosFacturaElectronica.nombreEmisor = xAttrib.Value;
 
             xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Emisor//@RegimenFiscal", comNms);
-            xAttrib.Value = "621";
+            xAttrib.Value = "626";
 
             xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Receptor//@Rfc", comNms);
             xAttrib.Value = _clienteElegido.rfc.Replace("-", ""); ;
