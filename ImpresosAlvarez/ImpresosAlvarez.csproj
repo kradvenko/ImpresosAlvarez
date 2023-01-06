@@ -28,7 +28,7 @@
     <UpdateUrl>http://impresosalvarez.atwebpages.com/</UpdateUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>56</ApplicationRevision>
+    <ApplicationRevision>58</ApplicationRevision>
     <ApplicationVersion>1.3.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -128,6 +128,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices" />
@@ -164,6 +165,7 @@
     <Compile Include="Calculadora.xaml.cs">
       <DependentUpon>Calculadora.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Clases\Actualizaciones.cs" />
     <Compile Include="Clases\CalcElement.cs" />
     <Compile Include="Clases\ComplementoPagoData.cs" />
     <Compile Include="Clases\ConceptoFactura.cs" />

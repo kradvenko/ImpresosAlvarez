@@ -230,6 +230,7 @@ namespace ImpresosAlvarez
             float iva = Subtotal * 0.16f;
             iva = float.Parse((Math.Round(iva, 2)).ToString());
             datosFacturaElectronica.iva = iva.ToString();
+            datosFacturaElectronica.retencionIsr = RetencionIsr.ToString();
 
             //datosFacturaElectronica.totalImpuestos = datosFacturaElectronica.CalcularTotalImpuestos().ToString();
 
@@ -570,6 +571,7 @@ namespace ImpresosAlvarez
                 }
                 else
                 {
+                    //timbreValido = true;
                     XMLTimbrado = respTimbre.mensaje;
                     MessageBox.Show(XMLTimbrado);
                 }
@@ -695,6 +697,10 @@ namespace ImpresosAlvarez
 
             float impuesto = 0;
             float impuestoTotal = 0;
+            float baseTotal = 0;
+            float impuestoRetencion = 0;
+            float impuestoRetencionTotal = 0;
+            float baseTotalRetencion = 0;
 
             datosFacturaElectronica.conceptos = new List<ConceptoFactura>();
 
@@ -755,18 +761,25 @@ namespace ImpresosAlvarez
                     */
                     datosFacturaElectronica.conceptos.Add(cConcepto);
 
+                    //IVA
                     impuesto = item.Cantidad * item.PrecioUnitario;
                     impuesto = impuesto * 0.16f;
                     impuesto = float.Parse((Math.Round(impuesto, 2)).ToString());
                     impuestoTotal = impuestoTotal + impuesto;
+                    baseTotal = baseTotal + item.Importe;
+
+                    //RETENCION
+                    impuestoRetencion = item.Cantidad * item.PrecioUnitario;
+                    impuestoRetencion = impuestoRetencion * 0.012500f;
+                    impuestoRetencion = float.Parse((Math.Round(impuestoRetencion, 2)).ToString());
+                    impuestoRetencionTotal = impuestoRetencionTotal + impuestoRetencion;
+                    baseTotalRetencion = baseTotalRetencion + item.Importe;
 
                     XmlNode xImpuestos = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Impuestos", "http://www.sat.gob.mx/cfd/3");
 
                     XmlNode xTraslados = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Traslados", "http://www.sat.gob.mx/cfd/3");
 
                     XmlNode xTraslado = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Traslado", "http://www.sat.gob.mx/cfd/3");
-
-                    XmlNode xRetenciones = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Retenciones", "http://www.sat.gob.mx/cfd/3");
 
                     xa = xDoc.CreateAttribute("Base");
                     xa.Value = item.Importe.ToString();
@@ -790,7 +803,37 @@ namespace ImpresosAlvarez
 
                     xTraslados.AppendChild(xTraslado);
                     xImpuestos.AppendChild(xTraslados);
-                    
+
+                    if (_clienteElegido.aplica_retencion == "SI")
+                    {
+                        XmlNode xRetenciones = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Retenciones", "http://www.sat.gob.mx/cfd/3");
+
+                        XmlNode xRetencion = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Retencion", "http://www.sat.gob.mx/cfd/3");
+
+                        xa = xDoc.CreateAttribute("Base");
+                        xa.Value = item.Importe.ToString();
+                        xRetencion.Attributes.Append(xa);
+
+                        xa = xDoc.CreateAttribute("Impuesto");
+                        xa.Value = "001";
+                        xRetencion.Attributes.Append(xa);
+
+                        xa = xDoc.CreateAttribute("TipoFactor");
+                        xa.Value = "Tasa";
+                        xRetencion.Attributes.Append(xa);
+
+                        xa = xDoc.CreateAttribute("TasaOCuota");
+                        xa.Value = "0.012500";
+                        xRetencion.Attributes.Append(xa);
+
+                        xa = xDoc.CreateAttribute("Importe");
+                        xa.Value = AddDecimals(impuestoRetencion.ToString());
+                        xRetencion.Attributes.Append(xa);
+
+                        xRetenciones.AppendChild(xRetencion);
+                        xImpuestos.AppendChild(xRetenciones);
+                    }
+
                     xConcepto.AppendChild(xImpuestos);
                     xConceptos.AppendChild(xConcepto);
                 }
@@ -801,6 +844,43 @@ namespace ImpresosAlvarez
 
             XmlNode xTrasladoImpuestos = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Traslado", "http://www.sat.gob.mx/cfd/3");
 
+            XmlNode xRetencionesImpuestos = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Retenciones", "http://www.sat.gob.mx/cfd/3");
+
+            XmlNode xRetencionImpuestos = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Retencion", "http://www.sat.gob.mx/cfd/3");
+
+            if (_clienteElegido.aplica_retencion == "SI")
+            {
+                xa = xDoc.CreateAttribute("Base");
+                xa.Value = baseTotal.ToString();
+                xRetencionImpuestos.Attributes.Append(xa);
+                xa = xDoc.CreateAttribute("Impuesto");
+                xa.Value = "001";
+                xRetencionImpuestos.Attributes.Append(xa);
+                xa = xDoc.CreateAttribute("TipoFactor");
+                xa.Value = "Tasa";
+                xTrasladoImpuestos.Attributes.Append(xa);
+                xa = xDoc.CreateAttribute("TasaOCuota");
+                xa.Value = "0.012500";
+                xRetencionImpuestos.Attributes.Append(xa);
+                xa = xDoc.CreateAttribute("Importe");
+                impuestoRetencionTotal = float.Parse((Math.Round(impuestoRetencionTotal, 2)).ToString());
+                xa.Value = AddDecimals(impuestoRetencionTotal.ToString());
+                xRetencionImpuestos.Attributes.Append(xa);
+
+                xRetencionesImpuestos.AppendChild(xRetencionImpuestos);
+
+                xImpuestosNodo.AppendChild(xRetencionesImpuestos);
+
+                xa = xDoc.CreateAttribute("TotalImpuestosRetenidos");
+                xa.Value = AddDecimals(impuestoRetencionTotal.ToString());
+                xImpuestosNodo.Attributes.Append(xa);
+
+                //RetencionIsr = impuestoRetencionTotal;
+            }
+
+            xa = xDoc.CreateAttribute("Base");
+            xa.Value = baseTotal.ToString();
+            xTrasladoImpuestos.Attributes.Append(xa);
             xa = xDoc.CreateAttribute("Impuesto");
             xa.Value = "002";
             xTrasladoImpuestos.Attributes.Append(xa);
@@ -1563,7 +1643,7 @@ namespace ImpresosAlvarez
                 .SetFontSize(fs)
                 .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
                 .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("16% IVA: ")));
+                .Add(new Paragraph("16% IVA: ")));            
 
             table.AddCell(new Cell(1, 1)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
@@ -1572,6 +1652,25 @@ namespace ImpresosAlvarez
                 .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
                 .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
                 .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.iva))));
+
+            if (_clienteElegido.aplica_retencion == "SI")
+            {
+                table.AddCell(new Cell(1, 9)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
+                .SetFont(fb)
+                .SetFontSize(fs)
+                .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
+                .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("1.125% RETENCIÓN: ")));
+
+                table.AddCell(new Cell(1, 1)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
+                .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("$ " + AddDecimals(datosFacturaElectronica.retencionIsr))));
+            }
 
             if (datosFacturaElectronica.IneTipoProceso.Length > 0)
             {
@@ -1650,12 +1749,12 @@ namespace ImpresosAlvarez
                 datosFacturaElectronica.numeroCertificadoSAT = "00001000000412961981";
                 datosFacturaElectronica.fechaTimbrado = "2020-11-04T17:22:20";
                 */
-
+                
                 if (!timbreValido)
                 {
                     return;
                 }
-
+                
                 datosFacturaElectronica.selloSAT = datosFacturaElectronica.selloSAT.Insert(200, Environment.NewLine);
 
                 datosFacturaElectronica.cadenaOriginalSAT = datosFacturaElectronica.cadenaOriginalSAT.Insert(200, Environment.NewLine);
@@ -2670,7 +2769,7 @@ namespace ImpresosAlvarez
             }
 
             CargarXML4Template();
-            FacturacionElectronica40(false);
+            FacturacionElectronica40(true);
             if (timbreValido)
             {
                 ImprimirPDF(true);
@@ -3049,7 +3148,7 @@ namespace ImpresosAlvarez
 
                 xRetencionesImpuestos.AppendChild(xRetencionImpuestos);
 
-                xImpuestosNodo.AppendChild(xTrasladosImpuestos);
+                xImpuestosNodo.AppendChild(xRetencionesImpuestos);
 
                 xa = xDoc.CreateAttribute("TotalImpuestosRetenidos");
                 xa.Value = AddDecimals(impuestoRetencionTotal.ToString());

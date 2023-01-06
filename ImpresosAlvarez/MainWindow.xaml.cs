@@ -1,4 +1,5 @@
-﻿using ImpresosAlvarez.Entity;
+﻿using ImpresosAlvarez.Clases;
+using ImpresosAlvarez.Entity;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -31,6 +32,10 @@ namespace ImpresosAlvarez
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+
+            //04/01/20203
+            Actualizaciones.Actualizacion1();
+
             Login login = new Login(this);
             login.ShowDialog();
         }
