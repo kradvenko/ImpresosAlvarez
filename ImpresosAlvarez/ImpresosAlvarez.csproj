@@ -28,7 +28,7 @@
     <UpdateUrl>http://impresosalvarez.atwebpages.com/</UpdateUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>58</ApplicationRevision>
+    <ApplicationRevision>62</ApplicationRevision>
     <ApplicationVersion>1.3.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -123,8 +123,8 @@
     <Reference Include="Syncfusion.SfInput.WPF">
       <HintPath>..\..\..\..\..\..\Libs\Syncfusion.SfInput.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="Syncfusion.SfShared.WPF">
-      <HintPath>..\..\..\..\..\..\Libs\Syncfusion.SfShared.WPF.dll</HintPath>
+    <Reference Include="Syncfusion.SfShared.Wpf">
+      <HintPath>..\..\..\..\..\..\Libs\Syncfusion.SfShared.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

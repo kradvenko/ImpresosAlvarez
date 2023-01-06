@@ -294,7 +294,7 @@ namespace ImpresosAlvarez
                 usuarioFacturacion = "JoseAlvarezJi";
                 contraseñaFacturacion = "oF5r1o6S3";
                 curp = "AAJJ470205HNTLMS00";
-                regimen = "Regimen de incorporación fiscal";
+                regimen = "Regimen fiscal simplificado de confianza";
 
                 datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 625 PTE";
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
@@ -313,7 +313,7 @@ namespace ImpresosAlvarez
                 usuarioFacturacion = "VicMar";
                 contraseñaFacturacion = "773C8*8F1";
                 curp = "RAGL450530MDFMLZ00";
-                regimen = "Regimen de incorporación fiscal";
+                regimen = "Regimen fiscal simplificado de confianza";
 
                 datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 625 PTE";
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
@@ -332,7 +332,7 @@ namespace ImpresosAlvarez
                 usuarioFacturacion = "VictorAlvarez";
                 contraseñaFacturacion = "g8r.83*.5";
                 curp = "AARV720921HDFLMC04";
-                regimen = "Regimen de incorporación fiscal";
+                regimen = "Regimen fiscal simplificado de confianza";
 
                 datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 619 PTE";
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
@@ -364,7 +364,7 @@ namespace ImpresosAlvarez
                 usuarioFacturacion = "JoseAlvarezJi";
                 contraseñaFacturacion = "oF5r1o6S3";
                 curp = "AAJJ470205HNTLMS00";
-                regimen = "Regimen de incorporación fiscal";
+                regimen = "Regimen fiscal simplificado de confianza";
 
                 datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 625 PTE";
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
@@ -383,7 +383,7 @@ namespace ImpresosAlvarez
                 usuarioFacturacion = "VicMar";
                 contraseñaFacturacion = "773C8*8F1";
                 curp = "RAGL450530MDFMLZ00";
-                regimen = "Regimen de incorporación fiscal";
+                regimen = "Regimen fiscal simplificado de confianza";
 
                 datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 625 PTE";
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
@@ -402,7 +402,7 @@ namespace ImpresosAlvarez
                 usuarioFacturacion = "VictorAlvarez";
                 contraseñaFacturacion = "g8r.83*.5";
                 curp = "AARV720921HDFLMC04";
-                regimen = "Regimen de incorporación fiscal";
+                regimen = "Regimen fiscal simplificado de confianza";
 
                 datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 619 PTE";
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
@@ -850,18 +850,24 @@ namespace ImpresosAlvarez
 
             if (_clienteElegido.aplica_retencion == "SI")
             {
+                /*
                 xa = xDoc.CreateAttribute("Base");
                 xa.Value = baseTotal.ToString();
                 xRetencionImpuestos.Attributes.Append(xa);
+                */
                 xa = xDoc.CreateAttribute("Impuesto");
                 xa.Value = "001";
                 xRetencionImpuestos.Attributes.Append(xa);
+                /*
                 xa = xDoc.CreateAttribute("TipoFactor");
                 xa.Value = "Tasa";
                 xTrasladoImpuestos.Attributes.Append(xa);
+                
                 xa = xDoc.CreateAttribute("TasaOCuota");
                 xa.Value = "0.012500";
                 xRetencionImpuestos.Attributes.Append(xa);
+                */
+
                 xa = xDoc.CreateAttribute("Importe");
                 impuestoRetencionTotal = float.Parse((Math.Round(impuestoRetencionTotal, 2)).ToString());
                 xa.Value = AddDecimals(impuestoRetencionTotal.ToString());
@@ -877,10 +883,11 @@ namespace ImpresosAlvarez
 
                 //RetencionIsr = impuestoRetencionTotal;
             }
-
+            /*
             xa = xDoc.CreateAttribute("Base");
             xa.Value = baseTotal.ToString();
             xTrasladoImpuestos.Attributes.Append(xa);
+            */
             xa = xDoc.CreateAttribute("Impuesto");
             xa.Value = "002";
             xTrasladoImpuestos.Attributes.Append(xa);
@@ -2692,7 +2699,7 @@ namespace ImpresosAlvarez
                 usuarioFacturacion = "JoseAlvarezJi";
                 contraseñaFacturacion = "oF5r1o6S3";
                 curp = "AAJJ470205HNTLMS00";
-                regimen = "Regimen de incorporación fiscal";
+                regimen = "Regimen fiscal simplificado de confianza";
 
                 datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 625 PTE";
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
@@ -2711,7 +2718,7 @@ namespace ImpresosAlvarez
                 usuarioFacturacion = "VicMar";
                 contraseñaFacturacion = "773C8*8F1";
                 curp = "RAGL450530MDFMLZ00";
-                regimen = "Regimen de incorporación fiscal";
+                regimen = "Regimen fiscal simplificado de confianza";
 
                 datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 625 PTE";
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
@@ -2730,7 +2737,7 @@ namespace ImpresosAlvarez
                 usuarioFacturacion = "VictorAlvarez";
                 contraseñaFacturacion = "g8r.83*.5";
                 curp = "AARV720921HDFLMC04";
-                regimen = "Regimen de incorporación fiscal";
+                regimen = "Regimen fiscal simplificado de confianza";
 
                 datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 619 PTE";
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
@@ -2748,7 +2755,7 @@ namespace ImpresosAlvarez
             usuarioFacturacion = "pruebasWS";
             contraseñaFacturacion = "pruebasWS";
             curp = "-";
-            regimen = "Regimen de incorporación fiscal";
+            regimen = "Regimen fiscal simplificado de confianza";
 
             datosFacturaElectronica.domicilioEmisorCalle = "";
             datosFacturaElectronica.domicilioEmisorColonia = "";
