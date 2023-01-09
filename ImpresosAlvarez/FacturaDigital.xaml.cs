@@ -228,17 +228,18 @@ namespace ImpresosAlvarez
             }
 
             float iva = Subtotal * 0.16f;
-            iva = float.Parse((Math.Round(iva, 2)).ToString());
+            //iva = float.Parse((Math.Round(iva, 2)).ToString());
             datosFacturaElectronica.iva = iva.ToString();
             datosFacturaElectronica.retencionIsr = RetencionIsr.ToString();
 
             //datosFacturaElectronica.totalImpuestos = datosFacturaElectronica.CalcularTotalImpuestos().ToString();
-
+            /*
             RetencionIsr = float.Parse(Math.Round(RetencionIsr, 2).ToString());
             RetencionIva = float.Parse(Math.Round(RetencionIva, 2).ToString());
             RetencionCedular = float.Parse(Math.Round(RetencionCedular, 2).ToString());
+            */
 
-            iva = float.Parse((Math.Round(iva, 2)).ToString());
+            //iva = float.Parse((Math.Round(iva, 2)).ToString());
 
             //Total = Subtotal + float.Parse(datosFacturaElectronica.totalImpuestos);
 
