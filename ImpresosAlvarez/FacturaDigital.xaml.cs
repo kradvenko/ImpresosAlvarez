@@ -233,25 +233,28 @@ namespace ImpresosAlvarez
             datosFacturaElectronica.retencionIsr = RetencionIsr.ToString();
 
             //datosFacturaElectronica.totalImpuestos = datosFacturaElectronica.CalcularTotalImpuestos().ToString();
-            /*
+            
             RetencionIsr = float.Parse(Math.Round(RetencionIsr, 2).ToString());
             RetencionIva = float.Parse(Math.Round(RetencionIva, 2).ToString());
-            RetencionCedular = float.Parse(Math.Round(RetencionCedular, 2).ToString());
-            */
+            RetencionCedular = float.Parse(Math.Round(RetencionCedular, 2).ToString());            
 
             //iva = float.Parse((Math.Round(iva, 2)).ToString());
 
             //Total = Subtotal + float.Parse(datosFacturaElectronica.totalImpuestos);
-
+            /*
             datosFacturaElectronica.retencionIsr = RetencionIsr.ToString();
             datosFacturaElectronica.retencionIva = RetencionIva.ToString();
             datosFacturaElectronica.retencionCedular = RetencionCedular.ToString();
+            */
 
             Total = Subtotal + iva - RetencionIsr - RetencionIva - RetencionCedular;
 
             Total = float.Parse(Math.Round(Total, 2).ToString());
 
             //lblTotalImpuestos.Content = "$ " + datosFacturaElectronica.totalImpuestos;
+            lblSubtotal.Content = "$ " + Subtotal.ToString();
+            lblISR.Content = "$ " + RetencionIsr.ToString();
+            lblIVA.Content = "$ " + iva.ToString();
             lblTotal.Content = "$ " + Total.ToString() + " (" + ConvertirALetra(Total.ToString()) + ") ";
         }
 
