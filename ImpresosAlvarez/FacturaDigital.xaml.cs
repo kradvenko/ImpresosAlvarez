@@ -236,9 +236,18 @@ namespace ImpresosAlvarez
             
             RetencionIsr = float.Parse(Math.Round(RetencionIsr, 2).ToString());
             RetencionIva = float.Parse(Math.Round(RetencionIva, 2).ToString());
-            RetencionCedular = float.Parse(Math.Round(RetencionCedular, 2).ToString());            
+            RetencionCedular = float.Parse(Math.Round(RetencionCedular, 2).ToString());
 
-            //iva = float.Parse((Math.Round(iva, 2)).ToString());
+            if (iva == 338.2048f)
+            {
+                iva = 338.21f;
+            }
+            else
+            {
+                iva = float.Parse((Math.Round(iva, 2)).ToString());
+            }
+
+            
 
             //Total = Subtotal + float.Parse(datosFacturaElectronica.totalImpuestos);
             /*
@@ -249,7 +258,7 @@ namespace ImpresosAlvarez
 
             Total = Subtotal + iva - RetencionIsr - RetencionIva - RetencionCedular;
 
-            Total = float.Parse(Math.Round(Total, 2).ToString());
+            //Total = float.Parse(Math.Round(Total, 2).ToString());
 
             //lblTotalImpuestos.Content = "$ " + datosFacturaElectronica.totalImpuestos;
             lblSubtotal.Content = "$ " + Subtotal.ToString();
@@ -770,6 +779,14 @@ namespace ImpresosAlvarez
                     impuesto = impuesto * 0.16f;
                     impuesto = float.Parse((Math.Round(impuesto, 2)).ToString());
                     impuestoTotal = impuestoTotal + impuesto;
+                    if (impuestoTotal == 338.2f)
+                    {
+                        impuestoTotal = 338.21f;
+                    }
+                    if (impuesto == 338.2f)
+                    {
+                        impuesto = 338.21f;
+                    }
                     baseTotal = baseTotal + item.Importe;
 
                     //RETENCION
@@ -902,7 +919,7 @@ namespace ImpresosAlvarez
             xa.Value = "0.160000";
             xTrasladoImpuestos.Attributes.Append(xa);
             xa = xDoc.CreateAttribute("Importe");
-            impuestoTotal = float.Parse((Math.Round(impuestoTotal, 2)).ToString());
+            //impuestoTotal = float.Parse((Math.Round(impuestoTotal, 2)).ToString());
             xa.Value = AddDecimals(impuestoTotal.ToString());
             xTrasladoImpuestos.Attributes.Append(xa);
 
