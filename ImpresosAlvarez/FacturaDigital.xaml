@@ -30,10 +30,10 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="2*"></RowDefinition>
-            <RowDefinition Height="2*"></RowDefinition>
-            <RowDefinition Height="2*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -100,23 +100,22 @@
         <Label Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Regimen"></Label>
         <Label x:Name="lblRegimenFiscalReceptor" Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource LabelBlack}" Content=""></Label>
 
-        <Button x:Name="btnComplementoINE" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz04}" Content="Complemento INE" Click="btnComplementoINE_Click"></Button>
+        <Button x:Name="btnComplementoINE" Grid.Row="4" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz04}" Content="Complemento INE" Click="btnComplementoINE_Click"></Button>
 
         <Button x:Name="btnLlenadoCliente4" Grid.Row="3" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz04}" Content="Llenado datos 4.0" Click="btnLlenadoCliente4_Click"></Button>
 
         <Label Grid.Column="8" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Aplica Retención"></Label>
         <CheckBox x:Name="cbAplicaRetencion" Grid.Column="9" Grid.Row="3" Style="{StaticResource CheckBoxStyle01}" Content="Aplica" Click="cbAplicaRetencion_Click"></CheckBox>
 
-        <Button x:Name="btnCancelacionFactura" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz04}" Content="Buscar factura cancelada" Click="btnCancelacionFactura_Click"></Button>
-        <Label Grid.Column="4" Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource LabelBoldBlack}" Content="UUID de factura cancelada:"></Label>
-        <Label x:Name="lblUUIDCancelada" Grid.Column="6" Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource LabelBoldBlack}" Content="-"></Label>
+        <Button x:Name="btnCancelacionFactura" Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz04}" Content="Buscar factura cancelada" Click="btnCancelacionFactura_Click"></Button>
+        <Label Grid.Column="8" Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource LabelBoldBlack}" Content="UUID de factura cancelada:"></Label>
+        <Label x:Name="lblUUIDCancelada" Grid.Column="10" Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource LabelBoldBlack}" Content="-"></Label>
 
         <Label Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource LabelBoldBlack}" Content="Contribuyente"></Label>
         <ComboBox x:Name="cbContribuyentes" Grid.Column="2" Grid.Row="4" Grid.ColumnSpan="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MaxHeight="50" SelectionChanged="cbContribuyentes_SelectionChanged" Style="{StaticResource ComboBoxFlatStyle}">
         </ComboBox>
         
-
-        <DataGrid x:Name="dgConceptos" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="14" Grid.RowSpan="3" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid x:Name="dgConceptos" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="14" Grid.RowSpan="3" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Cantidad" Binding="{Binding Path=Cantidad}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Descripcion" Binding="{Binding Path=Descripcion}" Width="4*"></DataGridTextColumn>
@@ -138,16 +137,17 @@
         
         <Button x:Name="btnFacturar4" Grid.Row="11" Grid.Column="10" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz02}" Content="Facturar 4.0" Click="btnFacturar4_Click"></Button>
 
-        <Label Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" FontSize="18" Foreground="#0C9A5B" Content="SUBTOTAL"></Label>
-        <Label x:Name="lblSubtotal" Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2" Style="{StaticResource LabelBlack}" FontSize="18" Foreground="#0C9A5B" Content="$ 0"></Label>
+        <Label Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" FontSize="18" Foreground="#0C9A5B" Content="SUBTOTAL"></Label>
+        <Label x:Name="lblSubtotal" Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="2" Style="{StaticResource LabelBlack}" FontSize="18" Foreground="#0C9A5B" Content="$ 0"></Label>
 
-        <Label Grid.Column="3" Grid.Row="9" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" FontSize="18" Foreground="#0C4D9A" Content="ISR"></Label>
-        <Label x:Name="lblISR" Grid.Column="4" Grid.Row="9" Grid.ColumnSpan="2" Style="{StaticResource LabelBlack}" FontSize="18" Foreground="#0C4D9A" Content="$ 0"></Label>
+        <Label Grid.Column="3" Grid.Row="8" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" FontSize="18" Foreground="#0C4D9A" Content="ISR"></Label>
+        <Label x:Name="lblISR" Grid.Column="4" Grid.Row="8" Grid.ColumnSpan="2" Style="{StaticResource LabelBlack}" FontSize="18" Foreground="#0C4D9A" Content="$ 0"></Label>
 
-        <Label Grid.Column="6" Grid.Row="9" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" FontSize="18" Foreground="#9A0C78" Content="IVA"></Label>
-        <Label x:Name="lblIVA" Grid.Column="7" Grid.Row="9" Grid.ColumnSpan="2" Style="{StaticResource LabelBlack}" Foreground="#9A0C78" FontSize="18" Content="$ 0"></Label>
+        <Label Grid.Column="6" Grid.Row="8" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" FontSize="18" Foreground="#9A0C78" Content="IVA"></Label>
+        <Label x:Name="lblIVA" Grid.Column="7" Grid.Row="8" Grid.ColumnSpan="2" Style="{StaticResource LabelBlack}" Foreground="#9A0C78" FontSize="18" Content="$ 0"></Label>
+        <TextBox x:Name="tbIVAMod" Grid.Column="6" Grid.Row="9" Grid.ColumnSpan="2" Style="{StaticResource TextBox01}" KeyUp="tbIVAMod_KeyUp"></TextBox>
 
-        <Label Grid.Column="9" Grid.Row="9" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" FontSize="20" Content="TOTAL"></Label>
-        <Label x:Name="lblTotal" Grid.Column="10" Grid.Row="9" Grid.ColumnSpan="4" Style="{StaticResource LabelBlack}" FontSize="20" Content="$ 0"></Label>
+        <Label Grid.Column="9" Grid.Row="8" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" FontSize="20" Content="TOTAL"></Label>
+        <Label x:Name="lblTotal" Grid.Column="10" Grid.Row="8" Grid.ColumnSpan="4" Style="{StaticResource LabelBlack}" FontSize="20" Content="$ 0"></Label>
     </Grid>
 </Window>
