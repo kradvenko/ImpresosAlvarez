@@ -33,6 +33,7 @@ using System.Xml.Xsl;
 using System.Data.Entity;
 using System.Data;
 using ImpresosAlvarez.mx.facturacfdi.v33;
+//using ImpresosAlvarez.mx.facturacfdi.dev33;
 using System.Net.Mail;
 
 namespace ImpresosAlvarez
@@ -224,21 +225,29 @@ namespace ImpresosAlvarez
                 if (_clienteElegido.aplica_retencion == "SI")
                 {
                     RetencionIsr += item.Importe * 0.012500f;
+                    //RetencionIsr += Redondear(item.Importe * 0.012500f);
+                    //RetencionIsr += float.Parse((Math.Ceiling(item.Importe * 0.012500f)).ToString());
+                    //RetencionIsr += float.Parse(Math.Round((item.Importe * 0.012500f), 2).ToString());
                 }
             }
 
             float iva = Subtotal * 0.16f;
             //iva = float.Parse((Math.Round(iva, 2)).ToString());
+            //iva = Redondear(iva);
+
+            //RetencionIsr = Redondear(RetencionIsr);
+            //RetencionIsr = float.Parse(Math.Round(RetencionIsr, 2).ToString());
+
             datosFacturaElectronica.iva = iva.ToString();
             datosFacturaElectronica.retencionIsr = RetencionIsr.ToString();
 
             //datosFacturaElectronica.totalImpuestos = datosFacturaElectronica.CalcularTotalImpuestos().ToString();
-            
-            RetencionIsr = float.Parse(Math.Round(RetencionIsr, 2).ToString());
-            RetencionIva = float.Parse(Math.Round(RetencionIva, 2).ToString());
-            RetencionCedular = float.Parse(Math.Round(RetencionCedular, 2).ToString());
-            
-            iva = float.Parse((Math.Round(iva, 2)).ToString());
+
+            //RetencionIsr = float.Parse(Math.Round(RetencionIsr, 2).ToString());
+            //RetencionIva = float.Parse(Math.Round(RetencionIva, 2).ToString());
+            //RetencionCedular = float.Parse(Math.Round(RetencionCedular, 2).ToString());
+
+            //iva = float.Parse((Math.Round(iva, 2)).ToString());
 
             if (tbIVAMod.Text.Length > 3)
             {
@@ -254,7 +263,7 @@ namespace ImpresosAlvarez
 
             Total = Subtotal + iva - RetencionIsr - RetencionIva - RetencionCedular;
 
-            //Total = float.Parse(Math.Round(Total, 2).ToString());
+            Total = float.Parse(Math.Round(Total, 2).ToString());
 
             //lblTotalImpuestos.Content = "$ " + datosFacturaElectronica.totalImpuestos;
             lblSubtotal.Content = "$ " + Subtotal.ToString();
@@ -419,6 +428,25 @@ namespace ImpresosAlvarez
                 datosFacturaElectronica.domicilioEmisorEstado = "NAY";
                 datosFacturaElectronica.domicilioEmisorCodigoPostal = "63080";
             }
+
+            /*
+            rutaCertificado = @"C:\Impresos\Pruebas\Certificado.cer";
+            rutaLlave = @"C:\Impresos\Pruebas\Llave.key";
+            contraseñaLlave = "12345678a";
+            nombreEmisor = "XOCHILT CASAS CHAVEZ";
+            rfcEmisor = "CACX7605101P8";
+            serie = "-";
+            usuarioFacturacion = "pruebasWS";
+            contraseñaFacturacion = "pruebasWS";
+            curp = "-";
+            regimen = "Regimen de incorporación fiscal";
+
+            datosFacturaElectronica.domicilioEmisorCalle = "";
+            datosFacturaElectronica.domicilioEmisorColonia = "";
+            datosFacturaElectronica.domicilioEmisorMunicipio = " ";
+            datosFacturaElectronica.domicilioEmisorEstado = "";
+            datosFacturaElectronica.domicilioEmisorCodigoPostal = "44970";
+            */
 
             CargarXMLTemplate();
             FacturacionElectronica(true);
@@ -773,14 +801,16 @@ namespace ImpresosAlvarez
                     //IVA
                     impuesto = item.Cantidad * item.PrecioUnitario;
                     impuesto = impuesto * 0.16f;
-                    impuesto = float.Parse((Math.Round(impuesto, 2)).ToString());
+                    //impuesto = float.Parse((Math.Round(impuesto, 2)).ToString());
+                    //impuesto = Redondear(impuesto);
                     impuestoTotal = impuestoTotal + impuesto;
                     baseTotal = baseTotal + item.Importe;
 
                     //RETENCION
                     impuestoRetencion = item.Cantidad * item.PrecioUnitario;
                     impuestoRetencion = impuestoRetencion * 0.012500f;
-                    impuestoRetencion = float.Parse((Math.Round(impuestoRetencion, 2)).ToString());
+                    //impuestoRetencion = float.Parse((Math.Round(impuestoRetencion, 2)).ToString());
+                    //impuestoRetencion = Redondear(impuestoRetencion);
                     impuestoRetencionTotal = impuestoRetencionTotal + impuestoRetencion;
                     baseTotalRetencion = baseTotalRetencion + item.Importe;
 
@@ -914,7 +944,7 @@ namespace ImpresosAlvarez
             }
             else
             {
-                //impuestoTotal = float.Parse((Math.Round(impuestoTotal, 2)).ToString());
+                impuestoTotal = float.Parse((Math.Round(impuestoTotal, 2)).ToString());
                 xa.Value = AddDecimals(impuestoTotal.ToString());
             }            
             xTrasladoImpuestos.Attributes.Append(xa);
@@ -3381,6 +3411,50 @@ namespace ImpresosAlvarez
                     MessageBox.Show(exc.Message);
                 }
             }
+        }
+
+        private float Redondear(float Numero)
+        {
+            String NString = Numero.ToString();
+            String n = "";
+            float NuevoNumero = Numero;
+
+            if (NString.Contains("."))
+            {
+                int found = NString.IndexOf(".");
+                if (NString.Substring(found).Length > 2)
+                {
+                    String DString = NString.Substring(found + 1);
+                    String Nueva = "";
+                    bool SumaUno = false;
+                    int VActual = 0;
+                    for (int i = DString.Length - 1; i >= 0; i--)
+                    {
+                        VActual = int.Parse(DString.Substring(i, 1));
+                        if (SumaUno)
+                        {
+                            VActual++;
+                            SumaUno = false;
+                        }
+                        if (VActual >= 5 && i > 1)
+                        {
+                            VActual = 0;
+                            SumaUno = true;
+                        }
+                        Nueva = Nueva.Insert(0, VActual.ToString());
+                    }
+                    if (int.Parse(Nueva) == 0)
+                    {
+                        NuevoNumero = Numero + 1;
+                    }
+                    else
+                    {
+                        Nueva = Nueva.Substring(0, 2);
+                        NuevoNumero = float.Parse(String.Concat(NString.Substring(0, found), ".", Nueva));
+                    }
+                }
+            }
+            return NuevoNumero;
         }
     }
 }
