@@ -201,6 +201,7 @@ namespace ImpresosAlvarez
             RetencionIva = 0;
             RetencionIsr = 0;
             RetencionCedular = 0;
+            float iva = 0;            
 
             foreach (ConceptoFactura item in _conceptos)
             {
@@ -222,21 +223,26 @@ namespace ImpresosAlvarez
                     RetencionCedular = float.Parse(Math.Round(RetencionCedular, 2).ToString());
                 }
                 */
+                float temp = item.Importe * 0.16f;
+                iva += float.Parse(Math.Round(temp, 2).ToString());
+
                 if (_clienteElegido.aplica_retencion == "SI")
                 {
-                    RetencionIsr += item.Importe * 0.012500f;
+                    //RetencionIsr += item.Importe * 0.012500f;
                     //RetencionIsr += Redondear(item.Importe * 0.012500f);
                     //RetencionIsr += float.Parse((Math.Ceiling(item.Importe * 0.012500f)).ToString());
+                    float temp2 = item.Importe * 0.012500f;
+                    RetencionIsr += float.Parse(Math.Round(temp2, 2).ToString());
                     //RetencionIsr += float.Parse(Math.Round((item.Importe * 0.012500f), 2).ToString());
                 }
             }
 
-            float iva = Subtotal * 0.16f;
-            //iva = float.Parse((Math.Round(iva, 2)).ToString());
+            
+            iva = float.Parse((Math.Round(iva, 2)).ToString());
             //iva = Redondear(iva);
 
             //RetencionIsr = Redondear(RetencionIsr);
-            //RetencionIsr = float.Parse(Math.Round(RetencionIsr, 2).ToString());
+            RetencionIsr = float.Parse(Math.Round(RetencionIsr, 2).ToString());
 
             datosFacturaElectronica.iva = iva.ToString();
             datosFacturaElectronica.retencionIsr = RetencionIsr.ToString();
@@ -801,7 +807,7 @@ namespace ImpresosAlvarez
                     //IVA
                     impuesto = item.Cantidad * item.PrecioUnitario;
                     impuesto = impuesto * 0.16f;
-                    //impuesto = float.Parse((Math.Round(impuesto, 2)).ToString());
+                    impuesto = float.Parse((Math.Round(impuesto, 2)).ToString());
                     //impuesto = Redondear(impuesto);
                     impuestoTotal = impuestoTotal + impuesto;
                     baseTotal = baseTotal + item.Importe;
@@ -809,7 +815,7 @@ namespace ImpresosAlvarez
                     //RETENCION
                     impuestoRetencion = item.Cantidad * item.PrecioUnitario;
                     impuestoRetencion = impuestoRetencion * 0.012500f;
-                    //impuestoRetencion = float.Parse((Math.Round(impuestoRetencion, 2)).ToString());
+                    impuestoRetencion = float.Parse((Math.Round(impuestoRetencion, 2)).ToString());
                     //impuestoRetencion = Redondear(impuestoRetencion);
                     impuestoRetencionTotal = impuestoRetencionTotal + impuestoRetencion;
                     baseTotalRetencion = baseTotalRetencion + item.Importe;
