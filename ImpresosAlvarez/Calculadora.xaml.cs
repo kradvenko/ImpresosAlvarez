@@ -140,14 +140,25 @@ namespace ImpresosAlvarez
             ele.Importe = importe;
 
             float subtotal = 0;
+            float iva = 0;
+            float isr = 0;
 
             elementos.Add(ele);
             dgConceptos.ItemsSource = null;
             dgConceptos.ItemsSource = elementos;
 
+            float t1;
+
             foreach (CalcElement item in elementos)
             {
                 subtotal += item.Importe;
+                t1 = item.Importe * 0.16f;
+                iva += float.Parse(Math.Round(t1, 2).ToString());
+                if (chbAplicarISR.IsChecked == true)
+                {
+                    t1 = item.Importe * 0.012500f;
+                    isr += float.Parse(Math.Round(t1, 2).ToString());
+                }
             }
 
             tbCantidad.Text = "";
@@ -156,8 +167,10 @@ namespace ImpresosAlvarez
 
             lblSubtotal.Content = "$ " + subtotal.ToString();
             lblIVA.Content = "$ " + (subtotal * 0.16).ToString();
-            lblTotal.Content = "$ " + (subtotal + (subtotal * 0.16)).ToString();
 
+            lblISR.Content = "$ " + isr.ToString();
+
+            lblTotal.Content = "$ " + (subtotal + (iva) - (isr)).ToString();
             tbCantidad.Focus();
         }
 
@@ -170,6 +183,39 @@ namespace ImpresosAlvarez
                 dgConceptos.ItemsSource = null;
                 dgConceptos.ItemsSource = elementos;
             }
+        }
+
+        private void btnAplicarISR_Click(object sender, RoutedEventArgs e)
+        {
+            float subtotal = 0;
+            float iva = 0;
+            float isr = 0;
+
+            float t1;
+
+            foreach (CalcElement item in elementos)
+            {
+                subtotal += item.Importe;
+                t1 = item.Importe * 0.16f;
+                iva += float.Parse(Math.Round(t1, 2).ToString());
+                if (chbAplicarISR.IsChecked == true)
+                {
+                    t1 = item.Importe * 0.012500f;
+                    isr += float.Parse(Math.Round(t1, 2).ToString());
+                }
+            }
+
+            tbCantidad.Text = "";
+            tbUnitario.Text = "";
+            tbImporte.Text = "";
+
+            lblSubtotal.Content = "$ " + subtotal.ToString();
+            lblIVA.Content = "$ " + (subtotal * 0.16).ToString();
+
+            lblISR.Content = "$ " + isr.ToString();
+
+            lblTotal.Content = "$ " + (subtotal + (iva) - (isr)).ToString();
+            tbCantidad.Focus();
         }
     }
 }

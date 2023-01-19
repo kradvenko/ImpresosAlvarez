@@ -65,8 +65,12 @@
         <Label Grid.Column="0" Grid.Row="10" Style="{StaticResource LabelBlack}" Content="Importe"></Label>
         <TextBox x:Name="tbImporte" Grid.Column="1" Grid.Row="10" Style="{StaticResource TextBox01}" KeyUp="tbImporte_KeyUp"></TextBox>
 
-        <Label Grid.Column="5" Grid.Row="9" Grid.ColumnSpan="1" Style="{StaticResource LabelBlack}" Content="Subtotal"></Label>
-        <Label x:Name="lblSubtotal" Grid.Column="6" Grid.Row="9" Grid.ColumnSpan="2" Style="{StaticResource LabelBlack}" Content="$ 0"></Label>
+        <Label Grid.Column="5" Grid.Row="8" Grid.ColumnSpan="1" Style="{StaticResource LabelBlack}" Content="Subtotal"></Label>
+        <Label x:Name="lblSubtotal" Grid.Column="6" Grid.Row="8" Grid.ColumnSpan="2" Style="{StaticResource LabelBlack}" Content="$ 0"></Label>
+
+        <CheckBox x:Name="chbAplicarISR" Grid.Column="4" Grid.Row="9" Content="Aplicar ISR" Click="btnAplicarISR_Click"></CheckBox>
+        <Label Grid.Column="5" Grid.Row="9" Grid.ColumnSpan="1" Style="{StaticResource LabelBlack}" Content="ISR"></Label>
+        <Label x:Name="lblISR" Grid.Column="6" Grid.Row="9" Grid.ColumnSpan="2" Style="{StaticResource LabelBlack}" Content="$ 0"></Label>
 
         <Label Grid.Column="5" Grid.Row="10" Grid.ColumnSpan="1" Style="{StaticResource LabelBlack}" Content="IVA"></Label>
         <Label x:Name="lblIVA" Grid.Column="6" Grid.Row="10" Grid.ColumnSpan="2" Style="{StaticResource LabelBlack}" Content="$ 0"></Label>
