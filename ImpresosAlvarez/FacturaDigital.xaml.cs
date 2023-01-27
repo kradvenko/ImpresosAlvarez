@@ -1721,7 +1721,7 @@ namespace ImpresosAlvarez
                 .SetFontSize(fs)
                 .SetBorderTop(iText.Layout.Borders.Border.NO_BORDER)
                 .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("1.125% RETENCIÓN: ")));
+                .Add(new Paragraph("1.25% RETENCIÓN: ")));
 
                 table.AddCell(new Cell(1, 1)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
