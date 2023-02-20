@@ -39,6 +39,7 @@
                 <DataGridTextColumn Header="Recibio" Binding="{Binding Path=quien_recibio}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Trabajo" Binding="{Binding Path=nombre_trabajo}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Cantidad" Binding="{Binding Path=cantidad}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Estado" Binding="{Binding Path=estado}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 
