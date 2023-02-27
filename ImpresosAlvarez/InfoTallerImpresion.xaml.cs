@@ -16,16 +16,16 @@ using System.Windows.Shapes;
 namespace ImpresosAlvarez
 {
     /// <summary>
-    /// Lógica de interacción para InfoTaller.xaml
+    /// Lógica de interacción para InfoTallerImpresion.xaml
     /// </summary>
-    public partial class InfoTaller : Window
+    public partial class InfoTallerImpresion : Window
     {
         List<Usuarios> UsuariosTaller;
-        TrabajosImpresionTerminado ParentForm;
-        public InfoTaller(TrabajosImpresionTerminado ParentForm)
+        TrabajosImpresion ParentFormImpresion;
+        public InfoTallerImpresion(TrabajosImpresion ParentForm)
         {
             InitializeComponent();
-            this.ParentForm = ParentForm;
+            this.ParentFormImpresion = ParentForm;
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -43,7 +43,7 @@ namespace ImpresosAlvarez
                 cbUsuarios.DisplayMemberPath = "nombre";
                 cbUsuarios.SelectedValuePath = "id_usuario";
             }
-        }        
+        }
 
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
@@ -65,7 +65,7 @@ namespace ImpresosAlvarez
 
                     if (u != null)
                     {
-                        ParentForm.EnviarOrden(false, 0, 0, u);
+                        ParentFormImpresion.EnviarOrden(false, 0, 0, u);
 
                         this.Close();
                     }
@@ -91,7 +91,7 @@ namespace ImpresosAlvarez
                         Usuarios Lamina;
                         Usuarios Negativo;
 
-                        ParentForm.EnviarOrden(true, int.Parse(cbLamina.SelectedValue.ToString()), int.Parse(cbNegativo.SelectedValue.ToString()), u);
+                        ParentFormImpresion.EnviarOrden(true, int.Parse(cbLamina.SelectedValue.ToString()), int.Parse(cbNegativo.SelectedValue.ToString()), u);
 
                         this.Close();
                     }

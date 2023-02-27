@@ -28,7 +28,7 @@
     <UpdateUrl>http://impresosalvarez.atwebpages.com/</UpdateUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>74</ApplicationRevision>
+    <ApplicationRevision>77</ApplicationRevision>
     <ApplicationVersion>1.3.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -437,6 +437,12 @@
     <Compile Include="InfoTaller.xaml.cs">
       <DependentUpon>InfoTaller.xaml</DependentUpon>
     </Compile>
+    <Compile Include="InfoTallerImpresion.xaml.cs">
+      <DependentUpon>InfoTallerImpresion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InfoTallerTerminado.xaml.cs">
+      <DependentUpon>InfoTallerTerminado.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Llenado4.xaml.cs">
       <DependentUpon>Llenado4.xaml</DependentUpon>
     </Compile>
@@ -461,8 +467,14 @@
     <Compile Include="TrabajosEntregados.xaml.cs">
       <DependentUpon>TrabajosEntregados.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TrabajosImpresion.xaml.cs">
+      <DependentUpon>TrabajosImpresion.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TrabajosImpresionTerminado.xaml.cs">
       <DependentUpon>TrabajosImpresionTerminado.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TrabajosTerminado.xaml.cs">
+      <DependentUpon>TrabajosTerminado.xaml</DependentUpon>
     </Compile>
     <Compile Include="VerComplemento.xaml.cs">
       <DependentUpon>VerComplemento.xaml</DependentUpon>
@@ -575,6 +587,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="InfoTallerImpresion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InfoTallerTerminado.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Llenado4.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -626,7 +646,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="TrabajosImpresion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="TrabajosImpresionTerminado.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TrabajosTerminado.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

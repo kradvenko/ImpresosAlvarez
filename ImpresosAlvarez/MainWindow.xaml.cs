@@ -34,7 +34,7 @@ namespace ImpresosAlvarez
         {
 
             //04/01/20203
-            Actualizaciones.Actualizacion1();
+            //Actualizaciones.Actualizacion1();
 
             Login login = new Login(this);
             login.ShowDialog();
@@ -63,10 +63,18 @@ namespace ImpresosAlvarez
                     btnImpresion.Visibility = Visibility.Visible;
                     gImpresion.Visibility = Visibility.Visible;
                     break;
+                case "TERMINADO":
+                    btnTerminado.Visibility = Visibility.Visible;
+                    gTerminado.Visibility = Visibility.Visible;
+                    break;
+                case "TALLER":
+                    btnImpresion.Visibility = Visibility.Visible;
+                    btnTerminado.Visibility = Visibility.Visible;
+                    break;
                 default:
                     break;
             }
-
+            /*
             string curFile = @"C:\Impresos\FileCheck.txt";
             //MessageBox.Show(File.Exists(curFile) ? "File exists." : "File does not exist.");
             if (!File.Exists(curFile))
@@ -78,6 +86,7 @@ namespace ImpresosAlvarez
                     client.DownloadFile("http://impresosalvarez.atwebpages.com/XML_4_0_Template.xml", @"C:\Impresos\Facturacion\XML_4_0_Template.xml");
                 }
             }
+            */
         }
 
         private void btnMinimizar_Click(object sender, RoutedEventArgs e)
@@ -131,6 +140,7 @@ namespace ImpresosAlvarez
             gRecepcion.Visibility = Visibility.Visible;
             gImpresion.Visibility = Visibility.Hidden;
             gInventario.Visibility = Visibility.Hidden;
+            gTerminado.Visibility = Visibility.Hidden;
         }
 
         private void btnExistencias_Click(object sender, RoutedEventArgs e)
@@ -144,6 +154,7 @@ namespace ImpresosAlvarez
             gRecepcion.Visibility = Visibility.Hidden;
             gImpresion.Visibility = Visibility.Hidden;
             gInventario.Visibility = Visibility.Visible;
+            gTerminado.Visibility = Visibility.Hidden;
         }
 
         private void btnEntradas_Click(object sender, RoutedEventArgs e)
@@ -163,11 +174,12 @@ namespace ImpresosAlvarez
             gRecepcion.Visibility = Visibility.Hidden;
             gImpresion.Visibility = Visibility.Visible;
             gInventario.Visibility = Visibility.Hidden;
+            gTerminado.Visibility = Visibility.Hidden;
         }
 
         private void btnTrabajosEnImpresion_Click(object sender, RoutedEventArgs e)
         {
-            TrabajosImpresionTerminado pendientes = new TrabajosImpresionTerminado();
+            TrabajosImpresion pendientes = new TrabajosImpresion();
             pendientes.ShowDialog();
         }
 
@@ -204,6 +216,20 @@ namespace ImpresosAlvarez
         {
             ControlServiciosProductos servicios = new ControlServiciosProductos();
             servicios.Show();
+        }
+
+        private void btnTrabajosEnTerminado_Click(object sender, RoutedEventArgs e)
+        {
+            TrabajosTerminado pendienste = new TrabajosTerminado();
+            pendienste.ShowDialog();
+        }
+
+        private void btnTerminado_Click(object sender, RoutedEventArgs e)
+        {
+            gRecepcion.Visibility = Visibility.Hidden;
+            gImpresion.Visibility = Visibility.Hidden;
+            gInventario.Visibility = Visibility.Hidden;
+            gTerminado.Visibility = Visibility.Visible;
         }
     }
 }

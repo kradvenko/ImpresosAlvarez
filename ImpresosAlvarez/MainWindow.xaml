@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImpresosAlvarez"
         mc:Ignorable="d"
-        Title="Impresos Alvarez" Height="600" Width="900" WindowStartupLocation="CenterScreen" WindowState="Maximized" Loaded="Window_Loaded">
+        Title="Impresos Alvarez" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Normal" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.2*"></ColumnDefinition>
@@ -24,6 +24,7 @@
             </Grid.ColumnDefinitions>
         </Grid>
 
+        <!--
         <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2">
             <Border.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
@@ -40,7 +41,7 @@
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
-        
+        -->
         <Border Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3">
             <Border.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
@@ -52,8 +53,8 @@
                             <TranslateTransform/>
                         </TransformGroup>
                     </LinearGradientBrush.RelativeTransform>
-                    <GradientStop Color="#FFEEAFF1" Offset="1"/>
-                    <GradientStop Color="#FFEEAFF1"/>
+                    <GradientStop Color="#EEEEEE" Offset="1"/>
+                    <GradientStop Color="Gray"/>
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
@@ -153,7 +154,7 @@
         -->
         <Image Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2" Source="Imagenes/LogoAlvarez.png" Opacity="0.8"/>
 
-        <Grid Grid.Column="0" Grid.Row="1" Grid.RowSpan="2">
+        <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
                 <RowDefinition Height="*"></RowDefinition>
@@ -175,8 +176,8 @@
                                 <TranslateTransform/>
                             </TransformGroup>
                         </LinearGradientBrush.RelativeTransform>
-                        <GradientStop Color="#FFEEAFF1" Offset="1"/>
-                        <GradientStop Color="White"/>
+                        <GradientStop Color="#EEEEEE" Offset="1"/>
+                        <GradientStop Color="#EEEEEE"/>
                     </LinearGradientBrush>
                 </Border.Background>                
             </Border>
@@ -313,7 +314,7 @@
                     <Label Style="{StaticResource LabelBold}">Impresión</Label>
                 </Button.Content>
             </Button>
-            <Button x:Name="btnTerminado" Grid.Row="3" Visibility="Hidden">
+            <Button x:Name="btnTerminado" Grid.Row="3" Visibility="Hidden" Click="btnTerminado_Click">
                 <Button.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
                 </Button.Effect>
@@ -549,7 +550,32 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
 
-            <Button x:Name="btnTrabajosEnImpresion" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Content="Trabajos en Impresión y Terminado" Click="btnTrabajosEnImpresion_Click"></Button>
+            <Button x:Name="btnTrabajosEnImpresion" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Content="Trabajos en Impresión" Click="btnTrabajosEnImpresion_Click"></Button>
+        </Grid>
+
+        <Grid x:Name="gTerminado" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="5" Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Button x:Name="btnTrabajosEnTerminado" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Content="Trabajos en Terminado" Click="btnTrabajosEnTerminado_Click"></Button>
         </Grid>
 
         <Grid x:Name="gDiseno" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="5" Visibility="Hidden">
@@ -576,6 +602,8 @@
 
             <Button x:Name="btnDisenoPendientes" Grid.Row="0" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Ordenes Pendientes" Click="btnDisenoPendientes_Click"></Button>
         </Grid>
+        
+
 
 
         <Grid x:Name="gInventario" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="5" Visibility="Hidden">

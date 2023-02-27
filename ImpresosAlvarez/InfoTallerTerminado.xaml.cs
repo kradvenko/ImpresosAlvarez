@@ -16,34 +16,27 @@ using System.Windows.Shapes;
 namespace ImpresosAlvarez
 {
     /// <summary>
-    /// Lógica de interacción para InfoTaller.xaml
+    /// Lógica de interacción para InfoTallerTerminado.xaml
     /// </summary>
-    public partial class InfoTaller : Window
+    public partial class InfoTallerTerminado : Window
     {
         List<Usuarios> UsuariosTaller;
-        TrabajosImpresionTerminado ParentForm;
-        public InfoTaller(TrabajosImpresionTerminado ParentForm)
+        TrabajosTerminado ParentFormTerminado;
+        public InfoTallerTerminado(TrabajosTerminado ParentForm)
         {
             InitializeComponent();
-            this.ParentForm = ParentForm;
+            this.ParentFormTerminado = ParentForm;
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
             {
                 UsuariosTaller = dbContext.Usuarios.Where(T => T.tipo == "IMPRESION" && T.estado == "ACTIVO").ToList();
-
-                cbLamina.ItemsSource = UsuariosTaller;
-                cbLamina.DisplayMemberPath = "nombre";
-                cbLamina.SelectedValuePath = "id_usuario";
-                cbNegativo.ItemsSource = UsuariosTaller;
-                cbNegativo.DisplayMemberPath = "nombre";
-                cbNegativo.SelectedValuePath = "id_usuario";
                 cbUsuarios.ItemsSource = UsuariosTaller;
                 cbUsuarios.DisplayMemberPath = "nombre";
                 cbUsuarios.SelectedValuePath = "id_usuario";
             }
-        }        
+        }
 
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
@@ -65,7 +58,7 @@ namespace ImpresosAlvarez
 
                     if (u != null)
                     {
-                        ParentForm.EnviarOrden(false, 0, 0, u);
+                        ParentFormTerminado.EnviarOrden(false, 0, 0, u);
 
                         this.Close();
                     }
@@ -91,7 +84,7 @@ namespace ImpresosAlvarez
                         Usuarios Lamina;
                         Usuarios Negativo;
 
-                        ParentForm.EnviarOrden(true, int.Parse(cbLamina.SelectedValue.ToString()), int.Parse(cbNegativo.SelectedValue.ToString()), u);
+                        ParentFormTerminado.EnviarOrden(true, 0, 0, u);
 
                         this.Close();
                     }

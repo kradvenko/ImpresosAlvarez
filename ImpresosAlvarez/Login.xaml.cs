@@ -72,6 +72,7 @@ namespace ImpresosAlvarez
 
         private void btnIngresoTaller_Click(object sender, RoutedEventArgs e)
         {
+            /*
             using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
             {
                 Usuarios cu = dbContext.Usuarios.Where(U => U.nombre == "TALLER" && U.pass == "TALLER").FirstOrDefault();
@@ -87,6 +88,14 @@ namespace ImpresosAlvarez
                     MessageBox.Show("No se puede iniciar sesion.");
                 }
             }
+            */
+            Usuarios cu = new Usuarios();
+            cu.id_usuario = 0;
+            cu.nombre = "TALLER";
+            cu.tipo = "TALLER";
+            parent.CurrentUser = cu;
+            parent.SetMainWindow();
+            this.Close();
         }
     }
 }
