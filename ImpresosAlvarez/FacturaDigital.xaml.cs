@@ -3079,6 +3079,7 @@ namespace ImpresosAlvarez
                     cConcepto.descripcionProducto = item.Descripcion;
 
                     xa = xDoc.CreateAttribute("ValorUnitario");
+                    //float.Parse((Math.Round(impuesto, 2)).ToString());
                     xa.Value = item.PrecioUnitario.ToString();
                     xConcepto.Attributes.Append(xa);
                     cConcepto.valorUnitario = xa.Value;
@@ -3189,17 +3190,23 @@ namespace ImpresosAlvarez
 
             if (_clienteElegido.aplica_retencion == "SI")
             {
+                /*
                 xa = xDoc.CreateAttribute("Base");
                 xa.Value = baseTotal.ToString();
                 xRetencionImpuestos.Attributes.Append(xa);
+                */
                 xa = xDoc.CreateAttribute("Impuesto");
                 xa.Value = "001";
+                /*
                 xRetencionImpuestos.Attributes.Append(xa);
                 xa = xDoc.CreateAttribute("TipoFactor");
                 xa.Value = "Tasa";
+                */
+                /*
                 xTrasladoImpuestos.Attributes.Append(xa);
                 xa = xDoc.CreateAttribute("TasaOCuota");
                 xa.Value = "0.012500";
+                */
                 xRetencionImpuestos.Attributes.Append(xa);
                 xa = xDoc.CreateAttribute("Importe");
                 impuestoRetencionTotal = float.Parse((Math.Round(impuestoRetencionTotal, 2)).ToString());
@@ -3216,10 +3223,11 @@ namespace ImpresosAlvarez
 
                 //RetencionIsr = impuestoRetencionTotal;
             }
-
+            
             xa = xDoc.CreateAttribute("Base");
             xa.Value = baseTotal.ToString();
             xTrasladoImpuestos.Attributes.Append(xa);
+            
             xa = xDoc.CreateAttribute("Impuesto");
             xa.Value = "002";
             xTrasladoImpuestos.Attributes.Append(xa);
