@@ -113,6 +113,22 @@ namespace ImpresosAlvarez
                 return;
             }
 
+            if (cbConFolio.Text == "SI")
+            {
+                if (tbDelNumero.Text.Length == 0)
+                {
+                    MessageBox.Show("No ha escrito el folio inicial.");
+                    tbDelNumero.Focus();
+                    return;
+                }
+                if (tbAlNumero.Text.Length == 0)
+                {
+                    MessageBox.Show("No ha escrito el folio final.");
+                    tbAlNumero.Focus();
+                    return;
+                }
+            }
+
             using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
             {
                 using (DbContextTransaction transaction = dbContext.Database.BeginTransaction())
@@ -1461,6 +1477,14 @@ namespace ImpresosAlvarez
                 int Al = Del + Cantidad - 1;
 
                 tbAlNumero.Text = Al.ToString();
+            }
+        }
+
+        private void cbConFolio_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbConFolio.Text == "SI")
+            {
+
             }
         }
     }

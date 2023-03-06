@@ -119,14 +119,14 @@
             <TextBox x:Name="tbTipoPapel" Grid.Column="9" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
 
             <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Con folio"></Label>
-            <ComboBox x:Name="cbConFolio" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource ComboBoxFlatStyle}">
+            <ComboBox x:Name="cbConFolio" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource ComboBoxFlatStyle}" SelectionChanged="cbConFolio_SelectionChanged">
                 <ComboBoxItem DataContext="X">SI</ComboBoxItem>
                 <ComboBoxItem DataContext="" IsSelected="True">NO</ComboBoxItem>
             </ComboBox>
             <Label Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Del número"></Label>
-            <TextBox x:Name="tbDelNumero" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40" PreviewTextInput="PreviewTextInput" KeyUp="tbDelNumero_KeyUp"></TextBox>
+            <TextBox x:Name="tbDelNumero" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40" PreviewTextInput="PreviewTextInput" KeyUp="tbDelNumero_KeyUp" IsEnabled="False"></TextBox>
             <Label Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Al número"></Label>
-            <TextBox x:Name="tbAlNumero" Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40" PreviewTextInput="PreviewTextInput"></TextBox>
+            <TextBox x:Name="tbAlNumero" Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40" PreviewTextInput="PreviewTextInput" IsEnabled="True"></TextBox>
             <Label Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Tamaño"></Label>
             <ComboBox x:Name="cbTamaño" Grid.Column="9" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource ComboBoxFlatStyle}" IsEditable="True">
                 <ComboBoxItem>CARTA</ComboBoxItem>
