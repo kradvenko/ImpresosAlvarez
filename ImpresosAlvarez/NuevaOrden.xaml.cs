@@ -1482,7 +1482,23 @@ namespace ImpresosAlvarez
 
         private void cbConFolio_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cbConFolio.Text == "SI")
+            try
+            {
+                if (tbDelNumero != null && tbAlNumero != null)
+                {
+                    if (cbConFolio.SelectedIndex == 0)
+                    {
+                        tbDelNumero.IsEnabled = true;
+                        tbAlNumero.IsEnabled = true;
+                    }
+                    else
+                    {
+                        tbDelNumero.IsEnabled = false;
+                        tbAlNumero.IsEnabled = false;
+                    }
+                }
+            }
+            catch (Exception exc)
             {
 
             }

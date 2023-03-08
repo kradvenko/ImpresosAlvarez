@@ -126,7 +126,7 @@
             <Label Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Del número"></Label>
             <TextBox x:Name="tbDelNumero" Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40" PreviewTextInput="PreviewTextInput" KeyUp="tbDelNumero_KeyUp" IsEnabled="False"></TextBox>
             <Label Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Al número"></Label>
-            <TextBox x:Name="tbAlNumero" Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40" PreviewTextInput="PreviewTextInput" IsEnabled="True"></TextBox>
+            <TextBox x:Name="tbAlNumero" Grid.Column="6" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40" PreviewTextInput="PreviewTextInput" IsEnabled="False"></TextBox>
             <Label Grid.Column="8" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Tamaño"></Label>
             <ComboBox x:Name="cbTamaño" Grid.Column="9" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource ComboBoxFlatStyle}" IsEditable="True">
                 <ComboBoxItem>CARTA</ComboBoxItem>
