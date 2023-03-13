@@ -231,5 +231,11 @@ namespace ImpresosAlvarez
             gInventario.Visibility = Visibility.Hidden;
             gTerminado.Visibility = Visibility.Visible;
         }
+
+        private void btnControlOrdenes_Click(object sender, RoutedEventArgs e)
+        {
+            ControlOrdenes ordenes = new ControlOrdenes();
+            ordenes.Show();
+        }
     }
 }

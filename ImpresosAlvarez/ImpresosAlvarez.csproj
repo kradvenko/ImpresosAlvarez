@@ -200,6 +200,9 @@
     <Compile Include="ControlInsumo.xaml.cs">
       <DependentUpon>ControlInsumo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ControlOrdenes.xaml.cs">
+      <DependentUpon>ControlOrdenes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ControlSalidaInventario.xaml.cs">
       <DependentUpon>ControlSalidaInventario.xaml</DependentUpon>
     </Compile>
@@ -559,6 +562,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ControlInsumo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlOrdenes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

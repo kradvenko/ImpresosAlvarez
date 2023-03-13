@@ -522,9 +522,11 @@
             <Button x:Name="btnControlFacturas" Grid.Row="1" Grid.Column="4" Style="{StaticResource btnInterfaz01}" Content="Control Facturas" Click="btnControlFacturas_Click"></Button>
             <Button x:Name="btnControlComplementos" Grid.Row="1" Grid.Column="5" Style="{StaticResource btnInterfaz01}" Content="Control Complementos" Click="btnControlComplementos_Click"></Button>
 
-            <Button x:Name="btnCalculadora" Grid.Row="2" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Calculadora" Click="btnCalculadora_Click"></Button>
-            <Button x:Name="btnTrabajosEntregados" Grid.Row="2" Grid.Column="2" Style="{StaticResource btnInterfaz01}" Content="Trabajos Entregados" Click="btnTrabajosEntregados_Click"></Button>
-            <Button x:Name="btnServiciosProductos" Grid.Row="2" Grid.Column="3" Style="{StaticResource btnInterfaz01}" Content="Control Servicios y Productos" Click="btnServiciosProductos_Click"></Button>
+            <Button x:Name="btnControlOrdenes" Grid.Row="2" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Control Ordenes" Click="btnControlOrdenes_Click"></Button>
+
+            <Button x:Name="btnCalculadora" Grid.Row="3" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Calculadora" Click="btnCalculadora_Click"></Button>
+            <Button x:Name="btnTrabajosEntregados" Grid.Row="3" Grid.Column="2" Style="{StaticResource btnInterfaz01}" Content="Trabajos Entregados" Click="btnTrabajosEntregados_Click"></Button>
+            <Button x:Name="btnServiciosProductos" Grid.Row="3" Grid.Column="3" Style="{StaticResource btnInterfaz01}" Content="Control Servicios y Productos" Click="btnServiciosProductos_Click"></Button>
             
         </Grid>
 
