@@ -458,6 +458,9 @@
     <Compile Include="OrdenesAnteriores.xaml.cs">
       <DependentUpon>OrdenesAnteriores.xaml</DependentUpon>
     </Compile>
+    <Compile Include="OrdenModificar.xaml.cs">
+      <DependentUpon>OrdenModificar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ReimprimirOrden.xaml.cs">
       <DependentUpon>ReimprimirOrden.xaml</DependentUpon>
     </Compile>
@@ -631,6 +634,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OrdenesAnteriores.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="OrdenModificar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
