@@ -1,6 +1,7 @@
 ﻿using ImpresosAlvarez.Entity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -142,7 +143,150 @@ namespace ImpresosAlvarez
 
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
+            if (MessageBox.Show("¿Desea guardar la orden?", "ATENCION", MessageBoxButton.YesNo) == MessageBoxResult.No)
+            {
+                return;
+            }
 
+            //ImprimirPDF("39865");
+            //return;
+
+
+            if (tbNombreTrabajo.Text.Length == 0)
+            {
+                MessageBox.Show("No ha ingresado el nombre del trabajo.");
+                tbNombreTrabajo.Focus();
+                return;
+            }
+
+            if (tbCantidad.Text.Length == 0)
+            {
+                MessageBox.Show("No ha ingresado una cantidad.");
+                tbCantidad.Focus();
+                return;
+            }
+
+            if (tbCotizacion.Text.Length == 0)
+            {
+                /*
+                MessageBox.Show("No ha ingresado la cotización.");
+                tbCotizacion.Focus();
+                return;
+                */
+                tbCotizacion.Text = "0";
+            }
+
+            if (tbAnticipo.Text.Length == 0)
+            {
+                /*
+                MessageBox.Show("No ha ingresado el anticipo.");
+                tbAnticipo.Focus();
+                return;
+                */
+                tbAnticipo.Text = "0";
+            }
+
+            if (tbCostoAnterior.Text.Length == 0)
+            {
+                MessageBox.Show("No ha ingresado el costo anterior.");
+                tbCostoAnterior.Focus();
+                return;
+            }
+
+            if (cbConFolio.Text == "SI")
+            {
+                if (tbDelNumero.Text.Length == 0)
+                {
+                    MessageBox.Show("No ha escrito el folio inicial.");
+                    tbDelNumero.Focus();
+                    return;
+                }
+                if (tbAlNumero.Text.Length == 0)
+                {
+                    MessageBox.Show("No ha escrito el folio final.");
+                    tbAlNumero.Focus();
+                    return;
+                }
+            }
+
+            using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+            {
+                using (DbContextTransaction transaction = dbContext.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        //float numero = float.Parse(dbContext.NumeroNota.First().numero);
+                        float numero = float.Parse(dbContext.Valores.First().numero_orden);
+
+                        Ordenes ordenModificar = dbContext.Ordenes.Where(O => O.id_orden == OrdenElegida.id_orden).First();
+
+                        ordenModificar.id_cliente = OrdenElegida.id_cliente;
+                        ordenModificar.numero = numero;
+                        ordenModificar.telefono = tbTelefono.Text;
+                        ordenModificar.solicitante = tbSolicita.Text;
+                        //ordenModificar.fecha_solicita = dtpFecha.SelectedDate.Value.ToShortDateString();
+                        //ordenModificar.quien_recibio = tbRecibe.Text;
+                        //ordenModificar.inicio_diseno = "";
+                        ordenModificar.nombre_trabajo = tbNombreTrabajo.Text;
+                        ordenModificar.cantidad = int.Parse(tbCantidad.Text);
+                        ordenModificar.color_tintas = tbColorTintas.Text;
+                        ordenModificar.tipo_papel = tbTipoPapel.Text;
+                        ordenModificar.con_folio = cbConFolio.Text;
+                        ordenModificar.del_numero = tbDelNumero.Text;
+                        ordenModificar.al_numero = tbAlNumero.Text;
+                        ordenModificar.tamano = cbTamaño.Text;
+                        ordenModificar.otros_1 = tbOtros1.Text;
+                        ordenModificar.otros_2 = tbOtros2.Text;
+                        ordenModificar.copia_1 = cbPrimeraCopia.Text;
+                        ordenModificar.copia_2 = cbSegundaCopia.Text;
+                        ordenModificar.copia_3 = cbTerceraCopia.Text;
+                        ordenModificar.copia_4 = cbCuartaCopia.Text;
+                        ordenModificar.otros_3 = tbOtros3.Text;
+                        ordenModificar.otros_4 = tbNotas.Text;
+                        ordenModificar.pegado = chbPegado.IsChecked == true ? "SI" : "NO";
+                        ordenModificar.engrapado = chbEngrapado.IsChecked == true ? "SI" : "NO";
+                        ordenModificar.perforacion = chbPerforacion.IsChecked == true ? "SI" : "NO";
+                        ordenModificar.rojo = chbRojo.IsChecked == true ? "SI" : "NO";
+                        ordenModificar.blanco = chbBlanco.IsChecked == true ? "SI" : "NO";
+                        ordenModificar.especificaciones = tbDescripcion.Text;
+                        //ordenModificar.estado = "RECEPCION";
+                        //ordenModificar.tipo = "COTIZACION";
+                        ordenModificar.total = float.Parse(tbCotizacion.Text);
+                        ordenModificar.anticipo = float.Parse(tbAnticipo.Text);
+                        ordenModificar.costo_anterior = float.Parse(tbCostoAnterior.Text);
+                        //ordenModificar.muestra = "";
+                        //ordenModificar.fecha_muestra = "";
+                        ordenModificar.prioridad = cbPrioridad.Text;
+                        //ordenModificar.pagado = "NO";
+                        //ordenModificar.ruta = RutaOrden;
+                        //ordenModificar.orden_anterior = tbOrdenAnterior.Text;
+                        ordenModificar.fecha_negativo = dtpFechaNegativo.SelectedDate.HasValue ? dtpFechaNegativo.SelectedDate.Value.ToShortDateString() : "";
+                        ordenModificar.tipo_maquina = cbTipoMaquina.Text;
+                        //ordenModificar.autorizado = "NO";
+
+                        
+                        /*
+                        Valores numOrden = dbContext.Valores.First();
+                        numOrden.numero_orden = (numero + 1).ToString();
+                        numOrden.ultimo_cambio = DateTime.Now.ToString();
+                        */
+                        dbContext.SaveChanges();
+
+                        transaction.Commit();
+
+                        //ImprimirPDF(numero.ToString());
+
+                        MessageBox.Show("Orden modificada.");
+
+                        this.Close();
+                    }
+                    catch (Exception exc)
+                    {
+                        transaction.Rollback();
+                        MessageBox.Show(exc.Message);
+                    }
+                }
+            }
         }
 
         private void btnCancelar_Click(object sender, RoutedEventArgs e)

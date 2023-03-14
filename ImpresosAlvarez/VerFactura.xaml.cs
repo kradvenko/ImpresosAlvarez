@@ -280,7 +280,7 @@ namespace ImpresosAlvarez
             catch (Exception exc)
             {
                 MessageBox.Show(exc.Message);
-            }            
+            }
         }
 
         private void btnCancelar_Click(object sender, RoutedEventArgs e)

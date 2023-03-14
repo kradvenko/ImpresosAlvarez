@@ -21,11 +21,18 @@ namespace ImpresosAlvarez
     {
         String UUIDCancelado;
         VerFactura ParentForm;
+        VerComplemento ParentFormComplemento;
         Entity.FacturaDigital FacturaElegida;
         public MotivosCancelacionFactura(VerFactura ParentForm)
         {
             InitializeComponent();
             this.ParentForm = ParentForm;
+        }
+
+        public MotivosCancelacionFactura(VerComplemento ParentForm)
+        {
+            InitializeComponent();
+            this.ParentFormComplemento = ParentForm;
         }
 
         private void cbMotivos_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -94,13 +101,34 @@ namespace ImpresosAlvarez
                                 MessageBox.Show("No ha elegido la factura que va a sustituir a la cancelada.");
                                 return;
                             }
-                            ParentForm.Cancelacion("01");
+                            if (ParentForm != null)
+                            {
+                                ParentForm.Cancelacion("01");
+                            }
+                            else if (ParentFormComplemento != null)
+                            {
+                                ParentFormComplemento.Cancelacion("01");
+                            }
                             break;
                         case 1:
-                            ParentForm.Cancelacion("02");
+                            if (ParentForm != null)
+                            {
+                                ParentForm.Cancelacion("02");
+                            }
+                            else if (ParentFormComplemento != null)
+                            {
+                                ParentFormComplemento.Cancelacion("02");
+                            }
                             break;
                         case 2:
-                            ParentForm.Cancelacion("03");
+                            if (ParentForm != null)
+                            {
+                                ParentForm.Cancelacion("03");
+                            }
+                            else if (ParentFormComplemento != null)
+                            {
+                                ParentFormComplemento.Cancelacion("03");
+                            }
                             break;
                         case 3:
                             if (FacturaElegida == null)
@@ -108,7 +136,14 @@ namespace ImpresosAlvarez
                                 MessageBox.Show("No ha elegido la factura que va a sustituir a la cancelada.");
                                 return;
                             }
-                            ParentForm.Cancelacion("04");
+                            if (ParentForm != null)
+                            {
+                                ParentForm.Cancelacion("04");
+                            }
+                            else if (ParentFormComplemento != null)
+                            {
+                                ParentFormComplemento.Cancelacion("04");
+                            }
                             break;
                         default:
                             break;
@@ -139,7 +174,15 @@ namespace ImpresosAlvarez
             lblUUIDCancelada.Content = parts[4];
             UUIDCancelado = parts[4];
             this.FacturaElegida = FacturaElegida;
-            ParentForm.ElegirFacturaRelacionada(UUIDCancelado, FacturaElegida);
+
+            if (ParentForm != null)
+            {
+                ParentForm.ElegirFacturaRelacionada(UUIDCancelado, FacturaElegida);
+            }
+            else if (ParentFormComplemento != null)
+            {
+                ParentFormComplemento.ElegirFacturaRelacionada(UUIDCancelado, FacturaElegida);
+            }
         }
     }
 }
