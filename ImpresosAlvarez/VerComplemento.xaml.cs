@@ -402,26 +402,18 @@ namespace ImpresosAlvarez
                     case "201":
                         using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                         {
-                            Entity.FacturaDigital f = dbContext.FacturaDigital.Where(F => F.id_factura == _factura.id_factura).FirstOrDefault();
-                            f.acuse = resCancelacion.acuse;
-                            f.fecha_cancelado = DateTime.UtcNow.AddHours(-7);
-
-                            Facturas fac = dbContext.Facturas.Where(F => F.id_factura == _factura.id_factura).FirstOrDefault();
-                            fac.estado = "CANCELADO";
-
-                            List<FacturaOrden> facturaOrdenes = dbContext.FacturaOrden.Where(FO => FO.id_factura == _factura.id_factura).ToList();
-
-                            foreach (FacturaOrden item in facturaOrdenes)
+                            foreach (Parcialidades item in _detalle)
                             {
-                                dbContext.Modificar_Tipo_Orden_Grupo(_factura.id_factura, "COTIZACION");
-                                dbContext.Borrar_FacturaOrden(_factura.id_factura);
-                                dbContext.Cambiar_Estado_Factura(_factura.id_factura, "CANCELADO");
-                                dbContext.Factura_Razon_Cancelado(_factura.id_factura, "");
+                                Parcialidades p = dbContext.Parcialidades.Where(P => P.id_parcialidad == item.id_parcialidad).FirstOrDefault();
+                                p.acuse = resCancelacion.acuse;
+                                p.fecha_cancelado = DateTime.UtcNow.AddHours(-7);
+
+                                p.estado = "CANCELADO";
                             }
 
                             dbContext.SaveChanges();
                             _parent.ActualizarLista();
-                            MessageBox.Show("Se ha cancelado la factura.");
+                            MessageBox.Show("Se ha cancelado el complemento.");
                             this.Close();
                         }
                         break;
