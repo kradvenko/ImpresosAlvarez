@@ -84,6 +84,8 @@ namespace ImpresosAlvarez
         private String rutaXML;
 
         float IvaDRTotal = 0;
+        float ISRTotal = 0;
+        
         public ComplementoPago()
         {
             InitializeComponent();
@@ -206,7 +208,7 @@ namespace ImpresosAlvarez
                 usuarioFacturacion = "JoseAlvarezJi";
                 contraseñaFacturacion = "oF5r1o6S3";
                 curp = "AAJJ470205HNTLMS00";
-                regimen = "Regimen de incorporación fiscal";
+                regimen = "Regimen simplificado de confianza";
 
                 datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 625 PTE";
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
@@ -225,7 +227,7 @@ namespace ImpresosAlvarez
                 usuarioFacturacion = "VicMar";
                 contraseñaFacturacion = "773C8*8F1";
                 curp = "RAGL450530MDFMLZ00";
-                regimen = "Regimen de incorporación fiscal";
+                regimen = "Regimen simplificado de confianza";
 
                 datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 625 PTE";
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
@@ -244,7 +246,7 @@ namespace ImpresosAlvarez
                 usuarioFacturacion = "VictorAlvarez";
                 contraseñaFacturacion = "g8r.83*.5";
                 curp = "AARV720921HDFLMC04";
-                regimen = "Regimen de incorporación fiscal";
+                regimen = "Regimen simplificado de confianza";
 
                 datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 619 PTE";
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
@@ -262,7 +264,7 @@ namespace ImpresosAlvarez
             usuarioFacturacion = "pruebasWS";
             contraseñaFacturacion = "pruebasWS";
             curp = "-";
-            regimen = "Regimen de incorporación fiscal";
+            regimen = "Regimen simplificado de confianza";
 
             datosFacturaElectronica.domicilioEmisorCalle = "";
             datosFacturaElectronica.domicilioEmisorColonia = "";
@@ -765,12 +767,18 @@ namespace ImpresosAlvarez
             xAttrib.Value = AddDecimals(Total.ToString());
 
             xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Complemento//pago20:Pagos//@TotalTrasladosBaseIVA16", comNms);
-            xAttrib.Value = (Total - IvaDRTotal).ToString();
+            xAttrib.Value = (Total - IvaDRTotal + ISRTotal).ToString();
             xAttrib.Value = AddDecimals(xAttrib.Value);
 
             xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Complemento//pago20:Pagos//@TotalTrasladosImpuestoIVA16", comNms);
             xAttrib.Value = IvaDRTotal.ToString();
             xAttrib.Value = AddDecimals(xAttrib.Value);
+
+            XmlNode xPagosTotales = xCom.SelectSingleNode("//cfdi:Comprobante//pago20:Pagos//pago20:Totales", comNms);
+
+            xa = xCom.CreateAttribute("TotalRetencionesISR");
+            xa.Value = ISRTotal.ToString();
+            xPagosTotales.Attributes.Append(xa);
 
             XmlNode xPago = xCom.CreateNode(XmlNodeType.Element, "pago20", "Pago", "http://www.sat.gob.mx/Pagos20");
 
@@ -871,11 +879,41 @@ namespace ImpresosAlvarez
                 xDocto.Attributes.Append(xa);
 
                 XmlNode xImpuestosDR = xCom.CreateNode(XmlNodeType.Element, "pago20", "ImpuestosDR", "http://www.sat.gob.mx/Pagos20");
+
+                XmlNode xRetencionesDR = xCom.CreateNode(XmlNodeType.Element, "pago20", "RetencionesDR", "http://www.sat.gob.mx/Pagos20");
+                XmlNode xRetencionDR = xCom.CreateNode(XmlNodeType.Element, "pago20", "RetencionDR", "http://www.sat.gob.mx/Pagos20");
+
+                xa = xCom.CreateAttribute("BaseDR");
+                xa.Value = (Total - IvaDRTotal + ISRTotal).ToString();
+                xa.Value = AddDecimals(xa.Value);
+                xRetencionDR.Attributes.Append(xa);
+
+                xa = xCom.CreateAttribute("ImpuestoDR");
+                xa.Value = "002";
+                xRetencionDR.Attributes.Append(xa);
+
+                xa = xCom.CreateAttribute("TipoFactorDR");
+                xa.Value = "Tasa";
+                xRetencionDR.Attributes.Append(xa);
+
+                xa = xCom.CreateAttribute("TasaOCuotaDR");
+                xa.Value = "0.012500";
+                xRetencionDR.Attributes.Append(xa);
+
+                xa = xCom.CreateAttribute("ImporteDR");
+                //xa.Value = Math.Round(IvaDRTotal, 2).ToString();
+                xa.Value = ISRTotal.ToString();
+                xa.Value = AddDecimals(xa.Value);
+                xRetencionDR.Attributes.Append(xa);
+
+                xRetencionesDR.AppendChild(xRetencionDR);
+                xImpuestosDR.AppendChild(xRetencionesDR);
+
                 XmlNode xTrasladosDR = xCom.CreateNode(XmlNodeType.Element, "pago20", "TrasladosDR", "http://www.sat.gob.mx/Pagos20");
                 XmlNode xTrasladoDR = xCom.CreateNode(XmlNodeType.Element, "pago20", "TrasladoDR", "http://www.sat.gob.mx/Pagos20");
 
                 xa = xCom.CreateAttribute("BaseDR");
-                xa.Value = (Total - IvaDRTotal).ToString();
+                xa.Value = (Total - IvaDRTotal + ISRTotal).ToString();
                 xa.Value = AddDecimals(xa.Value);
                 //xa.Value = Math.Round(Total - IvaDRTotal, 2).ToString();                
                 xTrasladoDR.Attributes.Append(xa);
@@ -900,7 +938,8 @@ namespace ImpresosAlvarez
 
                 xTrasladosDR.AppendChild(xTrasladoDR);
                 xImpuestosDR.AppendChild(xTrasladosDR);
-                xDocto.AppendChild(xImpuestosDR);                
+                
+                xDocto.AppendChild(xImpuestosDR);
 
                 //datosFacturaElectronica.conceptos[conceptosFacturaIndex] = item;
                 datosFacturaElectronica.pagos.Add(item);
@@ -917,6 +956,37 @@ namespace ImpresosAlvarez
                 item.MontoPago = xa.Value;
 
                 XmlNode xImpuestosP = xCom.CreateNode(XmlNodeType.Element, "pago20", "ImpuestosP", "http://www.sat.gob.mx/Pagos20");
+
+                XmlNode xRetencionesP = xCom.CreateNode(XmlNodeType.Element, "pago20", "RetencionesP", "http://www.sat.gob.mx/Pagos20");
+                XmlNode xRetencionP = xCom.CreateNode(XmlNodeType.Element, "pago20", "RetencionP", "http://www.sat.gob.mx/Pagos20");
+
+                xa = xCom.CreateAttribute("BaseP");
+                //xa.Value = Math.Round(Total - IvaDRTotal, 2).ToString();
+                xa.Value = (Total - IvaDRTotal + ISRTotal).ToString();
+                xa.Value = AddDecimals(xa.Value);
+                xRetencionP.Attributes.Append(xa);
+
+                xa = xCom.CreateAttribute("ImpuestoP");
+                xa.Value = "002";
+                xRetencionP.Attributes.Append(xa);
+
+                xa = xCom.CreateAttribute("TipoFactorP");
+                xa.Value = "Tasa";
+                xRetencionP.Attributes.Append(xa);
+
+                xa = xCom.CreateAttribute("TasaOCuotaP");
+                xa.Value = "0.012500";
+                xRetencionP.Attributes.Append(xa);
+
+                xa = xCom.CreateAttribute("ImporteP");
+                //xa.Value = Math.Round(IvaDRTotal, 2).ToString();
+                xa.Value = ISRTotal.ToString();
+                xa.Value = AddDecimals(xa.Value);
+                xRetencionP.Attributes.Append(xa);
+
+                xRetencionesP.AppendChild(xRetencionP);
+                xImpuestosP.AppendChild(xRetencionesP);
+
                 XmlNode xTrasladosP = xCom.CreateNode(XmlNodeType.Element, "pago20", "TrasladosP", "http://www.sat.gob.mx/Pagos20");
                 XmlNode xTrasladoP = xCom.CreateNode(XmlNodeType.Element, "pago20", "TrasladoP", "http://www.sat.gob.mx/Pagos20");
 
@@ -946,6 +1016,7 @@ namespace ImpresosAlvarez
 
                 xTrasladosP.AppendChild(xTrasladoP);
                 xImpuestosP.AppendChild(xTrasladosP);
+
                 xPago.AppendChild(xImpuestosP);
             }
 
@@ -1009,15 +1080,18 @@ namespace ImpresosAlvarez
         {
             float total = 0;
             float totalIva = 0;
+            float totalIsr = 0;
 
             foreach (ComplementoPagoData item in dgComplemento.Items)
             {
                 total = total + float.Parse(item.Pagado);
                 totalIva = totalIva + float.Parse(item.IvaDR);
+                totalIsr = totalIsr + float.Parse(item.ISR);
             }
             lblTotal.Content = total.ToString("0.00");
 
             IvaDRTotal = totalIva;
+            ISRTotal = totalIsr;
             Total = total;
         }
         private void InsertarParcialidad()
@@ -1913,6 +1987,7 @@ namespace ImpresosAlvarez
                         String saldoInsoluto = "0";
                         String IdFactura = "0";
                         String IvaDR = "0";
+                        String ISR = "0";
 
                         if (fact.Estado == "CANCELADO")
                         {
@@ -1955,6 +2030,8 @@ namespace ImpresosAlvarez
 
                         xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Impuestos//@TotalImpuestosTrasladados", nms);
                         IvaDR = xAttrib.Value;
+                        xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Impuestos//@TotalImpuestosRetenidos", nms);
+                        ISR = xAttrib.Value;
 
                         using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                         {
@@ -1975,7 +2052,7 @@ namespace ImpresosAlvarez
                                 saldoInsoluto = AddDecimals(saldoInsoluto);
                             }
 
-                            ComplementoPagoData comp = new ComplementoPagoData { UUID = uuid, Serie = serie, Folio = folio, Parcialidad = parcialidad, SaldoAnterior = saldoAnterior, Pagado = AddDecimals(pagado), SaldoInsoluto = saldoInsoluto, IdFactura = IdFactura, IvaDR = IvaDR };
+                            ComplementoPagoData comp = new ComplementoPagoData { UUID = uuid, Serie = serie, Folio = folio, Parcialidad = parcialidad, SaldoAnterior = saldoAnterior, Pagado = AddDecimals(pagado), SaldoInsoluto = saldoInsoluto, IdFactura = IdFactura, IvaDR = IvaDR, ISR = ISR };
                             _complementos.Add(comp);
                             dgComplemento.ItemsSource = null;
                             dgComplemento.ItemsSource = _complementos;
@@ -2039,7 +2116,7 @@ namespace ImpresosAlvarez
                 usuarioFacturacion = "JoseAlvarezJi";
                 contraseñaFacturacion = "oF5r1o6S3";
                 curp = "AAJJ470205HNTLMS00";
-                regimen = "Regimen de incorporación fiscal";
+                regimen = "Regimen simplificado de confianza";
 
                 datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 625 PTE";
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
@@ -2058,7 +2135,7 @@ namespace ImpresosAlvarez
                 usuarioFacturacion = "VicMar";
                 contraseñaFacturacion = "773C8*8F1";
                 curp = "RAGL450530MDFMLZ00";
-                regimen = "Regimen de incorporación fiscal";
+                regimen = "Regimen simplificado de confianza";
 
                 datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 625 PTE";
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
@@ -2077,7 +2154,7 @@ namespace ImpresosAlvarez
                 usuarioFacturacion = "VictorAlvarez";
                 contraseñaFacturacion = "g8r.83*.5";
                 curp = "AARV720921HDFLMC04";
-                regimen = "Regimen de incorporación fiscal";
+                regimen = "Regimen simplificado de confianza";
 
                 datosFacturaElectronica.domicilioEmisorCalle = "MORELOS 619 PTE";
                 datosFacturaElectronica.domicilioEmisorColonia = "HERIBERTO CASAS";
@@ -2095,7 +2172,7 @@ namespace ImpresosAlvarez
             usuarioFacturacion = "pruebasWS";
             contraseñaFacturacion = "pruebasWS";
             curp = "-";
-            regimen = "Regimen de incorporación fiscal";
+            regimen = "Regimen simplificado de confianza";
 
             datosFacturaElectronica.domicilioEmisorCalle = "";
             datosFacturaElectronica.domicilioEmisorColonia = "";
