@@ -958,24 +958,10 @@ namespace ImpresosAlvarez
                 XmlNode xImpuestosP = xCom.CreateNode(XmlNodeType.Element, "pago20", "ImpuestosP", "http://www.sat.gob.mx/Pagos20");
 
                 XmlNode xRetencionesP = xCom.CreateNode(XmlNodeType.Element, "pago20", "RetencionesP", "http://www.sat.gob.mx/Pagos20");
-                XmlNode xRetencionP = xCom.CreateNode(XmlNodeType.Element, "pago20", "RetencionP", "http://www.sat.gob.mx/Pagos20");
-
-                xa = xCom.CreateAttribute("BaseP");
-                //xa.Value = Math.Round(Total - IvaDRTotal, 2).ToString();
-                xa.Value = (Total - IvaDRTotal + ISRTotal).ToString();
-                xa.Value = AddDecimals(xa.Value);
-                xRetencionP.Attributes.Append(xa);
+                XmlNode xRetencionP = xCom.CreateNode(XmlNodeType.Element, "pago20", "RetencionP", "http://www.sat.gob.mx/Pagos20");                
 
                 xa = xCom.CreateAttribute("ImpuestoP");
                 xa.Value = "002";
-                xRetencionP.Attributes.Append(xa);
-
-                xa = xCom.CreateAttribute("TipoFactorP");
-                xa.Value = "Tasa";
-                xRetencionP.Attributes.Append(xa);
-
-                xa = xCom.CreateAttribute("TasaOCuotaP");
-                xa.Value = "0.012500";
                 xRetencionP.Attributes.Append(xa);
 
                 xa = xCom.CreateAttribute("ImporteP");
