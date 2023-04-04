@@ -978,7 +978,7 @@ namespace ImpresosAlvarez
 
                 xa = xCom.CreateAttribute("BaseP");
                 //xa.Value = Math.Round(Total - IvaDRTotal, 2).ToString();
-                xa.Value = (Total - IvaDRTotal).ToString();
+                xa.Value = (Total - IvaDRTotal + ISRTotal).ToString();
                 xa.Value = AddDecimals(xa.Value);
                 xTrasladoP.Attributes.Append(xa);
 
