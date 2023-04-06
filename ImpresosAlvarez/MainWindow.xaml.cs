@@ -74,19 +74,27 @@ namespace ImpresosAlvarez
                 default:
                     break;
             }
-            /*
-            string curFile = @"C:\Impresos\FileCheck.txt";
-            //MessageBox.Show(File.Exists(curFile) ? "File exists." : "File does not exist.");
-            if (!File.Exists(curFile))
+
+            try
             {
-                using (var client = new WebClient())
+                string curFile = @"C:\Impresos\Facturacion\XML_4_0_Template_Cancelacion.xml";
+                //MessageBox.Show(File.Exists(curFile) ? "File exists." : "File does not exist.");
+                if (!File.Exists(curFile))
                 {
-                    client.DownloadFile("http://impresosalvarez.atwebpages.com/FileCheck.txt", @"C:\Impresos\FileCheck.txt");
-                    client.DownloadFile("http://impresosalvarez.atwebpages.com/XLS_4_0.xslt", @"C:\Impresos\Facturacion\XLS_4_0.xslt");
-                    client.DownloadFile("http://impresosalvarez.atwebpages.com/XML_4_0_Template.xml", @"C:\Impresos\Facturacion\XML_4_0_Template.xml");
+                    using (var client = new WebClient())
+                    {
+                        //client.DownloadFile("http://impresosalvarez.atwebpages.com/FileCheck.txt", @"C:\Impresos\FileCheck.txt");
+                        //client.DownloadFile("http://impresosalvarez.atwebpages.com/XLS_4_0.xslt", @"C:\Impresos\Facturacion\XLS_4_0.xslt");
+                        //client.DownloadFile("http://impresosalvarez.atwebpages.com/XML_4_0_Template.xml", @"C:\Impresos\Facturacion\XML_4_0_Template.xml");
+                        client.DownloadFile("http://impresosalvarez.atwebpages.com/XML_4_0_Template_Cancelacion.xml", @"C:\Impresos\Facturacion\XML_4_0_Template_Cancelacion.xml");
+                    }
                 }
             }
-            */
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+            
         }
 
         private void btnMinimizar_Click(object sender, RoutedEventArgs e)
