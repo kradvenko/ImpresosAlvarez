@@ -776,9 +776,12 @@ namespace ImpresosAlvarez
 
             XmlNode xPagosTotales = xCom.SelectSingleNode("//cfdi:Comprobante//pago20:Pagos//pago20:Totales", comNms);
 
-            xa = xCom.CreateAttribute("TotalRetencionesISR");
-            xa.Value = ISRTotal.ToString();
-            xPagosTotales.Attributes.Append(xa);
+            if (ISRTotal > 0)
+            {
+                xa = xCom.CreateAttribute("TotalRetencionesISR");
+                xa.Value = ISRTotal.ToString();
+                xPagosTotales.Attributes.Append(xa);
+            }
 
             XmlNode xPago = xCom.CreateNode(XmlNodeType.Element, "pago20", "Pago", "http://www.sat.gob.mx/Pagos20");
 
@@ -880,34 +883,37 @@ namespace ImpresosAlvarez
 
                 XmlNode xImpuestosDR = xCom.CreateNode(XmlNodeType.Element, "pago20", "ImpuestosDR", "http://www.sat.gob.mx/Pagos20");
 
-                XmlNode xRetencionesDR = xCom.CreateNode(XmlNodeType.Element, "pago20", "RetencionesDR", "http://www.sat.gob.mx/Pagos20");
-                XmlNode xRetencionDR = xCom.CreateNode(XmlNodeType.Element, "pago20", "RetencionDR", "http://www.sat.gob.mx/Pagos20");
+                if (ISRTotal > 0)
+                {
+                    XmlNode xRetencionesDR = xCom.CreateNode(XmlNodeType.Element, "pago20", "RetencionesDR", "http://www.sat.gob.mx/Pagos20");
+                    XmlNode xRetencionDR = xCom.CreateNode(XmlNodeType.Element, "pago20", "RetencionDR", "http://www.sat.gob.mx/Pagos20");
 
-                xa = xCom.CreateAttribute("BaseDR");
-                xa.Value = (Total - IvaDRTotal + ISRTotal).ToString();
-                xa.Value = AddDecimals(xa.Value);
-                xRetencionDR.Attributes.Append(xa);
+                    xa = xCom.CreateAttribute("BaseDR");
+                    xa.Value = (Total - IvaDRTotal + ISRTotal).ToString();
+                    xa.Value = AddDecimals(xa.Value);
+                    xRetencionDR.Attributes.Append(xa);
 
-                xa = xCom.CreateAttribute("ImpuestoDR");
-                xa.Value = "002";
-                xRetencionDR.Attributes.Append(xa);
+                    xa = xCom.CreateAttribute("ImpuestoDR");
+                    xa.Value = "001";
+                    xRetencionDR.Attributes.Append(xa);
 
-                xa = xCom.CreateAttribute("TipoFactorDR");
-                xa.Value = "Tasa";
-                xRetencionDR.Attributes.Append(xa);
+                    xa = xCom.CreateAttribute("TipoFactorDR");
+                    xa.Value = "Tasa";
+                    xRetencionDR.Attributes.Append(xa);
 
-                xa = xCom.CreateAttribute("TasaOCuotaDR");
-                xa.Value = "0.012500";
-                xRetencionDR.Attributes.Append(xa);
+                    xa = xCom.CreateAttribute("TasaOCuotaDR");
+                    xa.Value = "0.012500";
+                    xRetencionDR.Attributes.Append(xa);
 
-                xa = xCom.CreateAttribute("ImporteDR");
-                //xa.Value = Math.Round(IvaDRTotal, 2).ToString();
-                xa.Value = ISRTotal.ToString();
-                xa.Value = AddDecimals(xa.Value);
-                xRetencionDR.Attributes.Append(xa);
+                    xa = xCom.CreateAttribute("ImporteDR");
+                    //xa.Value = Math.Round(IvaDRTotal, 2).ToString();
+                    xa.Value = ISRTotal.ToString();
+                    xa.Value = AddDecimals(xa.Value);
+                    xRetencionDR.Attributes.Append(xa);
 
-                xRetencionesDR.AppendChild(xRetencionDR);
-                xImpuestosDR.AppendChild(xRetencionesDR);
+                    xRetencionesDR.AppendChild(xRetencionDR);
+                    xImpuestosDR.AppendChild(xRetencionesDR);
+                }
 
                 XmlNode xTrasladosDR = xCom.CreateNode(XmlNodeType.Element, "pago20", "TrasladosDR", "http://www.sat.gob.mx/Pagos20");
                 XmlNode xTrasladoDR = xCom.CreateNode(XmlNodeType.Element, "pago20", "TrasladoDR", "http://www.sat.gob.mx/Pagos20");
@@ -957,21 +963,24 @@ namespace ImpresosAlvarez
 
                 XmlNode xImpuestosP = xCom.CreateNode(XmlNodeType.Element, "pago20", "ImpuestosP", "http://www.sat.gob.mx/Pagos20");
 
-                XmlNode xRetencionesP = xCom.CreateNode(XmlNodeType.Element, "pago20", "RetencionesP", "http://www.sat.gob.mx/Pagos20");
-                XmlNode xRetencionP = xCom.CreateNode(XmlNodeType.Element, "pago20", "RetencionP", "http://www.sat.gob.mx/Pagos20");                
+                if (ISRTotal > 0)
+                {
+                    XmlNode xRetencionesP = xCom.CreateNode(XmlNodeType.Element, "pago20", "RetencionesP", "http://www.sat.gob.mx/Pagos20");
+                    XmlNode xRetencionP = xCom.CreateNode(XmlNodeType.Element, "pago20", "RetencionP", "http://www.sat.gob.mx/Pagos20");
 
-                xa = xCom.CreateAttribute("ImpuestoP");
-                xa.Value = "002";
-                xRetencionP.Attributes.Append(xa);
+                    xa = xCom.CreateAttribute("ImpuestoP");
+                    xa.Value = "001";
+                    xRetencionP.Attributes.Append(xa);
 
-                xa = xCom.CreateAttribute("ImporteP");
-                //xa.Value = Math.Round(IvaDRTotal, 2).ToString();
-                xa.Value = ISRTotal.ToString();
-                xa.Value = AddDecimals(xa.Value);
-                xRetencionP.Attributes.Append(xa);
+                    xa = xCom.CreateAttribute("ImporteP");
+                    //xa.Value = Math.Round(IvaDRTotal, 2).ToString();
+                    xa.Value = ISRTotal.ToString();
+                    xa.Value = AddDecimals(xa.Value);
+                    xRetencionP.Attributes.Append(xa);
 
-                xRetencionesP.AppendChild(xRetencionP);
-                xImpuestosP.AppendChild(xRetencionesP);
+                    xRetencionesP.AppendChild(xRetencionP);
+                    xImpuestosP.AppendChild(xRetencionesP);
+                }
 
                 XmlNode xTrasladosP = xCom.CreateNode(XmlNodeType.Element, "pago20", "TrasladosP", "http://www.sat.gob.mx/Pagos20");
                 XmlNode xTrasladoP = xCom.CreateNode(XmlNodeType.Element, "pago20", "TrasladoP", "http://www.sat.gob.mx/Pagos20");
@@ -1072,7 +1081,10 @@ namespace ImpresosAlvarez
             {
                 total = total + float.Parse(item.Pagado);
                 totalIva = totalIva + float.Parse(item.IvaDR);
-                totalIsr = totalIsr + float.Parse(item.ISR);
+                if (item.ISR != "")
+                {
+                    totalIsr = totalIsr + float.Parse(item.ISR);
+                }
             }
             lblTotal.Content = total.ToString("0.00");
 
@@ -2016,8 +2028,15 @@ namespace ImpresosAlvarez
 
                         xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Impuestos//@TotalImpuestosTrasladados", nms);
                         IvaDR = xAttrib.Value;
-                        xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Impuestos//@TotalImpuestosRetenidos", nms);
-                        ISR = xAttrib.Value;
+                        try
+                        {
+                            xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Impuestos//@TotalImpuestosRetenidos", nms);
+                            ISR = xAttrib.Value;
+                        }
+                        catch (Exception exc)
+                        {
+                            ISR = "";
+                        }
 
                         using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                         {
