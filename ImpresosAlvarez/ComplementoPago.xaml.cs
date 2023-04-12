@@ -2197,5 +2197,37 @@ namespace ImpresosAlvarez
                 //EnviarPorCorreo();
             }
         }
+
+        private void btnBorrarComplemento_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (dgParcialidades.SelectedItem != null)
+                {
+                    if (MessageBox.Show("Desea eliminar la parcialidad?", "Atención", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    {
+                        Parcialidades p = (Parcialidades)dgParcialidades.SelectedItem;
+                        using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                        {
+                            Parcialidades Par = dbContext.Parcialidades.Where(P => P.id_parcialidad == p.id_parcialidad).First();
+                            dbContext.Parcialidades.Remove(Par);
+                            dbContext.SaveChanges();
+                        }
+                        FacturaComplemento f = (FacturaComplemento)dgFacturas.SelectedItem;
+
+                        using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                        {
+                            _parcialidades = dbContext.Parcialidades.Where(P => P.id_factura == f.IdFactura).ToList();
+                            dgParcialidades.ItemsSource = null;
+                            dgParcialidades.ItemsSource = _parcialidades;
+                        }
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show("ERROR " + exc.Message);
+            }
+        }
     }
 }
