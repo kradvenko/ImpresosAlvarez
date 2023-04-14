@@ -3313,6 +3313,7 @@ namespace ImpresosAlvarez
             }
 
             XML = xDoc.InnerXml;
+            //XML = XML.Replace("&amp;", "&");
 
             File.WriteAllText(@"C:\Impresos\Facturacion\XML_4_0.xml", XML);
         }
@@ -3342,6 +3343,7 @@ namespace ImpresosAlvarez
                 //Resultado
                 cadenaOriginal = str.ToString();
                 cadenaOriginal = cadenaOriginal.Replace("\n", "").Replace("\r", "");
+                cadenaOriginal = cadenaOriginal.Replace("&amp;", "&");
 
             }
             catch (Exception exc)
