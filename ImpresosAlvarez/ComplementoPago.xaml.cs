@@ -907,7 +907,7 @@ namespace ImpresosAlvarez
 
                     xa = xCom.CreateAttribute("ImporteDR");
                     //xa.Value = Math.Round(IvaDRTotal, 2).ToString();
-                    xa.Value = ISRTotal.ToString();
+                    xa.Value = Math.Round(ISRTotal, 2).ToString();
                     xa.Value = AddDecimals(xa.Value);
                     xRetencionDR.Attributes.Append(xa);
 
@@ -937,8 +937,8 @@ namespace ImpresosAlvarez
                 xTrasladoDR.Attributes.Append(xa);
 
                 xa = xCom.CreateAttribute("ImporteDR");
-                //xa.Value = Math.Round(IvaDRTotal, 2).ToString();
-                xa.Value = IvaDRTotal.ToString();
+                xa.Value = Math.Round(IvaDRTotal, 2).ToString();
+                //xa.Value = IvaDRTotal.ToString();
                 xa.Value = AddDecimals(xa.Value);
                 xTrasladoDR.Attributes.Append(xa);
 
@@ -974,7 +974,7 @@ namespace ImpresosAlvarez
 
                     xa = xCom.CreateAttribute("ImporteP");
                     //xa.Value = Math.Round(IvaDRTotal, 2).ToString();
-                    xa.Value = ISRTotal.ToString();
+                    xa.Value = Math.Round(ISRTotal, 2).ToString();
                     xa.Value = AddDecimals(xa.Value);
                     xRetencionP.Attributes.Append(xa);
 
@@ -1004,8 +1004,8 @@ namespace ImpresosAlvarez
                 xTrasladoP.Attributes.Append(xa);
 
                 xa = xCom.CreateAttribute("ImporteP");
-                //xa.Value = Math.Round(IvaDRTotal, 2).ToString();
-                xa.Value = IvaDRTotal.ToString();
+                xa.Value = Math.Round(IvaDRTotal, 2).ToString();
+                //xa.Value = IvaDRTotal.ToString();
                 xa.Value = AddDecimals(xa.Value);
                 xTrasladoP.Attributes.Append(xa);
 
