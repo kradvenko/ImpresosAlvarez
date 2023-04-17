@@ -216,12 +216,12 @@ namespace ImpresosAlvarez
                     try
                     {
                         //float numero = float.Parse(dbContext.NumeroNota.First().numero);
-                        float numero = float.Parse(dbContext.Valores.First().numero_orden);
+                        //float numero = float.Parse(dbContext.Valores.First().numero_orden);
 
                         Ordenes ordenModificar = dbContext.Ordenes.Where(O => O.id_orden == OrdenElegida.id_orden).First();
 
                         ordenModificar.id_cliente = OrdenElegida.id_cliente;
-                        ordenModificar.numero = numero;
+                        //ordenModificar.numero = ordenModificar.numero;
                         ordenModificar.telefono = tbTelefono.Text;
                         ordenModificar.solicitante = tbSolicita.Text;
                         //ordenModificar.fecha_solicita = dtpFecha.SelectedDate.Value.ToShortDateString();

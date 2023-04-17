@@ -919,9 +919,9 @@ namespace ImpresosAlvarez
                 XmlNode xTrasladoDR = xCom.CreateNode(XmlNodeType.Element, "pago20", "TrasladoDR", "http://www.sat.gob.mx/Pagos20");
 
                 xa = xCom.CreateAttribute("BaseDR");
-                xa.Value = (Total - IvaDRTotal + ISRTotal).ToString();
+                //xa.Value = (Total - IvaDRTotal + ISRTotal).ToString();
+                xa.Value = Math.Round(Total - IvaDRTotal + ISRTotal, 2).ToString();
                 xa.Value = AddDecimals(xa.Value);
-                //xa.Value = Math.Round(Total - IvaDRTotal, 2).ToString();                
                 xTrasladoDR.Attributes.Append(xa);
 
                 xa = xCom.CreateAttribute("ImpuestoDR");

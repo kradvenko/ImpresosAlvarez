@@ -254,12 +254,12 @@ namespace ImpresosAlvarez
             //RetencionCedular = float.Parse(Math.Round(RetencionCedular, 2).ToString());
 
             //iva = float.Parse((Math.Round(iva, 2)).ToString());
-
+            /*
             if (tbIVAMod.Text.Length > 3)
             {
                 iva = float.Parse(tbIVAMod.Text);
             }
-
+            */
             //Total = Subtotal + float.Parse(datosFacturaElectronica.totalImpuestos);
             /*
             datosFacturaElectronica.retencionIsr = RetencionIsr.ToString();
@@ -944,6 +944,7 @@ namespace ImpresosAlvarez
             xa.Value = "0.160000";
             xTrasladoImpuestos.Attributes.Append(xa);
             xa = xDoc.CreateAttribute("Importe");
+            /*
             if (tbIVAMod.Text.Length > 3)
             {
                 xa.Value = tbIVAMod.Text;
@@ -952,7 +953,10 @@ namespace ImpresosAlvarez
             {
                 impuestoTotal = float.Parse((Math.Round(impuestoTotal, 2)).ToString());
                 xa.Value = AddDecimals(impuestoTotal.ToString());
-            }            
+            }
+            */
+            impuestoTotal = float.Parse((Math.Round(impuestoTotal, 2)).ToString());
+            xa.Value = AddDecimals(impuestoTotal.ToString());
             xTrasladoImpuestos.Attributes.Append(xa);
 
             xTrasladosImpuestos.AppendChild(xTrasladoImpuestos);
@@ -3408,6 +3412,7 @@ namespace ImpresosAlvarez
 
         private void tbIVAMod_KeyUp(object sender, KeyEventArgs e)
         {
+            /*
             if (e.Key == Key.Enter)
             {
                 try
@@ -3427,6 +3432,7 @@ namespace ImpresosAlvarez
                     MessageBox.Show(exc.Message);
                 }
             }
+            */
         }
 
         private float Redondear(float Numero)
