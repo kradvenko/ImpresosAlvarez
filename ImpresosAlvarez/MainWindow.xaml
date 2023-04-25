@@ -154,6 +154,8 @@
         -->
         <Image Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2" Source="Imagenes/LogoAlvarez.png" Opacity="0.8"/>
 
+        <Button x:Name="btnSesion" Grid.Column="0" Grid.Row="3" Content="Sesión" Click="btnSesion_Click"></Button>
+
         <Grid Grid.Column="0" Grid.Row="0" Grid.RowSpan="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
@@ -491,6 +493,7 @@
                 </Button.Content>
             </Button>            
         </Grid>
+        
         <Grid x:Name="gRecepcion" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="5" Visibility="Hidden">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -605,9 +608,6 @@
 
             <Button x:Name="btnDisenoPendientes" Grid.Row="0" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Ordenes Pendientes" Click="btnDisenoPendientes_Click"></Button>
         </Grid>
-        
-
-
 
         <Grid x:Name="gInventario" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="5" Visibility="Hidden">
             <Grid.ColumnDefinitions>

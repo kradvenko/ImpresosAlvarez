@@ -52,24 +52,87 @@ namespace ImpresosAlvarez
                     btnInventario.Visibility = Visibility.Visible;
                     btnContabilidad.Visibility = Visibility.Visible;
                     btnAdministracion.Visibility = Visibility.Visible;
+
+                    gRecepcion.Visibility = Visibility.Hidden;
+                    gImpresion.Visibility = Visibility.Hidden;
+                    gTerminado.Visibility = Visibility.Hidden;
+                    gDiseno.Visibility = Visibility.Hidden;
+                    gInventario.Visibility = Visibility.Hidden;
                     break;
                 case "RECEPCION":
                     btnRecepcion.Visibility = Visibility.Visible;
+                    btnDiseno.Visibility = Visibility.Hidden;
+                    btnImpresion.Visibility = Visibility.Hidden;
+                    btnTerminado.Visibility = Visibility.Hidden;
+                    btnInventario.Visibility = Visibility.Hidden;
+                    btnContabilidad.Visibility = Visibility.Hidden;
+                    btnAdministracion.Visibility = Visibility.Hidden;
+
+                    gRecepcion.Visibility = Visibility.Visible;
+                    gImpresion.Visibility = Visibility.Hidden;
+                    gTerminado.Visibility = Visibility.Hidden;
+                    gDiseno.Visibility = Visibility.Hidden;
+                    gInventario.Visibility = Visibility.Hidden;
                     break;
                 case "INVENTARIO":
+                    btnRecepcion.Visibility = Visibility.Hidden;
+                    btnDiseno.Visibility = Visibility.Hidden;
+                    btnImpresion.Visibility = Visibility.Hidden;
+                    btnTerminado.Visibility = Visibility.Hidden;
                     btnInventario.Visibility = Visibility.Visible;
+                    btnContabilidad.Visibility = Visibility.Hidden;
+                    btnAdministracion.Visibility = Visibility.Hidden;
+
+                    gRecepcion.Visibility = Visibility.Hidden;
+                    gImpresion.Visibility = Visibility.Hidden;
+                    gTerminado.Visibility = Visibility.Hidden;
+                    gDiseno.Visibility = Visibility.Hidden;
+                    gInventario.Visibility = Visibility.Visible;
                     break;
                 case "IMPRESION":
+                    btnRecepcion.Visibility = Visibility.Hidden;
+                    btnDiseno.Visibility = Visibility.Hidden;
                     btnImpresion.Visibility = Visibility.Visible;
+                    btnTerminado.Visibility = Visibility.Hidden;
+                    btnInventario.Visibility = Visibility.Hidden;
+                    btnContabilidad.Visibility = Visibility.Hidden;
+                    btnAdministracion.Visibility = Visibility.Hidden;
+
+                    gRecepcion.Visibility = Visibility.Hidden;
                     gImpresion.Visibility = Visibility.Visible;
+                    gTerminado.Visibility = Visibility.Hidden;
+                    gDiseno.Visibility = Visibility.Hidden;
+                    gInventario.Visibility = Visibility.Hidden;
                     break;
                 case "TERMINADO":
+                    btnRecepcion.Visibility = Visibility.Hidden;
+                    btnDiseno.Visibility = Visibility.Hidden;
+                    btnImpresion.Visibility = Visibility.Hidden;
                     btnTerminado.Visibility = Visibility.Visible;
+                    btnInventario.Visibility = Visibility.Hidden;
+                    btnContabilidad.Visibility = Visibility.Hidden;
+                    btnAdministracion.Visibility = Visibility.Hidden;
+
+                    gRecepcion.Visibility = Visibility.Hidden;
+                    gImpresion.Visibility = Visibility.Hidden;
                     gTerminado.Visibility = Visibility.Visible;
+                    gDiseno.Visibility = Visibility.Hidden;
+                    gInventario.Visibility = Visibility.Hidden;
                     break;
                 case "TALLER":
+                    btnRecepcion.Visibility = Visibility.Hidden;
+                    btnDiseno.Visibility = Visibility.Hidden;
                     btnImpresion.Visibility = Visibility.Visible;
                     btnTerminado.Visibility = Visibility.Visible;
+                    btnInventario.Visibility = Visibility.Hidden;
+                    btnContabilidad.Visibility = Visibility.Hidden;
+                    btnAdministracion.Visibility = Visibility.Hidden;
+
+                    gRecepcion.Visibility = Visibility.Hidden;
+                    gImpresion.Visibility = Visibility.Hidden;
+                    gTerminado.Visibility = Visibility.Hidden;
+                    gDiseno.Visibility = Visibility.Hidden;
+                    gInventario.Visibility = Visibility.Hidden;
                     break;
                 default:
                     break;
@@ -244,6 +307,12 @@ namespace ImpresosAlvarez
         {
             ControlOrdenes ordenes = new ControlOrdenes();
             ordenes.Show();
+        }
+
+        private void btnSesion_Click(object sender, RoutedEventArgs e)
+        {
+            Login login = new Login(this);
+            login.ShowDialog();
         }
     }
 }
