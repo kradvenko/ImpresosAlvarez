@@ -296,6 +296,9 @@
     <Compile Include="Entity\NumeroNota.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\ObtenerOrdenesTerminado_Result.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\Obtener_Bitacora_Diaria_Result.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
@@ -428,6 +431,9 @@
     <Compile Include="Entity\Valores.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\vOrdenesTerminado.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entradas.xaml.cs">
       <DependentUpon>Entradas.xaml</DependentUpon>
     </Compile>
@@ -481,6 +487,9 @@
     </Compile>
     <Compile Include="TrabajosTerminado.xaml.cs">
       <DependentUpon>TrabajosTerminado.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UsuarioIniciaTermina.xaml.cs">
+      <DependentUpon>UsuarioIniciaTermina.xaml</DependentUpon>
     </Compile>
     <Compile Include="VerComplemento.xaml.cs">
       <DependentUpon>VerComplemento.xaml</DependentUpon>
@@ -669,6 +678,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TrabajosTerminado.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UsuarioIniciaTermina.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

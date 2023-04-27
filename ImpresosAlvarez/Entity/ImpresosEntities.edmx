@@ -51,7 +51,7 @@
           <Property Name="numero_interior" Type="nvarchar" MaxLength="50" />
           <Property Name="nombre_constancia" Type="nvarchar" MaxLength="150" />
           <Property Name="regimen_fiscal" Type="nvarchar" MaxLength="6" />
-          <Property Name="aplica_retencion" Type="nvarchar" MaxLength="40" />
+          <Property Name="aplica_retencion" Type="nvarchar" MaxLength="3" />
         </EntityType>
         <EntityType Name="Comentarios">
           <Key>
@@ -494,6 +494,73 @@
           <Property Name="numero_orden" Type="nvarchar" MaxLength="50" />
           <Property Name="ultimo_cambio" Type="nvarchar" MaxLength="50" />
           <Property Name="id_valor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="vOrdenesTerminado">
+          <Key>
+            <PropertyRef Name="id_orden" />
+            <PropertyRef Name="numero" />
+            <PropertyRef Name="estado" />
+            <PropertyRef Name="tipo" />
+          </Key>
+          <Property Name="id_orden" Type="int" Nullable="false" />
+          <Property Name="id_cliente" Type="int" />
+          <Property Name="numero" Type="float" Nullable="false" />
+          <Property Name="telefono" Type="nvarchar" MaxLength="50" />
+          <Property Name="solicitante" Type="nvarchar" MaxLength="50" />
+          <Property Name="fecha_solicita" Type="nvarchar" MaxLength="50" />
+          <Property Name="quien_recibio" Type="nvarchar" MaxLength="50" />
+          <Property Name="inicio_diseno" Type="nvarchar" MaxLength="50" />
+          <Property Name="nombre_trabajo" Type="nvarchar" MaxLength="50" />
+          <Property Name="cantidad" Type="int" />
+          <Property Name="color_tintas" Type="nvarchar" MaxLength="50" />
+          <Property Name="tipo_papel" Type="nvarchar" MaxLength="50" />
+          <Property Name="con_folio" Type="nvarchar" MaxLength="50" />
+          <Property Name="del_numero" Type="nvarchar" MaxLength="50" />
+          <Property Name="al_numero" Type="nvarchar" MaxLength="50" />
+          <Property Name="tamano" Type="nvarchar" MaxLength="50" />
+          <Property Name="otros_1" Type="nvarchar" MaxLength="50" />
+          <Property Name="otros_2" Type="nvarchar" MaxLength="50" />
+          <Property Name="copia_1" Type="nvarchar" MaxLength="50" />
+          <Property Name="copia_2" Type="nvarchar" MaxLength="50" />
+          <Property Name="copia_3" Type="nvarchar" MaxLength="50" />
+          <Property Name="copia_4" Type="nvarchar" MaxLength="50" />
+          <Property Name="otros_3" Type="nvarchar" MaxLength="50" />
+          <Property Name="otros_4" Type="nvarchar" MaxLength="50" />
+          <Property Name="pegado" Type="nvarchar" MaxLength="50" />
+          <Property Name="engrapado" Type="nvarchar" MaxLength="50" />
+          <Property Name="perforacion" Type="nvarchar" MaxLength="50" />
+          <Property Name="rojo" Type="nvarchar" MaxLength="50" />
+          <Property Name="blanco" Type="nvarchar" MaxLength="50" />
+          <Property Name="especificaciones" Type="nvarchar(max)" />
+          <Property Name="estado" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="tipo" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="total" Type="float" />
+          <Property Name="muestra" Type="nvarchar" MaxLength="50" />
+          <Property Name="fecha_muestra" Type="nvarchar" MaxLength="50" />
+          <Property Name="prioridad" Type="nvarchar" MaxLength="50" />
+          <Property Name="anticipo" Type="float" />
+          <Property Name="fecha_entregado" Type="nvarchar" MaxLength="50" />
+          <Property Name="pagado" Type="nvarchar" MaxLength="50" />
+          <Property Name="inicio_impresion" Type="nvarchar" MaxLength="50" />
+          <Property Name="inicio_terminado" Type="nvarchar" MaxLength="50" />
+          <Property Name="inicio_por_entregar" Type="nvarchar" MaxLength="50" />
+          <Property Name="costo_anterior" Type="float" />
+          <Property Name="autorizado" Type="nvarchar" MaxLength="50" />
+          <Property Name="hora_solicita" Type="nvarchar" MaxLength="50" />
+          <Property Name="ruta" Type="nvarchar(max)" />
+          <Property Name="orden_anterior" Type="nvarchar" MaxLength="50" />
+          <Property Name="fecha_negativo" Type="nvarchar" MaxLength="50" />
+          <Property Name="tipo_maquina" Type="nvarchar" MaxLength="50" />
+          <Property Name="id_usuario" Type="int" />
+          <Property Name="fecha_inicio" Type="nvarchar" MaxLength="50" />
+          <Property Name="hora_inicio" Type="nvarchar" MaxLength="50" />
+          <Property Name="fecha_fin" Type="nvarchar" MaxLength="50" />
+          <Property Name="hora_fin" Type="nvarchar" MaxLength="50" />
+          <Property Name="tipo_terminado" Type="nvarchar" MaxLength="50" />
+          <Property Name="descripcion" Type="nvarchar" MaxLength="50" />
+          <Property Name="id_terminado" Type="int" />
         </EntityType>
         <Association Name="FK__Bitacora__id_ord__24E777C3">
           <End Role="Ordenes" Type="Self.Ordenes" Multiplicity="1" />
@@ -1126,6 +1193,7 @@
           <Parameter Name="id_nota" Type="int" Mode="In" />
         </Function>
         <Function Name="Obtener_Ultimo_IDCliente" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ObtenerOrdenesTerminado" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="Orden_Autorizar" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="id_orden" Type="int" Mode="In" />
           <Parameter Name="autorizacion" Type="nvarchar" Mode="In" />
@@ -1196,6 +1264,67 @@
           <EntitySet Name="UsosCFDI" EntityType="Self.UsosCFDI" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Valores" EntityType="Self.Valores" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vOrdenesTerminado" EntityType="Self.vOrdenesTerminado" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vOrdenesTerminado].[id_orden] AS [id_orden], 
+    [vOrdenesTerminado].[id_cliente] AS [id_cliente], 
+    [vOrdenesTerminado].[numero] AS [numero], 
+    [vOrdenesTerminado].[telefono] AS [telefono], 
+    [vOrdenesTerminado].[solicitante] AS [solicitante], 
+    [vOrdenesTerminado].[fecha_solicita] AS [fecha_solicita], 
+    [vOrdenesTerminado].[quien_recibio] AS [quien_recibio], 
+    [vOrdenesTerminado].[inicio_diseno] AS [inicio_diseno], 
+    [vOrdenesTerminado].[nombre_trabajo] AS [nombre_trabajo], 
+    [vOrdenesTerminado].[cantidad] AS [cantidad], 
+    [vOrdenesTerminado].[color_tintas] AS [color_tintas], 
+    [vOrdenesTerminado].[tipo_papel] AS [tipo_papel], 
+    [vOrdenesTerminado].[con_folio] AS [con_folio], 
+    [vOrdenesTerminado].[del_numero] AS [del_numero], 
+    [vOrdenesTerminado].[al_numero] AS [al_numero], 
+    [vOrdenesTerminado].[tamano] AS [tamano], 
+    [vOrdenesTerminado].[otros_1] AS [otros_1], 
+    [vOrdenesTerminado].[otros_2] AS [otros_2], 
+    [vOrdenesTerminado].[copia_1] AS [copia_1], 
+    [vOrdenesTerminado].[copia_2] AS [copia_2], 
+    [vOrdenesTerminado].[copia_3] AS [copia_3], 
+    [vOrdenesTerminado].[copia_4] AS [copia_4], 
+    [vOrdenesTerminado].[otros_3] AS [otros_3], 
+    [vOrdenesTerminado].[otros_4] AS [otros_4], 
+    [vOrdenesTerminado].[pegado] AS [pegado], 
+    [vOrdenesTerminado].[engrapado] AS [engrapado], 
+    [vOrdenesTerminado].[perforacion] AS [perforacion], 
+    [vOrdenesTerminado].[rojo] AS [rojo], 
+    [vOrdenesTerminado].[blanco] AS [blanco], 
+    [vOrdenesTerminado].[especificaciones] AS [especificaciones], 
+    [vOrdenesTerminado].[estado] AS [estado], 
+    [vOrdenesTerminado].[tipo] AS [tipo], 
+    [vOrdenesTerminado].[total] AS [total], 
+    [vOrdenesTerminado].[muestra] AS [muestra], 
+    [vOrdenesTerminado].[fecha_muestra] AS [fecha_muestra], 
+    [vOrdenesTerminado].[prioridad] AS [prioridad], 
+    [vOrdenesTerminado].[anticipo] AS [anticipo], 
+    [vOrdenesTerminado].[fecha_entregado] AS [fecha_entregado], 
+    [vOrdenesTerminado].[pagado] AS [pagado], 
+    [vOrdenesTerminado].[inicio_impresion] AS [inicio_impresion], 
+    [vOrdenesTerminado].[inicio_terminado] AS [inicio_terminado], 
+    [vOrdenesTerminado].[inicio_por_entregar] AS [inicio_por_entregar], 
+    [vOrdenesTerminado].[costo_anterior] AS [costo_anterior], 
+    [vOrdenesTerminado].[autorizado] AS [autorizado], 
+    [vOrdenesTerminado].[hora_solicita] AS [hora_solicita], 
+    [vOrdenesTerminado].[ruta] AS [ruta], 
+    [vOrdenesTerminado].[orden_anterior] AS [orden_anterior], 
+    [vOrdenesTerminado].[fecha_negativo] AS [fecha_negativo], 
+    [vOrdenesTerminado].[tipo_maquina] AS [tipo_maquina], 
+    [vOrdenesTerminado].[id_usuario] AS [id_usuario], 
+    [vOrdenesTerminado].[fecha_inicio] AS [fecha_inicio], 
+    [vOrdenesTerminado].[hora_inicio] AS [hora_inicio], 
+    [vOrdenesTerminado].[fecha_fin] AS [fecha_fin], 
+    [vOrdenesTerminado].[hora_fin] AS [hora_fin], 
+    [vOrdenesTerminado].[tipo_terminado] AS [tipo_terminado], 
+    [vOrdenesTerminado].[descripcion] AS [descripcion], 
+    [vOrdenesTerminado].[id_terminado] AS [id_terminado]
+    FROM [dbo].[vOrdenesTerminado] AS [vOrdenesTerminado]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK__Bitacora__id_ord__24E777C3" Association="Self.FK__Bitacora__id_ord__24E777C3">
             <End Role="Ordenes" EntitySet="Ordenes" />
             <End Role="Bitacora" EntitySet="Bitacora" />
@@ -1870,6 +1999,8 @@
           </AssociationSet>
           <EntitySet Name="FacturaDigital" EntityType="ImpresosBDModel.FacturaDigital" />
           <EntitySet Name="InfoTaller" EntityType="ImpresosBDModel.InfoTaller" />
+          <FunctionImport Name="ObtenerOrdenesTerminado" ReturnType="Collection(ImpresosBDModel.ObtenerOrdenesTerminado_Result)" />
+          <EntitySet Name="vOrdenesTerminado" EntityType="ImpresosBDModel.vOrdenesTerminado" />
           </EntityContainer>
         <ComplexType Name="Obtener_Bitacora_Diaria_Result">
           <Property Type="String" Name="nombre" Nullable="false" MaxLength="50" />
@@ -2502,7 +2633,7 @@
           <Property Name="numero_interior" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="nombre_constancia" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="regimen_fiscal" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
-          <Property Name="aplica_retencion" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
+          <Property Name="aplica_retencion" Type="String" MaxLength="3" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Comentarios">
           <Key>
@@ -3062,6 +3193,131 @@
           <Property Name="IdUsuarioNegativo" Type="Int32" />
           <Property Name="Fecha" Type="DateTime" Precision="3" />
           <Property Name="IdUsuarioGuarda" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="ObtenerOrdenesTerminado_Result">
+          <Property Type="Int32" Name="id_orden" Nullable="false" />
+          <Property Type="Int32" Name="id_cliente" Nullable="true" />
+          <Property Type="Double" Name="numero" Nullable="false" />
+          <Property Type="String" Name="telefono" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="solicitante" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="fecha_solicita" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="quien_recibio" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="inicio_diseno" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="nombre_trabajo" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="cantidad" Nullable="true" />
+          <Property Type="String" Name="color_tintas" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="tipo_papel" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="con_folio" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="del_numero" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="al_numero" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="tamano" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="otros_1" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="otros_2" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="copia_1" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="copia_2" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="copia_3" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="copia_4" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="otros_3" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="otros_4" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="pegado" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="engrapado" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="perforacion" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="rojo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="blanco" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="especificaciones" Nullable="true" />
+          <Property Type="String" Name="estado" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="tipo" Nullable="false" MaxLength="50" />
+          <Property Type="Double" Name="total" Nullable="true" />
+          <Property Type="String" Name="muestra" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="fecha_muestra" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="prioridad" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="anticipo" Nullable="true" />
+          <Property Type="String" Name="fecha_entregado" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="pagado" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="inicio_impresion" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="inicio_terminado" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="inicio_por_entregar" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="costo_anterior" Nullable="true" />
+          <Property Type="String" Name="autorizado" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="hora_solicita" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ruta" Nullable="true" />
+          <Property Type="String" Name="orden_anterior" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="fecha_negativo" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="tipo_maquina" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="id_terminado" Nullable="true" />
+          <Property Type="Int32" Name="id_orden1" Nullable="true" />
+          <Property Type="Int32" Name="id_usuario" Nullable="true" />
+          <Property Type="String" Name="fecha_inicio" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="hora_inicio" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="fecha_fin" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="hora_fin" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="tipo_terminado" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="descripcion" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <EntityType Name="vOrdenesTerminado">
+          <Key>
+            <PropertyRef Name="id_orden" />
+            <PropertyRef Name="numero" />
+            <PropertyRef Name="estado" />
+            <PropertyRef Name="tipo" />
+          </Key>
+          <Property Name="id_orden" Type="Int32" Nullable="false" />
+          <Property Name="id_cliente" Type="Int32" />
+          <Property Name="numero" Type="Double" Nullable="false" />
+          <Property Name="telefono" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="solicitante" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_solicita" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="quien_recibio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="inicio_diseno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="nombre_trabajo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="cantidad" Type="Int32" />
+          <Property Name="color_tintas" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tipo_papel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="con_folio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="del_numero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="al_numero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tamano" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="otros_1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="otros_2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="copia_1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="copia_2" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="copia_3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="copia_4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="otros_3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="otros_4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="pegado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="engrapado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="perforacion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="rojo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="blanco" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="especificaciones" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="estado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tipo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="total" Type="Double" />
+          <Property Name="muestra" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_muestra" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="prioridad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="anticipo" Type="Double" />
+          <Property Name="fecha_entregado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="pagado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="inicio_impresion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="inicio_terminado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="inicio_por_entregar" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="costo_anterior" Type="Double" />
+          <Property Name="autorizado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hora_solicita" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ruta" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="orden_anterior" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_negativo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tipo_maquina" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id_usuario" Type="Int32" />
+          <Property Name="fecha_inicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hora_inicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_fin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="hora_fin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tipo_terminado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="descripcion" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id_terminado" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -4374,6 +4630,133 @@
                 <ScalarProperty Name="IdUsuarioNegativo" ColumnName="IdUsuarioNegativo" />
                 <ScalarProperty Name="IdUsuarioLamina" ColumnName="IdUsuarioLamina" />
                 <ScalarProperty Name="IdInfoTaller" ColumnName="IdInfoTaller" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ObtenerOrdenesTerminado" FunctionName="ImpresosBDModel.Store.ObtenerOrdenesTerminado">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ImpresosBDModel.ObtenerOrdenesTerminado_Result">
+                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
+                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
+                <ScalarProperty Name="numero" ColumnName="numero" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="solicitante" ColumnName="solicitante" />
+                <ScalarProperty Name="fecha_solicita" ColumnName="fecha_solicita" />
+                <ScalarProperty Name="quien_recibio" ColumnName="quien_recibio" />
+                <ScalarProperty Name="inicio_diseno" ColumnName="inicio_diseno" />
+                <ScalarProperty Name="nombre_trabajo" ColumnName="nombre_trabajo" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="color_tintas" ColumnName="color_tintas" />
+                <ScalarProperty Name="tipo_papel" ColumnName="tipo_papel" />
+                <ScalarProperty Name="con_folio" ColumnName="con_folio" />
+                <ScalarProperty Name="del_numero" ColumnName="del_numero" />
+                <ScalarProperty Name="al_numero" ColumnName="al_numero" />
+                <ScalarProperty Name="tamano" ColumnName="tamano" />
+                <ScalarProperty Name="otros_1" ColumnName="otros_1" />
+                <ScalarProperty Name="otros_2" ColumnName="otros_2" />
+                <ScalarProperty Name="copia_1" ColumnName="copia_1" />
+                <ScalarProperty Name="copia_2" ColumnName="copia_2" />
+                <ScalarProperty Name="copia_3" ColumnName="copia_3" />
+                <ScalarProperty Name="copia_4" ColumnName="copia_4" />
+                <ScalarProperty Name="otros_3" ColumnName="otros_3" />
+                <ScalarProperty Name="otros_4" ColumnName="otros_4" />
+                <ScalarProperty Name="pegado" ColumnName="pegado" />
+                <ScalarProperty Name="engrapado" ColumnName="engrapado" />
+                <ScalarProperty Name="perforacion" ColumnName="perforacion" />
+                <ScalarProperty Name="rojo" ColumnName="rojo" />
+                <ScalarProperty Name="blanco" ColumnName="blanco" />
+                <ScalarProperty Name="especificaciones" ColumnName="especificaciones" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="muestra" ColumnName="muestra" />
+                <ScalarProperty Name="fecha_muestra" ColumnName="fecha_muestra" />
+                <ScalarProperty Name="prioridad" ColumnName="prioridad" />
+                <ScalarProperty Name="anticipo" ColumnName="anticipo" />
+                <ScalarProperty Name="fecha_entregado" ColumnName="fecha_entregado" />
+                <ScalarProperty Name="pagado" ColumnName="pagado" />
+                <ScalarProperty Name="inicio_impresion" ColumnName="inicio_impresion" />
+                <ScalarProperty Name="inicio_terminado" ColumnName="inicio_terminado" />
+                <ScalarProperty Name="inicio_por_entregar" ColumnName="inicio_por_entregar" />
+                <ScalarProperty Name="costo_anterior" ColumnName="costo_anterior" />
+                <ScalarProperty Name="autorizado" ColumnName="autorizado" />
+                <ScalarProperty Name="hora_solicita" ColumnName="hora_solicita" />
+                <ScalarProperty Name="ruta" ColumnName="ruta" />
+                <ScalarProperty Name="orden_anterior" ColumnName="orden_anterior" />
+                <ScalarProperty Name="fecha_negativo" ColumnName="fecha_negativo" />
+                <ScalarProperty Name="tipo_maquina" ColumnName="tipo_maquina" />
+                <ScalarProperty Name="id_terminado" ColumnName="id_terminado" />
+                <ScalarProperty Name="id_orden1" ColumnName="id_orden1" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+                <ScalarProperty Name="hora_inicio" ColumnName="hora_inicio" />
+                <ScalarProperty Name="fecha_fin" ColumnName="fecha_fin" />
+                <ScalarProperty Name="hora_fin" ColumnName="hora_fin" />
+                <ScalarProperty Name="tipo_terminado" ColumnName="tipo_terminado" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="vOrdenesTerminado">
+            <EntityTypeMapping TypeName="ImpresosBDModel.vOrdenesTerminado">
+              <MappingFragment StoreEntitySet="vOrdenesTerminado">
+                <ScalarProperty Name="id_terminado" ColumnName="id_terminado" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="tipo_terminado" ColumnName="tipo_terminado" />
+                <ScalarProperty Name="hora_fin" ColumnName="hora_fin" />
+                <ScalarProperty Name="fecha_fin" ColumnName="fecha_fin" />
+                <ScalarProperty Name="hora_inicio" ColumnName="hora_inicio" />
+                <ScalarProperty Name="fecha_inicio" ColumnName="fecha_inicio" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="tipo_maquina" ColumnName="tipo_maquina" />
+                <ScalarProperty Name="fecha_negativo" ColumnName="fecha_negativo" />
+                <ScalarProperty Name="orden_anterior" ColumnName="orden_anterior" />
+                <ScalarProperty Name="ruta" ColumnName="ruta" />
+                <ScalarProperty Name="hora_solicita" ColumnName="hora_solicita" />
+                <ScalarProperty Name="autorizado" ColumnName="autorizado" />
+                <ScalarProperty Name="costo_anterior" ColumnName="costo_anterior" />
+                <ScalarProperty Name="inicio_por_entregar" ColumnName="inicio_por_entregar" />
+                <ScalarProperty Name="inicio_terminado" ColumnName="inicio_terminado" />
+                <ScalarProperty Name="inicio_impresion" ColumnName="inicio_impresion" />
+                <ScalarProperty Name="pagado" ColumnName="pagado" />
+                <ScalarProperty Name="fecha_entregado" ColumnName="fecha_entregado" />
+                <ScalarProperty Name="anticipo" ColumnName="anticipo" />
+                <ScalarProperty Name="prioridad" ColumnName="prioridad" />
+                <ScalarProperty Name="fecha_muestra" ColumnName="fecha_muestra" />
+                <ScalarProperty Name="muestra" ColumnName="muestra" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="especificaciones" ColumnName="especificaciones" />
+                <ScalarProperty Name="blanco" ColumnName="blanco" />
+                <ScalarProperty Name="rojo" ColumnName="rojo" />
+                <ScalarProperty Name="perforacion" ColumnName="perforacion" />
+                <ScalarProperty Name="engrapado" ColumnName="engrapado" />
+                <ScalarProperty Name="pegado" ColumnName="pegado" />
+                <ScalarProperty Name="otros_4" ColumnName="otros_4" />
+                <ScalarProperty Name="otros_3" ColumnName="otros_3" />
+                <ScalarProperty Name="copia_4" ColumnName="copia_4" />
+                <ScalarProperty Name="copia_3" ColumnName="copia_3" />
+                <ScalarProperty Name="copia_2" ColumnName="copia_2" />
+                <ScalarProperty Name="copia_1" ColumnName="copia_1" />
+                <ScalarProperty Name="otros_2" ColumnName="otros_2" />
+                <ScalarProperty Name="otros_1" ColumnName="otros_1" />
+                <ScalarProperty Name="tamano" ColumnName="tamano" />
+                <ScalarProperty Name="al_numero" ColumnName="al_numero" />
+                <ScalarProperty Name="del_numero" ColumnName="del_numero" />
+                <ScalarProperty Name="con_folio" ColumnName="con_folio" />
+                <ScalarProperty Name="tipo_papel" ColumnName="tipo_papel" />
+                <ScalarProperty Name="color_tintas" ColumnName="color_tintas" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="nombre_trabajo" ColumnName="nombre_trabajo" />
+                <ScalarProperty Name="inicio_diseno" ColumnName="inicio_diseno" />
+                <ScalarProperty Name="quien_recibio" ColumnName="quien_recibio" />
+                <ScalarProperty Name="fecha_solicita" ColumnName="fecha_solicita" />
+                <ScalarProperty Name="solicitante" ColumnName="solicitante" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="numero" ColumnName="numero" />
+                <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
+                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -65,6 +65,7 @@ namespace ImpresosAlvarez.Entity
         public virtual DbSet<Ordenes> Ordenes { get; set; }
         public virtual DbSet<FacturaDigital> FacturaDigital { get; set; }
         public virtual DbSet<InfoTaller> InfoTaller { get; set; }
+        public virtual DbSet<vOrdenesTerminado> vOrdenesTerminado { get; set; }
     
         public virtual int Actualizar_Amparo_Factura(Nullable<int> id_factura, string amparo)
         {
@@ -2027,6 +2028,11 @@ namespace ImpresosAlvarez.Entity
                 new ObjectParameter("password", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("Verificar_Usuario", nombreParameter, passwordParameter);
+        }
+    
+        public virtual ObjectResult<ObtenerOrdenesTerminado_Result> ObtenerOrdenesTerminado()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerOrdenesTerminado_Result>("ObtenerOrdenesTerminado");
         }
     }
 }
