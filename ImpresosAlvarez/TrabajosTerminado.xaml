@@ -39,10 +39,14 @@
                 <DataGridTextColumn Header="Recibio" Binding="{Binding Path=quien_recibio}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Trabajo" Binding="{Binding Path=nombre_trabajo}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Cantidad" Binding="{Binding Path=cantidad}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Iniciado" Binding="{Binding Path=cantidad}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Finalizado" Binding="{Binding Path=cantidad}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Estado" Binding="{Binding Path=estado}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 
+        <Button x:Name="btnIniciar" Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz02}" Content="Iniciar trabajo" Click="btnIniciar_Click"></Button>
+        <Button x:Name="btnTerminar" Grid.Row="9" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz02}" Content="Finalizar trabajo" Click="btnTerminar_Click"></Button>
         <Button x:Name="btnEnviar" Grid.Row="9" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz02}" Content="Enviar a entrega" Click="btnEnviar_Click"></Button>
         <Button x:Name="btnCancelar" Grid.Row="9" Grid.Column="8" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cancelar" Click="btnCancelar_Click"></Button>
     </Grid>

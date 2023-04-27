@@ -76,5 +76,27 @@ namespace ImpresosAlvarez
         {
             this.Close();
         }
+
+        private void btnIniciar_Click(object sender, RoutedEventArgs e)
+        {
+            Ordenes elegida = (Ordenes)dgTrabajos.SelectedItem;
+            using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+            {
+                Ordenes orden = dbContext.Ordenes.Where(T => T.id_orden == elegida.id_orden).First();
+                orden.inicio_impresion = DateTime.Now.ToShortDateString();
+                dbContext.SaveChanges();
+
+                Impresion imp = dbContext.Impresion.Where(T => T.id_orden == elegida.id_orden).First();
+                
+
+                TrabajosPendientes = dbContext.Ordenes.Where(T => T.estado == "TERMINADO").ToList();
+                dgTrabajos.ItemsSource = TrabajosPendientes;
+            }
+        }
+
+        private void btnTerminar_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
