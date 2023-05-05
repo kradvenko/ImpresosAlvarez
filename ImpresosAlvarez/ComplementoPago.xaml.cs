@@ -958,7 +958,7 @@ namespace ImpresosAlvarez
 
                 xPago.AppendChild(xDocto);
             }
-
+            /*
             foreach (ComplementoPagoData item in dgComplemento.Items)
             {
                 item.FechaPago = xa.Value;
@@ -1019,6 +1019,60 @@ namespace ImpresosAlvarez
 
                 xPago.AppendChild(xImpuestosP);
             }
+            */
+
+            XmlNode xImpuestosP = xCom.CreateNode(XmlNodeType.Element, "pago20", "ImpuestosP", "http://www.sat.gob.mx/Pagos20");
+
+            if (ISRTotal > 0)
+            {
+                XmlNode xRetencionesP = xCom.CreateNode(XmlNodeType.Element, "pago20", "RetencionesP", "http://www.sat.gob.mx/Pagos20");
+                XmlNode xRetencionP = xCom.CreateNode(XmlNodeType.Element, "pago20", "RetencionP", "http://www.sat.gob.mx/Pagos20");
+
+                xa = xCom.CreateAttribute("ImpuestoP");
+                xa.Value = "001";
+                xRetencionP.Attributes.Append(xa);
+
+                xa = xCom.CreateAttribute("ImporteP");
+                //xa.Value = Math.Round(IvaDRTotal, 2).ToString();
+                xa.Value = Math.Round(ISRTotal, 2).ToString();
+                xa.Value = AddDecimals(xa.Value);
+                xRetencionP.Attributes.Append(xa);
+
+                xRetencionesP.AppendChild(xRetencionP);
+                xImpuestosP.AppendChild(xRetencionesP);
+            }
+
+            XmlNode xTrasladosP = xCom.CreateNode(XmlNodeType.Element, "pago20", "TrasladosP", "http://www.sat.gob.mx/Pagos20");
+            XmlNode xTrasladoP = xCom.CreateNode(XmlNodeType.Element, "pago20", "TrasladoP", "http://www.sat.gob.mx/Pagos20");
+
+            xa = xCom.CreateAttribute("BaseP");
+            xa.Value = Math.Round(Total - IvaDRTotal + ISRTotal, 2).ToString();
+            //xa.Value = (Total - IvaDRTotal + ISRTotal).ToString();
+            xa.Value = AddDecimals(xa.Value);
+            xTrasladoP.Attributes.Append(xa);
+
+            xa = xCom.CreateAttribute("ImpuestoP");
+            xa.Value = "002";
+            xTrasladoP.Attributes.Append(xa);
+
+            xa = xCom.CreateAttribute("TipoFactorP");
+            xa.Value = "Tasa";
+            xTrasladoP.Attributes.Append(xa);
+
+            xa = xCom.CreateAttribute("TasaOCuotaP");
+            xa.Value = "0.160000";
+            xTrasladoP.Attributes.Append(xa);
+
+            xa = xCom.CreateAttribute("ImporteP");
+            xa.Value = Math.Round(IvaDRTotal, 2).ToString();
+            //xa.Value = IvaDRTotal.ToString();
+            xa.Value = AddDecimals(xa.Value);
+            xTrasladoP.Attributes.Append(xa);
+
+            xTrasladosP.AppendChild(xTrasladoP);
+            xImpuestosP.AppendChild(xTrasladosP);
+
+            xPago.AppendChild(xImpuestosP);
 
             xPagos.AppendChild(xPago);
 
