@@ -894,7 +894,8 @@ namespace ImpresosAlvarez
 
                     xa = xCom.CreateAttribute("BaseDR");
                     //xa.Value = (Total - IvaDRTotal + ISRTotal).ToString();
-                    xa.Value = Math.Round(Total - IvaDRTotal + ISRTotal, 2).ToString();
+                    //xa.Value = Math.Round(Total - IvaDRTotal + ISRTotal, 2).ToString();
+                    xa.Value = Math.Round(float.Parse(item.Pagado) - float.Parse(item.IvaDR) + float.Parse(item.ISR), 2).ToString();
                     xa.Value = AddDecimals(xa.Value);
                     xRetencionDR.Attributes.Append(xa);
 
@@ -912,7 +913,8 @@ namespace ImpresosAlvarez
 
                     xa = xCom.CreateAttribute("ImporteDR");
                     //xa.Value = Math.Round(IvaDRTotal, 2).ToString();
-                    xa.Value = Math.Round(ISRTotal, 2).ToString();
+                    //xa.Value = Math.Round(ISRTotal, 2).ToString();
+                    xa.Value = Math.Round(float.Parse(item.ISR), 2).ToString();
                     xa.Value = AddDecimals(xa.Value);
                     xRetencionDR.Attributes.Append(xa);
 
@@ -925,7 +927,8 @@ namespace ImpresosAlvarez
 
                 xa = xCom.CreateAttribute("BaseDR");
                 //xa.Value = (Total - IvaDRTotal + ISRTotal).ToString();
-                xa.Value = Math.Round(Total - IvaDRTotal + ISRTotal, 2).ToString();
+                //xa.Value = Math.Round(Total - IvaDRTotal + ISRTotal, 2).ToString();
+                xa.Value = Math.Round(float.Parse(item.Pagado) - float.Parse(item.IvaDR) + float.Parse(item.ISR), 2).ToString();
                 xa.Value = AddDecimals(xa.Value);
                 xTrasladoDR.Attributes.Append(xa);
 
@@ -942,8 +945,9 @@ namespace ImpresosAlvarez
                 xTrasladoDR.Attributes.Append(xa);
 
                 xa = xCom.CreateAttribute("ImporteDR");
-                xa.Value = Math.Round(IvaDRTotal, 2).ToString();
+                //xa.Value = Math.Round(IvaDRTotal, 2).ToString();
                 //xa.Value = IvaDRTotal.ToString();
+                xa.Value = Math.Round(float.Parse(item.IvaDR), 2).ToString();
                 xa.Value = AddDecimals(xa.Value);
                 xTrasladoDR.Attributes.Append(xa);
 
