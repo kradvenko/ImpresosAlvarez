@@ -2101,7 +2101,14 @@ namespace ImpresosAlvarez
                         try
                         {
                             xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Impuestos//@TotalImpuestosRetenidos", nms);
-                            ISR = xAttrib.Value;
+                            if (xAttrib != null)
+                            {
+                                ISR = xAttrib.Value;
+                            }
+                            else
+                            {
+                                ISR = "0";
+                            }
                         }
                         catch (Exception exc)
                         {
