@@ -431,6 +431,9 @@
     <Compile Include="Entity\Valores.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\vOrdenesImpresion.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\vOrdenesTerminado.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>

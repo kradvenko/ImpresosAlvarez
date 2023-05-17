@@ -88,8 +88,16 @@ namespace ImpresosAlvarez
 
                     if (u != null)
                     {
-                        Usuarios Lamina;
-                        Usuarios Negativo;
+                        if (cbLamina.SelectedItem == null)
+                        {
+                            MessageBox.Show("No ha elegido el usuario de lamina.");
+                            return;
+                        }
+                        if (cbNegativo.SelectedItem == null)
+                        {
+                            MessageBox.Show("No ha elegido el usuario de negativo.");
+                            return;
+                        }
 
                         ParentFormImpresion.EnviarOrden(true, int.Parse(cbLamina.SelectedValue.ToString()), int.Parse(cbNegativo.SelectedValue.ToString()), u);
 

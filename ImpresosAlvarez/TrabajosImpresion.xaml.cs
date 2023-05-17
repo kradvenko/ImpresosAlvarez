@@ -20,7 +20,7 @@ namespace ImpresosAlvarez
     /// </summary>
     public partial class TrabajosImpresion : Window
     {
-        List<Ordenes> TrabajosPendientes;
+        List<vOrdenesImpresion> TrabajosPendientes;
         public TrabajosImpresion()
         {
             InitializeComponent();
@@ -28,11 +28,7 @@ namespace ImpresosAlvarez
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
-            {
-                TrabajosPendientes = dbContext.Ordenes.Where(T => T.estado == "IMPRESION").ToList();
-                dgTrabajos.ItemsSource = TrabajosPendientes;
-            }
+            CargarOrdenes();
         }
 
         private void btnEnviar_Click(object sender, RoutedEventArgs e)
@@ -48,9 +44,9 @@ namespace ImpresosAlvarez
         }
         public void EnviarOrden(bool Aplica, int IdLamina, int IdNegativo, Usuarios UsuarioGuarda)
         {
-            Ordenes elegida = (Ordenes)dgTrabajos.SelectedItem;
             using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
             {
+                vOrdenesImpresion elegida = (vOrdenesImpresion)dgTrabajos.SelectedItem;
                 Ordenes orden = dbContext.Ordenes.Where(T => T.id_orden == elegida.id_orden).First();
                 orden.estado = "POR ENTREGAR";
                 orden.inicio_por_entregar = DateTime.Now.ToShortDateString();
@@ -67,7 +63,7 @@ namespace ImpresosAlvarez
                     dbContext.SaveChanges();
                 }
 
-                TrabajosPendientes = dbContext.Ordenes.Where(T => T.estado == "IMPRESION").ToList();
+                TrabajosPendientes = dbContext.vOrdenesImpresion.Where(T => T.estado == "IMPRESION").ToList();
                 dgTrabajos.ItemsSource = TrabajosPendientes;
             }
         }
@@ -75,6 +71,112 @@ namespace ImpresosAlvarez
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void btnMostrarTodas_Click(object sender, RoutedEventArgs e)
+        {
+            tbBuscar.Text = "";
+            CargarOrdenes();
+        }
+
+        private void tbBuscar_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (tbBuscar.Text.Length > 0)
+                {
+                    int x;
+                    if (int.TryParse(tbBuscar.Text, out x))
+                    {
+                        x = int.Parse(tbBuscar.Text);
+                        using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                        {
+                            TrabajosPendientes = dbContext.vOrdenesImpresion.AsNoTracking().Where(T => T.numero == x).ToList();
+                            dgTrabajos.ItemsSource = TrabajosPendientes;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("No ha escrito un número de orden correcto.");
+                        tbBuscar.Text = "";
+                    }
+                }
+                else
+                {
+                    CargarOrdenes();
+                }
+            }
+        }
+
+        public void CargarOrdenes()
+        {
+            if (tbBuscar.Text.Length > 0)
+            {
+                int x;
+                if (int.TryParse(tbBuscar.Text, out x))
+                {
+                    x = int.Parse(tbBuscar.Text);
+                    using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                    {
+                        TrabajosPendientes = dbContext.vOrdenesImpresion.AsNoTracking().Where(T => T.numero == x).ToList();
+                        dgTrabajos.ItemsSource = TrabajosPendientes;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("No ha escrito un número de orden correcto.");
+                    tbBuscar.Text = "";
+                }
+            }
+            else
+            {
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    TrabajosPendientes = dbContext.vOrdenesImpresion.AsNoTracking().Where(T => T.estado == "IMPRESION").ToList();
+                    dgTrabajos.ItemsSource = TrabajosPendientes;
+                }
+            }
+        }
+
+        private void btnIniciar_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgTrabajos.SelectedItem != null)
+            {
+                vOrdenesImpresion elegida = (vOrdenesImpresion)dgTrabajos.SelectedItem;
+                UsuarioIniciaTermina inicia = new UsuarioIniciaTermina(elegida, this, "INICIA");
+                inicia.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("No ha elegido una orden.");
+            }
+        }
+
+        private void btnTerminar_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgTrabajos.SelectedItem != null)
+            {
+                vOrdenesImpresion elegida = (vOrdenesImpresion)dgTrabajos.SelectedItem;
+                if (elegida.id_impresion is null)
+                {
+                    MessageBox.Show("No es una orden con un trabajo iniciado.");
+                    return;
+                }
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    Impresion imp = dbContext.Impresion.Where(T => T.id_impresion == elegida.id_impresion).First();
+                    imp.fecha_fin = DateTime.Now.ToShortDateString();
+                    imp.hora_fin = DateTime.Now.ToShortTimeString();
+
+                    dbContext.SaveChanges();
+
+                    CargarOrdenes();
+                }
+            }
+            else
+            {
+                MessageBox.Show("No ha elegido una orden.");
+            }
         }
     }
 }

@@ -23,13 +23,22 @@ namespace ImpresosAlvarez
         List<Usuarios> UsuariosTaller;
         TrabajosTerminado ParentFormTerminado;
         TrabajosImpresion ParentFormImpresion;
-        vOrdenesTerminado OrdenElegida;
+        vOrdenesTerminado OrdenElegidaTerminado;
+        vOrdenesImpresion OrdenElegidaImpresion;
         String Modo;
-        public UsuarioIniciaTermina(vOrdenesTerminado OrdenElegida, TrabajosTerminado ParentFormTerminado, String Modo)
+        public UsuarioIniciaTermina(vOrdenesTerminado OrdenElegidaTerminado, TrabajosTerminado ParentFormTerminado, String Modo)
         {
             InitializeComponent();
-            this.OrdenElegida = OrdenElegida;
+            this.OrdenElegidaTerminado = OrdenElegidaTerminado;
             this.ParentFormTerminado = ParentFormTerminado;
+            this.Modo = Modo;
+        }
+
+        public UsuarioIniciaTermina(vOrdenesImpresion OrdenElegidaImpresion, TrabajosImpresion ParentFormTerminado, String Modo)
+        {
+            InitializeComponent();
+            this.OrdenElegidaImpresion = OrdenElegidaImpresion;
+            this.ParentFormImpresion = ParentFormTerminado;
             this.Modo = Modo;
         }
 
@@ -42,6 +51,16 @@ namespace ImpresosAlvarez
                 cbUsuarios.ItemsSource = UsuariosTaller;
                 cbUsuarios.DisplayMemberPath = "nombre";
                 cbUsuarios.SelectedValuePath = "id_usuario";
+            }
+
+            if (ParentFormImpresion != null)
+            {
+                lblTipoTerminado.Visibility = Visibility.Hidden;
+                tbTipoTerminado.Visibility = Visibility.Hidden;
+            }
+            else if (ParentFormTerminado != null)
+            {
+                
             }
         }
 
@@ -66,29 +85,47 @@ namespace ImpresosAlvarez
             {
                 using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                 {
-                    Ordenes orden = dbContext.Ordenes.Where(T => T.id_orden == OrdenElegida.id_orden).First();
-                    orden.inicio_terminado = DateTime.Now.ToShortDateString();
-                    dbContext.SaveChanges();
-
-                    Terminado ter = new Terminado();
-                    ter.id_orden = OrdenElegida.id_orden;
-                    ter.id_usuario = u.id_usuario;
-                    ter.fecha_inicio = DateTime.Now.ToShortDateString();
-                    ter.hora_inicio = DateTime.Now.ToShortTimeString();
-                    ter.fecha_fin = "";
-                    ter.hora_fin = "";
-                    ter.descripcion = "";
-                    ter.tipo_terminado = tbTipoTerminado.Text;
-                    dbContext.Terminado.Add(ter);
-
-                    dbContext.SaveChanges();
+                    
 
                     if (ParentFormImpresion != null)
                     {
+                        Ordenes orden = dbContext.Ordenes.Where(T => T.id_orden == OrdenElegidaImpresion.id_orden).First();
+                        orden.inicio_impresion = DateTime.Now.ToShortDateString();
+                        dbContext.SaveChanges();
 
+                        Impresion imp = new Impresion();
+                        imp.id_orden = OrdenElegidaImpresion.id_orden;
+                        imp.id_usuario = u.id_usuario;
+                        imp.fecha_inicio = DateTime.Now.ToShortDateString();
+                        imp.hora_inicio = DateTime.Now.ToShortTimeString();
+                        imp.fecha_fin = "";
+                        imp.hora_fin = "";
+                        imp.notas = "";
+                        dbContext.Impresion.Add(imp);
+
+                        dbContext.SaveChanges();
+
+                        ParentFormImpresion.CargarOrdenes();
                     }
                     else if (ParentFormTerminado != null)
                     {
+                        Ordenes orden = dbContext.Ordenes.Where(T => T.id_orden == OrdenElegidaTerminado.id_orden).First();
+                        orden.inicio_terminado = DateTime.Now.ToShortDateString();
+                        dbContext.SaveChanges();
+                        
+                        Terminado ter = new Terminado();
+                        ter.id_orden = OrdenElegidaTerminado.id_orden;
+                        ter.id_usuario = u.id_usuario;
+                        ter.fecha_inicio = DateTime.Now.ToShortDateString();
+                        ter.hora_inicio = DateTime.Now.ToShortTimeString();
+                        ter.fecha_fin = "";
+                        ter.hora_fin = "";
+                        ter.descripcion = "";
+                        ter.tipo_terminado = tbTipoTerminado.Text;
+                        dbContext.Terminado.Add(ter);
+
+                        dbContext.SaveChanges();
+
                         ParentFormTerminado.CargarOrdenes();
                     }
                     this.Close();
@@ -98,23 +135,26 @@ namespace ImpresosAlvarez
             {
                 using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                 {
-                    Ordenes orden = dbContext.Ordenes.Where(T => T.id_orden == OrdenElegida.id_orden).First();
-                    orden.inicio_terminado = DateTime.Now.ToShortDateString();
-                    dbContext.SaveChanges();
-
-                    Terminado ter = dbContext.Terminado.Where(T => T.id_orden == OrdenElegida.id_orden).First();
-                    ter.fecha_fin = DateTime.Now.ToShortDateString();
-                    ter.hora_fin = DateTime.Now.ToShortTimeString();
-                    dbContext.Terminado.Add(ter);
-
-                    dbContext.SaveChanges();
-
                     if (ParentFormImpresion != null)
                     {
+                        Impresion imp = dbContext.Impresion.Where(T => T.id_orden == OrdenElegidaTerminado.id_orden).First();
+                        imp.fecha_fin = DateTime.Now.ToShortDateString();
+                        imp.hora_fin = DateTime.Now.ToShortTimeString();
+                        dbContext.Impresion.Add(imp);
 
+                        dbContext.SaveChanges();
+
+                        ParentFormImpresion.CargarOrdenes();
                     }
                     else if (ParentFormTerminado != null)
                     {
+                        Terminado ter = dbContext.Terminado.Where(T => T.id_orden == OrdenElegidaTerminado.id_orden).First();
+                        ter.fecha_fin = DateTime.Now.ToShortDateString();
+                        ter.hora_fin = DateTime.Now.ToShortTimeString();
+                        dbContext.Terminado.Add(ter);
+
+                        dbContext.SaveChanges();
+
                         ParentFormTerminado.CargarOrdenes();
                     }
                     this.Close();
