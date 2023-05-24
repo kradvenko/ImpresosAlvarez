@@ -162,15 +162,24 @@ namespace ImpresosAlvarez
                     MessageBox.Show("No es una orden con un trabajo iniciado.");
                     return;
                 }
-                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                if (MessageBox.Show("Desea finalizar la orden y enviarla a terminado?", "ATENCION", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
-                    Impresion imp = dbContext.Impresion.Where(T => T.id_impresion == elegida.id_impresion).First();
-                    imp.fecha_fin = DateTime.Now.ToShortDateString();
-                    imp.hora_fin = DateTime.Now.ToShortTimeString();
+                    using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                    {
+                        Impresion imp = dbContext.Impresion.Where(T => T.id_impresion == elegida.id_impresion).First();
+                        imp.fecha_fin = DateTime.Now.ToShortDateString();
+                        imp.hora_fin = DateTime.Now.ToShortTimeString();
 
-                    dbContext.SaveChanges();
+                        dbContext.SaveChanges();
 
-                    CargarOrdenes();
+                        Ordenes Orden = dbContext.Ordenes.Where(T => T.id_orden == elegida.id_orden).First();
+
+                        Orden.estado = "TERMINADO";
+
+                        dbContext.SaveChanges();
+
+                        CargarOrdenes();
+                    }
                 }
             }
             else
