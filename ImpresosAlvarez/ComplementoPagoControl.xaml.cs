@@ -65,6 +65,11 @@ namespace ImpresosAlvarez
             _cpd.Pagado = tbCantidad.Text;
             _cpd.SaldoInsoluto = tbInsoluto.Text;
             _cpd.SaldoAnterior = tbAnterior.Text;
+
+            if (_cpd.SaldoInsoluto != "0")
+            {
+                _parent.PagoCompleto = false;
+            }
             _parent.ActualizarComplemento();
             this.Close();
         }

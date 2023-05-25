@@ -85,6 +85,8 @@ namespace ImpresosAlvarez
 
         float IvaDRTotal = 0;
         float ISRTotal = 0;
+
+        public bool PagoCompleto = true;
         
         public ComplementoPago()
         {
@@ -1140,20 +1142,46 @@ namespace ImpresosAlvarez
             float totalIva = 0;
             float totalIsr = 0;
 
-            foreach (ComplementoPagoData item in dgComplemento.Items)
+            if (PagoCompleto)
             {
-                total = total + float.Parse(item.Pagado);
-                totalIva = totalIva + float.Parse(item.IvaDR);
-                if (item.ISR != "")
+                foreach (ComplementoPagoData item in dgComplemento.Items)
                 {
-                    totalIsr = totalIsr + float.Parse(item.ISR);
+                    total = total + float.Parse(item.Pagado);
+                    totalIva = totalIva + float.Parse(item.IvaDR);
+                    if (item.ISR != "")
+                    {
+                        totalIsr = totalIsr + float.Parse(item.ISR);
+                    }
                 }
-            }
-            lblTotal.Content = total.ToString("0.00");
+                lblTotal.Content = total.ToString("0.00");
 
-            IvaDRTotal = totalIva;
-            ISRTotal = totalIsr;
-            Total = total;
+                IvaDRTotal = totalIva;
+                ISRTotal = totalIsr;
+                Total = total;
+            }
+            else
+            {
+                foreach (ComplementoPagoData item in dgComplemento.Items)
+                {
+                    total = total + float.Parse(item.Pagado);
+
+                    float totalSin = total - (float.Parse(item.Pagado) * 0.16f) + (float.Parse(item.Pagado) * 0.0125f);
+
+                    totalIva = totalIva + (total * 0.16f);                    
+
+                    if (item.ISR != "")
+                    {
+                        totalIsr = totalIsr + (total * 0.012500f);
+                        item.ISR = AddDecimals(Math.Round(totalSin * 0.012500f, 2).ToString());
+                    }
+                    item.IvaDR = AddDecimals(Math.Round(float.Parse(item.Pagado) * 0.16f, 2).ToString());
+                }
+                lblTotal.Content = total.ToString("0.00");
+
+                IvaDRTotal = float.Parse(Math.Round(totalIva, 2).ToString());
+                ISRTotal = float.Parse(Math.Round(totalIsr, 2).ToString());
+                Total = float.Parse(Math.Round(total, 2).ToString());
+            }
         }
         private void InsertarParcialidad()
         {
