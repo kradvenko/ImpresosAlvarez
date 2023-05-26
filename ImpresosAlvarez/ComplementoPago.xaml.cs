@@ -1163,18 +1163,19 @@ namespace ImpresosAlvarez
             {
                 foreach (ComplementoPagoData item in dgComplemento.Items)
                 {
-                    total = total + (float.Parse(item.Pagado) / 1.1475f);
+                    //total = total + (float.Parse(item.Pagado) / 1.1475f);
+                    total = total + float.Parse(item.Pagado);
 
                     float totalItem = (float.Parse(item.Pagado) / 1.1475f);
 
-                    totalIva = totalIva + (total * 0.16f);
+                    totalIva = totalIva + (totalItem * 0.16f);
 
                     if (item.ISR != "")
                     {
-                        totalIsr = totalIsr + (total * 0.012500f);
+                        totalIsr = totalIsr + (totalItem * 0.012500f);
                         item.ISR = AddDecimals(Math.Round(totalItem * 0.012500f, 2).ToString());
                     }
-                    item.IvaDR = AddDecimals(Math.Round(totalItem, 2).ToString());
+                    item.IvaDR = AddDecimals(Math.Round(totalItem * 0.16f, 2).ToString());
                 }
                 lblTotal.Content = total.ToString("0.00");
 
@@ -2151,8 +2152,9 @@ namespace ImpresosAlvarez
                             {
                                 parcialidad = (parce.parcialidad + 1).ToString();
                                 //parcialidad = AddDecimals(parcialidad);
-                                saldoAnterior = parce.insoluto.ToString();
+                                saldoAnterior = parce.anterior.ToString();
                                 saldoAnterior = AddDecimals(saldoAnterior);
+                                saldoInsoluto = parce.insoluto.ToString();
                             }
                             else
                             {
