@@ -87,6 +87,7 @@ namespace ImpresosAlvarez
         float ISRTotal = 0;
 
         public bool PagoCompleto = true;
+        bool PrimeraParcialidad = true;
         
         public ComplementoPago()
         {
@@ -1144,20 +1145,47 @@ namespace ImpresosAlvarez
 
             if (PagoCompleto)
             {
-                foreach (ComplementoPagoData item in dgComplemento.Items)
+                if (PrimeraParcialidad)
                 {
-                    total = total + float.Parse(item.Pagado);
-                    totalIva = totalIva + float.Parse(item.IvaDR);
-                    if (item.ISR != "")
+                    foreach (ComplementoPagoData item in dgComplemento.Items)
                     {
-                        totalIsr = totalIsr + float.Parse(item.ISR);
+                        total = total + float.Parse(item.Pagado);
+                        totalIva = totalIva + float.Parse(item.IvaDR);
+                        if (item.ISR != "")
+                        {
+                            totalIsr = totalIsr + float.Parse(item.ISR);
+                        }
                     }
-                }
-                lblTotal.Content = total.ToString("0.00");
+                    lblTotal.Content = total.ToString("0.00");
 
-                IvaDRTotal = totalIva;
-                ISRTotal = totalIsr;
-                Total = total;
+                    IvaDRTotal = totalIva;
+                    ISRTotal = totalIsr;
+                    Total = total;
+                }
+                else
+                {
+                    foreach (ComplementoPagoData item in dgComplemento.Items)
+                    {
+                        //total = total + (float.Parse(item.Pagado) / 1.1475f);
+                        total = total + float.Parse(item.Pagado);
+
+                        float totalItem = (float.Parse(item.Pagado) / 1.1475f);
+
+                        totalIva = totalIva + (totalItem * 0.16f);
+
+                        if (item.ISR != "")
+                        {
+                            totalIsr = totalIsr + (totalItem * 0.012500f);
+                            item.ISR = AddDecimals(Math.Round(totalItem * 0.012500f, 2).ToString());
+                        }
+                        item.IvaDR = AddDecimals(Math.Round(totalItem * 0.16f, 2).ToString());
+                    }
+                    lblTotal.Content = total.ToString("0.00");
+
+                    IvaDRTotal = float.Parse(Math.Round(totalIva, 2).ToString());
+                    ISRTotal = float.Parse(Math.Round(totalIsr, 2).ToString());
+                    Total = float.Parse(Math.Round(total, 2).ToString());
+                }
             }
             else
             {
@@ -2152,9 +2180,10 @@ namespace ImpresosAlvarez
                             {
                                 parcialidad = (parce.parcialidad + 1).ToString();
                                 //parcialidad = AddDecimals(parcialidad);
-                                saldoAnterior = parce.anterior.ToString();
+                                saldoAnterior = Math.Round((double)parce.insoluto, 2).ToString();
                                 saldoAnterior = AddDecimals(saldoAnterior);
-                                saldoInsoluto = parce.insoluto.ToString();
+                                saldoInsoluto = Math.Round((double)parce.insoluto, 2).ToString();
+                                PrimeraParcialidad = false;
                             }
                             else
                             {
