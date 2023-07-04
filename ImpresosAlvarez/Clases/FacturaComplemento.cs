@@ -14,16 +14,16 @@ namespace ImpresosAlvarez.Clases
         public String Numero { get; set; }
         public String Estado { get; set; }
         public String XML { get; set; }
-        public String SubTotal { get; set; }
-        public String Total { get; set; }
+        public float SubTotal { get; set; }
+        public float Total { get; set; }
         public String Pagada { get; set; }
-        public String IVA { get; set; }
+        public float IVA { get; set; }
 
         public FacturaComplemento()
         {
 
         }
-        public FacturaComplemento(int IdFactura, int IdCliente, int IdContribuyente, String Numero, String Estado, String XML, String SubTotal, String Total, String Pagada, String IVA)
+        public FacturaComplemento(int IdFactura, int IdCliente, int IdContribuyente, String Numero, String Estado, String XML, float SubTotal, float Total, String Pagada, float IVA)
         {
             this.IdFactura = IdFactura;
             this.IdCliente = IdCliente;

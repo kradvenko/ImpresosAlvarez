@@ -162,8 +162,8 @@ namespace ImpresosAlvarez
                                 Numero = f.numero,
                                 Estado = f.estado,
                                 XML = fd.xml,
-                                SubTotal = f.subtotal.ToString(),
-                                Total = f.total.ToString(),
+                                SubTotal = (float)f.subtotal,
+                                Total = (float)f.total,
                                 Pagada = f.pagada
                             }
                         )
@@ -1935,7 +1935,7 @@ namespace ImpresosAlvarez
                         else
                         {
                             saldoAnterior = "0";
-                            saldoInsoluto = fact.Total;
+                            saldoInsoluto = fact.Total.ToString();
                         }
 
                         ComplementoPagoData comp = new ComplementoPagoData { UUID = uuid, Serie = serie, Folio = folio, Parcialidad = parcialidad, SaldoAnterior = saldoAnterior, Pagado = pagado, SaldoInsoluto = saldoInsoluto, IdFactura = IdFactura, IvaDR = IvaDR };
@@ -2187,9 +2187,9 @@ namespace ImpresosAlvarez
                             }
                             else
                             {
-                                saldoAnterior = fact.Total;
+                                saldoAnterior = fact.Total.ToString();
                                 saldoAnterior = AddDecimals(saldoAnterior);
-                                saldoInsoluto = fact.Total;
+                                saldoInsoluto = fact.Total.ToString();
                                 saldoInsoluto = AddDecimals(saldoInsoluto);
                             }
 
