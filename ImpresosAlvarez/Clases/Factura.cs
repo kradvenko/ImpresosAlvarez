@@ -26,6 +26,7 @@ namespace ImpresosAlvarez.Clases
         public String domicilioReceptorEstado;
         public String domicilioReceptorCodigoPostal;
         public String rfcReceptor;
+        public String regimenFiscalReceptor;
         //Datos de la Factura Electrónica
         public String fechaExpedicion;
         public String serie;
