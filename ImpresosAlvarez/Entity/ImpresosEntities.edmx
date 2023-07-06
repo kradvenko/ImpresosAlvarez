@@ -414,6 +414,14 @@
           <Property Name="dias_despues" Type="nvarchar" MaxLength="50" />
           <Property Name="estado" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="RegimenFiscal">
+          <Key>
+            <PropertyRef Name="IdRegimen" />
+          </Key>
+          <Property Name="IdRegimen" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Clave" Type="nvarchar" MaxLength="10" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="150" />
+        </EntityType>
         <EntityType Name="Salidas">
           <Key>
             <PropertyRef Name="id_salida" />
@@ -1321,6 +1329,7 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <EntitySet Name="Parcialidades" EntityType="Self.Parcialidades" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ProductosServicios" EntityType="Self.ProductosServicios" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Recordatorios" EntityType="Self.Recordatorios" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RegimenFiscal" EntityType="Self.RegimenFiscal" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Salidas" EntityType="Self.Salidas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalidasInventario" EntityType="Self.SalidasInventario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Terminado" EntityType="Self.Terminado" Schema="dbo" store:Type="Tables" />
@@ -2127,6 +2136,7 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <FunctionImport Name="ObtenerOrdenesTerminado" ReturnType="Collection(ImpresosBDModel.ObtenerOrdenesTerminado_Result)" />
           <EntitySet Name="vOrdenesTerminado" EntityType="ImpresosBDModel.vOrdenesTerminado" />
           <EntitySet Name="vOrdenesImpresion" EntityType="ImpresosBDModel.vOrdenesImpresion" />
+          <EntitySet Name="RegimenFiscal" EntityType="ImpresosBDModel.RegimenFiscal" />
           </EntityContainer>
         <ComplexType Name="Obtener_Bitacora_Diaria_Result">
           <Property Type="String" Name="nombre" Nullable="false" MaxLength="50" />
@@ -3508,6 +3518,14 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <Property Name="hora_fin" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="id_impresion" Type="Int32" />
           <Property Name="notas" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="RegimenFiscal">
+          <Key>
+            <PropertyRef Name="IdRegimen" />
+          </Key>
+          <Property Name="IdRegimen" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Clave" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -4945,6 +4963,15 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
                 <ScalarProperty Name="numero" ColumnName="numero" />
                 <ScalarProperty Name="id_cliente" ColumnName="id_cliente" />
                 <ScalarProperty Name="id_orden" ColumnName="id_orden" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RegimenFiscal">
+            <EntityTypeMapping TypeName="ImpresosBDModel.RegimenFiscal">
+              <MappingFragment StoreEntitySet="RegimenFiscal">
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Clave" ColumnName="Clave" />
+                <ScalarProperty Name="IdRegimen" ColumnName="IdRegimen" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

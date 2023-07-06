@@ -28,7 +28,7 @@
     <UpdateUrl>http://impresosalvarez.atwebpages.com/</UpdateUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>116</ApplicationRevision>
+    <ApplicationRevision>117</ApplicationRevision>
     <ApplicationVersion>1.3.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -405,6 +405,9 @@
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\Recordatorios.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\RegimenFiscal.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\Salidas.cs">

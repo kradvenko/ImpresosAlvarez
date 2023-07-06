@@ -389,6 +389,11 @@ namespace ImpresosAlvarez
             xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Receptor//@RegimenFiscalReceptor", nms);
             datosFacturaElectronica.regimenFiscalReceptor = xAttrib.Value;
 
+            using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+            {
+                datosFacturaElectronica.regimenFiscalReceptor = dbContext.RegimenFiscal.Where(C => C.Clave == datosFacturaElectronica.regimenFiscalReceptor).First().Descripcion;
+            }
+
             xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Receptor//@Rfc", nms);
             datosFacturaElectronica.rfcReceptor = xAttrib.Value;
 
@@ -735,6 +740,36 @@ namespace ImpresosAlvarez
                 .SetFontSize(fs)
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                 .Add(new Paragraph(datosFacturaElectronica.formaPagoTexto)));
+
+            //Renglón
+            table.AddCell(new Cell(1, 2)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(fb)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("Régimen")));
+
+            table.AddCell(new Cell(1, 4)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph(datosFacturaElectronica.regimenFiscalReceptor)));
+
+            table.AddCell(new Cell(1, 2)
+               .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+               .SetFont(fb)
+               .SetFontSize(fs)
+               .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+               .Add(new Paragraph("")));
+
+            table.AddCell(new Cell(1, 4)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph()));
+
             //Conceptos
             //Renglón 1
             table.AddCell(new Cell(1, 1)

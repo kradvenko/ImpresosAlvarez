@@ -1358,6 +1358,35 @@ namespace ImpresosAlvarez
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                 .Add(new Paragraph(datosFacturaElectronica.formaPagoTexto)));
 
+            //Renglón
+            table.AddCell(new Cell(1, 2)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(fb)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("Régimen")));
+
+            table.AddCell(new Cell(1, 4)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph(datosFacturaElectronica.regimenFiscalReceptor)));
+
+            table.AddCell(new Cell(1, 2)
+               .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+               .SetFont(fb)
+               .SetFontSize(fs)
+               .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+               .Add(new Paragraph("")));
+
+            table.AddCell(new Cell(1, 4)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph()));
+
             if (FacturaCancelada != null)
             {
                 //Renglón especial
@@ -2813,6 +2842,13 @@ namespace ImpresosAlvarez
 
             xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Receptor//@RegimenFiscalReceptor", nms);
             xAttrib.Value = _clienteElegido.regimen_fiscal;
+
+            datosFacturaElectronica.regimenFiscalReceptor = xAttrib.Value;
+
+            using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+            {
+                datosFacturaElectronica.regimenFiscalReceptor = dbContext.RegimenFiscal.Where(C => C.Clave == datosFacturaElectronica.regimenFiscalReceptor).First().Descripcion;
+            }
             //PRUEBAS
             //xAttrib.Value = "612";
 
