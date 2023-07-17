@@ -73,56 +73,64 @@ namespace ImpresosAlvarez
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            lblFolio.Content = _factura.numero;
-
-            datosFacturaElectronica = new Factura();
-
-            using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+            try
             {
-                _contribuyentes = dbContext.Contribuyentes.ToList();
-                cbContribuyentes.ItemsSource = _contribuyentes;
-                cbContribuyentes.SelectedValuePath = "id_contribuyente";
-                cbContribuyentes.DisplayMemberPath = "nombre";
-                cbContribuyentes.SelectedValue = _factura.id_contribuyente;
 
-                _cliente = dbContext.Clientes.Where(C => C.id_cliente == _factura.id_cliente).First();
+                lblFolio.Content = _factura.numero;
 
-                lblNombre.Content = _cliente.nombre;
-                lblRFC.Content = _cliente.rfc;
+                datosFacturaElectronica = new Factura();
 
-                _detalle = dbContext.DetalleFactura.Where(D => D.id_factura == _factura.id_factura).ToList();
-
-                _conceptos = new List<ConceptoFactura>();
-
-                foreach (DetalleFactura item in _detalle)
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                 {
-                    ConceptoFactura c = new ConceptoFactura();
-                    c.Cantidad = (int)item.cantidad;
-                    c.Descripcion = item.descripcion;
-                    c.Importe = (float)item.importe;
-                    if (item.precio_unitario != null)
+                    _contribuyentes = dbContext.Contribuyentes.ToList();
+                    cbContribuyentes.ItemsSource = _contribuyentes;
+                    cbContribuyentes.SelectedValuePath = "id_contribuyente";
+                    cbContribuyentes.DisplayMemberPath = "nombre";
+                    cbContribuyentes.SelectedValue = _factura.id_contribuyente;
+
+                    _cliente = dbContext.Clientes.Where(C => C.id_cliente == _factura.id_cliente).First();
+
+                    lblNombre.Content = _cliente.nombre;
+                    lblRFC.Content = _cliente.rfc;
+
+                    _detalle = dbContext.DetalleFactura.Where(D => D.id_factura == _factura.id_factura).ToList();
+
+                    _conceptos = new List<ConceptoFactura>();
+
+                    foreach (DetalleFactura item in _detalle)
                     {
-                        c.PrecioUnitario = (float)item.precio_unitario;
-                        c.Unidad = item.unidad;
-                        c.Clave = item.clave_servicio;
+                        ConceptoFactura c = new ConceptoFactura();
+                        c.Cantidad = (int)item.cantidad;
+                        c.Descripcion = item.descripcion;
+                        c.Importe = (float)item.importe;
+                        if (item.precio_unitario != null)
+                        {
+                            c.PrecioUnitario = (float)item.precio_unitario;
+                            c.Unidad = item.unidad;
+                            c.Clave = item.clave_servicio;
+                        }
+                        else
+                        {
+                            c.PrecioUnitario = c.Importe / c.Cantidad;
+                            c.Unidad = "";
+                            c.Clave = "";
+                        }
+                        _conceptos.Add(c);
                     }
-                    else
-                    {
-                        c.PrecioUnitario = c.Importe / c.Cantidad;
-                        c.Unidad = "";
-                        c.Clave = "";
-                    }                    
-                    _conceptos.Add(c);
+                    dgConceptos.ItemsSource = _conceptos;
+                    regimen = "Regimen de incorporación fiscal";
+
+                    lblTotal.Content = "$ " + Math.Round((double)_factura.total, 2).ToString();
+                    lblEstado.Content = _factura.estado;
+
+                    datosFacturaDigital = dbContext.FacturaDigital.Where(FD => FD.id_factura == _factura.id_factura).FirstOrDefault();
+
+                    CargarDatosFactura();
                 }
-                dgConceptos.ItemsSource = _conceptos;
-                regimen = "Regimen de incorporación fiscal";
-
-                lblTotal.Content = "$ " + Math.Round((double)_factura.total, 2).ToString();
-                lblEstado.Content = _factura.estado;
-
-                datosFacturaDigital = dbContext.FacturaDigital.Where(FD => FD.id_factura == _factura.id_factura).FirstOrDefault();
-
-                CargarDatosFactura();
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show("ERROR: " + exc.Message);
             }
         }
 
