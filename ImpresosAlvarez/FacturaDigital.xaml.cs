@@ -365,8 +365,8 @@ namespace ImpresosAlvarez
                 datosFacturaElectronica.domicilioEmisorCodigoPostal = "63080";
             }
 
-            CargarXMLTemplate();
-            FacturacionElectronica(false);
+            CargarXML4Template();
+            FacturacionElectronica40(false);
             ImprimirPDF(false);
             //EnviarPorCorreo();
         }
