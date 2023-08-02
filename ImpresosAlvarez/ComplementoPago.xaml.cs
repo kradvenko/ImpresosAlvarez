@@ -2193,6 +2193,13 @@ namespace ImpresosAlvarez
                                 saldoInsoluto = AddDecimals(saldoInsoluto);
                             }
 
+                            float ISRCalc = fact.SubTotal * 0.0125f;
+
+                            if (ISRCalc.ToString() != ISR)
+                            {
+                                ISR = ISRCalc.ToString();
+                            }
+
                             ComplementoPagoData comp = new ComplementoPagoData { UUID = uuid, Serie = serie, Folio = folio, Parcialidad = parcialidad, SaldoAnterior = saldoAnterior, Pagado = AddDecimals(pagado), SaldoInsoluto = saldoInsoluto, IdFactura = IdFactura, IvaDR = IvaDR, ISR = ISR };
                             _complementos.Add(comp);
                             dgComplemento.ItemsSource = null;
