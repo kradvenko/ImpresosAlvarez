@@ -1151,7 +1151,7 @@ namespace ImpresosAlvarez
                     {
                         total = total + float.Parse(item.Pagado);
                         totalIva = totalIva + float.Parse(item.IvaDR);
-                        if (item.ISR != "")
+                        if (item.ISR != "" && item.ISR != "0")
                         {
                             totalIsr = totalIsr + float.Parse(item.ISR);
                         }
@@ -2195,7 +2195,7 @@ namespace ImpresosAlvarez
 
                             float ISRCalc = fact.SubTotal * 0.0125f;
 
-                            if (ISRCalc.ToString() != ISR)
+                            if (ISRCalc.ToString() != ISR && ISR != "0" && ISR != "")
                             {
                                 ISR = ISRCalc.ToString();
                             }
