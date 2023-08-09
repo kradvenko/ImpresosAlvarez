@@ -20,17 +20,17 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
         </Grid.RowDefinitions>
 
         <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="8">
@@ -84,7 +84,10 @@
         <ComboBox x:Name="cbContribuyentes" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MaxHeight="50" SelectionChanged="cbContribuyentes_SelectionChanged" Style="{StaticResource ComboBoxFlatStyle}">
         </ComboBox>
 
-        <DataGrid x:Name="dgFacturas" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="6" Grid.RowSpan="3" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dgFacturas_SelectionChanged">
+        <Label Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Buscar factura"></Label>
+        <TextBox x:Name="tbBuscarFactura" Grid.Column="1" Grid.Row="3" Style="{StaticResource TextBox01}" KeyUp="tbBuscarFactura_KeyUp"></TextBox>
+
+        <DataGrid x:Name="dgFacturas" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="6" Grid.RowSpan="2" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dgFacturas_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Número" Binding="{Binding Path=Numero}" Width="*"></DataGridTextColumn>                
                 <DataGridTextColumn Header="Total" Binding="{Binding Path=Total}" Width="*"></DataGridTextColumn>
@@ -111,20 +114,23 @@
                 <DataGridTextColumn Header="Saldo Anterior" Binding="{Binding Path=SaldoAnterior}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Pagado" Binding="{Binding Path=Pagado}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Saldo Insoluto" Binding="{Binding Path=SaldoInsoluto}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="ISR" Binding="{Binding Path=ISR}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="IVA" Binding="{Binding Path=IvaDR}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         
-        <Button x:Name="btnAgregarTodos" Grid.Row="3" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Agregar selección" Click="btnAgregarTodos_Click"></Button>
+        <Button x:Name="btnAgregarTodos" Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Agregar selección" Click="btnAgregarTodos_Click"></Button>
 
         <Button x:Name="btnBorrarComplemento" Grid.Row="6" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Borrar complemento" Click="btnBorrarComplemento_Click"></Button>
 
         <Button x:Name="btnPagarTodos" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Pagar todos" Click="btnPagarTodos_Click"></Button>
         <!--<Button x:Name="btnCrearComplemento" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Generar Complemento" Click="btnCrearComplemento_Click"></Button>-->
-        <Button x:Name="btnCrearComplemento40" Grid.Row="11" Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Generar Complemento 2.0" Click="btnCrearComplemento40_Click"></Button>
-        <Button x:Name="btnCancelar" Grid.Row="11" Grid.Column="5" Grid.ColumnSpan="1" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cerrar" Click="btnCancelar_Click"></Button>
-
-        <Label Grid.Column="6" Grid.Row="11" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="TOTAL"></Label>
-        <Label x:Name="lblTotal" Grid.Column="7" Grid.Row="11" Grid.ColumnSpan="1" Style="{StaticResource LabelBlack}" Content="$ 0"></Label>
+        <Button x:Name="btnCrearComplemento40" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Generar Complemento 2.0" Click="btnCrearComplemento40_Click"></Button>
+        <Button x:Name="btnCancelar" Grid.Row="11" Grid.Column="7" Grid.ColumnSpan="1" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cerrar" Click="btnCancelar_Click"></Button>
+        
+        <Label x:Name="lblTotal" Grid.Column="3" Grid.Row="11" Grid.ColumnSpan="1" Style="{StaticResource LabelBlack}" Content="$ 0"></Label>
+        <Label x:Name="lblTotalIVA" Grid.Column="4" Grid.Row="11" Grid.ColumnSpan="1" Style="{StaticResource LabelBlack}" Content="$ 0"></Label>
+        <Label x:Name="lblTotalISR" Grid.Column="5" Grid.Row="11" Grid.ColumnSpan="1" Style="{StaticResource LabelBlack}" Content="$ 0"></Label>
     </Grid>
 </Window>
 

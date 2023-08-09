@@ -772,7 +772,7 @@ namespace ImpresosAlvarez
 
             xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Complemento//pago20:Pagos//@TotalTrasladosBaseIVA16", comNms);
             //xAttrib.Value = (Total - IvaDRTotal + ISRTotal).ToString();
-            xAttrib.Value = Math.Round(Total - IvaDRTotal + ISRTotal, 2).ToString();
+            xAttrib.Value = Math.Round(Total - Math.Round(IvaDRTotal, 2) + ISRTotal, 2).ToString();
             xAttrib.Value = AddDecimals(xAttrib.Value);
 
             xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Complemento//pago20:Pagos//@TotalTrasladosImpuestoIVA16", comNms);
@@ -1156,7 +1156,9 @@ namespace ImpresosAlvarez
                             totalIsr = totalIsr + float.Parse(item.ISR);
                         }
                     }
-                    lblTotal.Content = total.ToString("0.00");
+                    lblTotal.Content = "Total: " + total.ToString("0.00");
+                    lblTotalISR.Content = "ISR: " + totalIsr.ToString("0.00");
+                    lblTotalIVA.Content = "IVA: " + totalIva.ToString("0.00");
 
                     IvaDRTotal = totalIva;
                     ISRTotal = totalIsr;
@@ -1180,7 +1182,9 @@ namespace ImpresosAlvarez
                         }
                         item.IvaDR = AddDecimals(Math.Round(totalItem * 0.16f, 2).ToString());
                     }
-                    lblTotal.Content = total.ToString("0.00");
+                    lblTotal.Content = "Total: " + total.ToString("0.00");
+                    lblTotalISR.Content = "ISR: " + totalIsr.ToString("0.00");
+                    lblTotalIVA.Content = "IVA: " + totalIva.ToString("0.00");
 
                     IvaDRTotal = float.Parse(Math.Round(totalIva, 2).ToString());
                     ISRTotal = float.Parse(Math.Round(totalIsr, 2).ToString());
@@ -1205,7 +1209,9 @@ namespace ImpresosAlvarez
                     }
                     item.IvaDR = AddDecimals(Math.Round(totalItem * 0.16f, 2).ToString());
                 }
-                lblTotal.Content = total.ToString("0.00");
+                lblTotal.Content = "Total: " + total.ToString("0.00");
+                lblTotalISR.Content = "ISR: " + totalIsr.ToString("0.00");
+                lblTotalIVA.Content = "IVA: " + totalIva.ToString("0.00");
 
                 IvaDRTotal = float.Parse(Math.Round(totalIva, 2).ToString());
                 ISRTotal = float.Parse(Math.Round(totalIsr, 2).ToString());
@@ -2221,11 +2227,14 @@ namespace ImpresosAlvarez
             {
                 FacturaComplemento f = (FacturaComplemento)dgFacturas.SelectedItem;
 
-                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                if (f != null)
                 {
-                    _parcialidades = dbContext.Parcialidades.Where(P => P.id_factura == f.IdFactura).ToList();
-                    dgParcialidades.ItemsSource = null;
-                    dgParcialidades.ItemsSource = _parcialidades;
+                    using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                    {
+                        _parcialidades = dbContext.Parcialidades.Where(P => P.id_factura == f.IdFactura).ToList();
+                        dgParcialidades.ItemsSource = null;
+                        dgParcialidades.ItemsSource = _parcialidades;
+                    }
                 }
             }
             catch (Exception exc)
@@ -2370,6 +2379,51 @@ namespace ImpresosAlvarez
             catch (Exception exc)
             {
                 MessageBox.Show("ERROR " + exc.Message);
+            }
+        }
+
+        private void tbBuscarFactura_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (tbBuscarFactura.Text.Length > 0)
+                {
+                    String NumeroFactura = tbBuscarFactura.Text;
+                    if (tbClientes.SelectedItem != null)
+                    {
+                        Clientes c = (Clientes)tbClientes.SelectedItem;
+                        Contribuyentes cb = (Contribuyentes)cbContribuyentes.SelectedItem;
+
+                        using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                        {
+                            List<FacturaComplemento> facts = dbContext.Facturas.Join(
+                                    dbContext.FacturaDigital,
+                                    f => f.id_factura,
+                                    fd => fd.id_factura,
+                                    (f, fd) => new FacturaComplemento
+                                    {
+                                        IdFactura = f.id_factura,
+                                        IdCliente = f.id_cliente,
+                                        IdContribuyente = f.id_contribuyente,
+                                        Numero = f.numero,
+                                        Estado = f.estado,
+                                        XML = fd.xml,
+                                        SubTotal = (float)f.subtotal,
+                                        Total = (float)f.total,
+                                        Pagada = f.pagada
+                                    }
+                                )
+                                .Where(F => F.IdCliente == c.id_cliente && F.Estado == "ACTIVO" && F.IdContribuyente == cb.id_contribuyente && F.Numero == NumeroFactura)
+                                .ToList();
+
+                            dgFacturas.ItemsSource = facts;
+                        }
+                    }
+                }
+                else
+                {
+                    ObtenerFacturas();
+                }
             }
         }
     }
