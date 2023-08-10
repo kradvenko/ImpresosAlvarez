@@ -772,7 +772,18 @@ namespace ImpresosAlvarez
 
             xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Complemento//pago20:Pagos//@TotalTrasladosBaseIVA16", comNms);
             //xAttrib.Value = (Total - IvaDRTotal + ISRTotal).ToString();
-            xAttrib.Value = Math.Round(Total - Math.Round(IvaDRTotal, 2) + ISRTotal, 2).ToString();
+            /*
+            double ivadr = IvaDRTotal;
+            xAttrib.Value = Math.Round(Total - ivadr + ISRTotal, 2).ToString();
+            xAttrib.Value = AddDecimals(xAttrib.Value);
+            */
+            double ivadr = 0;
+
+            foreach (ComplementoPagoData item in dgComplemento.Items)
+            {
+                ivadr = ivadr + Math.Round(float.Parse(item.Pagado) - float.Parse(item.IvaDR) + float.Parse(item.ISR), 2);
+            }
+            xAttrib.Value = Math.Round(ivadr, 2).ToString();
             xAttrib.Value = AddDecimals(xAttrib.Value);
 
             xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Complemento//pago20:Pagos//@TotalTrasladosImpuestoIVA16", comNms);
@@ -1053,8 +1064,9 @@ namespace ImpresosAlvarez
             XmlNode xTrasladoP = xCom.CreateNode(XmlNodeType.Element, "pago20", "TrasladoP", "http://www.sat.gob.mx/Pagos20");
 
             xa = xCom.CreateAttribute("BaseP");
-            xa.Value = Math.Round(Total - IvaDRTotal + ISRTotal, 2).ToString();
+            //xa.Value = Math.Round(Total - IvaDRTotal + ISRTotal, 2).ToString();
             //xa.Value = (Total - IvaDRTotal + ISRTotal).ToString();
+            xa.Value = Math.Round(ivadr, 2).ToString();
             xa.Value = AddDecimals(xa.Value);
             xTrasladoP.Attributes.Append(xa);
 
