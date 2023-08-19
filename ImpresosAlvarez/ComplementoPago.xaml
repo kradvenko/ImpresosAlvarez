@@ -120,6 +120,7 @@
         </DataGrid>
         
         <Button x:Name="btnAgregarTodos" Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Agregar selección" Click="btnAgregarTodos_Click"></Button>
+        <Button x:Name="btnVerFactura" Grid.Row="5" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Ver Factura" Click="btnVerFactura_Click"></Button>
 
         <Button x:Name="btnBorrarComplemento" Grid.Row="6" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Borrar complemento" Click="btnBorrarComplemento_Click"></Button>
 

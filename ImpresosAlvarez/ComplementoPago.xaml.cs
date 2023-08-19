@@ -1557,6 +1557,7 @@ namespace ImpresosAlvarez
                     .Add(new Paragraph(_clienteElegido.codigo_postal)));
 
                 //Renglón
+                /*
                 table.AddCell(new Cell(1, 2)
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                     .SetFont(fb)
@@ -1570,6 +1571,20 @@ namespace ImpresosAlvarez
                     .SetFontSize(fs)
                     .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                     .Add(new Paragraph(datosFacturaElectronica.metodoPagoTexto)));
+                */
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(fb)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("")));
+
+                table.AddCell(new Cell(1, 4)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("")));
 
                 table.AddCell(new Cell(1, 2)
                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
@@ -2435,6 +2450,19 @@ namespace ImpresosAlvarez
                 else
                 {
                     ObtenerFacturas();
+                }
+            }
+        }
+
+        private void btnVerFactura_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgFacturas.SelectedItem != null)
+            {
+                FacturaComplemento fact = (FacturaComplemento)dgFacturas.SelectedItem;
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    Facturas f = dbContext.Facturas.Where(T => T.id_factura == fact.IdFactura).First();
+                    VerFactura ver = new VerFactura(f);
                 }
             }
         }

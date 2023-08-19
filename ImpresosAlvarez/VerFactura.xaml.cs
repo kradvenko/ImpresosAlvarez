@@ -71,6 +71,13 @@ namespace ImpresosAlvarez
             this._factura = Factura;
         }
 
+        public VerFactura(Facturas Factura)
+        {
+            InitializeComponent();
+            this._parent = null;
+            this._factura = Factura;
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             try
@@ -124,6 +131,7 @@ namespace ImpresosAlvarez
                     lblEstado.Content = _factura.estado;
 
                     datosFacturaDigital = dbContext.FacturaDigital.Where(FD => FD.id_factura == _factura.id_factura).FirstOrDefault();
+                    lblMetodoPago.Content = datosFacturaDigital.forma_pago;
 
                     CargarDatosFactura();
                 }

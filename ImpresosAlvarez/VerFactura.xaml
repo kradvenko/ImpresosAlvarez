@@ -59,7 +59,10 @@
         </ComboBox>
         <Label Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Folio"></Label>
         <Label x:Name="lblFolio" Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldred}" Content="-"></Label>
-        
+
+        <Label Grid.Column="6" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Método pago"></Label>
+        <Label x:Name="lblMetodoPago" Grid.Column="7" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldred}" Content="-"></Label>
+
         <Label Grid.Column="4" Grid.Row="4" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Estado"></Label>
         <Label x:Name="lblEstado" Grid.Column="5" Grid.Row="4" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldred}" Content="-"></Label>
        
