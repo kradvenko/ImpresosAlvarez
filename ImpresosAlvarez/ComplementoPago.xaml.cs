@@ -118,7 +118,7 @@ namespace ImpresosAlvarez
                 cbFormasPago.DisplayMemberPath = "FormaPago";
             }
 
-            cbMetodoPago.SelectedIndex = 0;
+            //cbMetodoPago.SelectedIndex = 0;
             dtpFechaPagoComplemento.SelectedDate = DateTime.Now;
             cbFormasPago.SelectedIndex = 0;
 
@@ -2039,6 +2039,7 @@ namespace ImpresosAlvarez
 
         private void cbMetodoPago_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            /*
             if (cbMetodoPago.SelectedIndex == 0)
             {
                 datosFacturaElectronica.metodoPago = "PUE";
@@ -2049,6 +2050,7 @@ namespace ImpresosAlvarez
                 datosFacturaElectronica.metodoPago = "PPD";
                 datosFacturaElectronica.metodoPagoTexto = "Pago en parcialidades o diferido";
             }
+            */
         }
         private void EnviarPorCorreo()
         {
