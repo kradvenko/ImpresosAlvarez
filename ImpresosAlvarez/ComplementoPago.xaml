@@ -69,11 +69,13 @@
 
         <Label Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Forma pago"></Label>
         <ComboBox x:Name="cbFormasPago" Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="1" SelectionChanged="cbFormasPago_SelectionChanged" Style="{StaticResource ComboBoxFlatStyle}"></ComboBox>
-        <Label Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Metodo de pago"></Label>
+        <!--
+        <Label Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Metodo de pago"></Label>        
         <ComboBox x:Name="cbMetodoPago" Grid.Column="5" Grid.Row="2" Grid.ColumnSpan="1" SelectionChanged="cbMetodoPago_SelectionChanged" Style="{StaticResource ComboBoxFlatStyle}">
             <ComboBoxItem>Pago en una sola exhibición</ComboBoxItem>
             <ComboBoxItem>Pago en parcialidades o diferido</ComboBoxItem>
         </ComboBox>
+        -->
         <Label Grid.Column="6" Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Fecha"></Label>
         <DatePicker x:Name="dtpFechaPagoComplemento" Grid.Column="7" Grid.Row="2"></DatePicker>
 

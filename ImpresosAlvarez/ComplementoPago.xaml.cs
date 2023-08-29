@@ -645,6 +645,7 @@ namespace ImpresosAlvarez
                 xDocto.Attributes.Append(xa);
 
                 xa = xCom.CreateAttribute("MetodoDePagoDR");
+                /*
                 if (cbMetodoPago.SelectedIndex == 0)
                 {
                     datosFacturaElectronica.metodoPago = "PUE";
@@ -657,6 +658,7 @@ namespace ImpresosAlvarez
                 xa.Value = datosFacturaElectronica.metodoPago;
                 xDocto.Attributes.Append(xa);
                 item.MetodoPagoDR = xa.Value;
+                */
 
                 xa = xCom.CreateAttribute("NumParcialidad");
                 xa.Value = item.Parcialidad;
