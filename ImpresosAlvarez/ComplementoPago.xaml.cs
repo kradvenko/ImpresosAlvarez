@@ -2376,7 +2376,8 @@ namespace ImpresosAlvarez
                 ActualizarParcialidad();
                 Thread email = new Thread(EnviarPorCorreo);
                 email.Start();
-                this.Close();
+                //this.Close();
+                LimpiarFormulario();
                 //EnviarPorCorreo();
             }
         }
@@ -2469,6 +2470,14 @@ namespace ImpresosAlvarez
                     VerFactura ver = new VerFactura(f);
                 }
             }
+        }
+
+        private void LimpiarFormulario()
+        {
+            dgComplemento.ItemsSource = null;
+            _complementos = new List<ComplementoPagoData>();
+            dgParcialidades.ItemsSource = null;
+            _parcialidades = new List<Parcialidades>();
         }
     }
 }

@@ -90,6 +90,26 @@
         <TextBox x:Name="tbBuscarFactura" Grid.Column="1" Grid.Row="3" Style="{StaticResource TextBox01}" KeyUp="tbBuscarFactura_KeyUp"></TextBox>
 
         <DataGrid x:Name="dgFacturas" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="6" Grid.RowSpan="2" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dgFacturas_SelectionChanged">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Pagada}" Value="SI">
+                            <Setter Property="Background" Value="#15BAE8"></Setter>
+                            <Setter Property="Foreground" Value="#FFFFFF"></Setter>
+                            <Setter Property="Height" Value="30"/>
+                            <Setter Property="FontSize" Value="13" />
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Pagada}" Value="NO">
+                            <Setter Property="Background" Value="White"></Setter>
+                            <Setter Property="Foreground" Value="Black"></Setter>
+                            <Setter Property="Height" Value="30"/>
+                            <Setter Property="FontSize" Value="13" />
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Número" Binding="{Binding Path=Numero}" Width="*"></DataGridTextColumn>                
                 <DataGridTextColumn Header="Total" Binding="{Binding Path=Total}" Width="*"></DataGridTextColumn>
