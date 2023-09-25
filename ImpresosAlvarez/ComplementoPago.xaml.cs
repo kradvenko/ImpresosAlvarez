@@ -164,12 +164,23 @@ namespace ImpresosAlvarez
                                 XML = fd.xml,
                                 SubTotal = (float)f.subtotal,
                                 Total = (float)f.total,
-                                Pagada = f.pagada
+                                Pagada = f.pagada,
+                                IdFormaPagoStr = fd.forma_pago
                             }
                         )
                         //.Where(F => F.IdCliente == c.id_cliente && F.Estado == "ACTIVO" && F.IdContribuyente == cb.id_contribuyente && F.Pagada == "NO")
                         .Where(F => F.IdCliente == c.id_cliente && F.Estado == "ACTIVO" && F.IdContribuyente == cb.id_contribuyente)
                         .ToList();
+
+                    List<FormasPago> FormasPago = dbContext.FormasPago.ToList();
+
+                    foreach (FacturaComplemento item in facts)
+                    {
+                        if (item.IdFormaPagoStr != "" && item.IdFormaPagoStr != null)
+                        {
+                            item.FormaPago = FormasPago.Where(fp => fp.Clave == item.IdFormaPagoStr).First().FormaPago;
+                        }
+                    }
 
                     dgFacturas.ItemsSource = facts;
                 }
@@ -2442,11 +2453,19 @@ namespace ImpresosAlvarez
                                         XML = fd.xml,
                                         SubTotal = (float)f.subtotal,
                                         Total = (float)f.total,
-                                        Pagada = f.pagada
+                                        Pagada = f.pagada,
+                                        IdFormaPagoStr = fd.forma_pago
                                     }
                                 )
                                 .Where(F => F.IdCliente == c.id_cliente && F.Estado == "ACTIVO" && F.IdContribuyente == cb.id_contribuyente && F.Numero == NumeroFactura)
                                 .ToList();
+
+                            List<FormasPago> FormasPago = dbContext.FormasPago.ToList();
+
+                            foreach (FacturaComplemento item in facts)
+                            {                                
+                                item.FormaPago = FormasPago.Where(fp => fp.Clave == item.IdFormaPagoStr).First().FormaPago;
+                            }
 
                             dgFacturas.ItemsSource = facts;
                         }

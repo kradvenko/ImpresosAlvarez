@@ -115,6 +115,7 @@
                 <DataGridTextColumn Header="Total" Binding="{Binding Path=Total}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Pagada" Binding="{Binding Path=Pagada}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Estado" Binding="{Binding Path=Estado}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Forma Pago" Binding="{Binding Path=FormaPago}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 

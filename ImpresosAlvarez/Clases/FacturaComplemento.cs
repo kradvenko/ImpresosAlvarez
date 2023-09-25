@@ -18,12 +18,15 @@ namespace ImpresosAlvarez.Clases
         public float Total { get; set; }
         public String Pagada { get; set; }
         public float IVA { get; set; }
+        public String IdFormaPagoStr { get; set; }
+        public int IdFormaPago { get; set; }
+        public String FormaPago { get; set; }
 
         public FacturaComplemento()
         {
 
         }
-        public FacturaComplemento(int IdFactura, int IdCliente, int IdContribuyente, String Numero, String Estado, String XML, float SubTotal, float Total, String Pagada, float IVA)
+        public FacturaComplemento(int IdFactura, int IdCliente, int IdContribuyente, String Numero, String Estado, String XML, float SubTotal, float Total, String Pagada, float IVA, String IdFormaPagoStr, int IdFormaPago, String FormaPago)
         {
             this.IdFactura = IdFactura;
             this.IdCliente = IdCliente;
@@ -35,6 +38,9 @@ namespace ImpresosAlvarez.Clases
             this.Total = Total;
             this.Pagada = Pagada;
             this.IVA = IVA;
+            this.IdFormaPagoStr = IdFormaPagoStr;
+            this.IdFormaPago = int.Parse(IdFormaPagoStr);
+            this.FormaPago = FormaPago;
         }
 
     }
