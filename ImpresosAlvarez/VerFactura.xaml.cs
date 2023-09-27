@@ -583,7 +583,8 @@ namespace ImpresosAlvarez
                 .SetFont(fb)
                 .SetFontSize(fs)
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Fecha: " + DateTime.Today.ToShortDateString())));
+                //.Add(new Paragraph("Fecha: " + DateTime.Today.ToShortDateString())));
+                .Add(new Paragraph("Fecha: " + datosFacturaElectronica.fechaExpedicion.Substring(0, 10))));
 
             //Renglon
 
