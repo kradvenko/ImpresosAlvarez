@@ -120,12 +120,26 @@
         </DataGrid>
 
         <DataGrid x:Name="dgParcialidades" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="6" Grid.RowSpan="2" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding sello_sat}" Value="SIN TIMBRAR">
+                            <Setter Property="Background" Value="#FFE81515"></Setter>
+                            <Setter Property="Foreground" Value="#FFFFFF"></Setter>
+                            <Setter Property="Height" Value="30"/>
+                            <Setter Property="FontSize" Value="13" />
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Folio" Binding="{Binding Path=folio}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Fecha" Binding="{Binding Path=fecha}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Anterior" Binding="{Binding Path=anterior}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Pagado" Binding="{Binding Path=pagado}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Insoluto" Binding="{Binding Path=insoluto}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Insoluto" Binding="{Binding Path=sello_sat}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 

@@ -1424,7 +1424,7 @@ namespace ImpresosAlvarez
                     .SetFont(fb)
                     .SetFontSize(fs)
                     .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("Fecha: " + DateTime.Today.ToShortDateString())));
+                    .Add(new Paragraph("Fecha de pago: " + dtpFechaPagoComplemento.SelectedDate.Value.ToShortDateString())));
 
                 //Renglon
 
@@ -2274,6 +2274,15 @@ namespace ImpresosAlvarez
                     using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                     {
                         _parcialidades = dbContext.Parcialidades.Where(P => P.id_factura == f.IdFactura).ToList();
+
+                        foreach (Parcialidades item in _parcialidades)
+                        {
+                            if (item.sello_sat == null)
+                            {
+                                item.sello_sat = "SIN TIMBRAR";
+                            }
+                        }
+
                         dgParcialidades.ItemsSource = null;
                         dgParcialidades.ItemsSource = _parcialidades;
                     }
