@@ -132,6 +132,7 @@ namespace ImpresosAlvarez
             if (tbClientes.SelectedItem != null)
             {
                 _clienteElegido = (Clientes)tbClientes.SelectedItem;
+                lblNombre.Content = _clienteElegido.nombre_constancia;
                 ObtenerFacturas();
             }
         }

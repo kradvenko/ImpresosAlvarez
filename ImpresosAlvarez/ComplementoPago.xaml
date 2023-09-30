@@ -6,7 +6,7 @@
         xmlns:Syncfusion="clr-namespace:Syncfusion.Windows.Controls.Input;assembly=Syncfusion.SfInput.Wpf"
         xmlns:local="clr-namespace:ImpresosAlvarez"
         mc:Ignorable="d"
-        Title="Complemento de pago" Height="800" Width="1200" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" WindowState="Maximized">
+        Title="Complemento de pago" Height="700" Width="1200" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" WindowState="Maximized">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -17,9 +17,17 @@
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="0.5*"></RowDefinition>
             <RowDefinition Height="0.5*"></RowDefinition>
             <RowDefinition Height="0.5*"></RowDefinition>
             <RowDefinition Height="0.5*"></RowDefinition>
@@ -30,10 +38,10 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="8">
+        <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="12">
             <Border.Background>
                 <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                     <LinearGradientBrush.RelativeTransform>
@@ -67,8 +75,8 @@
             </Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
         </Syncfusion:SfTextBoxExt>
 
-        <Label Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Forma pago"></Label>
-        <ComboBox x:Name="cbFormasPago" Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="1" SelectionChanged="cbFormasPago_SelectionChanged" Style="{StaticResource ComboBoxFlatStyle}"></ComboBox>
+        <Label Grid.Column="6" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource LabelBoldBlack}" Content="Forma de pago"></Label>
+        <ComboBox x:Name="cbFormasPago" Grid.Column="6" Grid.Row="3" Grid.ColumnSpan="2" SelectionChanged="cbFormasPago_SelectionChanged" Style="{StaticResource ComboBoxFlatStyle}"></ComboBox>
         <!--
         <Label Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Metodo de pago"></Label>        
         <ComboBox x:Name="cbMetodoPago" Grid.Column="5" Grid.Row="2" Grid.ColumnSpan="1" SelectionChanged="cbMetodoPago_SelectionChanged" Style="{StaticResource ComboBoxFlatStyle}">
@@ -76,20 +84,20 @@
             <ComboBoxItem>Pago en parcialidades o diferido</ComboBoxItem>
         </ComboBox>
         -->
-        <Label Grid.Column="6" Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Fecha"></Label>
-        <DatePicker x:Name="dtpFechaPagoComplemento" Grid.Column="7" Grid.Row="2"></DatePicker>
+        <Label Grid.Column="8" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource LabelBoldBlack}" Content="Fecha de pago"></Label>
+        <DatePicker x:Name="dtpFechaPagoComplemento" Grid.Column="8" Grid.ColumnSpan="2" Grid.Row="3"></DatePicker>
 
-        <Label Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Nombre"></Label>
-        <Label x:Name="lblNombre" Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource LabelBlack}" Content=""></Label>
+        <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Nombre"></Label>
+        <Label x:Name="lblNombre" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" Style="{StaticResource LabelBlack}" Content=""></Label>
 
-        <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Contribuyente"></Label>
-        <ComboBox x:Name="cbContribuyentes" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MaxHeight="50" SelectionChanged="cbContribuyentes_SelectionChanged" Style="{StaticResource ComboBoxFlatStyle}">
+        <Label Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource LabelBoldBlack}" Content="Contribuyente"></Label>
+        <ComboBox x:Name="cbContribuyentes" Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MaxHeight="50" SelectionChanged="cbContribuyentes_SelectionChanged" Style="{StaticResource ComboBoxFlatStyle}">
         </ComboBox>
 
-        <Label Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Buscar factura"></Label>
-        <TextBox x:Name="tbBuscarFactura" Grid.Column="1" Grid.Row="3" Style="{StaticResource TextBox01}" KeyUp="tbBuscarFactura_KeyUp"></TextBox>
+        <Label Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource LabelBoldBlack}" Content="Buscar factura"></Label>
+        <TextBox x:Name="tbBuscarFactura" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource TextBox01}" KeyUp="tbBuscarFactura_KeyUp"></TextBox>
 
-        <DataGrid x:Name="dgFacturas" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="6" Grid.RowSpan="2" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dgFacturas_SelectionChanged">
+        <DataGrid x:Name="dgFacturas" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="10" Grid.RowSpan="3" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="dgFacturas_SelectionChanged">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
@@ -119,7 +127,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid x:Name="dgParcialidades" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="6" Grid.RowSpan="2" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid x:Name="dgParcialidades" Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="10" Grid.RowSpan="3" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
@@ -143,7 +151,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid x:Name="dgComplemento" Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="8" Grid.RowSpan="3" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="dgComplemento_MouseDoubleClick" KeyUp="dgComplemento_KeyUp">
+        <DataGrid x:Name="dgComplemento" Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="8" Grid.RowSpan="3" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="dgComplemento_MouseDoubleClick" KeyUp="dgComplemento_KeyUp">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="UUID" Binding="{Binding Path=UUID}" Width="*"></DataGridTextColumn>                
                 <DataGridTextColumn Header="Folio" Binding="{Binding Path=Folio}" Width="*"></DataGridTextColumn>
@@ -156,19 +164,18 @@
             </DataGrid.Columns>
         </DataGrid>
         
-        <Button x:Name="btnAgregarTodos" Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Agregar selección" Click="btnAgregarTodos_Click"></Button>
-        <Button x:Name="btnVerFactura" Grid.Row="5" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Ver Factura" Click="btnVerFactura_Click"></Button>
+        <Button x:Name="btnAgregarTodos" Grid.Row="6" Grid.Column="10" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Agregar selección" Click="btnAgregarTodos_Click"></Button>
+        <Button x:Name="btnVerFactura" Grid.Row="7" Grid.Column="10" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Ver Factura" Click="btnVerFactura_Click"></Button>
+        <Button x:Name="btnBorrarComplemento" Grid.Row="9" Grid.Column="10" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Borrar complemento" Click="btnBorrarComplemento_Click"></Button>
 
-        <Button x:Name="btnBorrarComplemento" Grid.Row="6" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Borrar complemento" Click="btnBorrarComplemento_Click"></Button>
-
-        <Button x:Name="btnPagarTodos" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Pagar todos" Click="btnPagarTodos_Click"></Button>
+        <Button x:Name="btnPagarTodos" Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Pagar todos" Click="btnPagarTodos_Click"></Button>
         <!--<Button x:Name="btnCrearComplemento" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Generar Complemento" Click="btnCrearComplemento_Click"></Button>-->
-        <Button x:Name="btnCrearComplemento40" Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Generar Complemento 2.0" Click="btnCrearComplemento40_Click"></Button>
-        <Button x:Name="btnCancelar" Grid.Row="11" Grid.Column="7" Grid.ColumnSpan="1" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cerrar" Click="btnCancelar_Click"></Button>
+        <Button x:Name="btnCrearComplemento40" Grid.Row="15" Grid.Column="1" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Generar Complemento 2.0" Click="btnCrearComplemento40_Click"></Button>
+        <Button x:Name="btnCancelar" Grid.Row="15" Grid.Column="10" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cerrar" Click="btnCancelar_Click"></Button>
         
-        <Label x:Name="lblTotal" Grid.Column="3" Grid.Row="11" Grid.ColumnSpan="1" Style="{StaticResource LabelBlack}" Content="$ 0"></Label>
-        <Label x:Name="lblTotalIVA" Grid.Column="4" Grid.Row="11" Grid.ColumnSpan="1" Style="{StaticResource LabelBlack}" Content="$ 0"></Label>
-        <Label x:Name="lblTotalISR" Grid.Column="5" Grid.Row="11" Grid.ColumnSpan="1" Style="{StaticResource LabelBlack}" Content="$ 0"></Label>
+        <Label x:Name="lblTotal" Grid.Column="3" Grid.Row="15" Grid.ColumnSpan="1" Style="{StaticResource LabelBlack}" Content="$ 0"></Label>
+        <Label x:Name="lblTotalIVA" Grid.Column="4" Grid.Row="15" Grid.ColumnSpan="1" Style="{StaticResource LabelBlack}" Content="$ 0"></Label>
+        <Label x:Name="lblTotalISR" Grid.Column="5" Grid.Row="15" Grid.ColumnSpan="1" Style="{StaticResource LabelBlack}" Content="$ 0"></Label>
     </Grid>
 </Window>
 
