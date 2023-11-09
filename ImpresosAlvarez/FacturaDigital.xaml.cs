@@ -275,7 +275,7 @@ namespace ImpresosAlvarez
             lblSubtotal.Content = "$ " + Subtotal.ToString();
             lblISR.Content = "$ " + RetencionIsr.ToString();
             lblIVA.Content = "$ " + iva.ToString();
-            lblTotal.Content = "$ " + Total.ToString() + " (" + ConvertirALetra(Total.ToString()) + ") ";
+            lblTotal.Content = "$ " + Math.Round(Total, 2).ToString() + " (" + ConvertirALetra(Total.ToString()) + ") ";
         }
 
         private void btnAgregarConcepto_Click(object sender, RoutedEventArgs e)
@@ -2789,7 +2789,7 @@ namespace ImpresosAlvarez
             datosFacturaElectronica.subTotal = xAttrib.Value;
 
             xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@Total", nms);
-            xAttrib.Value = AddDecimals(Total.ToString());
+            xAttrib.Value = AddDecimals(Math.Round(Total, 2).ToString());
             datosFacturaElectronica.total = xAttrib.Value;
 
             xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@LugarExpedicion", nms);
