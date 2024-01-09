@@ -2109,7 +2109,8 @@ namespace ImpresosAlvarez
                         Configuracion config = dbContext.Configuracion.Single();
                         MailMessage mail = new MailMessage();
                         //SmtpClient SmtpServer = new SmtpClient("smtp.live.com");
-                        SmtpClient SmtpServer = new SmtpClient("smtp.office365.com");
+                        //SmtpClient SmtpServer = new SmtpClient("smtp.office365.com");
+                        SmtpClient SmtpServer = new SmtpClient("smtp-mail.outlook.com");
                         //mail.From = new MailAddress("alvarezimpresores_16@hotmail.com");
                         mail.From = new MailAddress(config.correo);
 
@@ -2132,6 +2133,7 @@ namespace ImpresosAlvarez
 
                         SmtpServer.Port = 587;
                         //SmtpServer.Port = 25;
+                        SmtpServer.UseDefaultCredentials = false;
                         SmtpServer.Credentials = new System.Net.NetworkCredential(config.usuario_correo, config.password_correo);
                         SmtpServer.EnableSsl = true;
 
@@ -2144,6 +2146,46 @@ namespace ImpresosAlvarez
             {
                 MessageBox.Show(exc.Message);
             }            
+        }
+
+        private void EnviarPorCorreoTEST()
+        {
+            try
+            {
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    Configuracion config = dbContext.Configuracion.Single();
+                    MailMessage mail = new MailMessage();
+                    //SmtpClient SmtpServer = new SmtpClient("smtp.live.com");
+                    SmtpClient SmtpServer = new SmtpClient("smtp-mail.outlook.com");
+                    //SmtpClient SmtpServer = new SmtpClient("smtp.office365.com");
+                    //mail.From = new MailAddress("alvarezimpresores_16@hotmail.com");
+                    //mail.From = new MailAddress("kradvenko@outlook.com");
+                    mail.From = new MailAddress(config.correo);
+
+                    mail.To.Add("kradvenko@gmail.com");
+                    mail.Subject = "Envío de información de facturas - Alvarez Impresores";
+                    mail.Body = "Saludos, envío la información de las facturas. Recuerde: después de 72 horas no se pueden cancelar.";
+
+                    System.Net.Mail.Attachment attachment;
+                    attachment = new System.Net.Mail.Attachment(@"C:\Impresos\nota.xml");
+                    mail.Attachments.Add(attachment);
+
+                    SmtpServer.Port = 587;
+                    //SmtpServer.Port = 25;
+                    SmtpServer.UseDefaultCredentials = false;
+                    SmtpServer.Credentials = new System.Net.NetworkCredential(config.usuario_correo, config.password_correo);
+                    //SmtpServer.Credentials = new System.Net.NetworkCredential("kradvenko@outlook.com", "R4t6u7i9");
+                    SmtpServer.EnableSsl = true;
+
+                    SmtpServer.Send(mail);
+                    MessageBox.Show("Correo enviado.");
+                }
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
         }
 
         private void btnBuscarOrdenes_Click(object sender, RoutedEventArgs e)
@@ -2565,7 +2607,7 @@ namespace ImpresosAlvarez
         }
 
         private void btnFacturar4_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             if (MessageBox.Show("Desea facturar en versión 4.0?", "ATENCION", MessageBoxButton.YesNo) == MessageBoxResult.No)
             {
                 return;

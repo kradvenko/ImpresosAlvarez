@@ -2077,7 +2077,8 @@ namespace ImpresosAlvarez
                         Configuracion config = dbContext.Configuracion.Single();
                         MailMessage mail = new MailMessage();
                         //SmtpClient SmtpServer = new SmtpClient("smtp.live.com");
-                        SmtpClient SmtpServer = new SmtpClient("smtp.office365.com");
+                        //SmtpClient SmtpServer = new SmtpClient("smtp.office365.com");
+                        SmtpClient SmtpServer = new SmtpClient("smtp-mail.outlook.com");
                         //mail.From = new MailAddress("alvarezimpresores_16@hotmail.com");
                         mail.From = new MailAddress(config.correo);
 
@@ -2099,6 +2100,7 @@ namespace ImpresosAlvarez
                         }
 
                         SmtpServer.Port = 587;
+                        SmtpServer.UseDefaultCredentials = false;
                         SmtpServer.Credentials = new System.Net.NetworkCredential(config.usuario_correo, config.password_correo);
                         SmtpServer.EnableSsl = true;
 
