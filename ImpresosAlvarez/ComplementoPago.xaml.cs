@@ -784,6 +784,12 @@ namespace ImpresosAlvarez
             xAttrib.Value = Math.Round(Total, 2).ToString();
             xAttrib.Value = AddDecimals(xAttrib.Value);
 
+            if (xAttrib.Value != Total.ToString())
+            {
+                xAttrib.Value = Total.ToString();
+                xAttrib.Value = AddDecimals(xAttrib.Value);
+            }
+
             xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Complemento//pago20:Pagos//@TotalTrasladosBaseIVA16", comNms);
             //xAttrib.Value = (Total - IvaDRTotal + ISRTotal).ToString();
             /*
