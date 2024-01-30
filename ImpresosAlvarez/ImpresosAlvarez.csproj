@@ -28,7 +28,7 @@
     <UpdateUrl>http://impresosalvarez.atwebpages.com/</UpdateUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>136</ApplicationRevision>
+    <ApplicationRevision>137</ApplicationRevision>
     <ApplicationVersion>1.3.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -167,6 +167,7 @@
     </Compile>
     <Compile Include="Clases\Actualizaciones.cs" />
     <Compile Include="Clases\CalcElement.cs" />
+    <Compile Include="Clases\ClienteB.cs" />
     <Compile Include="Clases\ComplementoPagoData.cs" />
     <Compile Include="Clases\ConceptoFactura.cs" />
     <Compile Include="Clases\CotizacionLlenado.cs" />

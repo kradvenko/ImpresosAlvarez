@@ -88,6 +88,8 @@ namespace ImpresosAlvarez
 
         public bool PagoCompleto = true;
         bool PrimeraParcialidad = true;
+
+        List<ClienteB> ListaClientes;
         
         public ComplementoPago()
         {
@@ -100,8 +102,23 @@ namespace ImpresosAlvarez
             datosFacturaElectronica.pagos = new List<ComplementoPagoData>();
             using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
             {
+                ListaClientes = new List<ClienteB>();
                 _clientes = dbContext.Clientes.ToList();
-                tbClientes.AutoCompleteSource = _clientes;
+
+				foreach (Clientes item in _clientes)
+				{
+                    ClienteB cb = new ClienteB();
+                    cb.IdCliente = item.id_cliente;
+                    cb.NombreCliente = item.nombre;
+                    cb.Pseudonimo = item.pseudonimo;
+                    cb.Busqueda = item.nombre + " " + item.pseudonimo;
+                    cb.NombreMostrar = item.nombre + " - " + item.pseudonimo;
+
+                    ListaClientes.Add(cb);
+                }
+
+                //tbClientes.AutoCompleteSource = _clientes;
+                tbClientes.AutoCompleteSource = ListaClientes;
 
                 _contribuyentes = dbContext.Contribuyentes.ToList();
                 cbContribuyentes.ItemsSource = _contribuyentes;
@@ -131,7 +148,15 @@ namespace ImpresosAlvarez
         {
             if (tbClientes.SelectedItem != null)
             {
-                _clienteElegido = (Clientes)tbClientes.SelectedItem;
+                ClienteB cb = (ClienteB)tbClientes.SelectedItem;
+                //_clienteElegido = (Clientes)tbClientes.SelectedItem;
+                
+
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    _clienteElegido = dbContext.Clientes.Where(C => C.id_cliente == cb.IdCliente).First();
+                }
+
                 lblNombre.Content = _clienteElegido.nombre_constancia;
                 ObtenerFacturas();
             }
@@ -141,7 +166,8 @@ namespace ImpresosAlvarez
         {
             if (tbClientes.SelectedItem != null)
             {
-                Clientes c = (Clientes)tbClientes.SelectedItem;
+                //Clientes c = (Clientes)tbClientes.SelectedItem;
+                Clientes c = _clienteElegido;
                 Contribuyentes cb = (Contribuyentes)cbContribuyentes.SelectedItem;
 
                 using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
@@ -784,11 +810,13 @@ namespace ImpresosAlvarez
             xAttrib.Value = Math.Round(Total, 2).ToString();
             xAttrib.Value = AddDecimals(xAttrib.Value);
 
+            /*
             if (xAttrib.Value != Total.ToString())
             {
                 xAttrib.Value = Total.ToString();
                 xAttrib.Value = AddDecimals(xAttrib.Value);
             }
+            */
 
             xAttrib = (XmlAttribute)xCom.SelectSingleNode("//cfdi:Complemento//pago20:Pagos//@TotalTrasladosBaseIVA16", comNms);
             //xAttrib.Value = (Total - IvaDRTotal + ISRTotal).ToString();

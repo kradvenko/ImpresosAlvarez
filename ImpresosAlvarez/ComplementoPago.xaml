@@ -61,7 +61,7 @@
         <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Buscar Cliente"></Label>
         <Syncfusion:SfTextBoxExt Grid.Column="1" Grid.Row="1" Margin="2" x:Name="tbClientes"
                              Watermark="Escribe el nombre del cliente."                                     
-                             AutoCompleteMode="SuggestAppend" AutoCompleteSource="{Binding _clientes}" SearchItemPath="pseudonimo"
+                             AutoCompleteMode="SuggestAppend" AutoCompleteSource="{Binding ListaClientes}" SearchItemPath="Busqueda"
                              SuggestionMode="Contains"
                              WatermarkTemplate="{StaticResource WatermarkTemplate}"                             
                              SelectedItemChanged="tbClientes_SelectedItemChanged"
@@ -69,7 +69,7 @@
             <Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding pseudonimo}" Margin="3 0 0 0" />
+                        <TextBlock Text="{Binding NombreMostrar}" Margin="3 0 0 0" />
                     </StackPanel>
                 </DataTemplate>
             </Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
