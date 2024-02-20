@@ -364,8 +364,9 @@ namespace ImpresosAlvarez
                 datosFacturaElectronica.domicilioEmisorEstado = "NAY";
                 datosFacturaElectronica.domicilioEmisorCodigoPostal = "63080";
             }
-
+            
             CargarXML4Template();
+            
             FacturacionElectronica40(false);
             ImprimirPDF(false);
             //EnviarPorCorreo();
@@ -2749,9 +2750,9 @@ namespace ImpresosAlvarez
                 XML = XML.Replace("Certificado=\"\"", "Certificado=\"" + certificadoStr + "\"");
 
                 File.WriteAllText(@"C:\Impresos\Facturacion\XML_4_0.xml", XML);
-
+                
                 GenerarXML40();
-
+                
                 System.Security.SecureString passwordSeguro = new System.Security.SecureString();
                 passwordSeguro.Clear();
                 foreach (char c in strLlavePwd.ToCharArray())
@@ -2759,10 +2760,12 @@ namespace ImpresosAlvarez
                 byte[] llavePrivadaBytes = File.ReadAllBytes(strPathLlave);
                 RSACryptoServiceProvider rsa = opensslkey.DecodeEncryptedPrivateKeyInfo(llavePrivadaBytes, passwordSeguro);
                 SHA256CryptoServiceProvider hasher = new SHA256CryptoServiceProvider();
+                
                 CadenaOriginal = GenerarCadenaOriginal40();
+                
                 byte[] bytesFirmados = rsa.SignData(Encoding.UTF8.GetBytes(CadenaOriginal), hasher);
                 strSello = Convert.ToBase64String(bytesFirmados);
-
+                
                 XML = XML.Replace("Sello=\"\"", "Sello=\"" + strSello + "\"");
 
                 File.WriteAllText(@"C:\Impresos\XML_4_0.xml", XML);
@@ -3208,19 +3211,20 @@ namespace ImpresosAlvarez
                 //Cargar el XML
                 StreamReader reader = new StreamReader(@"C:\Impresos\Facturacion\XML_4_0.xml");
                 XPathDocument myXPathDoc = new XPathDocument(reader);
-
+                
                 //Cargando el XSLT
                 XslCompiledTransform myXslTrans = new XslCompiledTransform();
                 myXslTrans.Load(@"C:\Impresos\Facturacion\XLS_4_0.xslt");
                 //myXslTrans.Load(@"C:\Impresos\cadenaoriginal_3_2.xslt");
-
+                
+                
 
                 StringWriter str = new StringWriter();
                 XmlTextWriter myWriter = new XmlTextWriter(str);
 
                 //Aplicando transformacion
                 myXslTrans.Transform(myXPathDoc, null, myWriter);
-
+                
                 //Resultado
                 cadenaOriginal = str.ToString();
                 cadenaOriginal = cadenaOriginal.Replace("\n", "").Replace("\r", "");
@@ -3230,6 +3234,7 @@ namespace ImpresosAlvarez
             catch (Exception exc)
             {
                 cadenaOriginal = exc.Message;
+                MessageBox.Show(exc.InnerException.Message + " - " + exc.Message);
             }
 
             return cadenaOriginal;
