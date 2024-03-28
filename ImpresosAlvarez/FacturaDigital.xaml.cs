@@ -1567,7 +1567,7 @@ namespace ImpresosAlvarez
 
             if (datosFacturaElectronica.IneTipoProceso.Length > 0)
             {
-                table.AddCell(new Cell(1, 8)
+                table.AddCell(new Cell(1, 9)
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
                     .SetFont(fb)
                     .SetFontSize(fs)
@@ -1575,7 +1575,7 @@ namespace ImpresosAlvarez
                     .SetBorderBottom(iText.Layout.Borders.Border.NO_BORDER)
                     .Add(new Paragraph("Complemento INE Tipo Proceso: ")));
 
-                table.AddCell(new Cell(1, 2)
+                table.AddCell(new Cell(1, 1)
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
                     .SetFont(fb)
                     .SetFontSize(fs)
@@ -3135,6 +3135,14 @@ namespace ImpresosAlvarez
 
             if (datosFacturaElectronica.IneTipoProceso.Length > 0)
             {
+                XmlNode xINEschema = xDoc.SelectSingleNode("//cfdi:Comprobante", nms);
+                xa = xINEschema.Attributes["xsi:schemaLocation"];
+                xa.Value = xa.Value + " http://www.sat.gob.mx/ine http://www.sat.gob.mx/sitio_internet/cfd/ine/ine11.xsd";
+
+                xa = xDoc.CreateAttribute("xmlns:ine");
+                xa.Value = "http://www.sat.gob.mx/ine";
+                xINEschema.Attributes.Append(xa);
+
                 XmlNode xComprobante = xDoc.SelectSingleNode("//cfdi:Comprobante", nms);
                 XmlNode xComplemento;
 
