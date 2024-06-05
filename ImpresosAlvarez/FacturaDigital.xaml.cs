@@ -3368,5 +3368,49 @@ namespace ImpresosAlvarez
             }
             return NuevoNumero;
         }
+
+        private void tbFacturaCancelada_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                int f;
+                if (int.TryParse(tbFacturaCancelada.Text, out f))
+                {
+                    using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                    {
+                        try
+                        {
+                            String nofactura = tbFacturaCancelada.Text;
+
+                            if (cbContribuyentes.SelectedItem == null)
+                            {
+                                MessageBox.Show("No ha elegido un contribuyente.");
+                                return;
+                            }
+                            Contribuyentes con = (Contribuyentes)cbContribuyentes.SelectedItem;
+
+                            Entity.Facturas fact = dbContext.Facturas.Where(F => F.numero == nofactura && F.id_contribuyente == con.id_contribuyente).First();
+
+
+                            Entity.FacturaDigital fac = dbContext.FacturaDigital.Where(F => F.id_factura == fact.id_factura).First();
+
+                            if (fac != null)
+                            {
+                                ElegirFacturaCancelada(fac);
+                            }
+                            else
+                            {
+                                MessageBox.Show("No se ha encontrado la factura.");
+                            }
+                            
+                        }
+                        catch (Exception exc)
+                        {
+                            MessageBox.Show(exc.Message);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
