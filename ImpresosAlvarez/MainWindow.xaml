@@ -531,7 +531,9 @@
             <Button x:Name="btnCalculadora" Grid.Row="4" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Calculadora" Click="btnCalculadora_Click"></Button>
             <Button x:Name="btnTrabajosEntregados" Grid.Row="4" Grid.Column="2" Style="{StaticResource btnInterfaz01}" Content="Trabajos Entregados" Click="btnTrabajosEntregados_Click"></Button>
             <Button x:Name="btnServiciosProductos" Grid.Row="4" Grid.Column="3" Style="{StaticResource btnInterfaz01}" Content="Control Servicios y Productos" Click="btnServiciosProductos_Click"></Button>
-            
+
+            <Button x:Name="btnUsuarios" Grid.Row="5" Grid.Column="1" Style="{StaticResource btnInterfaz01}" Content="Usuarios" Click="btnUsuarios_Click"></Button>
+
         </Grid>
 
         <Grid x:Name="gImpresion" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Margin="5" Visibility="Hidden">

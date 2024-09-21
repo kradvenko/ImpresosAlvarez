@@ -314,5 +314,10 @@ namespace ImpresosAlvarez
             Login login = new Login(this);
             login.ShowDialog();
         }
+
+        private void btnUsuarios_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
