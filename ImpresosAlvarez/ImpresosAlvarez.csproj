@@ -28,7 +28,7 @@
     <UpdateUrl>http://impresosalvarez.atwebpages.com/</UpdateUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>146</ApplicationRevision>
+    <ApplicationRevision>155</ApplicationRevision>
     <ApplicationVersion>1.3.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -210,6 +210,9 @@
     </Compile>
     <Compile Include="ControlServiciosProductos.xaml.cs">
       <DependentUpon>ControlServiciosProductos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ControlUsuarios.xaml.cs">
+      <DependentUpon>ControlUsuarios.xaml</DependentUpon>
     </Compile>
     <Compile Include="DisenoOrdenesPendientes.xaml.cs">
       <DependentUpon>DisenoOrdenesPendientes.xaml</DependentUpon>
@@ -591,6 +594,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ControlServiciosProductos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlUsuarios.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -35,7 +35,7 @@ namespace ImpresosAlvarez
         {
             using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
             {
-                _anteriores = dbContext.Ordenes.Where(A => A.id_cliente == ClienteElegido.id_cliente).ToList();
+                _anteriores = dbContext.Ordenes.Where(A => A.id_cliente == ClienteElegido.id_cliente).OrderByDescending(A => A.id_orden).ToList();
                 dgOrdenesAnteriores.ItemsSource = null;
                 dgOrdenesAnteriores.ItemsSource = _anteriores;
             }
@@ -63,6 +63,9 @@ namespace ImpresosAlvarez
                     _Parent.tbCostoAnterior.Text = Anterior.costo_anterior.ToString();
                     _Parent.tbNotas.Text = Anterior.otros_4;
                     _Parent.tbDescripcion.Text = Anterior.especificaciones;
+                    _Parent.tbOrdenAnterior.Text = Anterior.numero.ToString();
+                    _Parent.dtpFechaNegativo.Text = Anterior.fecha_negativo.ToString();
+                    
 
                     if (Anterior.pegado == "SI")
                     {
@@ -103,6 +106,18 @@ namespace ImpresosAlvarez
                     else
                     {
                         _Parent.chbBlanco.IsChecked = false;
+                    }
+                    if (Anterior.con_folio == "SI")
+                    {
+                        _Parent.cbConFolio.Text = "SI";
+                        int del = int.Parse(Anterior.al_numero);
+                        int al = del + (int)Anterior.cantidad;
+                        _Parent.tbDelNumero.Text = (del + 1).ToString();
+                        _Parent.tbAlNumero.Text = al.ToString();
+                    } 
+                    else
+                    {
+                        _Parent.cbConFolio.Text = "NO";
                     }
                     _Parent.RutaOrden = Anterior.ruta;
 

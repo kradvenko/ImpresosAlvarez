@@ -35,6 +35,7 @@ using System.Data;
 using ImpresosAlvarez.mx.facturacfdi.v33;
 //using ImpresosAlvarez.mx.facturacfdi.dev33;
 using System.Net.Mail;
+using System.Net;
 
 namespace ImpresosAlvarez
 {
@@ -2099,6 +2100,7 @@ namespace ImpresosAlvarez
 
         private void EnviarPorCorreo()
         {
+            /*
             try
             {
                 using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
@@ -2146,7 +2148,65 @@ namespace ImpresosAlvarez
             catch (Exception exc)
             {
                 MessageBox.Show(exc.Message);
-            }            
+            }     
+            */
+            String Respuesta = "";
+            try
+            {
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    List<Correos> correos = dbContext.Correos.Where(C => C.id_cliente == _clienteElegido.id_cliente).ToList();
+
+                    foreach (Correos item in correos)
+                    {
+                        var fromAddress = new MailAddress("alvarezimpresoresfacturacion@gmail.com", "Ticket");
+                        var toAddress = new MailAddress(item.correo, "-");
+                        string fromPassword = "pwiz gpht qqpj pjso ";
+                        string subject = "Envío de información de facturas - Alvarez Impresores";
+                        string body = "Saludos, envío la información de las facturas. Recuerde: después de 72 horas no se pueden cancelar.";
+
+                        var smtp = new SmtpClient
+                        {
+                            Host = "smtp.gmail.com",
+                            Port = 587,
+                            EnableSsl = true,
+                            DeliveryMethod = SmtpDeliveryMethod.Network,
+                            UseDefaultCredentials = false,
+                            Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                        };                        
+                        using (var message = new MailMessage(fromAddress, toAddress)
+                        {
+                            Subject = subject,
+                            Body = body,
+                            IsBodyHtml = false
+                        })
+                        {
+                            if (rutaPDF.Length > 0)
+                            {
+                                System.Net.Mail.Attachment attachment;
+                                attachment = new System.Net.Mail.Attachment(@rutaPDF);
+                                message.Attachments.Add(attachment);
+                            }
+                            if (rutaXML.Length > 0)
+                            {
+                                System.Net.Mail.Attachment attachment;
+                                attachment = new System.Net.Mail.Attachment(@rutaXML);
+                                message.Attachments.Add(attachment);
+                            }
+                            //message.Attachments.Add(new Attachment(@"C:\Motela\reportecancelados.pdf"));
+                            smtp.Send(message);
+
+                            MessageBox.Show("Correo enviado a " + item.correo);
+                        }
+                    }
+                }
+
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+            }
+        
         }
 
         private void EnviarPorCorreoTEST()

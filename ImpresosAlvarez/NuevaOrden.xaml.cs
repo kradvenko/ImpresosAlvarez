@@ -1503,5 +1503,13 @@ namespace ImpresosAlvarez
 
             }
         }
+
+        private void lblFolioOrden_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+            {
+                lblFolioOrden.Content = dbContext.Valores.First().numero_orden;
+            }
+        }
     }
 }

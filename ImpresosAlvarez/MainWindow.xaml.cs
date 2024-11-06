@@ -1,10 +1,12 @@
 ﻿using ImpresosAlvarez.Clases;
 using ImpresosAlvarez.Entity;
+using Syncfusion.Windows.Controls.Input;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -34,7 +36,7 @@ namespace ImpresosAlvarez
         {
 
             //04/01/20203
-            //Actualizaciones.Actualizacion1();
+            //Actualizaciones.Actualizacion1();            
 
             Login login = new Login(this);
             login.ShowDialog();
@@ -212,6 +214,7 @@ namespace ImpresosAlvarez
             gImpresion.Visibility = Visibility.Hidden;
             gInventario.Visibility = Visibility.Hidden;
             gTerminado.Visibility = Visibility.Hidden;
+            gAdministracion.Visibility = Visibility.Hidden;
         }
 
         private void btnExistencias_Click(object sender, RoutedEventArgs e)
@@ -226,6 +229,7 @@ namespace ImpresosAlvarez
             gImpresion.Visibility = Visibility.Hidden;
             gInventario.Visibility = Visibility.Visible;
             gTerminado.Visibility = Visibility.Hidden;
+            gAdministracion.Visibility = Visibility.Hidden;
         }
 
         private void btnEntradas_Click(object sender, RoutedEventArgs e)
@@ -246,6 +250,7 @@ namespace ImpresosAlvarez
             gImpresion.Visibility = Visibility.Visible;
             gInventario.Visibility = Visibility.Hidden;
             gTerminado.Visibility = Visibility.Hidden;
+            gAdministracion.Visibility = Visibility.Hidden;
         }
 
         private void btnTrabajosEnImpresion_Click(object sender, RoutedEventArgs e)
@@ -301,6 +306,7 @@ namespace ImpresosAlvarez
             gImpresion.Visibility = Visibility.Hidden;
             gInventario.Visibility = Visibility.Hidden;
             gTerminado.Visibility = Visibility.Visible;
+            gAdministracion.Visibility = Visibility.Hidden;
         }
 
         private void btnControlOrdenes_Click(object sender, RoutedEventArgs e)
@@ -318,6 +324,22 @@ namespace ImpresosAlvarez
         private void btnUsuarios_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void btnControlUsuarios_Click(object sender, RoutedEventArgs e)
+        {
+            ControlUsuarios usuarios = new ControlUsuarios();
+            usuarios.ShowDialog();
+        }
+
+        private void btnAdministracion_Click(object sender, RoutedEventArgs e)
+        {
+            gRecepcion.Visibility = Visibility.Hidden;
+            gImpresion.Visibility = Visibility.Hidden;
+            gTerminado.Visibility = Visibility.Hidden;
+            gDiseno.Visibility = Visibility.Hidden;
+            gInventario.Visibility = Visibility.Hidden;
+            gAdministracion.Visibility = Visibility.Visible;
         }
     }
 }

@@ -37,7 +37,7 @@
             <ComboBoxItem>URGENTE</ComboBoxItem>
         </ComboBox>
         <Label Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Folio"></Label>
-        <Label x:Name="lblFolioOrden" Grid.Column="5" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldred}" Content="-"></Label>
+        <Label x:Name="lblFolioOrden" Grid.Column="5" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldred}" Content="-" MouseDoubleClick="lblFolioOrden_MouseDoubleClick"></Label>
 
         <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Orden de trabajo"></Label>
         <Grid Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="6" Background="AliceBlue">
