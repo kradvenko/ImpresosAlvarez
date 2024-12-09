@@ -341,5 +341,11 @@ namespace ImpresosAlvarez
             gInventario.Visibility = Visibility.Hidden;
             gAdministracion.Visibility = Visibility.Visible;
         }
+
+        private void btnSeguimiento_Click(object sender, RoutedEventArgs e)
+        {
+            SeguimientoOrdenes seg = new SeguimientoOrdenes();
+            seg.ShowDialog();
+        }
     }
 }

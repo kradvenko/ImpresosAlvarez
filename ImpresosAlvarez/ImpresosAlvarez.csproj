@@ -28,7 +28,7 @@
     <UpdateUrl>http://impresosalvarez.atwebpages.com/</UpdateUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>155</ApplicationRevision>
+    <ApplicationRevision>157</ApplicationRevision>
     <ApplicationVersion>1.3.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -487,6 +487,9 @@
     <Compile Include="Salidas.xaml.cs">
       <DependentUpon>Salidas.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SeguimientoOrdenes.xaml.cs">
+      <DependentUpon>SeguimientoOrdenes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TrabajosEntregados.xaml.cs">
       <DependentUpon>TrabajosEntregados.xaml</DependentUpon>
     </Compile>
@@ -677,6 +680,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Salidas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SeguimientoOrdenes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

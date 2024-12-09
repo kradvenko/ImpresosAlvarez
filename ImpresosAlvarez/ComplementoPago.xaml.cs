@@ -243,7 +243,7 @@ namespace ImpresosAlvarez
             {
                 rutaCertificado = @"C:\Impresos\Jose\Certificado.cer";
                 rutaLlave = @"C:\Impresos\Jose\Llave.key";
-                contraseñaLlave = "Musica47";
+                contraseñaLlave = "Musica47*";
                 nombreEmisor = "JOSE ALVAREZ JIMENEZ";
                 rfcEmisor = "AAJJ470205DH1";
                 serie = "-";
@@ -2412,7 +2412,7 @@ namespace ImpresosAlvarez
             {
                 rutaCertificado = @"C:\Impresos\Jose\Certificado.cer";
                 rutaLlave = @"C:\Impresos\Jose\Llave.key";
-                contraseñaLlave = "Musica47";
+                contraseñaLlave = "Musica47*";
                 nombreEmisor = "JOSE ALVAREZ JIMENEZ";
                 rfcEmisor = "AAJJ470205DH1";
                 serie = "-";

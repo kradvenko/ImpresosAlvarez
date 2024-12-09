@@ -370,6 +370,7 @@
             <Setter Property="TextElement.Foreground" Value="Black"/>
             <Setter Property="MaxHeight" Value="40"></Setter>
             <Setter Property="FrameworkElement.FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="Margin" Value="5"></Setter>
             <Setter Property="Control.Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ComboBox">
