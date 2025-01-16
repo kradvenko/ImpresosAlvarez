@@ -26,12 +26,14 @@ namespace ImpresosAlvarez
         vOrdenesTerminado OrdenElegidaTerminado;
         vOrdenesImpresion OrdenElegidaImpresion;
         String Modo;
+        String TipoUsuario;
         public UsuarioIniciaTermina(vOrdenesTerminado OrdenElegidaTerminado, TrabajosTerminado ParentFormTerminado, String Modo)
         {
             InitializeComponent();
             this.OrdenElegidaTerminado = OrdenElegidaTerminado;
             this.ParentFormTerminado = ParentFormTerminado;
             this.Modo = Modo;
+            this.TipoUsuario = "TERMINADO";
         }
 
         public UsuarioIniciaTermina(vOrdenesImpresion OrdenElegidaImpresion, TrabajosImpresion ParentFormTerminado, String Modo)
@@ -40,13 +42,14 @@ namespace ImpresosAlvarez
             this.OrdenElegidaImpresion = OrdenElegidaImpresion;
             this.ParentFormImpresion = ParentFormTerminado;
             this.Modo = Modo;
+            this.TipoUsuario = "IMPRESION";
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
             {
-                UsuariosTaller = dbContext.Usuarios.Where(T => T.tipo == "IMPRESION" && T.estado == "ACTIVO").ToList();
+                UsuariosTaller = dbContext.Usuarios.Where(T => T.tipo == TipoUsuario && T.estado == "ACTIVO").ToList();
                 
                 cbUsuarios.ItemsSource = UsuariosTaller;
                 cbUsuarios.DisplayMemberPath = "nombre";
