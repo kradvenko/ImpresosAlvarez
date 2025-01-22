@@ -185,6 +185,9 @@
     <Compile Include="ComplementoPagoControl.xaml.cs">
       <DependentUpon>ComplementoPagoControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ControlClientes.xaml.cs">
+      <DependentUpon>ControlClientes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ControlComplementoINE.xaml.cs">
       <DependentUpon>ControlComplementoINE.xaml</DependentUpon>
     </Compile>
@@ -562,6 +565,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ComplementoPagoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ControlClientes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
