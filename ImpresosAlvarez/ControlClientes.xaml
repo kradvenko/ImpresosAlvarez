@@ -3,10 +3,114 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Syncfusion="clr-namespace:Syncfusion.Windows.Controls.Input;assembly=Syncfusion.SfInput.Wpf"
         xmlns:local="clr-namespace:ImpresosAlvarez"
         mc:Ignorable="d"
-        Title="Control Clientes" Height="600" Width="800">
+        Title="Control Clientes" Height="600" Width="900" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
         
+        <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Cliente"></Label>
+        <Syncfusion:SfTextBoxExt Grid.Column="1" Grid.Row="0" Margin="2" x:Name="tbClientes" MaxHeight="40"
+                 Watermark="Escribe el nombre del cliente."                                     
+                 AutoCompleteMode="SuggestAppend" AutoCompleteSource="{Binding _clientes}" SearchItemPath="pseudonimo"
+                 SuggestionMode="Contains"
+                 WatermarkTemplate="{StaticResource WatermarkTemplate}"                             
+                 SelectedItemChanged="tbClientes_SelectedItemChanged"
+                 HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CharacterCasing="Upper" Grid.ColumnSpan="5">
+            <Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding pseudonimo}" Margin="3 0 0 0" />
+                    </StackPanel>
+                </DataTemplate>
+            </Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+        </Syncfusion:SfTextBoxExt>
+
+        <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Nombre"></Label>
+        <TextBox x:Name="tbNombre" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="9" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+        <Label Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Domicilio"></Label>
+        <TextBox x:Name="tbDomicilio" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="5" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+        <Label Grid.Column="6" Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Exterior"></Label>
+        <TextBox x:Name="tbExterior" Grid.Column="7" Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+        <Label Grid.Column="8" Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Interior"></Label>
+        <TextBox x:Name="tbInterior" Grid.Column="9" Grid.Row="2" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+        <Label Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Colonia"></Label>
+        <TextBox x:Name="tbColonia" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="5" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+        <Label Grid.Column="6" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Ciudad"></Label>
+        <TextBox x:Name="tbCiudad" Grid.Column="7" Grid.Row="3" Grid.ColumnSpan="5" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+        <Label Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Estado"></Label>
+        <TextBox x:Name="tbEstado" Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource TextBox01}" MaxHeight="40" Text="NAYARIT"></TextBox>
+        <Label Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Código Postal"></Label>
+        <TextBox x:Name="tbCodigoPostal" Grid.Column="4" Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+        <Label Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Teléfono 1"></Label>
+        <TextBox x:Name="tbTelefono1" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+        <Label Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Teléfono 2"></Label>
+        <TextBox x:Name="tbTelefono2" Grid.Column="4" Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+        <Label Grid.Column="6" Grid.Row="5" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Teléfono 3"></Label>
+        <TextBox x:Name="tbTelefono3" Grid.Column="7" Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+        <Label Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Contacto"></Label>
+        <TextBox x:Name="tbContacto" Grid.Column="1" Grid.Row="6" Grid.ColumnSpan="5" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+        <Label Grid.Column="6" Grid.Row="6" Grid.ColumnSpan="2" Style="{StaticResource LabelBold02}" Content="Tipo de persona"></Label>
+        <ComboBox x:Name="cbTipoPersona" Grid.Column="8" Grid.Row="6" Style="{StaticResource ComboBoxFlatStyle}">
+            <ComboBoxItem IsSelected="True">FISICA</ComboBoxItem>
+            <ComboBoxItem>MORAL</ComboBoxItem>
+        </ComboBox>
+        <Label Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="RFC"></Label>
+        <TextBox x:Name="tbRFC" Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="3" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+        <Label Grid.Column="4" Grid.Row="7" Grid.ColumnSpan="2" Style="{StaticResource LabelBold02}" Content="Nombre Constancia"></Label>
+        <TextBox x:Name="tbNombreConstancia" Grid.Column="6" Grid.Row="7" Grid.ColumnSpan="4" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+        <Label Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Regimen"></Label>
+        <ComboBox x:Name="cbRegimenFiscal" Grid.Column="1" Grid.Row="8" Grid.ColumnSpan="3" Style="{StaticResource ComboBoxFlatStyle}">
+            <ComboBoxItem>601 - General de Ley Personas Morales</ComboBoxItem>
+            <ComboBoxItem>603 - Personas Morales con Fines no Lucrativos</ComboBoxItem>
+            <ComboBoxItem>605 - Sueldos y Salarios e Ingresos Asimilados a Salarios</ComboBoxItem>
+            <ComboBoxItem>606 - Arrendamiento</ComboBoxItem>
+            <ComboBoxItem>607 - Régimen de Enajenación o Adquisición de Bienes</ComboBoxItem>
+            <ComboBoxItem>608 - Demás ingresos</ComboBoxItem>
+            <ComboBoxItem>610 - Residentes en el Extranjero sin Establecimiento Permanente en México</ComboBoxItem>
+            <ComboBoxItem>611 - Ingresos por Dividendos (socios y accionistas)</ComboBoxItem>
+            <ComboBoxItem>612 - Personas Físicas con Actividades Empresariales y Profesionales</ComboBoxItem>
+            <ComboBoxItem>614 - Ingresos por intereses</ComboBoxItem>
+            <ComboBoxItem>615 - Régimen de los ingresos por obtención de premios</ComboBoxItem>
+            <ComboBoxItem>616 - Sin obligaciones fiscales</ComboBoxItem>
+            <ComboBoxItem>620 - Sociedades Cooperativas de Producción que optan por diferir sus ingresos</ComboBoxItem>
+            <ComboBoxItem>621 - Incorporación Fiscal</ComboBoxItem>
+            <ComboBoxItem>622 - Actividades Agrícolas, Ganaderas, Silvícolas y Pesqueras</ComboBoxItem>
+            <ComboBoxItem>623 - Opcional para Grupos de Sociedades</ComboBoxItem>
+            <ComboBoxItem>624 - Coordinados</ComboBoxItem>
+            <ComboBoxItem>625 - Régimen de las Actividades Empresariales con ingresos a través de Plataformas Tecnológicas</ComboBoxItem>
+            <ComboBoxItem>626 - Régimen Simplificado de Confianza</ComboBoxItem>
+        </ComboBox>
+        <Label Grid.Column="4" Grid.Row="8" Grid.ColumnSpan="2" Style="{StaticResource LabelBold02}" Content="Nombre Corto"></Label>
+        <TextBox x:Name="tbNombreCorto" Grid.Column="6" Grid.Row="8" Grid.ColumnSpan="4" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
+
+        <Button x:Name="btnCorreos" Grid.Row="9" Grid.Column="7" Grid.ColumnSpan="3" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Correos electrónicos" Click="btnCorreos_Click"></Button>
+
     </Grid>
 </Window>

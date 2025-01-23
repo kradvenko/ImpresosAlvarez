@@ -218,6 +218,9 @@
     <Compile Include="ControlUsuarios.xaml.cs">
       <DependentUpon>ControlUsuarios.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CorreosCliente.xaml.cs">
+      <DependentUpon>CorreosCliente.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DisenoOrdenesPendientes.xaml.cs">
       <DependentUpon>DisenoOrdenesPendientes.xaml</DependentUpon>
     </Compile>
@@ -609,6 +612,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ControlUsuarios.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CorreosCliente.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

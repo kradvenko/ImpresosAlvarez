@@ -15,23 +15,13 @@ using System.Windows.Shapes;
 namespace ImpresosAlvarez
 {
     /// <summary>
-    /// Lógica de interacción para ControlClientes.xaml
+    /// Lógica de interacción para CorreosCliente.xaml
     /// </summary>
-    public partial class ControlClientes : Window
+    public partial class CorreosCliente : Window
     {
-        public ControlClientes()
+        public CorreosCliente()
         {
             InitializeComponent();
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnCorreos_Click(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
