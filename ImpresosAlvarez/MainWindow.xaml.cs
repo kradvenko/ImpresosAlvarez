@@ -347,5 +347,11 @@ namespace ImpresosAlvarez
             SeguimientoOrdenes seg = new SeguimientoOrdenes();
             seg.ShowDialog();
         }
+
+        private void btnClientes_Click(object sender, RoutedEventArgs e)
+        {
+            ControlClientes clientes = new ControlClientes();
+            clientes.ShowDialog();
+        }
     }
 }

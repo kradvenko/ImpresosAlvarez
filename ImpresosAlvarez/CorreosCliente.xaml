@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImpresosAlvarez"
         mc:Ignorable="d"
-        Title="Correos del Cliente" Height="450" Width="650">
+        Title="Correos del Cliente" Height="450" Width="650" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -32,10 +32,10 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button x:Name="btnAgregar" Grid.Row="0" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz04}" Content="Agregar" Click="btnComplementoINE_Click"></Button>
-        <Button x:Name="btnEliminar" Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz04}" Content="Eliminar" Click="btnComplementoINE_Click"></Button>
-        <Button x:Name="btnModificar" Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz04}" Content="Modificar" Click="btnComplementoINE_Click"></Button>
-        <Button x:Name="btnGuardar" Grid.Row="4" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz02}" Content="Guardar" Click="btnGuardar_Click"></Button>
+        <Button x:Name="btnAgregar" Grid.Row="0" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz04}" Content="Agregar" Click="btnAgregar_Click"></Button>
+        <Button x:Name="btnEliminar" Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz04}" Content="Eliminar" Click="btnEliminar_Click"></Button>
+        <Button x:Name="btnModificar" Grid.Row="2" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz04}" Content="Modificar" Click="btnModificar_Click"></Button>
+        
         <Button x:Name="btnCancelar" Grid.Row="5" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cancelar" Click="btnCancelar_Click"></Button>
     </Grid>
 </Window>
