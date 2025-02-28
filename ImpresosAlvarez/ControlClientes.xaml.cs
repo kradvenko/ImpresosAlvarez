@@ -1,5 +1,6 @@
 ﻿using ImpresosAlvarez.Entity;
 using iText.StyledXmlParser.Css.Resolve.Shorthand.Impl;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,11 +72,59 @@ namespace ImpresosAlvarez
                             c.contacto = tbContacto.Text;
                             c.tipo_persona = cbTipoPersona.Text;
                             c.pseudonimo = tbNombreCorto.Text;
+                            c.rfc = tbRFC.Text;
+                            c.ciudad = tbCiudad.Text;
+                            c.nombre_constancia = tbNombreConstancia.Text;  
                             if (cbRegimenFiscal.Text != "")
                             {
                                 c.regimen_fiscal = cbRegimenFiscal.Text.Substring(0, 3);
                             }
                             
+                            dbContext.SaveChanges();
+
+                            MessageBox.Show("Se han guardado los cambios.");
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                }
+            }
+            else
+            {
+                if (MessageBox.Show("Desea guardar el nuevo cliente", "Atencion", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                        {
+                            Clientes c = new Clientes();
+
+                            c.nombre = tbNombre.Text;
+                            c.domicilio = tbDomicilio.Text;
+                            c.colonia = tbColonia.Text;
+                            c.numero_exterior = tbExterior.Text;
+                            c.numero_interior = tbInterior.Text;
+                            c.estado = tbEstado.Text;
+                            c.codigo_postal = tbCodigoPostal.Text;
+                            c.telefono1 = tbTelefono1.Text;
+                            c.telefono2 = tbTelefono2.Text;
+                            c.telefono3 = tbTelefono3.Text;
+                            c.telefono4 = "";
+                            c.contacto = tbContacto.Text;
+                            c.tipo_persona = cbTipoPersona.Text;
+                            c.pseudonimo = tbNombreCorto.Text;
+                            c.aplica_retencion = "SI";
+                            c.rfc = tbRFC.Text;
+                            c.ciudad = tbCiudad.Text;
+                            c.nombre_constancia = tbNombreConstancia.Text;
+                            if (cbRegimenFiscal.Text != "")
+                            {
+                                c.regimen_fiscal = cbRegimenFiscal.Text.Substring(0, 3);
+                            }
+
+                            dbContext.Clientes.Add(c);
                             dbContext.SaveChanges();
 
                             MessageBox.Show("Se han guardado los cambios.");
@@ -127,6 +176,27 @@ namespace ImpresosAlvarez
                 tbNombreCorto.Text = _clienteElegido.pseudonimo;
 
             }
+        }
+
+        private void btnNuevo_Click(object sender, RoutedEventArgs e)
+        {
+            _clienteElegido = null;
+
+            tbNombre.Text = "";
+            tbDomicilio.Text = "";
+            tbColonia.Text = "";
+            tbExterior.Text = "";
+            tbInterior.Text = "";
+            tbCodigoPostal.Text = "";
+            tbTelefono1.Text = "";
+            tbTelefono2.Text = "";
+            tbTelefono3.Text = "";
+            tbContacto.Text = "";
+            cbTipoPersona.SelectedIndex = 0;
+            tbRFC.Text = "";
+            tbNombreConstancia.Text = "";
+            cbRegimenFiscal.SelectedIndex = 0;
+            tbNombreCorto.Text = "";
         }
     }
 }

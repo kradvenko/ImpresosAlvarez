@@ -353,5 +353,11 @@ namespace ImpresosAlvarez
             ControlClientes clientes = new ControlClientes();
             clientes.ShowDialog();
         }
+
+        private void btnOrdenesSinFactura_Click(object sender, RoutedEventArgs e)
+        {
+            OrdenesSinPago ordenes = new OrdenesSinPago();
+            ordenes.Show();
+        }
     }
 }

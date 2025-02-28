@@ -32,12 +32,9 @@ namespace ImpresosAlvarez
 
         private void btnAgregar_Click(object sender, RoutedEventArgs e)
         {
-            if (dgCorreos.SelectedItem != null)
-            {
-                CorreoElegido = (Correos)dgCorreos.SelectedItem;
-                ControlCorreo correo = new ControlCorreo(null, "AGREGAR", this, ClienteElegido.id_cliente);
-                correo.ShowDialog();
-            }
+            CorreoElegido = (Correos)dgCorreos.SelectedItem;
+            ControlCorreo correo = new ControlCorreo(null, "NUEVO", this, ClienteElegido.id_cliente);
+            correo.ShowDialog();
         }
 
         private void btnEliminar_Click(object sender, RoutedEventArgs e)

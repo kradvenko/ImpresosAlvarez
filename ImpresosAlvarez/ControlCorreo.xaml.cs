@@ -35,7 +35,10 @@ namespace ImpresosAlvarez
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            tbCorreo.Text = CorreoElegido.correo;
+            if (CorreoElegido != null)
+            {
+                tbCorreo.Text = CorreoElegido.correo;
+            }
         }
 
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
@@ -58,6 +61,7 @@ namespace ImpresosAlvarez
                             Correo.id_cliente = IdCliente;
                             Correo.correo = tbCorreo.Text;
 
+                            dbContext.Correos.Add(Correo);
                             dbContext.SaveChanges();
 
                             ParentCorreos.ActualizarListaCorreos();
