@@ -6,7 +6,7 @@
         xmlns:Syncfusion="clr-namespace:Syncfusion.Windows.Controls.Input;assembly=Syncfusion.SfInput.Wpf"
         xmlns:local="clr-namespace:ImpresosAlvarez"
         mc:Ignorable="d"
-        Title="Seguimiento de Ordenes" Height="768" Width="1024" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+        Title="Seguimiento de Ordenes" Height="768" Width="1024" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded" WindowState="Maximized">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.4*"></ColumnDefinition>

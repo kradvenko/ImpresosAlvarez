@@ -7,7 +7,33 @@
         mc:Ignorable="d"
         Title="Ordenes Anteriores" Height="450" Width="800" Loaded="Window_Loaded" WindowState="Maximized" WindowStartupLocation="CenterScreen">
     <Grid>
-        <DataGrid x:Name="dgOrdenesAnteriores" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="5" Grid.RowSpan="5" Margin="0" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="dgOrdenesAnteriores_MouseDoubleClick">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" MaxHeight="50"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label Grid.ColumnSpan="2" Style="{StaticResource LabelBlack}" Content="Buscar trabajo"></Label>
+        <TextBox x:Name="tbBusqueda" Grid.Column="3" Grid.ColumnSpan="3" KeyUp="tbBusqueda_KeyUp"></TextBox>
+        <DataGrid x:Name="dgOrdenesAnteriores" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="10" Grid.RowSpan="9" Margin="0" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="dgOrdenesAnteriores_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Número" Binding="{Binding Path=numero}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Teléfono" Binding="{Binding Path=telefono}" Width="*"></DataGridTextColumn>

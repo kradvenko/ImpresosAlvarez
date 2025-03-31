@@ -129,5 +129,31 @@ namespace ImpresosAlvarez
                 MessageBox.Show("ERROR ORDEN ANTERIOR: " + exc.Message);
             }
         }
+
+        private void tbBusqueda_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (tbBusqueda.Text.Length > 0)
+                {
+                    using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                    {
+                        _anteriores = dbContext.Ordenes.Where(A => A.nombre_trabajo.Contains(tbBusqueda.Text) && A.id_cliente == ClienteElegido.id_cliente).OrderByDescending(A => A.id_orden).ToList();
+                        dgOrdenesAnteriores.ItemsSource = null;
+                        dgOrdenesAnteriores.ItemsSource = _anteriores;
+                    }
+                    
+                }
+                else
+                {
+                    using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                    {
+                        _anteriores = dbContext.Ordenes.Where(A => A.id_cliente == ClienteElegido.id_cliente).OrderByDescending(A => A.id_orden).ToList();
+                        dgOrdenesAnteriores.ItemsSource = null;
+                        dgOrdenesAnteriores.ItemsSource = _anteriores;
+                    }
+                }
+            }
+        }
     }
 }
