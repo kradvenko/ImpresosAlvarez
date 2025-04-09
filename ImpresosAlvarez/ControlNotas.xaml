@@ -6,7 +6,7 @@
         xmlns:Syncfusion="clr-namespace:Syncfusion.Windows.Controls.Input;assembly=Syncfusion.SfInput.Wpf"
         xmlns:local="clr-namespace:ImpresosAlvarez"
         mc:Ignorable="d"
-        Title="Control Notas" Height="450" Width="800" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+        Title="Control Notas" Height="600" Width="970" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -92,9 +92,9 @@
             </DataGrid.RowStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Número" Binding="{Binding Path=numero}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Fecha" Binding="{Binding Path=Fecha}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Fecha" Binding="{Binding Path=fecha}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Cliente" Binding="{Binding Path=Cliente}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Total" Binding="{Binding Path=Total}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Total" Binding="{Binding Path=total}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Estado" Binding="{Binding Path=estado}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>

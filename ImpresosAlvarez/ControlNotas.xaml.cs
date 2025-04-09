@@ -47,17 +47,23 @@ namespace ImpresosAlvarez
 
         private void tbClientes_SelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-
+            TipoBusqueda = "CLIENTE";
+            BuscarNotas();
         }
 
         private void tbFolio_KeyUp(object sender, KeyEventArgs e)
         {
-
+            if (e.Key == Key.Enter)
+            {
+                TipoBusqueda = "FOLIO";
+                BuscarNotas();
+            }
         }
 
         private void dpFecha_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            TipoBusqueda = "FECHA";
+            BuscarNotas();
         }
 
         private void btnVerNota_Click(object sender, RoutedEventArgs e)
@@ -72,7 +78,21 @@ namespace ImpresosAlvarez
 
         private void btnCancelarNota_Click(object sender, RoutedEventArgs e)
         {
+            if (MessageBox.Show("Desea cancelar la nota?", "Atención", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    String idnota = dgNotas.SelectedItem.GetType().GetProperty("id_nota").GetValue(dgNotas.SelectedItem, null).ToString();
+                    Notas n = dbContext.Notas.Where(F => F.id_nota.ToString() == idnota).First();
 
+                    n.estado = "CANCELADO";
+
+                    dbContext.SaveChanges();
+
+                    MessageBox.Show("Se ha cancelado la nota.");
+                    BuscarNotas();
+                }
+            }
         }
 
         private void BuscarNotas()
@@ -85,47 +105,27 @@ namespace ImpresosAlvarez
 
                     using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                     {
-                        //_facturas = dbContext.Facturas.Where(F => F.IdCliente == _clienteElegido.IdCliente).ToList();
-
-                        var facts = dbContext.Facturas
-                            .Join(
-                                dbContext.Contribuyentes,
-                                f => f.id_contribuyente,
-                                c => c.id_contribuyente,
-                                (f, c) => new
-                                {
-                                    f.id_cliente,
-                                    f.id_factura,
-                                    f.numero,
-                                    Fecha = f.fecha.Substring(0, 10),
-                                    f.estado,
-                                    Total = Math.Round((double)f.total, 2),
-                                    c.nombre
-                                }
-                            )
+                        var notes = dbContext.Notas
                             .Join(
                                 dbContext.Clientes,
-                                comb => comb.id_cliente,
+                                nota => nota.id_cliente,
                                 cli => cli.id_cliente,
-                                (comb, cli) => new
+                                (nota, cli) => new
                                 {
-                                    comb.id_cliente,
-                                    comb.id_factura,
-                                    comb.numero,
-                                    comb.Fecha,
-                                    comb.estado,
-                                    comb.nombre,
-                                    comb.Total,
-                                    Cliente = cli.nombre
+                                    nota.id_cliente,
+                                    nota.id_nota,
+                                    nota.total,
+                                    nota.pagada,
+                                    nota.estado,
+                                    nota.fecha,
+                                    nota.numero,                                    
+                                    Cliente = cli.nombre + " | " + cli.pseudonimo
                                 }
                             )
-                            .Where(F => F.id_cliente == _clienteElegido.id_cliente)
+                            .Where(N => N.id_cliente == _clienteElegido.id_cliente)
                             .ToList();
 
-                        var notes = dbContext.Notas
-                            .Join
-
-                        dgNotas.ItemsSource = facts;
+                        dgNotas.ItemsSource = notes;
                     }
                 }
             }
@@ -134,42 +134,27 @@ namespace ImpresosAlvarez
                 int folio = int.Parse(tbFolio.Text);
                 using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                 {
-                    var facts = dbContext.Facturas
-                            .Join(
-                                dbContext.Contribuyentes,
-                                f => f.id_contribuyente,
-                                c => c.id_contribuyente,
-                                (f, c) => new
-                                {
-                                    f.id_cliente,
-                                    f.id_factura,
-                                    f.numero,
-                                    Fecha = f.fecha.Substring(0, 10),
-                                    f.estado,
-                                    Total = Math.Round((double)f.total, 2),
-                                    c.nombre
-                                }
-                            )
-                            .Join(
-                                dbContext.Clientes,
-                                comb => comb.id_cliente,
-                                cli => cli.id_cliente,
-                                (comb, cli) => new
-                                {
-                                    comb.id_cliente,
-                                    comb.id_factura,
-                                    comb.numero,
-                                    comb.Fecha,
-                                    comb.estado,
-                                    comb.nombre,
-                                    comb.Total,
-                                    Cliente = cli.nombre
-                                }
-                            )
-                           .Where(F => F.numero == folio.ToString())
-                           .ToList();
+                    var notes = dbContext.Notas
+                        .Join(
+                            dbContext.Clientes,
+                            nota => nota.id_cliente,
+                            cli => cli.id_cliente,
+                            (nota, cli) => new
+                            {
+                                nota.id_cliente,
+                                nota.id_nota,
+                                nota.total,
+                                nota.pagada,
+                                nota.estado,
+                                nota.fecha,
+                                nota.numero,                                    
+                                Cliente = cli.nombre + " | " + cli.pseudonimo
+                            }
+                        )
+                        .Where(N => N.numero == folio.ToString())
+                        .ToList();
 
-                    dgNotas.ItemsSource = facts;
+                    dgNotas.ItemsSource = notes;
                 }
             }
             else if (TipoBusqueda == "FECHA")
@@ -181,42 +166,27 @@ namespace ImpresosAlvarez
                         //_facturas = dbContext.Facturas.Where(F => F.Numero == folio.ToString()).ToList();
                         String fecha = dpFecha.SelectedDate.Value.ToShortDateString();
 
-                        var facts = dbContext.Facturas
-                            .Join(
-                                dbContext.Contribuyentes,
-                                f => f.id_contribuyente,
-                                c => c.id_contribuyente,
-                                (f, c) => new
-                                {
-                                    f.id_cliente,
-                                    f.id_factura,
-                                    f.numero,
-                                    Fecha = f.fecha.Substring(0, 10),
-                                    f.estado,
-                                    Total = Math.Round((double)f.total, 2),
-                                    c.nombre
-                                }
-                            )
-                            .Join(
-                                dbContext.Clientes,
-                                comb => comb.id_cliente,
-                                cli => cli.id_cliente,
-                                (comb, cli) => new
-                                {
-                                    comb.id_cliente,
-                                    comb.id_factura,
-                                    comb.numero,
-                                    comb.Fecha,
-                                    comb.estado,
-                                    comb.nombre,
-                                    comb.Total,
-                                    Cliente = cli.nombre
-                                }
-                            )
-                               .Where(F => F.Fecha == fecha)
-                               .ToList();
-                        //MessageBox.Show(dpFecha.SelectedDate.ToString().Substring(0, 10));
-                        dgNotas.ItemsSource = facts;
+                        var notes = dbContext.Notas
+                        .Join(
+                            dbContext.Clientes,
+                            nota => nota.id_cliente,
+                            cli => cli.id_cliente,
+                            (nota, cli) => new
+                            {
+                                nota.id_cliente,
+                                nota.id_nota,
+                                nota.total,
+                                nota.pagada,
+                                nota.estado,
+                                nota.fecha,
+                                nota.numero,
+                                Cliente = cli.nombre + " | " + cli.pseudonimo
+                            }
+                        )                        
+                        .Where(F => F.fecha == fecha)
+                        .ToList();
+                        
+                        dgNotas.ItemsSource = notes;
 
                     }
                 }

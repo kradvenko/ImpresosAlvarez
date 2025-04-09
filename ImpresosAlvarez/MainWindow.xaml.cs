@@ -359,5 +359,11 @@ namespace ImpresosAlvarez
             OrdenesSinPago ordenes = new OrdenesSinPago();
             ordenes.Show();
         }
+
+        private void btnControlNotas_Click(object sender, RoutedEventArgs e)
+        {
+            ControlNotas notas = new ControlNotas();
+            notas.ShowDialog();
+        }
     }
 }
