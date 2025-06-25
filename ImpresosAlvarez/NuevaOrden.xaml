@@ -83,7 +83,7 @@
 
             <Label Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Orden Anterior"></Label>
             <TextBox x:Name="tbOrdenAnterior" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" MaxHeight="40"></TextBox>
-            <Label Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Fecha negativo"></Label>
+            <Label Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="1" Style="{StaticResource LabelBold02}" Content="Fecha anterior"></Label>
             <DatePicker x:Name="dtpFechaNegativo" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" VerticalAlignment="Center"></DatePicker>
             
 

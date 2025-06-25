@@ -35,7 +35,7 @@
           <Property Name="id_cliente" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="nvarchar(max)" />
           <Property Name="domicilio" Type="nvarchar(max)" />
-          <Property Name="colonia" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="colonia" Type="nvarchar" MaxLength="50" />
           <Property Name="ciudad" Type="nvarchar" MaxLength="50" />
           <Property Name="estado" Type="nvarchar" MaxLength="50" />
           <Property Name="codigo_postal" Type="nvarchar" MaxLength="10" />
@@ -45,7 +45,7 @@
           <Property Name="telefono3" Type="nvarchar" MaxLength="50" />
           <Property Name="telefono4" Type="nvarchar" MaxLength="50" />
           <Property Name="contacto" Type="nvarchar" MaxLength="50" />
-          <Property Name="rfc" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="rfc" Type="nvarchar" MaxLength="50" />
           <Property Name="pseudonimo" Type="nvarchar" MaxLength="50" />
           <Property Name="numero_exterior" Type="nvarchar" MaxLength="50" />
           <Property Name="numero_interior" Type="nvarchar" MaxLength="50" />
@@ -269,6 +269,7 @@
           <Property Name="estado" Type="nvarchar" MaxLength="50" />
           <Property Name="fecha" Type="nvarchar" MaxLength="50" />
           <Property Name="numero" Type="nvarchar" MaxLength="50" />
+          <Property Name="solicita" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="NumeroNota">
           <Key>
@@ -420,7 +421,7 @@
           </Key>
           <Property Name="IdRegimen" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Clave" Type="nvarchar" MaxLength="10" />
-          <Property Name="Descripcion" Type="nvarchar" MaxLength="150" />
+          <Property Name="Descripcion" Type="nchar" MaxLength="150" />
         </EntityType>
         <EntityType Name="Salidas">
           <Key>
@@ -2753,7 +2754,7 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <Property Name="id_cliente" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="domicilio" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="colonia" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="colonia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ciudad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="codigo_postal" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
@@ -2763,7 +2764,7 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <Property Name="telefono3" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="telefono4" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="contacto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="rfc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="rfc" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="pseudonimo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="numero_exterior" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="numero_interior" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -2927,6 +2928,7 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <Property Name="estado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fecha" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="numero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="solicita" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="NumeroNota">
           <Key>
@@ -3525,7 +3527,7 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           </Key>
           <Property Name="IdRegimen" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Clave" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="Descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Descripcion" Type="String" MaxLength="150" FixedLength="true" Unicode="true" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -4513,6 +4515,7 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <EntitySetMapping Name="Notas">
             <EntityTypeMapping TypeName="ImpresosBDModel.Notas">
               <MappingFragment StoreEntitySet="Notas">
+                <ScalarProperty Name="solicita" ColumnName="solicita" />
                 <ScalarProperty Name="numero" ColumnName="numero" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
                 <ScalarProperty Name="estado" ColumnName="estado" />

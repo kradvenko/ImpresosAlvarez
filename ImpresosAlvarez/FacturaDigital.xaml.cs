@@ -2950,7 +2950,7 @@ namespace ImpresosAlvarez
 
             xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Receptor//@Nombre", nms);
             //xAttrib.Value = _clienteElegido.nombre;
-            xAttrib.Value = _clienteElegido.nombre_constancia;
+            xAttrib.Value = _clienteElegido.nombre_constancia.Trim();
             datosFacturaElectronica.nombreReceptor = xAttrib.Value;
             //PRUEBAS
             //xAttrib.Value = "KARLA FUENTE NOLASCO";

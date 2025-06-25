@@ -368,6 +368,103 @@
 
                 <TextBox x:Name="tbNotas" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" TextWrapping="Wrap" AcceptsReturn="True"></TextBox>
             </Grid>
+        </Grid>
+
+        <Grid Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Label Grid.Column="0" Grid.Row="0" Style="{StaticResource LabelBoldBlack}">Diseño</Label>
+            <Button x:Name="btnEnviarDiseno" Grid.Column="1" Grid.Row="0" Style="{StaticResource btnInterfaz04}" Click="btnEnviarDiseno_Click">Enviar</Button>
+            <Image x:Name="imgDiseno" Source="Icons/star.png" Grid.Column="2" MaxHeight="40" Visibility="Hidden"></Image>
+            <DataGrid x:Name="dgDiseno" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" AutoGenerateColumns="False" IsReadOnly="True">                
+                <DataGrid.Columns>                    
+                    <DataGridTextColumn Header="Usuario" Binding="{Binding Path=Usuario}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Fecha Inicio" Binding="{Binding Path=FechaInicio}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Fecha Fin" Binding="{Binding Path=FechaFin}" Width="*"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Label Grid.Column="3" Grid.Row="0" Style="{StaticResource LabelBoldBlack}">Impresión</Label>
+            <Button x:Name="btnEnviarImpresion" Grid.Column="4" Grid.Row="0" Style="{StaticResource btnInterfaz04}" Click="btnEnviarImpresion_Click">Enviar</Button>
+            <Image x:Name="imgImpresion" Source="Icons/star.png" Grid.Column="5" MaxHeight="40" Visibility="Hidden"></Image>
+            <DataGrid x:Name="dgImpresion" Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="3" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Usuario" Binding="{Binding Path=Usuario}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Fecha Inicio" Binding="{Binding Path=FechaInicio}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Fecha Fin" Binding="{Binding Path=FechaFin}" Width="*"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Label Grid.Column="6" Grid.Row="0" Style="{StaticResource LabelBoldBlack}">Terminado</Label>
+            <Button x:Name="btnEnviarTerminado" Grid.Column="7" Grid.Row="0" Style="{StaticResource btnInterfaz04}" Click="btnEnviarTerminado_Click">Enviar</Button>
+            <Image x:Name="imgTerminado" Source="Icons/star.png" Grid.Column="8" MaxHeight="40" Visibility="Hidden"></Image>
+            <DataGrid x:Name="dgTerminado" Grid.Column="6" Grid.Row="3" Grid.ColumnSpan="3" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Usuario" Binding="{Binding Path=Usuario}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Fecha Inicio" Binding="{Binding Path=FechaInicio}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Fecha Fin" Binding="{Binding Path=FechaFin}" Width="*"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Label Grid.Column="9" Grid.Row="0" Style="{StaticResource LabelBoldBlack}">Por entregar</Label>
+            <Button x:Name="btnEnviarPorEntregar" Grid.Column="10" Grid.Row="0" Style="{StaticResource btnInterfaz04}" Click="btnEnviarPorEntregar_Click">Enviar</Button>
+            <Image x:Name="imgPorEntregar" Source="Icons/star.png" Grid.Column="11" MaxHeight="40" Visibility="Hidden"></Image>
+            <DataGrid x:Name="dgPorEntregar" Grid.Column="9" Grid.Row="3" Grid.ColumnSpan="3" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>                    
+                    <DataGridTextColumn Header="Fecha" Binding="{Binding Path=inicio_por_entregar}" Width="*"></DataGridTextColumn>                    
+                </DataGrid.Columns>
+            </DataGrid>
+
+            
+
+            <Label Grid.Column="12" Grid.Row="0" Style="{StaticResource LabelBoldBlack}">Entrega</Label>
+            <Button x:Name="btnEnviarEntrega" Grid.Column="13" Grid.Row="0" Style="{StaticResource btnInterfaz04}" Click="btnEnviarEntrega_Click">Enviar</Button>
+            <Image x:Name="imgEntrega" Source="Icons/star.png" Grid.Column="14" MaxHeight="40" Visibility="Hidden"></Image>
+            <DataGrid x:Name="dgEntrega" Grid.Column="12" Grid.Row="3" Grid.ColumnSpan="3" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Usuario" Binding="{Binding Path=Usuario}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Fecha" Binding="{Binding Path=Fecha}" Width="*"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Grid x:Name="gEntrega" Grid.Column="12" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="3" Background="AliceBlue" Visibility="Visible">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Column="0" Grid.ColumnSpan="4" Style="{StaticResource LabelBlack}" Content="Persona que entrega"></Label>
+                <ComboBox x:Name="cbPersonaEntrega" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="4" Style="{StaticResource ComboBoxFlatStyle}"></ComboBox>
+                <Button x:Name="btnEntregar" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" Content="Entregar" Style="{StaticResource btnInterfaz02}" Click="btnEntregar_Click"></Button>
+                <Button x:Name="btnCancelarEntregar" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Content="Cancelar" Style="{StaticResource btnInterfaz03}" Click="btnCancelarEntregar_Click"></Button>
+            </Grid>
 
         </Grid>
     </Grid>

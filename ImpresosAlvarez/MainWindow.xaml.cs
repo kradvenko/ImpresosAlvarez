@@ -35,9 +35,10 @@ namespace ImpresosAlvarez
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-            //04/01/20203
-            //Actualizaciones.Actualizacion1();            
-
+            //04/01/2023
+            //Actualizaciones.Actualizacion1();
+            //15/06/2025
+            Actualizaciones.Actualizacion2();
             Login login = new Login(this);
             login.ShowDialog();
         }
@@ -344,7 +345,7 @@ namespace ImpresosAlvarez
 
         private void btnSeguimiento_Click(object sender, RoutedEventArgs e)
         {
-            SeguimientoOrdenes seg = new SeguimientoOrdenes();
+            SeguimientoOrdenes seg = new SeguimientoOrdenes(CurrentUser);
             seg.ShowDialog();
         }
 

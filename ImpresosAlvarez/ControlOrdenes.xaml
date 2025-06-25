@@ -80,30 +80,35 @@
                             <Setter Property="Foreground" Value="#FFFFFF"></Setter>
                             <Setter Property="Height" Value="30"/>
                             <Setter Property="FontSize" Value="12" />
+                            <Setter Property="FontWeight" Value="Bold" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding estado}" Value="ENTREGADO">
                             <Setter Property="Background" Value="Green"></Setter>
-                            <Setter Property="Foreground" Value="#000000"></Setter>
+                            <Setter Property="Foreground" Value="#FFFFFF"></Setter>
                             <Setter Property="Height" Value="30"/>
                             <Setter Property="FontSize" Value="12" />
+                            <Setter Property="FontWeight" Value="Bold" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding estado}" Value="DISEÑO">
                             <Setter Property="Background" Value="Blue"></Setter>
                             <Setter Property="Foreground" Value="White"></Setter>
                             <Setter Property="Height" Value="30"/>
                             <Setter Property="FontSize" Value="12" />
+                            <Setter Property="FontWeight" Value="Bold" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding estado}" Value="IMPRESION">
                             <Setter Property="Background" Value="Yellow"></Setter>
                             <Setter Property="Foreground" Value="Black"></Setter>
                             <Setter Property="Height" Value="30"/>
                             <Setter Property="FontSize" Value="12" />
+                            <Setter Property="FontWeight" Value="Bold" />
                         </DataTrigger>
                         <DataTrigger Binding="{Binding estado}" Value="TERMINADO">
                             <Setter Property="Background" Value="MediumOrchid"></Setter>
-                            <Setter Property="Foreground" Value="Black"></Setter>
+                            <Setter Property="Foreground" Value="#FFFFFF"></Setter>
                             <Setter Property="Height" Value="30"/>
                             <Setter Property="FontSize" Value="12" />
+                            <Setter Property="FontWeight" Value="Bold" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -113,6 +118,7 @@
                 <DataGridTextColumn Header="Fecha Solicitado" Binding="{Binding Path=fecha_solicita}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Trabajo" Binding="{Binding Path=nombre_trabajo}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Cliente" Binding="{Binding Path=Cliente}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Total" Binding="{Binding Path=total}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 

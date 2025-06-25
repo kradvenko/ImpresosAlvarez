@@ -64,5 +64,48 @@ namespace ImpresosAlvarez.Clases
                 }
             }
         }
+        public static void Actualizacion2()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ImpresosBDConn"].ConnectionString))
+                {
+                    using (SqlCommand comm = new SqlCommand(" " +
+                        "SELECT solicita " +
+                        "FROM Notas " +
+                        "", con))
+                    {
+                        con.Open();
+
+                        SqlDataReader reader = comm.ExecuteReader();
+                        con.Close();
+                    }
+                }
+            }
+            catch
+            {
+                try
+                {
+                    using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ImpresosBDConn"].ConnectionString))
+                    {
+                        using (SqlCommand comm = new SqlCommand(" " +
+                            "ALTER TABLE Notas " +
+                            "ADD solicita NVARCHAR(50) NULL DEFAULT '-' WITH VALUES " +
+                            "", con))
+                        {
+                            con.Open();
+
+                            comm.ExecuteNonQuery();
+
+                            con.Close();
+                        }
+                    }
+                }
+                catch (Exception exc)
+                {
+
+                }
+            }
+        }
     }
 }

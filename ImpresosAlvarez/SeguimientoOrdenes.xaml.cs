@@ -23,9 +23,13 @@ namespace ImpresosAlvarez
     {
         List<Ordenes> ListaOrdenes;
         List<Clientes> ListaClientes;
-        public SeguimientoOrdenes()
+        Ordenes OrdenElegida;
+        Usuarios CurrentUser;
+        List<Usuarios> UsuariosEntrega;
+        public SeguimientoOrdenes(Usuarios CurrentUser)
         {
             InitializeComponent();
+            this.CurrentUser = CurrentUser;
         }
 
         private void cbAreas_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -47,7 +51,7 @@ namespace ImpresosAlvarez
         {
             if (dgOrdenes.SelectedItem != null)
             {
-                Ordenes OrdenElegida = new Ordenes();
+                OrdenElegida = new Ordenes();
 
                 OrdenElegida = (Ordenes)dgOrdenes.SelectedItem;
 
@@ -129,7 +133,126 @@ namespace ImpresosAlvarez
                     cbBlanco.IsChecked = false;
                 }
                 tbNotas.Text = OrdenElegida.especificaciones;
-            }
+
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    var dis = dbContext.Disenos
+                        .Join(
+                            dbContext.Usuarios,
+                            orden => orden.id_usuario,
+                            usu => usu.id_usuario,
+                            (orden, usu) => new
+                            {
+                                FechaInicio = orden.fecha_inicio,
+                                FechaFin = orden.fecha_fin,
+                                orden.id_orden,
+                                Usuario = usu.nombre
+                            }
+                        )
+                        .Where(F => F.id_orden == OrdenElegida.id_orden)
+                        .ToList();
+
+                    dgDiseno.ItemsSource = dis;
+
+                    var imp = dbContext.Impresion
+                        .Join(
+                            dbContext.Usuarios,
+                            orden => orden.id_usuario,
+                            usu => usu.id_usuario,
+                            (orden, usu) => new
+                            {
+                                FechaInicio = orden.fecha_inicio,
+                                FechaFin = orden.fecha_fin,
+                                orden.id_orden,
+                                Usuario = usu.nombre
+                            }
+                        )
+                        .Where(F => F.id_orden == OrdenElegida.id_orden)
+                        .ToList();
+
+                    dgImpresion.ItemsSource = imp;
+
+                    var ter = dbContext.Terminado
+                        .Join(
+                            dbContext.Usuarios,
+                            orden => orden.id_usuario,
+                            usu => usu.id_usuario,
+                            (orden, usu) => new
+                            {
+                                FechaInicio = orden.fecha_inicio,
+                                FechaFin = orden.fecha_fin,
+                                orden.id_orden,
+                                Usuario = usu.nombre
+                            }
+                        )
+                        .Where(F => F.id_orden == OrdenElegida.id_orden)
+                        .ToList();
+
+                    dgTerminado.ItemsSource = ter;
+
+                    List<Ordenes> PorEntregar = new List<Ordenes>();
+                    PorEntregar.Add(OrdenElegida);
+                    dgPorEntregar.ItemsSource = PorEntregar;
+                    
+                    var ent = dbContext.Entrega
+                        .Join(
+                            dbContext.Usuarios,
+                            orden => orden.id_usuario,
+                            usu => usu.id_usuario,
+                            (orden, usu) => new
+                            {
+                                Fecha = orden.fecha,                                
+                                orden.id_orden,
+                                Usuario = usu.nombre
+                            }
+                        )
+                        .Where(F => F.id_orden == OrdenElegida.id_orden)
+                        .ToList();
+
+                    dgEntrega.ItemsSource = ent;
+
+                    if (OrdenElegida.estado == "DISEÑO")
+                    {
+                        imgDiseno.Visibility = Visibility.Visible;
+                        imgImpresion.Visibility = Visibility.Hidden;
+                        imgTerminado.Visibility = Visibility.Hidden;
+                        imgPorEntregar.Visibility = Visibility.Hidden;
+                        imgEntrega.Visibility = Visibility.Hidden;
+                    }
+                    else if (OrdenElegida.estado == "IMPRESION")
+                    {
+                        imgDiseno.Visibility = Visibility.Hidden;
+                        imgImpresion.Visibility = Visibility.Visible;
+                        imgTerminado.Visibility = Visibility.Hidden;
+                        imgPorEntregar.Visibility = Visibility.Hidden;
+                        imgEntrega.Visibility = Visibility.Hidden;
+                    }
+                    else if (OrdenElegida.estado == "IMPRESION")
+                    {
+                        imgDiseno.Visibility = Visibility.Hidden;
+                        imgImpresion.Visibility = Visibility.Hidden;
+                        imgTerminado.Visibility = Visibility.Visible;
+                        imgPorEntregar.Visibility = Visibility.Hidden;
+                        imgEntrega.Visibility = Visibility.Hidden;
+                    }
+                    else if (OrdenElegida.estado == "POR ENTREGAR")
+                    {
+                        imgDiseno.Visibility = Visibility.Hidden;
+                        imgImpresion.Visibility = Visibility.Hidden;
+                        imgTerminado.Visibility = Visibility.Hidden;
+                        imgPorEntregar.Visibility = Visibility.Visible;
+                        imgEntrega.Visibility = Visibility.Hidden;
+                    }
+                    else if (OrdenElegida.estado == "ENTREGADO")
+                    {
+                        imgDiseno.Visibility = Visibility.Hidden;
+                        imgImpresion.Visibility = Visibility.Hidden;
+                        imgTerminado.Visibility = Visibility.Hidden;
+                        imgPorEntregar.Visibility = Visibility.Hidden;
+                        imgEntrega.Visibility = Visibility.Visible;
+                    }
+                }
+            }            
         }
 
         private void tbNumeroOrden_KeyUp(object sender, KeyEventArgs e)
@@ -172,6 +295,310 @@ namespace ImpresosAlvarez
             {
                 ListaClientes = dbContext.Clientes.ToList();
                 tbClientes.AutoCompleteSource = ListaClientes;
+
+                UsuariosEntrega = dbContext.Usuarios.Where(U => (U.tipo == "ENTREGA" || U.tipo == "ADMIN" || U.tipo == "RECEPCION") && U.estado == "ACTIVO").ToList();
+                cbPersonaEntrega.ItemsSource = UsuariosEntrega;
+                cbPersonaEntrega.DisplayMemberPath = "nombre";
+                cbPersonaEntrega.SelectedValuePath = "id_usuario";
+                cbPersonaEntrega.SelectedIndex = 0;
+            }
+        }
+
+        private void btnEnviarDiseno_Click(object sender, RoutedEventArgs e)
+        {
+            if (OrdenElegida.estado == "DISEÑO")
+            {
+                return;
+            }
+            else
+            {
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    Ordenes Orden = dbContext.Ordenes.Where(O => O.id_orden == OrdenElegida.id_orden).FirstOrDefault();
+
+                    Orden.estado = "DISEÑO";
+                    Orden.inicio_diseno = DateTime.Now.Date.ToShortDateString();
+                    /*
+                    Disenos diseno =  new Disenos();
+
+                    diseno.id_orden = OrdenElegida.id_orden;
+                    diseno.id_usuario = CurrentUser.id_usuario;
+                    diseno.fecha_inicio = DateTime.Now.Date.ToShortDateString();
+                    diseno.hora_inicio = DateTime.Now.Date.ToShortTimeString();
+
+                    dbContext.Disenos.Add(diseno);
+                    */
+                    dbContext.SaveChanges();
+
+                    OrdenElegida.estado = "DISEÑO";
+                    OrdenElegida.inicio_diseno = DateTime.Now.Date.ToShortDateString();
+
+                    VerificarEstadoOrden();
+
+                    var dis = dbContext.Disenos
+                        .Join(
+                            dbContext.Usuarios,
+                            orden => orden.id_usuario,
+                            usu => usu.id_usuario,
+                            (orden, usu) => new
+                            {
+                                FechaInicio = orden.fecha_inicio,
+                                FechaFin = orden.fecha_fin,
+                                orden.id_orden,
+                                Usuario = usu.nombre
+                            }
+                        )
+                        .Where(F => F.id_orden == OrdenElegida.id_orden)
+                        .ToList();
+
+                    dgDiseno.ItemsSource = dis;
+                }
+            }
+        }
+
+        private void btnEnviarImpresion_Click(object sender, RoutedEventArgs e)
+        {
+            if (OrdenElegida.estado == "IMPRESION")
+            {
+                return;
+            }
+            else
+            {
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    Ordenes Orden = dbContext.Ordenes.Where(O => O.id_orden == OrdenElegida.id_orden).FirstOrDefault();
+
+                    Orden.estado = "IMPRESION";
+                    Orden.inicio_impresion = DateTime.Now.Date.ToShortDateString();
+                    /*
+                    Impresion impresion = new Impresion();
+
+                    impresion.id_orden = OrdenElegida.id_orden;
+                    impresion.id_usuario = CurrentUser.id_usuario;
+                    impresion.fecha_inicio = DateTime.Now.Date.ToShortDateString();
+                    impresion.hora_inicio = DateTime.Now.Date.ToShortTimeString();
+
+                    dbContext.Impresion.Add(impresion);
+                    */
+                    dbContext.SaveChanges();
+
+                    OrdenElegida.estado = "IMPRESION";
+                    OrdenElegida.inicio_impresion = DateTime.Now.Date.ToShortDateString();
+
+                    VerificarEstadoOrden();
+
+                    var imp = dbContext.Impresion
+                        .Join(
+                            dbContext.Usuarios,
+                            orden => orden.id_usuario,
+                            usu => usu.id_usuario,
+                            (orden, usu) => new
+                            {
+                                FechaInicio = orden.fecha_inicio,
+                                FechaFin = orden.fecha_fin,
+                                orden.id_orden,
+                                Usuario = usu.nombre
+                            }
+                        )
+                        .Where(F => F.id_orden == OrdenElegida.id_orden)
+                        .ToList();
+
+                    dgImpresion.ItemsSource = imp;
+                }
+            }
+        }
+
+        private void btnEnviarTerminado_Click(object sender, RoutedEventArgs e)
+        {
+            if (OrdenElegida.estado == "TERMINADO")
+            {
+                return;
+            }
+            else
+            {
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    Ordenes Orden = dbContext.Ordenes.Where(O => O.id_orden == OrdenElegida.id_orden).FirstOrDefault();
+
+                    Orden.estado = "TERMINADO";
+                    Orden.inicio_terminado = DateTime.Now.Date.ToShortDateString();
+                    /*
+                    Terminado terminado = new Terminado();
+
+                    terminado.id_orden = OrdenElegida.id_orden;
+                    terminado.id_usuario = CurrentUser.id_usuario;
+                    terminado.fecha_inicio = DateTime.Now.Date.ToShortDateString();
+                    terminado.hora_inicio = DateTime.Now.Date.ToShortTimeString();
+
+                    dbContext.Terminado.Add(terminado);
+                    */
+                    dbContext.SaveChanges();
+
+                    OrdenElegida.estado = "TERMINADO";
+                    OrdenElegida.inicio_terminado = DateTime.Now.Date.ToShortDateString();
+
+                    VerificarEstadoOrden();
+
+                    var ter = dbContext.Terminado
+                        .Join(
+                            dbContext.Usuarios,
+                            orden => orden.id_usuario,
+                            usu => usu.id_usuario,
+                            (orden, usu) => new
+                            {
+                                FechaInicio = orden.fecha_inicio,
+                                FechaFin = orden.fecha_fin,
+                                orden.id_orden,
+                                Usuario = usu.nombre
+                            }
+                        )
+                        .Where(F => F.id_orden == OrdenElegida.id_orden)
+                        .ToList();
+
+                    dgTerminado.ItemsSource = ter;
+                }
+            }
+        }
+
+        private void btnEnviarPorEntregar_Click(object sender, RoutedEventArgs e)
+        {
+            if (OrdenElegida.estado == "POR ENTREGAR")
+            {
+                return;
+            }
+            else
+            {
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    Ordenes Orden = dbContext.Ordenes.Where(O => O.id_orden == OrdenElegida.id_orden).FirstOrDefault();
+
+                    Orden.estado = "POR ENTREGAR";
+                    Orden.inicio_por_entregar = DateTime.Now.Date.ToShortDateString();
+
+                    dbContext.SaveChanges();
+
+                    OrdenElegida.estado = "POR ENTREGAR";
+                    OrdenElegida.inicio_por_entregar = DateTime.Now.Date.ToShortDateString();
+
+                    VerificarEstadoOrden();
+
+                    List<Ordenes> PorEntregar = new List<Ordenes>();
+                    PorEntregar.Add(OrdenElegida);
+                    dgPorEntregar.ItemsSource = PorEntregar;
+                }
+            }
+        }
+
+        private void btnEnviarEntrega_Click(object sender, RoutedEventArgs e)
+        {
+            if (OrdenElegida.estado == "ENTREGADO")
+            {
+                return;
+            }
+            else
+            {
+                gEntrega.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void VerificarEstadoOrden()
+        {
+            if (OrdenElegida.estado == "DISEÑO")
+            {
+                imgDiseno.Visibility = Visibility.Visible;
+                imgImpresion.Visibility = Visibility.Hidden;
+                imgTerminado.Visibility = Visibility.Hidden;
+                imgPorEntregar.Visibility = Visibility.Hidden;
+                imgEntrega.Visibility = Visibility.Hidden;
+            }
+            else if (OrdenElegida.estado == "IMPRESION")
+            {
+                imgDiseno.Visibility = Visibility.Hidden;
+                imgImpresion.Visibility = Visibility.Visible;
+                imgTerminado.Visibility = Visibility.Hidden;
+                imgPorEntregar.Visibility = Visibility.Hidden;
+                imgEntrega.Visibility = Visibility.Hidden;
+            }
+            else if (OrdenElegida.estado == "IMPRESION")
+            {
+                imgDiseno.Visibility = Visibility.Hidden;
+                imgImpresion.Visibility = Visibility.Hidden;
+                imgTerminado.Visibility = Visibility.Visible;
+                imgPorEntregar.Visibility = Visibility.Hidden;
+                imgEntrega.Visibility = Visibility.Hidden;
+            }
+            else if (OrdenElegida.estado == "POR ENTREGAR")
+            {
+                imgDiseno.Visibility = Visibility.Hidden;
+                imgImpresion.Visibility = Visibility.Hidden;
+                imgTerminado.Visibility = Visibility.Hidden;
+                imgPorEntregar.Visibility = Visibility.Visible;
+                imgEntrega.Visibility = Visibility.Hidden;
+            }
+            else if (OrdenElegida.estado == "ENTREGADO")
+            {
+                imgDiseno.Visibility = Visibility.Hidden;
+                imgImpresion.Visibility = Visibility.Hidden;
+                imgTerminado.Visibility = Visibility.Hidden;
+                imgPorEntregar.Visibility = Visibility.Hidden;
+                imgEntrega.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void btnCancelarEntregar_Click(object sender, RoutedEventArgs e)
+        {
+            gEntrega.Visibility = Visibility.Hidden;
+        }
+
+        private void btnEntregar_Click(object sender, RoutedEventArgs e)
+        {
+            if (cbPersonaEntrega.SelectedIndex >= 0)
+            {
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    Ordenes Orden = dbContext.Ordenes.Where(O => O.id_orden == OrdenElegida.id_orden).FirstOrDefault();
+
+                    Orden.estado = "ENTREGADO";
+                    Orden.fecha_entregado = DateTime.Now.Date.ToShortDateString();
+
+                    Usuarios uEntrega = (Usuarios)cbPersonaEntrega.SelectedItem;
+
+                    Entrega entrega = new Entrega();
+
+                    entrega.id_orden = OrdenElegida.id_orden;
+                    entrega.id_usuario = uEntrega.id_usuario;
+                    entrega.fecha = DateTime.Now.Date.ToShortDateString();
+                    entrega.hora = DateTime.Now.Date.ToShortTimeString();
+                    entrega.descripcion = "NUEVO SISTEMA";
+
+                    dbContext.Entrega.Add(entrega);
+
+                    dbContext.SaveChanges();
+
+                    OrdenElegida.estado = "ENTREGADO";
+                    OrdenElegida.fecha_entregado = DateTime.Now.Date.ToShortDateString();
+
+                    VerificarEstadoOrden();
+
+                    var ent = dbContext.Entrega
+                        .Join(
+                            dbContext.Usuarios,
+                            orden => orden.id_usuario,
+                            usu => usu.id_usuario,
+                            (orden, usu) => new
+                            {
+                                Fecha = orden.fecha,
+                                orden.id_orden,
+                                Usuario = usu.nombre
+                            }
+                        )
+                        .Where(F => F.id_orden == OrdenElegida.id_orden)
+                        .ToList();
+
+                    dgEntrega.ItemsSource = ent;
+
+                    gEntrega.Visibility = Visibility.Hidden;
+                }
             }
         }
     }

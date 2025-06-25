@@ -35,6 +35,7 @@ namespace ImpresosAlvarez
         Clientes _clienteElegido;
 
         ObservableCollection<Obtener_Cotizaciones_Fecha_Result> _ordenesAnteriores;
+        List<Ordenes> OrdenesAnteriores;
 
         ObservableCollection<CotizacionLlenado> _cotizacion;
 
@@ -74,9 +75,14 @@ namespace ImpresosAlvarez
 
                 using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                 {
+                    /*
                     _ordenesAnteriores = new ObservableCollection<Obtener_Cotizaciones_Fecha_Result>(dbContext.Obtener_Cotizaciones_Fecha(dpFechaRecepcion.SelectedDate.Value.ToShortDateString(), _clienteElegido.id_cliente).ToList());
                     dgNotasPasadas.ItemsSource = null;
                     dgNotasPasadas.ItemsSource = _ordenesAnteriores;
+                    */
+                    OrdenesAnteriores = dbContext.Ordenes.Where(O => O.id_cliente == _clienteElegido.id_cliente).ToList();
+                    dgNotasPasadas.ItemsSource = null;
+                    dgNotasPasadas.ItemsSource = OrdenesAnteriores;
                 }
             }
         }
@@ -170,6 +176,7 @@ namespace ImpresosAlvarez
                             Nota.estado = "ACTIVO";
                             Nota.fecha = dpFechaNota.SelectedDate.Value.ToShortDateString();
                             Nota.numero = tbNumero.Text;
+                            Nota.solicita = tbSolicita.Text;
 
                             dbContext.Notas.Add(Nota);
 
@@ -679,6 +686,7 @@ namespace ImpresosAlvarez
         {
             if (dgNotasPasadas.SelectedItems.Count > 0)
             {
+                /*
                 foreach (Obtener_Cotizaciones_Fecha_Result item in dgNotasPasadas.SelectedItems)
                 {
                     CotizacionLlenado _articulo = new CotizacionLlenado();
@@ -691,6 +699,20 @@ namespace ImpresosAlvarez
                     _articulo.Descripcion = a.nombre_trabajo + " TAMAÑO: " + a.tamano + " COLOR: " + a.color_tintas + " PAPEL: " + a.tipo_papel;
                     _articulo.PrecioUnitario = (double)a.total / (int)a.cantidad;
                     _articulo.Importe = (double)a.total;
+
+                    _cotizacion.Add(_articulo);
+                }
+                */
+
+                foreach (Ordenes item in dgNotasPasadas.SelectedItems)
+                {
+                    CotizacionLlenado _articulo = new CotizacionLlenado();
+
+                    _articulo.IdOrden = item.id_orden;
+                    _articulo.Cantidad = (int)item.cantidad;
+                    _articulo.Descripcion = item.nombre_trabajo + " TAMAÑO: " + item.tamano + " COLOR: " + item.color_tintas + " PAPEL: " + item.tipo_papel;
+                    _articulo.PrecioUnitario = (double)item.total / (int)item.cantidad;
+                    _articulo.Importe = (double)item.total;
 
                     _cotizacion.Add(_articulo);
                 }

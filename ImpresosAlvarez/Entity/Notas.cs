@@ -21,5 +21,6 @@ namespace ImpresosAlvarez.Entity
         public string estado { get; set; }
         public string fecha { get; set; }
         public string numero { get; set; }
+        public string solicita { get; set; }
     }
 }

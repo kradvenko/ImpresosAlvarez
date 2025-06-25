@@ -145,6 +145,7 @@ namespace ImpresosAlvarez
                                 f.estado,
                                 f.fecha,
                                 f.numero,
+                                f.solicita,
                                 c.nombre
                             }
                         )

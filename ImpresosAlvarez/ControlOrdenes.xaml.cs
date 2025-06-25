@@ -53,10 +53,12 @@ namespace ImpresosAlvarez
                                     orden.numero,
                                     orden.estado,
                                     orden.fecha_solicita,
+                                    orden.total,
                                     Cliente = cli.nombre
                                 }
                             )
                             .Where(F => F.id_cliente == _clienteElegido.id_cliente)
+                            .OrderByDescending(F => F.id_orden)
                             .ToList();
 
                         dgOrdenes.ItemsSource = comps;
@@ -83,10 +85,12 @@ namespace ImpresosAlvarez
                                 orden.numero,
                                 orden.estado,
                                 orden.fecha_solicita,
+                                orden.total,
                                 Cliente = cli.nombre
                             }
                         )
                         .Where(F => F.numero == folio)
+                        .OrderByDescending(F => F.id_orden)
                         .ToList();
 
                     dgOrdenes.ItemsSource = comps;
@@ -114,10 +118,12 @@ namespace ImpresosAlvarez
                                     orden.numero,
                                     orden.estado,
                                     orden.fecha_solicita,
+                                    orden.total,
                                     Cliente = cli.nombre
                                 }
                             )
                             .Where(F => F.fecha_solicita == fecha)
+                            .OrderByDescending(F => F.id_orden)
                             .ToList();
                         //MessageBox.Show(dpFecha.SelectedDate.ToString().Substring(0, 10));
                         dgOrdenes.ItemsSource = comps;

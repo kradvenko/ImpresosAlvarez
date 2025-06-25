@@ -1263,7 +1263,7 @@ namespace ImpresosAlvarez
 
             if (OrdenElegida.engrapado == "SI")
             {
-                Acabado = Acabado + " ACABADO ";
+                Acabado = Acabado + " ENGRAPADO ";
             }
 
             if (OrdenElegida.perforacion == "SI")
