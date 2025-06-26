@@ -80,7 +80,7 @@ namespace ImpresosAlvarez
                     dgNotasPasadas.ItemsSource = null;
                     dgNotasPasadas.ItemsSource = _ordenesAnteriores;
                     */
-                    OrdenesAnteriores = dbContext.Ordenes.Where(O => O.id_cliente == _clienteElegido.id_cliente).ToList();
+                    OrdenesAnteriores = dbContext.Ordenes.Where(O => (O.id_cliente == _clienteElegido.id_cliente) && (O.tipo == "COTIZACION") && (O.estado != "CANCELADA")).ToList();
                     dgNotasPasadas.ItemsSource = null;
                     dgNotasPasadas.ItemsSource = OrdenesAnteriores;
                 }
