@@ -2,6 +2,7 @@
 using ImpresosAlvarez.Entity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,14 @@ namespace ImpresosAlvarez
     /// <summary>
     /// Lógica de interacción para SeguimientoOrdenes.xaml
     /// </summary>
+    /// 
+    public class FacturaNota
+    {
+        public String Tipo { get; set; }
+        public int Id { get; set; }
+        public String Numero { get; set; }
+        public FacturaNota() { }
+    }
     public partial class SeguimientoOrdenes : Window
     {
         List<Ordenes> ListaOrdenes;
@@ -26,6 +35,7 @@ namespace ImpresosAlvarez
         Ordenes OrdenElegida;
         Usuarios CurrentUser;
         List<Usuarios> UsuariosEntrega;
+        List<FacturaNota> FacturasNotas;
         public SeguimientoOrdenes(Usuarios CurrentUser)
         {
             InitializeComponent();
@@ -251,6 +261,40 @@ namespace ImpresosAlvarez
                         imgPorEntregar.Visibility = Visibility.Hidden;
                         imgEntrega.Visibility = Visibility.Visible;
                     }
+
+                    try
+                    {
+                        FacturasNotas = new List<FacturaNota>();
+
+                        NotaOrden no = dbContext.NotaOrden.Where(N => N.id_orden == OrdenElegida.id_orden).FirstOrDefault();
+                        if (no != null)
+                        {
+                            Notas n = dbContext.Notas.Where(N => N.id_nota == no.id_nota).FirstOrDefault();
+                            FacturaNota fn = new FacturaNota();
+                            fn.Tipo = "NOTA";
+                            fn.Id = n.id_nota;
+                            fn.Numero = n.numero;
+                            FacturasNotas.Add(fn);
+                        }
+
+                        FacturaOrden fo = dbContext.FacturaOrden.Where(N => N.id_orden == OrdenElegida.id_orden).FirstOrDefault();
+                        if (fo != null)
+                        {
+                            Facturas f = dbContext.Facturas.Where(N => N.id_factura == fo.id_factura).FirstOrDefault();
+                            FacturaNota fn = new FacturaNota();
+                            fn.Tipo = "FACTURA";
+                            fn.Id = f.id_factura;
+                            fn.Numero = f.numero;
+                            FacturasNotas.Add(fn);
+                        }
+
+                        dgFacturasNotas.ItemsSource = null;
+                        dgFacturasNotas.ItemsSource = FacturasNotas;
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("ERROR TIPO 2: " + ex.Message);
+                    }
                 }
             }            
         }
@@ -302,6 +346,8 @@ namespace ImpresosAlvarez
                 cbPersonaEntrega.SelectedValuePath = "id_usuario";
                 cbPersonaEntrega.SelectedIndex = 0;
             }
+
+            FacturasNotas = new List<FacturaNota>();
         }
 
         private void btnEnviarDiseno_Click(object sender, RoutedEventArgs e)

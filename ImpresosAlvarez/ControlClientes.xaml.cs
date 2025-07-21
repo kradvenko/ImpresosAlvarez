@@ -93,6 +93,11 @@ namespace ImpresosAlvarez
             }
             else
             {
+                if (tbNombre.Text == "")
+                {
+                    MessageBox.Show("No ha ingresado el nombre del cliente.");
+                    return;
+                }
                 if (MessageBox.Show("Desea guardar el nuevo cliente", "Atencion", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     try
@@ -127,7 +132,9 @@ namespace ImpresosAlvarez
                             dbContext.Clientes.Add(c);
                             dbContext.SaveChanges();
 
-                            MessageBox.Show("Se han guardado los cambios.");
+                            tbNombre.Text = "";
+                            MessageBox.Show("Se han guardado los cambios.");                            
+                            this.Close();
                         }
                     }
                     catch (Exception ex)

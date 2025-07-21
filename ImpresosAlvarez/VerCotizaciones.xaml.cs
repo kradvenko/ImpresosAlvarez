@@ -40,6 +40,7 @@ namespace ImpresosAlvarez
         ObservableCollection<CotizacionLlenado> _cotizacion;
 
         float _TotalNota = 0;
+        string _NumeroNota = "";
 
         public VerCotizaciones()
         {
@@ -163,8 +164,10 @@ namespace ImpresosAlvarez
                         using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                         {
                             CalcularTotales();
+                            int NumerodeNotaActual = 0;
 
                             var NumeroNota = dbContext.NumeroNota.Where(N => N.id_numeronota == 1).FirstOrDefault();
+                            NumerodeNotaActual = (int.Parse(NumeroNota.numero));
                             NumeroNota.numero = (int.Parse(NumeroNota.numero) + 1).ToString();
                             dbContext.SaveChanges();
 
@@ -175,7 +178,9 @@ namespace ImpresosAlvarez
                             Nota.pagada = "NO";
                             Nota.estado = "ACTIVO";
                             Nota.fecha = dpFechaNota.SelectedDate.Value.ToShortDateString();
-                            Nota.numero = tbNumero.Text;
+                            Nota.numero = NumerodeNotaActual.ToString();//tbNumero.Text;
+                            tbNumero.Text = NumerodeNotaActual.ToString();
+                            _NumeroNota = NumerodeNotaActual.ToString();
                             Nota.solicita = tbSolicita.Text;
 
                             dbContext.Notas.Add(Nota);
@@ -250,7 +255,7 @@ namespace ImpresosAlvarez
 
             Document document = null;
 
-            rutaPDF = @"C:\Impresos\Cotizaciones\Cotizacion_" + tbNumero.Text + ".pdf";
+            rutaPDF = @"C:\Impresos\Cotizaciones\Cotizacion_" + _NumeroNota + ".pdf";
 
             //PdfDocument pdf = new PdfDocument(new PdfReader(@"AlvarezCotizacionL.pdf"), new PdfWriter(rutaPDF));
             PdfDocument pdf = new PdfDocument(new PdfWriter(rutaPDF));
@@ -289,7 +294,7 @@ namespace ImpresosAlvarez
                 .SetFontSize(fs)
                 .SetBold()
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("FOLIO: " + tbNumero.Text)));
+                .Add(new Paragraph("FOLIO: " + _NumeroNota)));
 
             table.AddCell(new Cell()
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
@@ -309,7 +314,7 @@ namespace ImpresosAlvarez
                 .SetFontSize(fs)
                 .SetBold()
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("FOLIO: " + tbNumero.Text)));
+                .Add(new Paragraph("FOLIO: " + _NumeroNota)));
 
             //2do Renglón
 

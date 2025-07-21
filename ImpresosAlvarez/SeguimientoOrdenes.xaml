@@ -26,7 +26,8 @@
                 <RowDefinition Height="0.1*"></RowDefinition>
                 <RowDefinition Height="0.1*"></RowDefinition>
                 <RowDefinition Height="0.1*"></RowDefinition>
-                <RowDefinition Height="0.7*"></RowDefinition>
+                <RowDefinition Height="0.5*"></RowDefinition>
+                <RowDefinition Height="0.2*"></RowDefinition>
             </Grid.RowDefinitions>
 
             <ComboBox x:Name="cbAreas" Grid.Column="0" Grid.Row="0" Style="{StaticResource ComboBoxFlatStyle}" SelectionChanged="cbAreas_SelectionChanged" SelectedValuePath="Content">
@@ -110,7 +111,14 @@
                     <DataGridTextColumn Header="Trabajo" Binding="{Binding Path=nombre_trabajo}" Width="*"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
-        </Grid>
+
+            <DataGrid x:Name="dgFacturasNotas" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Tipo" Binding="{Binding Path=Tipo}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Número" Binding="{Binding Path=Numero}" Width="*"></DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>        
 
         <Grid Grid.Column="1" Grid.Row="0" Margin="5">
             <Grid.ColumnDefinitions>
