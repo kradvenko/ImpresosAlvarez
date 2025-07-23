@@ -587,7 +587,7 @@ namespace ImpresosAlvarez
                 .SetFontSize(fs)
                 .SetBold()
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Fecha negativo ")));
+                .Add(new Paragraph("Fecha anterior ")));
 
             table.AddCell(new Cell(1, 3)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
@@ -1158,7 +1158,7 @@ namespace ImpresosAlvarez
                 .SetFontSize(fs)
                 .SetBold()
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Fecha negativo ")));
+                .Add(new Paragraph("Fecha anterior ")));
 
             table.AddCell(new Cell(1, 3)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)

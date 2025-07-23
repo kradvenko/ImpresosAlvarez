@@ -39,7 +39,29 @@ namespace ImpresosAlvarez
 
         private void btnEliminar_Click(object sender, RoutedEventArgs e)
         {
+            CorreoElegido = (Correos)dgCorreos.SelectedItem;
+            if (CorreoElegido != null)
+            {
+                try
+                {
+                    using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                    {
+                        Correos c = dbContext.Correos.Where(Co => Co.id_correo == CorreoElegido.id_correo).First();
+                        dbContext.Correos.Remove(c);
 
+                        dbContext.SaveChanges();
+
+                        ListaCorreos = dbContext.Correos.Where(T => T.id_cliente == ClienteElegido.id_cliente).ToList();
+                        dgCorreos.ItemsSource = null;
+                        dgCorreos.ItemsSource = ListaCorreos;
+
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
         }
 
         private void btnModificar_Click(object sender, RoutedEventArgs e)
