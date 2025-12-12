@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<DiscoveryClientResultsFile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Results>
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://v33.facturacfdi.mx/WSCancelacion40Service?xsd=2" filename="WSCancelacion40Service.xsd" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="https://v33.facturacfdi.mx/WSCancelacion40Service?wsdl" filename="WSCancelacion40Service.wsdl" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://v33.facturacfdi.mx/WSCancelacion40Service?xsd=3" filename="WSCancelacion40Service0.xsd" />
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="http://v33.facturacfdi.mx/WSCancelacion40Service?xsd=1" filename="WSCancelacion40Service1.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="https://cancelacion.facturacfdi.mx/WSCancelacion40Service?wsdl" filename="WSCancelacion40Service.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="https://cancelacion.facturacfdi.mx/WSCancelacion40Service?xsd=1" filename="WSCancelacion40Service.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="https://cancelacion.facturacfdi.mx/WSCancelacion40Service?xsd=2" filename="WSCancelacion40Service0.xsd" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.SchemaReference" url="https://cancelacion.facturacfdi.mx/WSCancelacion40Service?xsd=3" filename="WSCancelacion40Service1.xsd" />
   </Results>
 </DiscoveryClientResultsFile>

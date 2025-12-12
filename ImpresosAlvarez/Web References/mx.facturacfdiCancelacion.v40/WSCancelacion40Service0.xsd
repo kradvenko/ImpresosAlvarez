@@ -1,80 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xs:schema xmlns:tns="http://wservicios/" xmlns:ns1="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://wservicios/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-  <xs:import schemaLocation="http://v33.facturacfdi.mx:80/WSCancelacion40Service?xsd=1" namespace="http://www.w3.org/2000/09/xmldsig#" />
-  <xs:element name="Cancelacion40_1" type="tns:Cancelacion40_1" />
-  <xs:element name="Cancelacion40_1Response" nillable="true" type="tns:Cancelacion40_3Response" />
-  <xs:element name="Cancelacion40_2" type="tns:Cancelacion40_2" />
-  <xs:element name="Cancelacion40_2Response" nillable="true" type="tns:Cancelacion40_3Response" />
-  <xs:element name="Cancelacion40_3" type="tns:Cancelacion40_3" />
-  <xs:element name="Cancelacion40_3Response" type="tns:Cancelacion40_3Response" />
-  <xs:complexType name="Cancelacion40_1">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="rfcEmisor" type="xs:string" />
-      <xs:element minOccurs="0" name="fecha" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="folios" type="tns:wsFolios40" />
-      <xs:element minOccurs="0" name="publicKey" nillable="true" type="xs:base64Binary" />
-      <xs:element minOccurs="0" name="privateKey" nillable="true" type="xs:base64Binary" />
-      <xs:element minOccurs="0" name="password" type="xs:string" />
-      <xs:element minOccurs="0" name="accesos" type="tns:accesos" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="wsFolios40">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="folio" type="tns:wsFolio" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="wsFolio">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="folioSustitucion" type="xs:string" />
-      <xs:element minOccurs="0" name="motivo" type="xs:string" />
-      <xs:element minOccurs="0" name="uuid" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="accesos">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="password" type="xs:string" />
-      <xs:element minOccurs="0" name="usuario" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="Cancelacion40_3Response">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="return" type="tns:wsCancelacionResponse" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="wsCancelacionResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="acuse" type="xs:string" />
-      <xs:element minOccurs="0" name="codEstatus" type="xs:string" />
-      <xs:element minOccurs="0" name="folios" type="tns:wsFoliosResponse" />
-      <xs:element minOccurs="0" name="mensaje" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="wsFoliosResponse">
-    <xs:sequence>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="folio" nillable="true" type="tns:folio" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="folio">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="estatusUUID" type="xs:string" />
-      <xs:element minOccurs="0" name="mensaje" type="xs:string" />
-      <xs:element minOccurs="0" name="uuid" type="xs:string" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="Cancelacion40_2">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="rfcEmisor" type="xs:string" />
-      <xs:element minOccurs="0" name="fecha" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="folios" type="tns:wsFolios40" />
-      <xs:element minOccurs="0" name="signatureType" type="ns1:SignatureType" />
-      <xs:element minOccurs="0" name="accesos" type="tns:accesos" />
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="Cancelacion40_3">
-    <xs:sequence>
-      <xs:element minOccurs="0" name="nocertificado" type="xs:string" />
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="folios" type="tns:wsFolios40" />
-      <xs:element minOccurs="0" name="accesos" type="tns:accesos" />
-    </xs:sequence>
-  </xs:complexType>
+<xs:schema xmlns:ns1="http://www.w3.org/2000/09/xmldsig#" targetNamespace="http://www.sat.gob.mx/sitio_internet/cfd" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:import schemaLocation="https://cancelacion.facturacfdi.mx:443/WSCancelacion40Service?xsd=1" namespace="http://www.w3.org/2000/09/xmldsig#" />
+  <xs:element name="Cancelacion">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" name="Folios">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Folio">
+                <xs:complexType>
+                  <xs:sequence />
+                  <xs:attribute name="UUID" type="xs:string" use="required" />
+                  <xs:attribute name="Motivo" type="xs:string" use="required" />
+                  <xs:attribute name="FolioSustitucion" type="xs:string" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element form="qualified" name="Signature" type="ns1:SignatureType" />
+      </xs:sequence>
+      <xs:attribute name="RfcEmisor" type="xs:string" use="required" />
+      <xs:attribute name="Fecha" type="xs:anySimpleType" use="required" />
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

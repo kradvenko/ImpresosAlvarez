@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<definitions xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:tns="http://wservicios/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="WSCancelacion40Service" targetNamespace="http://wservicios/" xmlns="http://schemas.xmlsoap.org/wsdl/">
+<definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsp1_2="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://wservicios/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" name="WSCancelacion40Service" targetNamespace="http://wservicios/" xmlns="http://schemas.xmlsoap.org/wsdl/">
   <types>
     <xsd:schema>
-      <xsd:import schemaLocation="http://v33.facturacfdi.mx:80/WSCancelacion40Service?xsd=1" namespace="http://www.w3.org/2000/09/xmldsig#" />
+      <xsd:import schemaLocation="https://cancelacion.facturacfdi.mx:443/WSCancelacion40Service?xsd=1" namespace="http://www.w3.org/2000/09/xmldsig#" />
     </xsd:schema>
     <xsd:schema>
-      <xsd:import schemaLocation="http://v33.facturacfdi.mx:80/WSCancelacion40Service?xsd=2" namespace="http://www.sat.gob.mx/sitio_internet/cfd" />
+      <xsd:import schemaLocation="https://cancelacion.facturacfdi.mx:443/WSCancelacion40Service?xsd=2" namespace="http://www.sat.gob.mx/sitio_internet/cfd" />
     </xsd:schema>
     <xsd:schema>
-      <xsd:import schemaLocation="http://v33.facturacfdi.mx:80/WSCancelacion40Service?xsd=3" namespace="http://wservicios/" />
+      <xsd:import schemaLocation="https://cancelacion.facturacfdi.mx:443/WSCancelacion40Service?xsd=3" namespace="http://wservicios/" />
     </xsd:schema>
   </types>
-  <message name="Cancelacion40_2">
-    <part name="parameters" element="tns:Cancelacion40_2" />
+  <message name="Cancelacion40_3">
+    <part name="parameters" element="tns:Cancelacion40_3" />
   </message>
-  <message name="Cancelacion40_2Response">
-    <part name="parameters" element="tns:Cancelacion40_2Response" />
+  <message name="Cancelacion40_3Response">
+    <part name="parameters" element="tns:Cancelacion40_3Response" />
   </message>
   <message name="Cancelacion40_1">
     <part name="parameters" element="tns:Cancelacion40_1" />
@@ -23,29 +23,29 @@
   <message name="Cancelacion40_1Response">
     <part name="parameters" element="tns:Cancelacion40_1Response" />
   </message>
-  <message name="Cancelacion40_3">
-    <part name="parameters" element="tns:Cancelacion40_3" />
+  <message name="Cancelacion40_2">
+    <part name="parameters" element="tns:Cancelacion40_2" />
   </message>
-  <message name="Cancelacion40_3Response">
-    <part name="parameters" element="tns:Cancelacion40_3Response" />
+  <message name="Cancelacion40_2Response">
+    <part name="parameters" element="tns:Cancelacion40_2Response" />
   </message>
   <portType name="WSCancelacion40">
-    <operation name="Cancelacion40_2">
-      <input wsam:Action="http://wservicios/WSCancelacion40/Cancelacion40_2Request" message="tns:Cancelacion40_2" />
-      <output wsam:Action="http://wservicios/WSCancelacion40/Cancelacion40_2Response" message="tns:Cancelacion40_2Response" />
+    <operation name="Cancelacion40_3">
+      <input wsam:Action="http://wservicios/WSCancelacion40/Cancelacion40_3Request" message="tns:Cancelacion40_3" />
+      <output wsam:Action="http://wservicios/WSCancelacion40/Cancelacion40_3Response" message="tns:Cancelacion40_3Response" />
     </operation>
     <operation name="Cancelacion40_1">
       <input wsam:Action="http://wservicios/WSCancelacion40/Cancelacion40_1Request" message="tns:Cancelacion40_1" />
       <output wsam:Action="http://wservicios/WSCancelacion40/Cancelacion40_1Response" message="tns:Cancelacion40_1Response" />
     </operation>
-    <operation name="Cancelacion40_3">
-      <input wsam:Action="http://wservicios/WSCancelacion40/Cancelacion40_3Request" message="tns:Cancelacion40_3" />
-      <output wsam:Action="http://wservicios/WSCancelacion40/Cancelacion40_3Response" message="tns:Cancelacion40_3Response" />
+    <operation name="Cancelacion40_2">
+      <input wsam:Action="http://wservicios/WSCancelacion40/Cancelacion40_2Request" message="tns:Cancelacion40_2" />
+      <output wsam:Action="http://wservicios/WSCancelacion40/Cancelacion40_2Response" message="tns:Cancelacion40_2Response" />
     </operation>
   </portType>
   <binding name="WSCancelacion40PortBinding" type="tns:WSCancelacion40">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
-    <operation name="Cancelacion40_2">
+    <operation name="Cancelacion40_3">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />
@@ -63,7 +63,7 @@
         <soap:body use="literal" />
       </output>
     </operation>
-    <operation name="Cancelacion40_3">
+    <operation name="Cancelacion40_2">
       <soap:operation soapAction="" />
       <input>
         <soap:body use="literal" />
@@ -75,7 +75,7 @@
   </binding>
   <service name="WSCancelacion40Service">
     <port name="WSCancelacion40Port" binding="tns:WSCancelacion40PortBinding">
-      <soap:address location="http://v33.facturacfdi.mx:80/WSCancelacion40Service" />
+      <soap:address location="https://cancelacion.facturacfdi.mx:443/WSCancelacion40Service" />
     </port>
   </service>
 </definitions>

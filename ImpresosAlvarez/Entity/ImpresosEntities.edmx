@@ -102,6 +102,7 @@
           <Property Name="clave_servicio" Type="nvarchar" MaxLength="50" />
           <Property Name="unidad" Type="nvarchar" MaxLength="50" />
           <Property Name="id_articulo" Type="int" />
+          <Property Name="id_orden" Type="int" />
         </EntityType>
         <EntityType Name="DetalleNota">
           <Key>
@@ -331,6 +332,34 @@
           <Property Name="orden_anterior" Type="nvarchar" MaxLength="50" />
           <Property Name="fecha_negativo" Type="nvarchar" MaxLength="50" />
           <Property Name="tipo_maquina" Type="nvarchar" MaxLength="50" />
+          <Property Name="tipo_orden" Type="nvarchar" MaxLength="30" />
+          <Property Name="lona_medida" Type="nvarchar" MaxLength="30" />
+          <Property Name="lona_normal" Type="nvarchar" MaxLength="5" />
+          <Property Name="lona_traslucida" Type="nvarchar" MaxLength="5" />
+          <Property Name="lona_impresion_uv" Type="nvarchar" MaxLength="5" />
+          <Property Name="lona_impresion_ecosolvente" Type="nvarchar" MaxLength="5" />
+          <Property Name="lona_acabado_byo" Type="nvarchar" MaxLength="5" />
+          <Property Name="lona_acabado_bastilla" Type="nvarchar" MaxLength="5" />
+          <Property Name="lona_acabado_sobrante" Type="nvarchar" MaxLength="5" />
+          <Property Name="lona_acabado_bolsa" Type="nvarchar" MaxLength="5" />
+          <Property Name="lona_acabado_otro" Type="nvarchar" MaxLength="20" />
+          <Property Name="lona_acabado_observaciones" Type="nvarchar" MaxLength="100" />
+          <Property Name="vinil_medida" Type="nvarchar" MaxLength="30" />
+          <Property Name="vinil_tipo_brillante" Type="nvarchar" MaxLength="5" />
+          <Property Name="vinil_tipo_mate" Type="nvarchar" MaxLength="5" />
+          <Property Name="vinil_impresion_uv" Type="nvarchar" MaxLength="5" />
+          <Property Name="vinil_impresion_ecosolvente" Type="nvarchar" MaxLength="5" />
+          <Property Name="vinil_econo" Type="nvarchar" MaxLength="5" />
+          <Property Name="vinil_ecogris" Type="nvarchar" MaxLength="5" />
+          <Property Name="vinil_alta" Type="nvarchar" MaxLength="5" />
+          <Property Name="vinil_micro" Type="nvarchar" MaxLength="5" />
+          <Property Name="vinil_trans" Type="nvarchar" MaxLength="5" />
+          <Property Name="vinil_est_blanco" Type="nvarchar" MaxLength="5" />
+          <Property Name="vinil_est_trans" Type="nvarchar" MaxLength="5" />
+          <Property Name="vinil_reflejante" Type="nvarchar" MaxLength="5" />
+          <Property Name="vinil_observaciones" Type="nvarchar" MaxLength="100" />
+          <Property Name="otro_material" Type="nvarchar" MaxLength="50" />
+          <Property Name="envio_a" Type="nvarchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="OrdenMateria">
           <Key>
@@ -2812,6 +2841,7 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <Property Name="clave_servicio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="unidad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="id_articulo" Type="Int32" />
+          <Property Name="id_orden" Type="Int32" />
         </EntityType>
         <EntityType Name="DetalleNota">
           <Key>
@@ -3250,6 +3280,34 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <NavigationProperty Name="Disenos" Relationship="ImpresosBDModel.FK__Disenos__id_orde__26CFC035" FromRole="Ordenes" ToRole="Disenos" />
           <NavigationProperty Name="Entrega" Relationship="ImpresosBDModel.FK__Entrega__id_orde__28B808A7" FromRole="Ordenes" ToRole="Entrega" />
           <NavigationProperty Name="Terminado" Relationship="ImpresosBDModel.FK__Terminado__id_or__2AA05119" FromRole="Ordenes" ToRole="Terminado" />
+          <Property Name="tipo_orden" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="lona_medida" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="lona_normal" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="lona_traslucida" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="lona_impresion_uv" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="lona_impresion_ecosolvente" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="lona_acabado_byo" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="lona_acabado_bastilla" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="lona_acabado_sobrante" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="lona_acabado_bolsa" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="lona_acabado_otro" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="lona_acabado_observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="vinil_medida" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="vinil_tipo_brillante" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="vinil_tipo_mate" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="vinil_impresion_uv" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="vinil_impresion_ecosolvente" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="vinil_econo" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="vinil_ecogris" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="vinil_alta" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="vinil_micro" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="vinil_trans" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="vinil_est_blanco" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="vinil_est_trans" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="vinil_reflejante" Type="String" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="vinil_observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="otro_material" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="envio_a" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK__Bitacora__id_ord__24E777C3">
           <End Type="ImpresosBDModel.Ordenes" Role="Ordenes" Multiplicity="1" />
@@ -4391,6 +4449,7 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <EntitySetMapping Name="DetalleFactura">
             <EntityTypeMapping TypeName="ImpresosBDModel.DetalleFactura">
               <MappingFragment StoreEntitySet="DetalleFactura">
+                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
                 <ScalarProperty Name="id_articulo" ColumnName="id_articulo" />
                 <ScalarProperty Name="unidad" ColumnName="unidad" />
                 <ScalarProperty Name="clave_servicio" ColumnName="clave_servicio" />
@@ -4757,6 +4816,34 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <EntitySetMapping Name="Ordenes">
             <EntityTypeMapping TypeName="ImpresosBDModel.Ordenes">
               <MappingFragment StoreEntitySet="Ordenes">
+                <ScalarProperty Name="envio_a" ColumnName="envio_a" />
+                <ScalarProperty Name="otro_material" ColumnName="otro_material" />
+                <ScalarProperty Name="vinil_observaciones" ColumnName="vinil_observaciones" />
+                <ScalarProperty Name="vinil_reflejante" ColumnName="vinil_reflejante" />
+                <ScalarProperty Name="vinil_est_trans" ColumnName="vinil_est_trans" />
+                <ScalarProperty Name="vinil_est_blanco" ColumnName="vinil_est_blanco" />
+                <ScalarProperty Name="vinil_trans" ColumnName="vinil_trans" />
+                <ScalarProperty Name="vinil_micro" ColumnName="vinil_micro" />
+                <ScalarProperty Name="vinil_alta" ColumnName="vinil_alta" />
+                <ScalarProperty Name="vinil_ecogris" ColumnName="vinil_ecogris" />
+                <ScalarProperty Name="vinil_econo" ColumnName="vinil_econo" />
+                <ScalarProperty Name="vinil_impresion_ecosolvente" ColumnName="vinil_impresion_ecosolvente" />
+                <ScalarProperty Name="vinil_impresion_uv" ColumnName="vinil_impresion_uv" />
+                <ScalarProperty Name="vinil_tipo_mate" ColumnName="vinil_tipo_mate" />
+                <ScalarProperty Name="vinil_tipo_brillante" ColumnName="vinil_tipo_brillante" />
+                <ScalarProperty Name="vinil_medida" ColumnName="vinil_medida" />
+                <ScalarProperty Name="lona_acabado_observaciones" ColumnName="lona_acabado_observaciones" />
+                <ScalarProperty Name="lona_acabado_otro" ColumnName="lona_acabado_otro" />
+                <ScalarProperty Name="lona_acabado_bolsa" ColumnName="lona_acabado_bolsa" />
+                <ScalarProperty Name="lona_acabado_sobrante" ColumnName="lona_acabado_sobrante" />
+                <ScalarProperty Name="lona_acabado_bastilla" ColumnName="lona_acabado_bastilla" />
+                <ScalarProperty Name="lona_acabado_byo" ColumnName="lona_acabado_byo" />
+                <ScalarProperty Name="lona_impresion_ecosolvente" ColumnName="lona_impresion_ecosolvente" />
+                <ScalarProperty Name="lona_impresion_uv" ColumnName="lona_impresion_uv" />
+                <ScalarProperty Name="lona_traslucida" ColumnName="lona_traslucida" />
+                <ScalarProperty Name="lona_normal" ColumnName="lona_normal" />
+                <ScalarProperty Name="lona_medida" ColumnName="lona_medida" />
+                <ScalarProperty Name="tipo_orden" ColumnName="tipo_orden" />
                 <ScalarProperty Name="tipo_maquina" ColumnName="tipo_maquina" />
                 <ScalarProperty Name="fecha_negativo" ColumnName="fecha_negativo" />
                 <ScalarProperty Name="orden_anterior" ColumnName="orden_anterior" />

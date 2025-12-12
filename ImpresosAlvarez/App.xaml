@@ -126,6 +126,7 @@
             <Setter Property="Foreground" Value="Black" />
             <Setter Property="Height" Value="40" />
             <Setter Property="FontSize" Value="13" />
+            <Setter Property="FontFamily" Value="Calibri" />
         </Style>
         <Style x:Key="btnInterfaz01" TargetType="{x:Type Button}">
             <Setter Property="MaxHeight" Value="60"></Setter>

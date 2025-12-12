@@ -666,6 +666,17 @@
                     <Label Grid.Column="1" Content="Control clientes" VerticalAlignment="Center"></Label>
                 </Grid>
             </Button>
+            <Button x:Name="btnClientesSinOrdenes" Grid.Row="5" Grid.Column="5" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Click="btnClientesSinOrdenes_Click">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Image Source="Icons/address-book.png" Grid.Column="0" MaxHeight="40"></Image>
+                    <Label Grid.Column="1" Content="Clientes sin ordenes" VerticalAlignment="Center"></Label>
+                </Grid>
+            </Button>
 
         </Grid>
 

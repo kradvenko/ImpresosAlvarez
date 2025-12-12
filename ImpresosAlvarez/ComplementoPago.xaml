@@ -93,6 +93,8 @@
         <Label Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource LabelBoldBlack}" Content="Contribuyente"></Label>
         <ComboBox x:Name="cbContribuyentes" Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MaxHeight="50" SelectionChanged="cbContribuyentes_SelectionChanged" Style="{StaticResource ComboBoxFlatStyle}">
         </ComboBox>
+        <Label x:Name="lblFolioComplemento" Grid.Column="4" Grid.Row="4" Grid.ColumnSpan="3" Style="{StaticResource LabelBoldred}" Content="Folio Complemento"></Label>
+        
 
         <Label Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Style="{StaticResource LabelBoldBlack}" Content="Buscar factura"></Label>
         <TextBox x:Name="tbBuscarFactura" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Style="{StaticResource TextBox01}" KeyUp="tbBuscarFactura_KeyUp"></TextBox>

@@ -23,5 +23,6 @@ namespace ImpresosAlvarez.Entity
         public string clave_servicio { get; set; }
         public string unidad { get; set; }
         public Nullable<int> id_articulo { get; set; }
+        public Nullable<int> id_orden { get; set; }
     }
 }

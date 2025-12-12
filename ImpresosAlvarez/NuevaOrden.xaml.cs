@@ -63,12 +63,13 @@ namespace ImpresosAlvarez
 
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("¿Desea guardar la orden?", "ATENCION", MessageBoxButton.YesNo) == MessageBoxResult.No)
+            String TipoOrden = cbTipoOrden.Text;
+            if (MessageBox.Show("¿Desea guardar la orden de TIPO " + TipoOrden + "?", "ATENCION", MessageBoxButton.YesNo) == MessageBoxResult.No)
             {
                 return;
             }
             
-            //ImprimirPDF("39865");
+            //ImprimirPDF("46711", "LONA/VINIL");
             //return;
             
 
@@ -147,6 +148,8 @@ namespace ImpresosAlvarez
                         nuevaOrden.fecha_solicita = dtpFecha.SelectedDate.Value.ToShortDateString();
                         nuevaOrden.quien_recibio = tbRecibe.Text;
                         nuevaOrden.inicio_diseno = "";
+
+                        /*ORDEN NORMAL*/
                         nuevaOrden.nombre_trabajo = tbNombreTrabajo.Text;
                         nuevaOrden.cantidad = int.Parse(tbCantidad.Text);
                         nuevaOrden.color_tintas = tbColorTintas.Text;
@@ -169,6 +172,178 @@ namespace ImpresosAlvarez
                         nuevaOrden.rojo = chbRojo.IsChecked == true ? "SI" : "NO";
                         nuevaOrden.blanco = chbBlanco.IsChecked == true ? "SI" : "NO";
                         nuevaOrden.especificaciones = tbDescripcion.Text;
+
+                        /*ORDEN LONA/VINIL*/
+                        nuevaOrden.lona_medida = tbLonaMedida.Text;
+                        if (chbLonaNormal.IsChecked == true)
+                        {
+                            nuevaOrden.lona_normal = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.lona_normal = "NO";
+                        }
+                        if (chbLonaTraslucida.IsChecked == true)
+                        {
+                            nuevaOrden.lona_traslucida = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.lona_traslucida = "NO";
+                        }
+                        if (chbLonaUv.IsChecked == true)
+                        {
+                            nuevaOrden.lona_impresion_uv = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.lona_impresion_uv = "NO";
+                        }
+                        if (chbLonaEcosolvente.IsChecked == true)
+                        {
+                            nuevaOrden.lona_impresion_ecosolvente = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.lona_impresion_ecosolvente = "NO";
+                        }
+                        if (chbLonaAcabadoBYO.IsChecked == true)
+                        {
+                            nuevaOrden.lona_acabado_byo = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.lona_acabado_byo = "NO";
+                        }
+                        if (chbLonaAcabadoBastilla.IsChecked == true)
+                        {
+                            nuevaOrden.lona_acabado_bastilla = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.lona_acabado_bastilla = "NO";
+                        }
+                        if (chbLonaAcabadoSobrante.IsChecked == true)
+                        {
+                            nuevaOrden.lona_acabado_sobrante = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.lona_acabado_sobrante = "NO";
+                        }
+                        if (chbLonaAcabadoBolsa.IsChecked == true)
+                        {
+                            nuevaOrden.lona_acabado_bolsa = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.lona_acabado_bolsa = "NO";
+                        }
+                        nuevaOrden.lona_acabado_otro = tbLonaAcabadoOtro.Text;
+                        nuevaOrden.lona_acabado_observaciones = tbLonaObservaciones.Text;
+                        nuevaOrden.vinil_medida = tbVinilMedida.Text;
+                        if (chbVinilBrillante.IsChecked == true)
+                        {
+                            nuevaOrden.vinil_tipo_brillante = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.vinil_tipo_brillante = "NO";
+                        }
+                        if (chbVinilMate.IsChecked == true)
+                        {
+                            nuevaOrden.vinil_tipo_mate = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.vinil_tipo_mate = "NO";
+                        }
+                        if (chbVinilUv.IsChecked == true)
+                        {
+                            nuevaOrden.vinil_impresion_uv = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.vinil_impresion_uv = "NO";
+                        }
+                        if (chbVinilEcosolvente.IsChecked == true)
+                        {
+                            nuevaOrden.vinil_impresion_ecosolvente = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.vinil_impresion_ecosolvente = "NO";
+                        }
+                        if (chbVinilEcono.IsChecked == true)
+                        {
+                            nuevaOrden.vinil_econo = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.vinil_econo = "NO";
+                        }
+                        if (chbVinilEcoGris.IsChecked == true)
+                        {
+                            nuevaOrden.vinil_ecogris = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.vinil_ecogris = "NO";
+                        }
+                        if (chbVinilAlta.IsChecked == true)
+                        {
+                            nuevaOrden.vinil_alta = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.vinil_alta = "NO";
+                        }
+                        if (chbVinilMicro.IsChecked == true)
+                        {
+                            nuevaOrden.vinil_micro = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.vinil_micro = "NO";
+                        }
+                        if (chbVinilTrans.IsChecked == true)
+                        {
+                            nuevaOrden.vinil_trans = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.vinil_trans = "NO";
+                        }
+                        if (chbVinilEstBlanco.IsChecked == true)
+                        {
+                            nuevaOrden.vinil_est_blanco = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.vinil_est_blanco = "NO";
+                        }
+                        if (chbVinilEstTrans.IsChecked == true)
+                        {
+                            nuevaOrden.vinil_est_trans = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.vinil_est_trans= "NO";
+                        }
+                        if (chbVinilReflejante.IsChecked == true)
+                        {
+                            nuevaOrden.vinil_reflejante = "SI";
+                        }
+                        else
+                        {
+                            nuevaOrden.vinil_reflejante = "NO";
+                        }
+                        nuevaOrden.vinil_observaciones = tbVinilObservaciones.Text;
+                        nuevaOrden.otro_material = tbOtroMaterial.Text;
+                        nuevaOrden.envio_a = cbEnvioA.Text;
+
+                        /*PARA TODOS LOS TIPOS DE ORDENES*/
+                        nuevaOrden.tipo_orden = TipoOrden;
                         nuevaOrden.estado = "RECEPCION";
                         nuevaOrden.tipo = "COTIZACION";
                         nuevaOrden.total = float.Parse(tbCotizacion.Text);
@@ -194,7 +369,7 @@ namespace ImpresosAlvarez
 
                         transaction.Commit();
 
-                        ImprimirPDF(numero.ToString());
+                        ImprimirPDF(numero.ToString(), cbTipoOrden.Text);
 
                         this.Close();
                     }
@@ -238,521 +413,99 @@ namespace ImpresosAlvarez
             e.Handled = regex.IsMatch(e.Text);
         }
 
-        public void ImprimirPDF(String NumeroOrden)
+        public void ImprimirPDF(String NumeroOrden, String Tipo)
         {
-            Ordenes OrdenElegida;
-            Clientes ClienteOrden;
-
-            using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+            if (Tipo == "NORMAL")
             {
-                OrdenElegida = dbContext.Ordenes.Where(O => O.numero.ToString() == NumeroOrden).First();
+                Ordenes OrdenElegida;
+                Clientes ClienteOrden;
 
-                if (OrdenElegida == null)
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                 {
-                    return;
+                    OrdenElegida = dbContext.Ordenes.Where(O => O.numero.ToString() == NumeroOrden).First();
+
+                    if (OrdenElegida == null)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        ClienteOrden = dbContext.Clientes.Where(C => C.id_cliente == OrdenElegida.id_cliente).First();
+                    }
                 }
-                else
-                {
-                    ClienteOrden = dbContext.Clientes.Where(C => C.id_cliente == OrdenElegida.id_cliente).First();
-                }
-            }
 
-            String rutaPDF = "";
+                String rutaPDF = "";
 
-            Document document = null;
+                Document document = null;
 
-            System.IO.Directory.CreateDirectory(@"C:\Impresos\Ordenes");
-            rutaPDF = @"C:\Impresos\Ordenes\Orden_" + NumeroOrden + ".pdf";
+                System.IO.Directory.CreateDirectory(@"C:\Impresos\Ordenes");
+                rutaPDF = @"C:\Impresos\Ordenes\Orden_" + NumeroOrden + ".pdf";
 
-            //PdfDocument pdf = new PdfDocument(new PdfReader(@"AlvarezCotizacionL.pdf"), new PdfWriter(rutaPDF));
-            PdfDocument pdf = new PdfDocument(new PdfWriter(rutaPDF));
-            document = new Document(pdf, PageSize.LETTER);
+                //PdfDocument pdf = new PdfDocument(new PdfReader(@"AlvarezCotizacionL.pdf"), new PdfWriter(rutaPDF));
+                PdfDocument pdf = new PdfDocument(new PdfWriter(rutaPDF));
+                document = new Document(pdf, PageSize.LETTER);
 
-            document.SetMargins(10, 10, 10, 10);
+                document.SetMargins(10, 10, 10, 10);
 
-            float[] columnWidths = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
-            Table table = new Table(UnitValue.CreatePercentArray(columnWidths));
-            PdfFont f = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
-            
-            float fs = 9;
+                float[] columnWidths = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+                Table table = new Table(UnitValue.CreatePercentArray(columnWidths));
+                PdfFont f = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
 
-            
-            //PRIMER RENGLON
+                float fs = 9;
 
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Orden de trabajo")));
 
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-                .SetFont(f)
-                .SetFontSize(20)
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.numero.ToString())));
+                //PRIMER RENGLON
 
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Recibe")));
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Orden de trabajo")));
 
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(20)
-                .SetBold()
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.quien_recibio)));
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                    .SetFont(f)
+                    .SetFontSize(20)
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.numero.ToString())));
 
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(20)
-                .SetBold()
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.prioridad)));
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Recibe")));
 
-            //SEGUNDO RENGLON
-            
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Nombre de la empresa")));
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(20)
+                    .SetBold()
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.quien_recibio)));
 
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(ClienteOrden.pseudonimo)));
-            
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Teléfono")));
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(20)
+                    .SetBold()
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.prioridad)));
 
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.telefono)));
-            
-            //TERCER RENGLON
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Solicitante")));
-
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.solicitante)));
-            
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Fecha solicita")));
-
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.fecha_solicita)));
-            
-            //CUARTO RENGLON                
-            
-            table.AddCell(new Cell(1, 5)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("")));
-            
-            //SEPARADOR
-            table.AddCell(new Cell(1, 10)
-               .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-               .SetFont(f)
-               .SetFontSize(3)
-               .SetBold()
-               .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-               .SetFontColor(new DeviceRgb(255, 255, 255))
-               .Add(new Paragraph("SEPARADOR")));
-            //SEPARADOR
-
-            //QUINTO RENGLON
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Descripción")));
-
-            table.AddCell(new Cell(1, 8)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.nombre_trabajo)));
-
-            
-            //SEXTO RENGLON
-            table.AddCell(new Cell(1, 1)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Cantidad")));
-
-            table.AddCell(new Cell(1, 1)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.cantidad.ToString())));
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Color de tintas")));
-
-            table.AddCell(new Cell(1, 4)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.color_tintas)));
-
-            table.AddCell(new Cell(1, 1)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Papel")));
-
-            table.AddCell(new Cell(1, 1)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.tipo_papel)));
-
-            
-            //SEPTIMO RENGLON                
-
-            
-            //OCTAVO RENGLON
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Con folio")));
-
-            String ConFolio = "Si No [X]";
-            if (OrdenElegida.con_folio == "SI")
-            {
-                ConFolio = "Si [X] No";
-            }
-
-            table.AddCell(new Cell(1, 1)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(ConFolio)));
-
-            String Folios = "";
-            if (OrdenElegida.con_folio == "SI")
-            {
-                Folios = "Del " + OrdenElegida.del_numero + " Al " + OrdenElegida.al_numero;
-            }
-            
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(Folios)));
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Orden anterior")));
-
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.orden_anterior)));
-            /*
-            table.AddCell(new Cell(2, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-                .SetFont(f)
-                .SetFontSize(20)
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.numero.ToString())));
-            */
-
-            //NOVENO RENGLON
-            
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Tamaño del papel")));
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.tamano)));
-
-            table.AddCell(new Cell(1, 1)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("")));
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Fecha anterior ")));
-
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.fecha_negativo)));
-
-            /*
-            table.AddCell(new Cell(1, 4)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(20)
-                .SetBold()                
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("")));
-            */
-
-            //SEPARADOR
-            table.AddCell(new Cell(1, 10)
-               .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-               .SetFont(f)
-               .SetFontSize(3)
-               .SetBold()
-               .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-               .SetFontColor(new DeviceRgb(255, 255, 255))
-               .Add(new Paragraph("SEPARADOR")));
-            //SEPARADOR
-
-            //DECIMO RENGLON
-            
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Copias")));
-
-            String Copias = "";
-
-            if (OrdenElegida.copia_1.Length > 0)
-            {
-                Copias = " Copia 1 " + OrdenElegida.copia_1;
-            }
-
-            if (OrdenElegida.copia_2.Length > 0)
-            {
-                Copias = Copias + " Copia 2 " + OrdenElegida.copia_2;
-            }
-
-            if (OrdenElegida.copia_3.Length > 0)
-            {
-                Copias = Copias + " Copia 3 " + OrdenElegida.copia_3;
-            }
-
-            if (OrdenElegida.copia_4.Length > 0)
-            {
-                Copias = Copias + " Copia 4 " + OrdenElegida.copia_4;
-            }
-
-            table.AddCell(new Cell(1, 8)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(Copias)));
-            
-            //SEPARADOR
-            table.AddCell(new Cell(1, 10)
-               .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-               .SetFont(f)
-               .SetFontSize(3)
-               .SetBold()
-               .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-               .SetFontColor(new DeviceRgb(255, 255, 255))
-               .Add(new Paragraph("SEPARADOR")));
-            //SEPARADOR
-
-            //DUODECIMO RENGLON
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Acabado")));
-
-            String Acabado = "";
-
-            if (OrdenElegida.pegado == "SI")
-            {
-                Acabado = " PEGADO ";
-            }
-
-            if (OrdenElegida.engrapado == "SI")
-            {
-                Acabado = Acabado + " ENGRAPADO ";
-            }
-
-            if (OrdenElegida.perforacion == "SI")
-            {
-                Acabado = Acabado + " PERFORACION ";
-            }
-
-            if (OrdenElegida.rojo == "SI")
-            {
-                Acabado = Acabado + " ROJO ";
-            }
-
-            if (OrdenElegida.blanco == "SI")
-            {
-                Acabado = Acabado + " BLANCO ";
-            }
-            
-            table.AddCell(new Cell(1, 8)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(Acabado)));
-
-            //SEPARADOR
-            table.AddCell(new Cell(1, 10)
-               .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-               .SetFont(f)
-               .SetFontSize(3)
-               .SetBold()
-               .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-               .SetFontColor(new DeviceRgb(255, 255, 255))
-               .Add(new Paragraph("SEPARADOR")));
-            //SEPARADOR
-
-            //CATORCEAVO RENGLON
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Especificaciones")));
-
-            table.AddCell(new Cell(1, 8)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("NOMBRE DEL DISEÑADOR: _________________________________")));
-            
-            //QUINCEAVO RENGLON
-
-            if (OrdenElegida.ruta != null)
-            {
+                //SEGUNDO RENGLON
 
                 table.AddCell(new Cell(1, 2)
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
@@ -760,570 +513,15 @@ namespace ImpresosAlvarez
                     .SetFontSize(fs)
                     .SetBold()
                     .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("Ruta")));
+                    .Add(new Paragraph("Nombre de la empresa")));
 
-                table.AddCell(new Cell(1, 8)
+                table.AddCell(new Cell(1, 3)
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                     .SetFont(f)
                     .SetFontSize(fs)
                     .SetBold()
                     .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph(OrdenElegida.ruta)));
-            }
-
-            
-            //DIECISEISAVO RENGLON
-
-            table.AddCell(new Cell(1, 10)
-               .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-               .SetFont(f)
-               .SetFontSize(fs)
-               .SetBold()
-               .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-               .Add(new Paragraph(OrdenElegida.especificaciones)));
-
-            // 19 RENGLON
-
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Negativo nuevo [  ]")));
-
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Ya existe negativo [  ]")));
-
-            table.AddCell(new Cell(1, 4)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Tirar placas y negativos [  ]")));
-            
-            // 19
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                //.Add(new Paragraph("Tipo de máquina " + OrdenElegida.tipo_maquina)));
-                .Add(new Paragraph("")));
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                //.Add(new Paragraph("Ryobi [  ]    Printmaster [  ]")));
-                .Add(new Paragraph("")));
-
-            table.AddCell(new Cell(1, 6)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("")));
-            
-            //////////////////////////////////////////
-            ///
-            table.AddCell(new Cell(8, 10)
-               .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-               .SetFont(f)
-               .SetFontSize(20)
-               .SetBold()
-               .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-               .SetFontColor(new DeviceRgb(255, 255, 255))
-               .Add(new Paragraph("SEPARADOR")));
-
-            /////////////////////////////////// SEGUNDA IMPRESION
-            //PRIMER RENGLON
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Orden de trabajo")));
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-                .SetFont(f)
-                .SetFontSize(20)
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.numero.ToString())));
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Recibe")));
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(20)
-                .SetBold()
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.quien_recibio)));
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(20)
-                .SetBold()
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.prioridad)));
-
-            //SEGUNDO RENGLON
-            
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Nombre de la empresa")));
-
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(ClienteOrden.pseudonimo)));
-            
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Teléfono")));
-
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.telefono)));
-            
-            //TERCER RENGLON
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Solicitante")));
-
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.solicitante)));
-            
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Fecha solicita")));
-
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.fecha_solicita)));
-            
-            //CUARTO RENGLON                
-            
-            table.AddCell(new Cell(1, 5)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("")));
-            
-            //SEPARADOR
-            table.AddCell(new Cell(1, 10)
-               .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-               .SetFont(f)
-               .SetFontSize(3)
-               .SetBold()
-               .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-               .SetFontColor(new DeviceRgb(255, 255, 255))
-               .Add(new Paragraph("SEPARADOR")));
-            //SEPARADOR
-
-            //QUINTO RENGLON
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Descripción")));
-
-            table.AddCell(new Cell(1, 8)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.nombre_trabajo)));
-
-            
-            //SEXTO RENGLON
-            table.AddCell(new Cell(1, 1)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Cantidad")));
-
-            table.AddCell(new Cell(1, 1)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.cantidad.ToString())));
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Color de tintas")));
-
-            table.AddCell(new Cell(1, 4)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.color_tintas)));
-
-            table.AddCell(new Cell(1, 1)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Papel")));
-
-            table.AddCell(new Cell(1, 1)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.tipo_papel)));
-
-            
-            //SEPTIMO RENGLON                
-
-            
-            //OCTAVO RENGLON
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Con folio")));
-
-            ConFolio = "Si No [X]";
-            if (OrdenElegida.con_folio == "SI")
-            {
-                ConFolio = "Si [X] No";
-            }
-
-            table.AddCell(new Cell(1, 1)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(ConFolio)));
-
-            Folios = "";
-            if (OrdenElegida.con_folio == "SI")
-            {
-                Folios = "Del " + OrdenElegida.del_numero + " Al " + OrdenElegida.al_numero;
-            }
-            
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(Folios)));
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Orden anterior")));
-
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.orden_anterior)));
-            /*
-            table.AddCell(new Cell(2, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-                .SetFont(f)
-                .SetFontSize(20)
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.numero.ToString())));
-            */
-
-            //NOVENO RENGLON
-            
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Tamaño del papel")));
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.tamano)));
-
-            table.AddCell(new Cell(1, 1)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("")));
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Fecha anterior ")));
-
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(OrdenElegida.fecha_negativo)));
-
-            /*
-            table.AddCell(new Cell(1, 4)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(20)
-                .SetBold()                
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("")));
-            */
-
-            //SEPARADOR
-            table.AddCell(new Cell(1, 10)
-               .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-               .SetFont(f)
-               .SetFontSize(3)
-               .SetBold()
-               .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-               .SetFontColor(new DeviceRgb(255, 255, 255))
-               .Add(new Paragraph("SEPARADOR")));
-            //SEPARADOR
-
-            //DECIMO RENGLON
-            
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Copias")));
-
-            Copias = "";
-
-            if (OrdenElegida.copia_1.Length > 0)
-            {
-                Copias = " Copia 1 " + OrdenElegida.copia_1;
-            }
-
-            if (OrdenElegida.copia_2.Length > 0)
-            {
-                Copias = Copias + " Copia 2 " + OrdenElegida.copia_2;
-            }
-
-            if (OrdenElegida.copia_3.Length > 0)
-            {
-                Copias = Copias + " Copia 3 " + OrdenElegida.copia_3;
-            }
-
-            if (OrdenElegida.copia_4.Length > 0)
-            {
-                Copias = Copias + " Copia 4 " + OrdenElegida.copia_4;
-            }
-
-            table.AddCell(new Cell(1, 8)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(Copias)));
-            
-            //SEPARADOR
-            table.AddCell(new Cell(1, 10)
-               .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-               .SetFont(f)
-               .SetFontSize(3)
-               .SetBold()
-               .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-               .SetFontColor(new DeviceRgb(255, 255, 255))
-               .Add(new Paragraph("SEPARADOR")));
-            //SEPARADOR
-
-            //DUODECIMO RENGLON
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Acabado")));
-
-            Acabado = "";
-
-            if (OrdenElegida.pegado == "SI")
-            {
-                Acabado = " PEGADO ";
-            }
-
-            if (OrdenElegida.engrapado == "SI")
-            {
-                Acabado = Acabado + " ENGRAPADO ";
-            }
-
-            if (OrdenElegida.perforacion == "SI")
-            {
-                Acabado = Acabado + " PERFORACION ";
-            }
-
-            if (OrdenElegida.rojo == "SI")
-            {
-                Acabado = Acabado + " ROJO ";
-            }
-
-            if (OrdenElegida.blanco == "SI")
-            {
-                Acabado = Acabado + " BLANCO ";
-            }
-            
-            table.AddCell(new Cell(1, 8)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(Acabado)));
-
-            //SEPARADOR
-            table.AddCell(new Cell(1, 10)
-               .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
-               .SetFont(f)
-               .SetFontSize(3)
-               .SetBold()
-               .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-               .SetFontColor(new DeviceRgb(255, 255, 255))
-               .Add(new Paragraph("SEPARADOR")));
-            //SEPARADOR
-
-            //CATORCEAVO RENGLON
-
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
-                .SetFontColor(new DeviceRgb(255, 255, 255))
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Especificaciones")));
-
-            table.AddCell(new Cell(1, 8)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("NOMBRE DEL DISEÑADOR: _________________________________")));
-            
-            //QUINCEAVO RENGLON
-
-            if (OrdenElegida.ruta != null)
-            {
+                    .Add(new Paragraph(ClienteOrden.pseudonimo)));
 
                 table.AddCell(new Cell(1, 2)
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
@@ -1331,7 +529,82 @@ namespace ImpresosAlvarez
                     .SetFontSize(fs)
                     .SetBold()
                     .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph("Ruta")));
+                    .Add(new Paragraph("Teléfono")));
+
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.telefono)));
+
+                //TERCER RENGLON
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Solicitante")));
+
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.solicitante)));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Fecha solicita")));
+
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.fecha_solicita)));
+
+                //CUARTO RENGLON                
+
+                table.AddCell(new Cell(1, 5)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("")));
+
+                //SEPARADOR
+                table.AddCell(new Cell(1, 10)
+                   .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                   .SetFont(f)
+                   .SetFontSize(3)
+                   .SetBold()
+                   .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                   .SetFontColor(new DeviceRgb(255, 255, 255))
+                   .Add(new Paragraph("SEPARADOR")));
+                //SEPARADOR
+
+                //QUINTO RENGLON
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Descripción")));
 
                 table.AddCell(new Cell(1, 8)
                     .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
@@ -1339,116 +612,1748 @@ namespace ImpresosAlvarez
                     .SetFontSize(fs)
                     .SetBold()
                     .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph(OrdenElegida.ruta)));
+                    .Add(new Paragraph(OrdenElegida.nombre_trabajo)));
+
+
+                //SEXTO RENGLON
+                table.AddCell(new Cell(1, 1)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Cantidad")));
+
+                table.AddCell(new Cell(1, 1)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.cantidad.ToString())));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Color de tintas")));
+
+                table.AddCell(new Cell(1, 4)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.color_tintas)));
+
+                table.AddCell(new Cell(1, 1)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Papel")));
+
+                table.AddCell(new Cell(1, 1)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.tipo_papel)));
+
+
+                //SEPTIMO RENGLON                
+
+
+                //OCTAVO RENGLON
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Con folio")));
+
+                String ConFolio = "Si No [X]";
+                if (OrdenElegida.con_folio == "SI")
+                {
+                    ConFolio = "Si [X] No";
+                }
+
+                table.AddCell(new Cell(1, 1)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(ConFolio)));
+
+                String Folios = "";
+                if (OrdenElegida.con_folio == "SI")
+                {
+                    Folios = "Del " + OrdenElegida.del_numero + " Al " + OrdenElegida.al_numero;
+                }
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(Folios)));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Orden anterior")));
+
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.orden_anterior)));
+                /*
+                table.AddCell(new Cell(2, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                    .SetFont(f)
+                    .SetFontSize(20)
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.numero.ToString())));
+                */
+
+                //NOVENO RENGLON
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Tamaño del papel")));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.tamano)));
+
+                table.AddCell(new Cell(1, 1)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("")));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Fecha anterior ")));
+
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.fecha_negativo)));
+
+                /*
+                table.AddCell(new Cell(1, 4)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(20)
+                    .SetBold()                
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("")));
+                */
+
+                //SEPARADOR
+                table.AddCell(new Cell(1, 10)
+                   .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                   .SetFont(f)
+                   .SetFontSize(3)
+                   .SetBold()
+                   .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                   .SetFontColor(new DeviceRgb(255, 255, 255))
+                   .Add(new Paragraph("SEPARADOR")));
+                //SEPARADOR
+
+                //DECIMO RENGLON
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Copias")));
+
+                String Copias = "";
+
+                if (OrdenElegida.copia_1.Length > 0)
+                {
+                    Copias = " Copia 1 " + OrdenElegida.copia_1;
+                }
+
+                if (OrdenElegida.copia_2.Length > 0)
+                {
+                    Copias = Copias + " Copia 2 " + OrdenElegida.copia_2;
+                }
+
+                if (OrdenElegida.copia_3.Length > 0)
+                {
+                    Copias = Copias + " Copia 3 " + OrdenElegida.copia_3;
+                }
+
+                if (OrdenElegida.copia_4.Length > 0)
+                {
+                    Copias = Copias + " Copia 4 " + OrdenElegida.copia_4;
+                }
+
+                table.AddCell(new Cell(1, 8)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(Copias)));
+
+                //SEPARADOR
+                table.AddCell(new Cell(1, 10)
+                   .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                   .SetFont(f)
+                   .SetFontSize(3)
+                   .SetBold()
+                   .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                   .SetFontColor(new DeviceRgb(255, 255, 255))
+                   .Add(new Paragraph("SEPARADOR")));
+                //SEPARADOR
+
+                //DUODECIMO RENGLON
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Acabado")));
+
+                String Acabado = "";
+
+                if (OrdenElegida.pegado == "SI")
+                {
+                    Acabado = " PEGADO ";
+                }
+
+                if (OrdenElegida.engrapado == "SI")
+                {
+                    Acabado = Acabado + " ENGRAPADO ";
+                }
+
+                if (OrdenElegida.perforacion == "SI")
+                {
+                    Acabado = Acabado + " PERFORACION ";
+                }
+
+                if (OrdenElegida.rojo == "SI")
+                {
+                    Acabado = Acabado + " ROJO ";
+                }
+
+                if (OrdenElegida.blanco == "SI")
+                {
+                    Acabado = Acabado + " BLANCO ";
+                }
+
+                table.AddCell(new Cell(1, 8)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(Acabado)));
+
+                //SEPARADOR
+                table.AddCell(new Cell(1, 10)
+                   .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                   .SetFont(f)
+                   .SetFontSize(3)
+                   .SetBold()
+                   .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                   .SetFontColor(new DeviceRgb(255, 255, 255))
+                   .Add(new Paragraph("SEPARADOR")));
+                //SEPARADOR
+
+                //CATORCEAVO RENGLON
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Especificaciones")));
+
+                table.AddCell(new Cell(1, 8)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("NOMBRE DEL DISEÑADOR: _________________________________")));
+
+                //QUINCEAVO RENGLON
+
+                if (OrdenElegida.ruta != null)
+                {
+
+                    table.AddCell(new Cell(1, 2)
+                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                        .SetFont(f)
+                        .SetFontSize(fs)
+                        .SetBold()
+                        .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                        .Add(new Paragraph("Ruta")));
+
+                    table.AddCell(new Cell(1, 8)
+                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                        .SetFont(f)
+                        .SetFontSize(fs)
+                        .SetBold()
+                        .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                        .Add(new Paragraph(OrdenElegida.ruta)));
+                }
+
+
+                //DIECISEISAVO RENGLON
+
+                table.AddCell(new Cell(1, 10)
+                   .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                   .SetFont(f)
+                   .SetFontSize(fs)
+                   .SetBold()
+                   .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                   .Add(new Paragraph(OrdenElegida.especificaciones)));
+
+                // 19 RENGLON
+
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Negativo nuevo [  ]")));
+
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Ya existe negativo [  ]")));
+
+                table.AddCell(new Cell(1, 4)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Tirar placas y negativos [  ]")));
+
+                // 19
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    //.Add(new Paragraph("Tipo de máquina " + OrdenElegida.tipo_maquina)));
+                    .Add(new Paragraph("")));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    //.Add(new Paragraph("Ryobi [  ]    Printmaster [  ]")));
+                    .Add(new Paragraph("")));
+
+                table.AddCell(new Cell(1, 6)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("")));
+
+                //////////////////////////////////////////
+                ///
+                table.AddCell(new Cell(8, 10)
+                   .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                   .SetFont(f)
+                   .SetFontSize(20)
+                   .SetBold()
+                   .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                   .SetFontColor(new DeviceRgb(255, 255, 255))
+                   .Add(new Paragraph("SEPARADOR")));
+
+                /////////////////////////////////// SEGUNDA IMPRESION
+                //PRIMER RENGLON
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Orden de trabajo")));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                    .SetFont(f)
+                    .SetFontSize(20)
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.numero.ToString())));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Recibe")));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(20)
+                    .SetBold()
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.quien_recibio)));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(20)
+                    .SetBold()
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.prioridad)));
+
+                //SEGUNDO RENGLON
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Nombre de la empresa")));
+
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(ClienteOrden.pseudonimo)));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Teléfono")));
+
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.telefono)));
+
+                //TERCER RENGLON
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Solicitante")));
+
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.solicitante)));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Fecha solicita")));
+
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.fecha_solicita)));
+
+                //CUARTO RENGLON                
+
+                table.AddCell(new Cell(1, 5)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("")));
+
+                //SEPARADOR
+                table.AddCell(new Cell(1, 10)
+                   .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                   .SetFont(f)
+                   .SetFontSize(3)
+                   .SetBold()
+                   .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                   .SetFontColor(new DeviceRgb(255, 255, 255))
+                   .Add(new Paragraph("SEPARADOR")));
+                //SEPARADOR
+
+                //QUINTO RENGLON
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Descripción")));
+
+                table.AddCell(new Cell(1, 8)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.nombre_trabajo)));
+
+
+                //SEXTO RENGLON
+                table.AddCell(new Cell(1, 1)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Cantidad")));
+
+                table.AddCell(new Cell(1, 1)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.cantidad.ToString())));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Color de tintas")));
+
+                table.AddCell(new Cell(1, 4)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.color_tintas)));
+
+                table.AddCell(new Cell(1, 1)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Papel")));
+
+                table.AddCell(new Cell(1, 1)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.tipo_papel)));
+
+
+                //SEPTIMO RENGLON                
+
+
+                //OCTAVO RENGLON
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Con folio")));
+
+                ConFolio = "Si No [X]";
+                if (OrdenElegida.con_folio == "SI")
+                {
+                    ConFolio = "Si [X] No";
+                }
+
+                table.AddCell(new Cell(1, 1)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(ConFolio)));
+
+                Folios = "";
+                if (OrdenElegida.con_folio == "SI")
+                {
+                    Folios = "Del " + OrdenElegida.del_numero + " Al " + OrdenElegida.al_numero;
+                }
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(Folios)));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Orden anterior")));
+
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.orden_anterior)));
+                /*
+                table.AddCell(new Cell(2, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                    .SetFont(f)
+                    .SetFontSize(20)
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.numero.ToString())));
+                */
+
+                //NOVENO RENGLON
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Tamaño del papel")));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.tamano)));
+
+                table.AddCell(new Cell(1, 1)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("")));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Fecha anterior ")));
+
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(OrdenElegida.fecha_negativo)));
+
+                /*
+                table.AddCell(new Cell(1, 4)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(20)
+                    .SetBold()                
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("")));
+                */
+
+                //SEPARADOR
+                table.AddCell(new Cell(1, 10)
+                   .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                   .SetFont(f)
+                   .SetFontSize(3)
+                   .SetBold()
+                   .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                   .SetFontColor(new DeviceRgb(255, 255, 255))
+                   .Add(new Paragraph("SEPARADOR")));
+                //SEPARADOR
+
+                //DECIMO RENGLON
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Copias")));
+
+                Copias = "";
+
+                if (OrdenElegida.copia_1.Length > 0)
+                {
+                    Copias = " Copia 1 " + OrdenElegida.copia_1;
+                }
+
+                if (OrdenElegida.copia_2.Length > 0)
+                {
+                    Copias = Copias + " Copia 2 " + OrdenElegida.copia_2;
+                }
+
+                if (OrdenElegida.copia_3.Length > 0)
+                {
+                    Copias = Copias + " Copia 3 " + OrdenElegida.copia_3;
+                }
+
+                if (OrdenElegida.copia_4.Length > 0)
+                {
+                    Copias = Copias + " Copia 4 " + OrdenElegida.copia_4;
+                }
+
+                table.AddCell(new Cell(1, 8)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(Copias)));
+
+                //SEPARADOR
+                table.AddCell(new Cell(1, 10)
+                   .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                   .SetFont(f)
+                   .SetFontSize(3)
+                   .SetBold()
+                   .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                   .SetFontColor(new DeviceRgb(255, 255, 255))
+                   .Add(new Paragraph("SEPARADOR")));
+                //SEPARADOR
+
+                //DUODECIMO RENGLON
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Acabado")));
+
+                Acabado = "";
+
+                if (OrdenElegida.pegado == "SI")
+                {
+                    Acabado = " PEGADO ";
+                }
+
+                if (OrdenElegida.engrapado == "SI")
+                {
+                    Acabado = Acabado + " ENGRAPADO ";
+                }
+
+                if (OrdenElegida.perforacion == "SI")
+                {
+                    Acabado = Acabado + " PERFORACION ";
+                }
+
+                if (OrdenElegida.rojo == "SI")
+                {
+                    Acabado = Acabado + " ROJO ";
+                }
+
+                if (OrdenElegida.blanco == "SI")
+                {
+                    Acabado = Acabado + " BLANCO ";
+                }
+
+                table.AddCell(new Cell(1, 8)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(Acabado)));
+
+                //SEPARADOR
+                table.AddCell(new Cell(1, 10)
+                   .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER)
+                   .SetFont(f)
+                   .SetFontSize(3)
+                   .SetBold()
+                   .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                   .SetFontColor(new DeviceRgb(255, 255, 255))
+                   .Add(new Paragraph("SEPARADOR")));
+                //SEPARADOR
+
+                //CATORCEAVO RENGLON
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Especificaciones")));
+
+                table.AddCell(new Cell(1, 8)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.RIGHT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("NOMBRE DEL DISEÑADOR: _________________________________")));
+
+                //QUINCEAVO RENGLON
+
+                if (OrdenElegida.ruta != null)
+                {
+
+                    table.AddCell(new Cell(1, 2)
+                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                        .SetFont(f)
+                        .SetFontSize(fs)
+                        .SetBold()
+                        .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                        .Add(new Paragraph("Ruta")));
+
+                    table.AddCell(new Cell(1, 8)
+                        .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                        .SetFont(f)
+                        .SetFontSize(fs)
+                        .SetBold()
+                        .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                        .Add(new Paragraph(OrdenElegida.ruta)));
+                }
+
+
+                //DIECISEISAVO RENGLON
+
+                table.AddCell(new Cell(1, 10)
+                   .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                   .SetFont(f)
+                   .SetFontSize(fs)
+                   .SetBold()
+                   .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                   .Add(new Paragraph(OrdenElegida.especificaciones)));
+
+                // 19 RENGLON
+
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Negativo nuevo [  ]")));
+
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Ya existe negativo [  ]")));
+
+                table.AddCell(new Cell(1, 4)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Tirar placas y negativos [  ]")));
+
+                // 19
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    //.Add(new Paragraph("Tipo de máquina " + OrdenElegida.tipo_maquina)));
+                    .Add(new Paragraph("")));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    //.Add(new Paragraph("Ryobi [  ]    Printmaster [  ]")));
+                    .Add(new Paragraph("")));
+
+                table.AddCell(new Cell(1, 6)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("")));
+
+
+                //////////////////////////////////////////
+
+
+                /*
+
+                ImageData imageData = ImageDataFactory.Create(@"Imagenes/LogoAlvarez.png");
+
+                iText.Layout.Element.Image pdfImg = new iText.Layout.Element.Image(imageData);
+
+                pdfImg.SetHeight(100);
+                pdfImg.SetFixedPosition(480, 480);
+
+                document.Add(pdfImg);
+
+                pdfImg.SetFixedPosition(480, 150);
+
+                document.Add(pdfImg);
+
+                */
+
+                document.Add(table);
+
+                document.Close();
+
+                Process prc = new System.Diagnostics.Process();
+                prc.StartInfo.FileName = rutaPDF;
+                prc.Start();
+
+                /*
+                byte[] content = Pdf
+                    .From(html)
+                    .OfSize(PaperSize.Letter)
+                    .Content();
+                String rutaPDF = @"C:\OpcyonApp\Cotizacion_" + cotizacion.IdCotizacion + ".pdf";
+
+                File.WriteAllBytes(rutaPDF, content);
+
+                Process prc = new System.Diagnostics.Process();
+                prc.StartInfo.FileName = rutaPDF;
+                prc.Start();
+                */
             }
+            else if (Tipo == "LONA/VINIL")/*TIPO DE ORDE LONA VINIL*/
+            {                
+                Document document = null;
 
-            
-            //DIECISEISAVO RENGLON
+                System.IO.Directory.CreateDirectory(@"C:\Impresos\Ordenes");
+                String rutaPDF = @"C:\Impresos\Ordenes\OrdenLV_" + NumeroOrden + ".pdf";
 
-            table.AddCell(new Cell(1, 10)
-               .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-               .SetFont(f)
-               .SetFontSize(fs)
-               .SetBold()
-               .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-               .Add(new Paragraph(OrdenElegida.especificaciones)));
+                //PdfDocument pdf = new PdfDocument(new PdfReader(@"AlvarezCotizacionL.pdf"), new PdfWriter(rutaPDF));
+                PdfDocument pdf = new PdfDocument(new PdfWriter(rutaPDF));
+                document = new Document(pdf, PageSize.LETTER);
 
-            // 19 RENGLON
+                document.SetMargins(5, 5, 5, 5);
 
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Negativo nuevo [  ]")));
+                float[] columnWidths = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+                Table table = new Table(UnitValue.CreatePercentArray(columnWidths));
+                PdfFont f = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
 
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Ya existe negativo [  ]")));
+                float fs = 9;
 
-            table.AddCell(new Cell(1, 4)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("Tirar placas y negativos [  ]")));
-            
-            // 19
+                ImageData imgLogo = ImageDataFactory.Create(@"C:\Impresos\orden2File.png");
 
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                //.Add(new Paragraph("Tipo de máquina " + OrdenElegida.tipo_maquina)));
-                .Add(new Paragraph("")));
+                iText.Layout.Element.Image pdfImg = new iText.Layout.Element.Image(imgLogo);
 
-            table.AddCell(new Cell(1, 2)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                //.Add(new Paragraph("Ryobi [  ]    Printmaster [  ]")));
-                .Add(new Paragraph("")));
+                pdfImg.SetHeight(350);
 
-            table.AddCell(new Cell(1, 6)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBold()
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph("")));
-            
+                table.AddCell(new Cell(1, 10)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(pdfImg));
 
-            //////////////////////////////////////////
+                table.AddCell(new Cell(1, 10)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    //.Add(new Paragraph("Ryobi [  ]    Printmaster [  ]")));
+                    .Add(new Paragraph("")));
+
+                table.AddCell(new Cell(1, 10)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    //.Add(new Paragraph("Ryobi [  ]    Printmaster [  ]")));
+                    .Add(new Paragraph("")));
+
+                table.AddCell(new Cell(1, 10)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    //.Add(new Paragraph("Ryobi [  ]    Printmaster [  ]")));
+                    .Add(new Paragraph("")));
+
+                table.AddCell(new Cell(1, 10)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    //.Add(new Paragraph("Ryobi [  ]    Printmaster [  ]")));
+                    .Add(new Paragraph("")));
+
+                table.AddCell(new Cell(1, 10)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(pdfImg));               
+                
+
+                //PRIMER RENGLON
+                /*
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBold()
+                    .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                    .SetFontColor(new DeviceRgb(255, 255, 255))
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph("Orden de trabajo")));
+                */
+                document.Add(table);
+
+                float bot = 745;
+
+                Paragraph para = new Paragraph(NumeroOrden);
+                para.SetFont(f);
+                para.SetFontSize(fs);
+                para.SetBold();
+                para.SetFixedPosition(190, bot, 50);
+                document.Add(para);
+
+                para = new Paragraph(tbRecibe.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs);
+                para.SetBold();
+                para.SetFixedPosition(425, bot, 150);
+                document.Add(para);
+
+                para = new Paragraph(tbClientes.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(130, bot - 15, 250);
+                document.Add(para);
+
+                para = new Paragraph(tbSolicita.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(375, bot - 15, 250);
+                document.Add(para);
+
+                para = new Paragraph(tbTelefono.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(80, bot - 35, 250);
+                document.Add(para);
+
+                if (cbEnvioA.Text == "WHATS")
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(456, bot - 38, 250);
+                    document.Add(para);
+                }
+                else if (cbEnvioA.Text == "CORREO")
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(516, bot - 38, 250);
+                    document.Add(para);
+                }
+                else if (cbEnvioA.Text == "LO TRAJO")
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(578, bot - 38, 250);
+                    document.Add(para);
+                }
+
+                para = new Paragraph(dtpFecha.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(100, bot - 55, 250);
+                document.Add(para);
 
 
-            /*
+                para = new Paragraph(tbLonaMedida.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(100, bot - 78, 250);
+                document.Add(para);
 
-            ImageData imageData = ImageDataFactory.Create(@"Imagenes/LogoAlvarez.png");
+                if (chbLonaNormal.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 3);
+                    para.SetBold();
+                    para.SetFixedPosition(346, bot - 81, 250);
+                    document.Add(para);
+                }
 
-            iText.Layout.Element.Image pdfImg = new iText.Layout.Element.Image(imageData);
+                if (chbLonaTraslucida.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 3);
+                    para.SetBold();
+                    para.SetFixedPosition(414, bot - 81, 250);
+                    document.Add(para);
+                }
 
-            pdfImg.SetHeight(100);
-            pdfImg.SetFixedPosition(480, 480);
+                if (chbLonaUv.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 3);
+                    para.SetBold();
+                    para.SetFixedPosition(506, bot - 81, 250);
+                    document.Add(para);
+                }
 
-            document.Add(pdfImg);
+                if (chbLonaEcosolvente.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 3);
+                    para.SetBold();
+                    para.SetFixedPosition(578, bot - 81, 250);
+                    document.Add(para);
+                }
 
-            pdfImg.SetFixedPosition(480, 150);
+                if (chbLonaAcabadoBYO.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 3);
+                    para.SetBold();
+                    para.SetFixedPosition(138, bot - 105, 250);
+                    document.Add(para);
+                }
 
-            document.Add(pdfImg);
+                if (chbLonaAcabadoBastilla.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 3);
+                    para.SetBold();
+                    para.SetFixedPosition(208, bot - 105, 250);
+                    document.Add(para);
+                }
 
-            */
+                if (chbLonaAcabadoSobrante.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 3);
+                    para.SetBold();
+                    para.SetFixedPosition(297, bot - 105, 250);
+                    document.Add(para);
+                }
 
-            document.Add(table);
+                if (chbLonaAcabadoBolsa.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 3);
+                    para.SetBold();
+                    para.SetFixedPosition(369, bot - 105, 250);
+                    document.Add(para);
+                }
 
-            document.Close();
+                para = new Paragraph(tbLonaAcabadoOtro.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(400, bot - 115, 250);
+                document.Add(para);
 
-            Process prc = new System.Diagnostics.Process();
-            prc.StartInfo.FileName = rutaPDF;
-            prc.Start();
+                para = new Paragraph(tbLonaAcabadoOtro.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(35, bot - 135, 450);
+                document.Add(para);
 
-            /*
-            byte[] content = Pdf
-                .From(html)
-                .OfSize(PaperSize.Letter)
-                .Content();
-            String rutaPDF = @"C:\OpcyonApp\Cotizacion_" + cotizacion.IdCotizacion + ".pdf";
+                /*VINIL*/
 
-            File.WriteAllBytes(rutaPDF, content);
+                para = new Paragraph(tbVinilMedida.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(100, bot - 182, 250);
+                document.Add(para);
 
-            Process prc = new System.Diagnostics.Process();
-            prc.StartInfo.FileName = rutaPDF;
-            prc.Start();
-            */
+                if (chbVinilBrillante.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(338, bot - 184, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilMate.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(390, bot - 184, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilUv.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(497, bot - 184, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilEcosolvente.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(578, bot - 184, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilEcono.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(65, bot - 204, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilEcoGris.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(123, bot - 204, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilAlta.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(215, bot - 204, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilMicro.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(309, bot - 204, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilTrans.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(360, bot - 204, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilEstBlanco.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(432, bot - 204, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilEstTrans.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(500, bot - 204, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilReflejante.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(578, bot - 204, 250);
+                    document.Add(para);
+                }
+
+                para = new Paragraph(tbVinilObservaciones.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(55, bot - 234, 450);
+                document.Add(para);
+
+                para = new Paragraph(tbOtroMaterial.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(115, bot - 284, 450);
+                document.Add(para);
+
+                /*SEGUNDA IMPRESIÓN*/
+
+                bot = bot - 370;
+
+                para = new Paragraph(NumeroOrden);
+                para.SetFont(f);
+                para.SetFontSize(fs);
+                para.SetBold();
+                para.SetFixedPosition(190, bot, 50);
+                document.Add(para);
+
+                para = new Paragraph(tbRecibe.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs);
+                para.SetBold();
+                para.SetFixedPosition(425, bot, 150);
+                document.Add(para);
+
+                para = new Paragraph(tbClientes.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(130, bot - 15, 250);
+                document.Add(para);
+
+                para = new Paragraph(tbSolicita.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(375, bot - 15, 250);
+                document.Add(para);
+
+                para = new Paragraph(tbTelefono.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(80, bot - 35, 250);
+                document.Add(para);
+
+                if (cbEnvioA.Text == "WHATS")
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(456, bot - 38, 250);
+                    document.Add(para);
+                }
+                else if (cbEnvioA.Text == "CORREO")
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(516, bot - 38, 250);
+                    document.Add(para);
+                }
+                else if (cbEnvioA.Text == "LO TRAJO")
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(578, bot - 38, 250);
+                    document.Add(para);
+                }
+
+                para = new Paragraph(dtpFecha.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(100, bot - 55, 250);
+                document.Add(para);
+
+
+                para = new Paragraph(tbLonaMedida.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(100, bot - 78, 250);
+                document.Add(para);
+
+                if (chbLonaNormal.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 3);
+                    para.SetBold();
+                    para.SetFixedPosition(346, bot - 81, 250);
+                    document.Add(para);
+                }
+
+                if (chbLonaTraslucida.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 3);
+                    para.SetBold();
+                    para.SetFixedPosition(414, bot - 81, 250);
+                    document.Add(para);
+                }
+
+                if (chbLonaUv.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 3);
+                    para.SetBold();
+                    para.SetFixedPosition(506, bot - 81, 250);
+                    document.Add(para);
+                }
+
+                if (chbLonaEcosolvente.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 3);
+                    para.SetBold();
+                    para.SetFixedPosition(578, bot - 81, 250);
+                    document.Add(para);
+                }
+
+                if (chbLonaAcabadoBYO.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 3);
+                    para.SetBold();
+                    para.SetFixedPosition(138, bot - 105, 250);
+                    document.Add(para);
+                }
+
+                if (chbLonaAcabadoBastilla.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 3);
+                    para.SetBold();
+                    para.SetFixedPosition(208, bot - 105, 250);
+                    document.Add(para);
+                }
+
+                if (chbLonaAcabadoSobrante.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 3);
+                    para.SetBold();
+                    para.SetFixedPosition(297, bot - 105, 250);
+                    document.Add(para);
+                }
+
+                if (chbLonaAcabadoBolsa.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 3);
+                    para.SetBold();
+                    para.SetFixedPosition(369, bot - 105, 250);
+                    document.Add(para);
+                }
+
+                para = new Paragraph(tbLonaAcabadoOtro.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(400, bot - 115, 250);
+                document.Add(para);
+
+                para = new Paragraph(tbLonaObservaciones.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(35, bot - 135, 450);
+                document.Add(para);
+
+                /*VINIL*/
+
+                para = new Paragraph(tbVinilMedida.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(100, bot - 182, 250);
+                document.Add(para);
+
+                if (chbVinilBrillante.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(338, bot - 184, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilMate.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(390, bot - 184, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilUv.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(497, bot - 184, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilEcosolvente.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(578, bot - 184, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilEcono.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(65, bot - 204, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilEcoGris.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(123, bot - 204, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilAlta.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(215, bot - 204, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilMicro.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(309, bot - 204, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilTrans.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(360, bot - 204, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilEstBlanco.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(432, bot - 204, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilEstTrans.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(500, bot - 204, 250);
+                    document.Add(para);
+                }
+
+                if (chbVinilReflejante.IsChecked == true)
+                {
+                    para = new Paragraph("X");
+                    para.SetFont(f);
+                    para.SetFontSize(fs + 2);
+                    para.SetBold();
+                    para.SetFixedPosition(578, bot - 204, 250);
+                    document.Add(para);
+                }
+
+                para = new Paragraph(tbVinilObservaciones.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(55, bot - 234, 450);
+                document.Add(para);
+
+                para = new Paragraph(tbOtroMaterial.Text);
+                para.SetFont(f);
+                para.SetFontSize(fs - 2);
+                para.SetBold();
+                para.SetFixedPosition(115, bot - 284, 450);
+                document.Add(para);
+
+
+                document.Close();
+
+                Process prc = new System.Diagnostics.Process();
+                prc.StartInfo.FileName = rutaPDF;
+                prc.Start();
+            }
         }
 
         private void dgOrdenesAnteriores_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -1509,6 +2414,121 @@ namespace ImpresosAlvarez
             using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
             {
                 lblFolioOrden.Content = dbContext.Valores.First().numero_orden;
+            }
+        }
+
+        private void btnTest_Click(object sender, RoutedEventArgs e)
+        {
+            String NumeroOrden = "12345";
+            Document document = null;
+
+            System.IO.Directory.CreateDirectory(@"C:\Impresos\Ordenes");
+            String rutaPDF = @"C:\Impresos\Ordenes\OrdenT_" + NumeroOrden + ".pdf";
+
+            //PdfDocument pdf = new PdfDocument(new PdfReader(@"AlvarezCotizacionL.pdf"), new PdfWriter(rutaPDF));
+            PdfDocument pdf = new PdfDocument(new PdfWriter(rutaPDF));
+            document = new Document(pdf, PageSize.LETTER);
+
+            document.SetMargins(5, 5, 5, 5);
+
+            float[] columnWidths = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+            Table table = new Table(UnitValue.CreatePercentArray(columnWidths));
+            PdfFont f = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
+
+            float fs = 9;
+
+            ImageData imgLogo = ImageDataFactory.Create(@"C:\Impresos\orden2File.png");
+
+            iText.Layout.Element.Image pdfImg = new iText.Layout.Element.Image(imgLogo);
+
+            pdfImg.SetHeight(350);
+
+            table.AddCell(new Cell(1, 10)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(pdfImg));
+
+            table.AddCell(new Cell(1, 10)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                //.Add(new Paragraph("Ryobi [  ]    Printmaster [  ]")));
+                .Add(new Paragraph("")));
+
+            table.AddCell(new Cell(1, 10)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                //.Add(new Paragraph("Ryobi [  ]    Printmaster [  ]")));
+                .Add(new Paragraph("")));
+
+            table.AddCell(new Cell(1, 10)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                //.Add(new Paragraph("Ryobi [  ]    Printmaster [  ]")));
+                .Add(new Paragraph("")));
+
+            table.AddCell(new Cell(1, 10)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                //.Add(new Paragraph("Ryobi [  ]    Printmaster [  ]")));
+                .Add(new Paragraph("")));
+
+            table.AddCell(new Cell(1, 10)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(pdfImg));
+
+            //PRIMER RENGLON
+            /*
+            table.AddCell(new Cell(1, 2)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBold()
+                .SetBackgroundColor(new DeviceRgb(0, 0, 0))
+                .SetFontColor(new DeviceRgb(255, 255, 255))
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("Orden de trabajo")));
+            */
+            document.Add(table);
+
+            document.Close();
+
+            Process prc = new System.Diagnostics.Process();
+            prc.StartInfo.FileName = rutaPDF;
+            prc.Start();
+        }
+
+        private void cbTipoOrden_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cbTipoOrden.SelectedIndex < 0)
+            {
+
+            }
+            else if (cbTipoOrden.SelectedIndex == 0)
+            {
+                if (gTipo1 != null)
+                {
+                    gTipo1.Visibility = Visibility.Visible;
+                    gTipo2.Visibility = Visibility.Hidden;
+                }                
+            }
+            else if (cbTipoOrden.SelectedIndex == 1)
+            {
+                if (gTipo2 != null)
+                {
+                    gTipo1.Visibility = Visibility.Hidden;
+                    gTipo2.Visibility = Visibility.Visible;
+                }
             }
         }
     }

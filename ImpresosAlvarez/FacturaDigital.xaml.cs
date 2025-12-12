@@ -1,7 +1,8 @@
-﻿using ImpresosAlvarez.Clases;
-using ImpresosAlvarez.Entity;
-using Gma.QrCodeNet.Encoding;
+﻿using Gma.QrCodeNet.Encoding;
 using Gma.QrCodeNet.Encoding.Windows.Render;
+using ImpresosAlvarez.Clases;
+using ImpresosAlvarez.Entity;
+using ImpresosAlvarez.mx.facturacfdi.v33;
 using iText.IO.Font.Constants;
 using iText.IO.Image;
 using iText.Kernel.Colors;
@@ -11,11 +12,17 @@ using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
+using Syncfusion.Windows.Controls.Input;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
+//using ImpresosAlvarez.mx.facturacfdi.dev33;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -30,12 +37,7 @@ using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.XPath;
 using System.Xml.Xsl;
-using System.Data.Entity;
-using System.Data;
-using ImpresosAlvarez.mx.facturacfdi.v33;
-//using ImpresosAlvarez.mx.facturacfdi.dev33;
-using System.Net.Mail;
-using System.Net;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace ImpresosAlvarez
 {
@@ -49,11 +51,11 @@ namespace ImpresosAlvarez
         List<ConceptoFactura> _conceptos;
         List<Contribuyentes> _contribuyentes;
 
-        public float Subtotal;
-        public float Total;
-        public float RetencionIva;
-        public float RetencionIsr;
-        public float RetencionCedular;
+        public double Subtotal;
+        public double Total;
+        public double RetencionIva;
+        public double RetencionIsr;
+        public double RetencionCedular;
 
         X509Certificate certificado;
 
@@ -90,6 +92,8 @@ namespace ImpresosAlvarez
         String UUIDCancelado;
 
         bool Es40 = false;
+
+        Facturas FacturaPendienteElegida;
         public FacturaDigital()
         {
             InitializeComponent();
@@ -170,6 +174,8 @@ namespace ImpresosAlvarez
 
             rutaPDF = "";
             rutaXML = "";
+
+            FacturaPendienteElegida = null;
         }
 
         private void tbClientes_SelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -202,7 +208,7 @@ namespace ImpresosAlvarez
             RetencionIva = 0;
             RetencionIsr = 0;
             RetencionCedular = 0;
-            float iva = 0;            
+            double iva = 0;            
 
             foreach (ConceptoFactura item in _conceptos)
             {
@@ -224,26 +230,33 @@ namespace ImpresosAlvarez
                     RetencionCedular = float.Parse(Math.Round(RetencionCedular, 2).ToString());
                 }
                 */
-                float temp = item.Importe * 0.16f;
-                iva += float.Parse(Math.Round(temp, 2).ToString());
+                double temp = item.Importe * 0.16d;
+                iva += double.Parse(Math.Round(temp, 6).ToString());
 
                 if (_clienteElegido.aplica_retencion == "SI")
                 {
                     //RetencionIsr += item.Importe * 0.012500f;
                     //RetencionIsr += Redondear(item.Importe * 0.012500f);
                     //RetencionIsr += float.Parse((Math.Ceiling(item.Importe * 0.012500f)).ToString());
-                    float temp2 = item.Importe * 0.012500f;
-                    RetencionIsr += float.Parse(Math.Round(temp2, 2).ToString());
+                    double temp2 = item.Importe * 0.012500f;
+                    RetencionIsr += double.Parse(Math.Round(temp2, 6).ToString());
                     //RetencionIsr += float.Parse(Math.Round((item.Importe * 0.012500f), 2).ToString());
                 }
             }
 
-            
-            iva = float.Parse((Math.Round(iva, 2)).ToString());
+            Subtotal = Math.Round(Subtotal, 6);
+            iva = double.Parse((Math.Round(iva, 6)).ToString());
             //iva = Redondear(iva);
+            iva = double.Parse((Math.Round(Subtotal * 0.16, 6).ToString()));
 
             //RetencionIsr = Redondear(RetencionIsr);
-            RetencionIsr = float.Parse(Math.Round(RetencionIsr, 2).ToString());
+            //RetencionIsr = double.Parse(Math.Round(RetencionIsr, 2).ToString());
+            if (_clienteElegido.aplica_retencion == "SI")
+            {
+                //RetencionIsr = Subtotal * 0.0125;
+                //RetencionIsr = RetencionIsr * 0.0125;
+                RetencionIsr = double.Parse((Math.Round(RetencionIsr, 6)).ToString());
+            }            
 
             datosFacturaElectronica.iva = iva.ToString();
             datosFacturaElectronica.retencionIsr = RetencionIsr.ToString();
@@ -270,13 +283,13 @@ namespace ImpresosAlvarez
 
             Total = Subtotal + iva - RetencionIsr - RetencionIva - RetencionCedular;
 
-            Total = float.Parse(Math.Round(Total, 2).ToString());
+            Total = double.Parse(Math.Round(Total, 6).ToString());
 
             //lblTotalImpuestos.Content = "$ " + datosFacturaElectronica.totalImpuestos;
             lblSubtotal.Content = "$ " + Subtotal.ToString();
             lblISR.Content = "$ " + RetencionIsr.ToString();
             lblIVA.Content = "$ " + iva.ToString();
-            lblTotal.Content = "$ " + Math.Round(Total, 2).ToString() + " (" + ConvertirALetra(Total.ToString()) + ") ";
+            lblTotal.Content = "$ " + Math.Round(Total, 6).ToString() + " (" + ConvertirALetra(Total.ToString()) + ") ";
         }
 
         private void btnAgregarConcepto_Click(object sender, RoutedEventArgs e)
@@ -809,7 +822,7 @@ namespace ImpresosAlvarez
                     //IVA
                     impuesto = item.Cantidad * item.PrecioUnitario;
                     impuesto = impuesto * 0.16f;
-                    impuesto = float.Parse((Math.Round(impuesto, 2)).ToString());
+                    impuesto = float.Parse((Math.Round(impuesto, 6)).ToString());
                     //impuesto = Redondear(impuesto);
                     impuestoTotal = impuestoTotal + impuesto;
                     baseTotal = baseTotal + item.Importe;
@@ -817,7 +830,7 @@ namespace ImpresosAlvarez
                     //RETENCION
                     impuestoRetencion = item.Cantidad * item.PrecioUnitario;
                     impuestoRetencion = impuestoRetencion * 0.012500f;
-                    impuestoRetencion = float.Parse((Math.Round(impuestoRetencion, 2)).ToString());
+                    impuestoRetencion = float.Parse((Math.Round(impuestoRetencion, 6)).ToString());
                     //impuestoRetencion = Redondear(impuestoRetencion);
                     impuestoRetencionTotal = impuestoRetencionTotal + impuestoRetencion;
                     baseTotalRetencion = baseTotalRetencion + item.Importe;
@@ -917,7 +930,7 @@ namespace ImpresosAlvarez
                 */
 
                 xa = xDoc.CreateAttribute("Importe");
-                impuestoRetencionTotal = float.Parse((Math.Round(impuestoRetencionTotal, 2)).ToString());
+                impuestoRetencionTotal = float.Parse((Math.Round(impuestoRetencionTotal, 6)).ToString());
                 xa.Value = AddDecimals(impuestoRetencionTotal.ToString());
                 xRetencionImpuestos.Attributes.Append(xa);
 
@@ -957,7 +970,7 @@ namespace ImpresosAlvarez
                 xa.Value = AddDecimals(impuestoTotal.ToString());
             }
             */
-            impuestoTotal = float.Parse((Math.Round(impuestoTotal, 2)).ToString());
+            impuestoTotal = float.Parse((Math.Round(impuestoTotal, 6)).ToString());
             xa.Value = AddDecimals(impuestoTotal.ToString());
             xTrasladoImpuestos.Attributes.Append(xa);
 
@@ -1658,7 +1671,8 @@ namespace ImpresosAlvarez
 
 
                     var qrEncoder = new QrEncoder(ErrorCorrectionLevel.H);
-                    var qrCode = qrEncoder.Encode(datosFacturaElectronica.rfcEmisor + "&" + datosFacturaElectronica.rfcReceptor + "&" + datosFacturaElectronica.total + "&" + datosFacturaElectronica.uuid);
+                    //var qrCode = qrEncoder.Encode(datosFacturaElectronica.rfcEmisor + "&" + datosFacturaElectronica.rfcReceptor + "&" + datosFacturaElectronica.total + "&" + datosFacturaElectronica.uuid);
+                    var qrCode = qrEncoder.Encode("https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?&id=" + datosFacturaElectronica.uuid + "&re=" + datosFacturaElectronica.rfcEmisor + "&rr=" + datosFacturaElectronica.rfcReceptor + "&tt=" + AddDecimals(datosFacturaElectronica.total) + "&fe=" + datosFacturaElectronica.selloCFD.Substring(datosFacturaElectronica.selloCFD.Length - 8));
 
                     var renderer = new GraphicsRenderer(new FixedModuleSize(5, QuietZoneModules.Two), System.Drawing.Brushes.Black, System.Drawing.Brushes.White);
                     //renderer.WriteToStream(qrCode.Matrix, ImageFormat.Png, stream);
@@ -1924,7 +1938,7 @@ namespace ImpresosAlvarez
                         factura.id_cliente = _clienteElegido.id_cliente;
                         factura.id_contribuyente = ((Contribuyentes)cbContribuyentes.SelectedItem).id_contribuyente;
                         factura.subtotal = Subtotal;
-                        factura.total = Math.Round(Total, 2);
+                        factura.total = Math.Round(Total, 4);
                         factura.estado = "ACTIVO";
                         factura.fecha = DateTime.Now.ToString().Substring(0, 10);
                         factura.numero = FolioActual.ToString();
@@ -1956,6 +1970,11 @@ namespace ImpresosAlvarez
                             {
                                 dbContext.Adjuntar_Orden_Factura(item.IdOrden, factura.id_factura);
                                 dbContext.Modificar_Tipo_Orden(item.IdOrden, "FACTURA");
+                                detalle.id_orden = item.IdOrden;
+                            }
+                            else
+                            {
+                                detalle.id_orden = 0;
                             }
 
                             dbContext.SaveChanges();
@@ -2053,16 +2072,18 @@ namespace ImpresosAlvarez
                 return;
             }
             int IdContribuyente = int.Parse(cbContribuyentes.SelectedValue.ToString());
+            /*            
             Contribuyentes c = (Contribuyentes)cbContribuyentes.SelectedItem;
             FolioActual = int.Parse(c.numero_factura);
             lblFolio.Content = FolioActual.ToString();
-            /*
+            */
+
             using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
             {
-                FolioActual = int.Parse(dbContext.FoliosFacturas.Where(F => F.IdContribuyente == IdContribuyente).First().Folio.ToString());
+                FolioActual = int.Parse(dbContext.Contribuyentes.Where(F => F.id_contribuyente == IdContribuyente).First().numero_factura);
                 lblFolio.Content = FolioActual.ToString();
             }
-            */
+            
         }
 
         private void cbRetencionIVA_Click(object sender, RoutedEventArgs e)
@@ -2084,6 +2105,16 @@ namespace ImpresosAlvarez
         {
             datosFacturaElectronica.formaPago = cbFormasPago.SelectedValue.ToString();
             datosFacturaElectronica.formaPagoTexto = (e.AddedItems[0] as FormasPago).FormaPago;
+            if (datosFacturaElectronica.formaPago == "99")
+            {
+                cbMetodoPago.SelectedIndex = 1;
+                cbMetodoPago.IsEnabled = false;
+            }
+            else
+            {
+                cbMetodoPago.SelectedIndex = 0;
+                cbMetodoPago.IsEnabled = false;
+            }
         }
 
         private void cbUsosCFDI_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -2776,8 +2807,8 @@ namespace ImpresosAlvarez
             if (timbreValido)
             {
                 GuardarFactura();
-                if (ImprimirPDF(true))                {
-                    
+                if (ImprimirPDF(true))
+                {
                     EnviarPorCorreo();
                 }
                 else
@@ -2863,425 +2894,440 @@ namespace ImpresosAlvarez
 
         private void GenerarXML40()
         {
-            XmlDocument xDoc = new XmlDocument();
-            xDoc.LoadXml(XML);
-
-            XmlNamespaceManager nms = new XmlNamespaceManager(xDoc.NameTable);
-            nms.AddNamespace("cfdi", "http://www.sat.gob.mx/cfd/4");
-            /*
-            if (cbRetencionCedular.IsChecked.Value)
+            try
             {
-                nms.AddNamespace("implocal", "http://www.sat.gob.mx/implocal");
-            }
-            */
-            XmlAttribute xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@Serie", nms);
-            xAttrib.Value = "-";
-            datosFacturaElectronica.serie = xAttrib.Value;
+                XmlDocument xDoc = new XmlDocument();
+                xDoc.LoadXml(XML);
 
-            xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@Folio", nms);
-            xAttrib.Value = FolioActual.ToString();
-            datosFacturaElectronica.folio = xAttrib.Value;
-
-            xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@Fecha", nms);
-            fechaFactura = DateTime.UtcNow.AddHours(-7).ToString("s");
-            xAttrib.Value = fechaFactura;
-            datosFacturaElectronica.fechaExpedicion = xAttrib.Value;
-
-            xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@FormaPago", nms);
-            xAttrib.Value = datosFacturaElectronica.formaPago;
-            datosFacturaElectronica.formaPago = xAttrib.Value;
-
-            xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@MetodoPago", nms);
-            if (cbMetodoPago.SelectedIndex == 0)
-            {
-                datosFacturaElectronica.metodoPago = "PUE";
-            }
-            else
-            {
-                datosFacturaElectronica.metodoPago = "PPD";
-            }
-            xAttrib.Value = datosFacturaElectronica.metodoPago;
-            datosFacturaElectronica.metodoPago = xAttrib.Value;
-
-            xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@SubTotal", nms);
-            xAttrib.Value = AddDecimals(Subtotal.ToString());
-            datosFacturaElectronica.subTotal = xAttrib.Value;
-
-            xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@Total", nms);
-            xAttrib.Value = AddDecimals(Math.Round(Total, 2).ToString());
-            datosFacturaElectronica.total = xAttrib.Value;
-
-            xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@LugarExpedicion", nms);
-            xAttrib.Value = datosFacturaElectronica.domicilioEmisorCodigoPostal;
-            datosFacturaElectronica.lugarExpedicion = "Tepic, Nay.";
-
-            xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@NoCertificado", nms);
-            datosFacturaElectronica.numeroCertificado = xAttrib.Value;
-
-            if (FacturaCancelada != null)
-            {
-                XmlNode xCfdiRelacionados = xDoc.SelectSingleNode("//cfdi:CfdiRelacionados", nms);
-                XmlNode xCfdiRelacionado = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "CfdiRelacionado", "http://www.sat.gob.mx/cfd/4");
-
-                XmlAttribute xR = xDoc.CreateAttribute("UUID");
-                xR.Value = UUIDCancelado;
-                xCfdiRelacionado.Attributes.Append(xR);
-
-                xCfdiRelacionados.AppendChild(xCfdiRelacionado);
-            }
-
-            xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Emisor//@Rfc", nms);
-            xAttrib.Value = rfcEmisor;
-            datosFacturaElectronica.rfcEmisor = xAttrib.Value;
-
-            xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Emisor//@Nombre", nms);
-            xAttrib.Value = nombreEmisor;
-            datosFacturaElectronica.nombreEmisor = xAttrib.Value;
-
-            xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Emisor//@RegimenFiscal", nms);
-            xAttrib.Value = "626";
-
-            xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Receptor//@Rfc", nms);
-            xAttrib.Value = _clienteElegido.rfc.Replace("-", "");
-            datosFacturaElectronica.rfcReceptor = xAttrib.Value;
-            //PRUEBAS
-            //xAttrib.Value = "FUNK671228PH6";
-            //datosFacturaElectronica.rfcReceptor = xAttrib.Value;
-
-            xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Receptor//@Nombre", nms);
-            //xAttrib.Value = _clienteElegido.nombre;
-            xAttrib.Value = _clienteElegido.nombre_constancia.Trim();
-            datosFacturaElectronica.nombreReceptor = xAttrib.Value;
-            //PRUEBAS
-            //xAttrib.Value = "KARLA FUENTE NOLASCO";
-            //datosFacturaElectronica.nombreReceptor = xAttrib.Value;
-
-            xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Receptor//@UsoCFDI", nms);
-            xAttrib.Value = datosFacturaElectronica.usoCFDI;
-
-            xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Receptor//@RegimenFiscalReceptor", nms);
-            xAttrib.Value = _clienteElegido.regimen_fiscal;
-
-            datosFacturaElectronica.regimenFiscalReceptor = xAttrib.Value;
-
-            using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
-            {
-                datosFacturaElectronica.regimenFiscalReceptor = dbContext.RegimenFiscal.Where(C => C.Clave == datosFacturaElectronica.regimenFiscalReceptor).First().Descripcion;
-            }
-            //PRUEBAS
-            //xAttrib.Value = "612";
-
-            xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Receptor//@DomicilioFiscalReceptor", nms);
-            xAttrib.Value = _clienteElegido.codigo_postal;
-            //PRUEBAS
-            //xAttrib.Value = "44970";
-
-            datosFacturaElectronica.domicilioReceptorCalle = _clienteElegido.domicilio;
-            datosFacturaElectronica.domicilioReceptorNumeroExterior = _clienteElegido.numero_exterior;
-            datosFacturaElectronica.domicilioReceptorColonia = _clienteElegido.colonia;
-            datosFacturaElectronica.domicilioReceptorEstado = _clienteElegido.estado;
-            datosFacturaElectronica.domicilioReceptorMunicipio = _clienteElegido.ciudad;
-            datosFacturaElectronica.domicilioReceptorCodigoPostal = _clienteElegido.codigo_postal;
-
-            XmlNode xConceptos = xDoc.SelectSingleNode("//cfdi:Conceptos", nms);
-            XmlNode xImpuestosNodo = xDoc.SelectSingleNode("//cfdi:Impuestos", nms);
-
-            float impuesto = 0;
-            float impuestoTotal = 0;
-            float baseTotal = 0;
-            float impuestoRetencion = 0;
-            float impuestoRetencionTotal = 0;
-            float baseTotalRetencion = 0; 
-
-            datosFacturaElectronica.conceptos = new List<ConceptoFactura>();
-
-            XmlAttribute xa;
-
-            foreach (ConceptoFactura item in _conceptos)
-            {
-                if (item != null)
+                XmlNamespaceManager nms = new XmlNamespaceManager(xDoc.NameTable);
+                nms.AddNamespace("cfdi", "http://www.sat.gob.mx/cfd/4");
+                /*
+                if (cbRetencionCedular.IsChecked.Value)
                 {
-                    ConceptoFactura cConcepto = new ConceptoFactura();
-
-                    XmlNode xConcepto = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Concepto", "http://www.sat.gob.mx/cfd/4");
-
-                    xa = xDoc.CreateAttribute("ClaveProdServ");
-                    xa.Value = item.Clave;
-                    xConcepto.Attributes.Append(xa);
-                    cConcepto.descripcionConcepto = xa.Value;
-
-                    xa = xDoc.CreateAttribute("ClaveUnidad");
-                    xa.Value = item.claveUnidad;
-                    xConcepto.Attributes.Append(xa);
-                    cConcepto.claveUnidad = xa.Value;
-
-                    xa = xDoc.CreateAttribute("NoIdentificacion");
-                    xa.Value = "-";
-                    xConcepto.Attributes.Append(xa);
-                    cConcepto.noIdentificacion = xa.Value;
-
-                    xa = xDoc.CreateAttribute("ObjetoImp");
-                    xa.Value = "02";
-                    xConcepto.Attributes.Append(xa);
-                    cConcepto.ObjetoImp = xa.Value;
-
-                    xa = xDoc.CreateAttribute("Cantidad");
-                    xa.Value = item.Cantidad.ToString();
-                    xConcepto.Attributes.Append(xa);
-                    cConcepto.cantidad = xa.Value;
-
-                    xa = xDoc.CreateAttribute("Descripcion");
-                    xa.Value = item.Descripcion;
-                    xConcepto.Attributes.Append(xa);
-                    cConcepto.claveProductoServicio = xa.Value;
-                    cConcepto.descripcionProducto = item.Descripcion;
-
-                    xa = xDoc.CreateAttribute("ValorUnitario");
-                    //float.Parse((Math.Round(impuesto, 2)).ToString());
-                    xa.Value = item.PrecioUnitario.ToString();
-                    xConcepto.Attributes.Append(xa);
-                    cConcepto.valorUnitario = xa.Value;
-
-                    xa = xDoc.CreateAttribute("Importe");
-                    xa.Value = AddDecimals(item.Importe.ToString());
-                    xConcepto.Attributes.Append(xa);
-                    cConcepto.importe = xa.Value;
-                    /*
-                    xa = xDoc.CreateAttribute("Descuento");
-                    xa.Value = "0.00";
-                    xConcepto.Attributes.Append(xa);
-                    cConcepto.descuento = xa.Value;
-                    */
-                    /*
-                    datosFacturaElectronica.conceptos[conceptosFacturaIndex] = cConcepto;
-                    conceptosFacturaIndex++;
-                    */
-                    datosFacturaElectronica.conceptos.Add(cConcepto);
-
-                    //IVA
-                    impuesto = item.Cantidad * item.PrecioUnitario;
-                    impuesto = impuesto * 0.16f;
-                    impuesto = float.Parse((Math.Round(impuesto, 2)).ToString());
-                    impuestoTotal = impuestoTotal + impuesto;
-                    baseTotal = baseTotal + item.Importe;
-
-                    //RETENCION
-                    impuestoRetencion = item.Cantidad * item.PrecioUnitario;
-                    impuestoRetencion = impuestoRetencion * 0.012500f;
-                    impuestoRetencion = float.Parse((Math.Round(impuestoRetencion, 2)).ToString());
-                    impuestoRetencionTotal = impuestoRetencionTotal + impuestoRetencion;
-                    baseTotalRetencion = baseTotalRetencion + item.Importe;
-
-                    XmlNode xImpuestos = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Impuestos", "http://www.sat.gob.mx/cfd/4");
-
-                    XmlNode xTraslados = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Traslados", "http://www.sat.gob.mx/cfd/4");
-
-                    XmlNode xTraslado = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Traslado", "http://www.sat.gob.mx/cfd/4");                    
-
-                    xa = xDoc.CreateAttribute("Base");
-                    xa.Value = item.Importe.ToString();
-                    xTraslado.Attributes.Append(xa);
-
-                    xa = xDoc.CreateAttribute("Impuesto");
-                    xa.Value = "002";
-                    xTraslado.Attributes.Append(xa);
-
-                    xa = xDoc.CreateAttribute("TipoFactor");
-                    xa.Value = "Tasa";
-                    xTraslado.Attributes.Append(xa);
-
-                    xa = xDoc.CreateAttribute("TasaOCuota");
-                    xa.Value = "0.160000";
-                    xTraslado.Attributes.Append(xa);
-
-                    xa = xDoc.CreateAttribute("Importe");
-                    xa.Value = AddDecimals(impuesto.ToString());
-                    xTraslado.Attributes.Append(xa);
-
-                    xTraslados.AppendChild(xTraslado);
-                    xImpuestos.AppendChild(xTraslados);
-
-                    if (_clienteElegido.aplica_retencion == "SI")
-                    {
-                        XmlNode xRetenciones = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Retenciones", "http://www.sat.gob.mx/cfd/4");
-
-                        XmlNode xRetencion = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Retencion", "http://www.sat.gob.mx/cfd/4");
-
-                        xa = xDoc.CreateAttribute("Base");
-                        xa.Value = item.Importe.ToString();
-                        xRetencion.Attributes.Append(xa);
-
-                        xa = xDoc.CreateAttribute("Impuesto");
-                        xa.Value = "001";
-                        xRetencion.Attributes.Append(xa);
-
-                        xa = xDoc.CreateAttribute("TipoFactor");
-                        xa.Value = "Tasa";
-                        xRetencion.Attributes.Append(xa);
-
-                        xa = xDoc.CreateAttribute("TasaOCuota");
-                        xa.Value = "0.012500";
-                        xRetencion.Attributes.Append(xa);
-
-                        xa = xDoc.CreateAttribute("Importe");
-                        xa.Value = AddDecimals(impuestoRetencion.ToString());
-                        xRetencion.Attributes.Append(xa);
-
-                        xRetenciones.AppendChild(xRetencion);
-                        xImpuestos.AppendChild(xRetenciones);
-                    }
-
-                    xConcepto.AppendChild(xImpuestos);
-                    xConceptos.AppendChild(xConcepto);
-
+                    nms.AddNamespace("implocal", "http://www.sat.gob.mx/implocal");
                 }
-
-            }
-
-            XmlNode xTrasladosImpuestos = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Traslados", "http://www.sat.gob.mx/cfd/4");
-
-            XmlNode xTrasladoImpuestos = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Traslado", "http://www.sat.gob.mx/cfd/4");
-
-            XmlNode xRetencionesImpuestos = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Retenciones", "http://www.sat.gob.mx/cfd/4");
-
-            XmlNode xRetencionImpuestos = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Retencion", "http://www.sat.gob.mx/cfd/4");
-
-            if (_clienteElegido.aplica_retencion == "SI")
-            {
-                /*
-                xa = xDoc.CreateAttribute("Base");
-                xa.Value = baseTotal.ToString();
-                xRetencionImpuestos.Attributes.Append(xa);
                 */
-                xa = xDoc.CreateAttribute("Impuesto");
-                xa.Value = "001";
-                /*
-                xRetencionImpuestos.Attributes.Append(xa);
-                xa = xDoc.CreateAttribute("TipoFactor");
-                xa.Value = "Tasa";
-                */
-                /*
-                xTrasladoImpuestos.Attributes.Append(xa);
-                xa = xDoc.CreateAttribute("TasaOCuota");
-                xa.Value = "0.012500";
-                */
-                xRetencionImpuestos.Attributes.Append(xa);
-                xa = xDoc.CreateAttribute("Importe");
-                impuestoRetencionTotal = float.Parse((Math.Round(impuestoRetencionTotal, 2)).ToString());
-                xa.Value = AddDecimals(impuestoRetencionTotal.ToString());
-                xRetencionImpuestos.Attributes.Append(xa);
+                XmlAttribute xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@Serie", nms);
+                xAttrib.Value = "-";
+                datosFacturaElectronica.serie = xAttrib.Value;
 
-                xRetencionesImpuestos.AppendChild(xRetencionImpuestos);
-
-                xImpuestosNodo.AppendChild(xRetencionesImpuestos);
-
-                xa = xDoc.CreateAttribute("TotalImpuestosRetenidos");
-                xa.Value = AddDecimals(impuestoRetencionTotal.ToString());
-                xImpuestosNodo.Attributes.Append(xa);
-
-                //RetencionIsr = impuestoRetencionTotal;
-            }
-            
-            xa = xDoc.CreateAttribute("Base");
-            xa.Value = baseTotal.ToString();
-            xTrasladoImpuestos.Attributes.Append(xa);
-            
-            xa = xDoc.CreateAttribute("Impuesto");
-            xa.Value = "002";
-            xTrasladoImpuestos.Attributes.Append(xa);
-            xa = xDoc.CreateAttribute("TipoFactor");
-            xa.Value = "Tasa";
-            xTrasladoImpuestos.Attributes.Append(xa);
-            xa = xDoc.CreateAttribute("TasaOCuota");
-            xa.Value = "0.160000";
-            xTrasladoImpuestos.Attributes.Append(xa);
-            xa = xDoc.CreateAttribute("Importe");
-            impuestoTotal = float.Parse((Math.Round(impuestoTotal, 2)).ToString());
-            xa.Value = AddDecimals(impuestoTotal.ToString());
-            xTrasladoImpuestos.Attributes.Append(xa);
-
-            xTrasladosImpuestos.AppendChild(xTrasladoImpuestos);
-
-            xImpuestosNodo.AppendChild(xTrasladosImpuestos);
-
-            xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Impuestos//@TotalImpuestosTrasladados", nms);
-            xAttrib.Value = AddDecimals(impuestoTotal.ToString());
-
-            if (datosFacturaElectronica.IneTipoProceso.Length > 0)
-            {
-                XmlNode xINEschema = xDoc.SelectSingleNode("//cfdi:Comprobante", nms);
-                xa = xINEschema.Attributes["xsi:schemaLocation"];
-                xa.Value = xa.Value + " http://www.sat.gob.mx/ine http://www.sat.gob.mx/sitio_internet/cfd/ine/ine11.xsd";
-
-                xa = xDoc.CreateAttribute("xmlns:ine");
-                xa.Value = "http://www.sat.gob.mx/ine";
-                xINEschema.Attributes.Append(xa);
-
-                XmlNode xComprobante = xDoc.SelectSingleNode("//cfdi:Comprobante", nms);
-                XmlNode xComplemento;
-
-                xComplemento = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Complemento", "http://www.sat.gob.mx/cfd/4");
-
-                XmlNode xComplementoINE = xDoc.CreateNode(XmlNodeType.Element, "ine", "INE", "http://www.sat.gob.mx/ine");
-
-                xa = xDoc.CreateAttribute("Version");
-                xa.Value = "1.1";
-                xComplementoINE.Attributes.Append(xa);
-
-                xa = xDoc.CreateAttribute("TipoProceso");
-                xa.Value = datosFacturaElectronica.IneTipoProceso;
-                xComplementoINE.Attributes.Append(xa);
-
-                if (datosFacturaElectronica.IneTipoProceso == "Ordinario")
+                xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@Folio", nms);
+                int IdContribuyente = int.Parse(cbContribuyentes.SelectedValue.ToString());
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                 {
-                    xa = xDoc.CreateAttribute("TipoComite");
-                    xa.Value = datosFacturaElectronica.IneTipoComite;
-                    xComplementoINE.Attributes.Append(xa);
+                    FolioActual = int.Parse(dbContext.Contribuyentes.Where(F => F.id_contribuyente == IdContribuyente).First().numero_factura);
+                    lblFolio.Content = FolioActual.ToString();
+                }
+                xAttrib.Value = FolioActual.ToString();
+                datosFacturaElectronica.folio = xAttrib.Value;
 
-                    if (datosFacturaElectronica.IneTipoComite == "Ejecutivo Nacional")
-                    {
-                        xa = xDoc.CreateAttribute("IdContabilidad");
-                        xa.Value = datosFacturaElectronica.IneClaveContabilidad;
-                        xComplementoINE.Attributes.Append(xa);
-                    }
+                xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@Fecha", nms);
+                fechaFactura = DateTime.UtcNow.AddHours(-7).ToString("s");
+                xAttrib.Value = fechaFactura;
+                datosFacturaElectronica.fechaExpedicion = xAttrib.Value;
 
-                    xComplemento.AppendChild(xComplementoINE);
-                    xComprobante.AppendChild(xComplemento);
+                xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@FormaPago", nms);
+                xAttrib.Value = datosFacturaElectronica.formaPago;
+                datosFacturaElectronica.formaPago = xAttrib.Value;
+
+                xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@MetodoPago", nms);
+                if (cbMetodoPago.SelectedIndex == 0)
+                {
+                    datosFacturaElectronica.metodoPago = "PUE";
                 }
                 else
                 {
-                    XmlNode xNodoEntidad = xDoc.CreateNode(XmlNodeType.Element, "ine", "Entidad", "http://www.sat.gob.mx/ine");
+                    datosFacturaElectronica.metodoPago = "PPD";
+                }
+                xAttrib.Value = datosFacturaElectronica.metodoPago;
+                datosFacturaElectronica.metodoPago = xAttrib.Value;
 
-                    xa = xDoc.CreateAttribute("ClaveEntidad");
-                    xa.Value = datosFacturaElectronica.IneEntidad;
-                    xNodoEntidad.Attributes.Append(xa);
+                xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@SubTotal", nms);
+                xAttrib.Value = Math.Round(Subtotal, 2).ToString();
+                datosFacturaElectronica.subTotal = xAttrib.Value;
 
-                    xa = xDoc.CreateAttribute("Ambito");
-                    xa.Value = datosFacturaElectronica.IneAmbito;
-                    xNodoEntidad.Attributes.Append(xa);
+                xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@Total", nms);
+                xAttrib.Value = Math.Round(Total, 2).ToString();
+                datosFacturaElectronica.total = xAttrib.Value;
 
-                    if (datosFacturaElectronica.IneIdContabilidad.Length > 0)
-                    {
-                        XmlNode xNodoIdContabilidad = xDoc.CreateNode(XmlNodeType.Element, "ine", "Contabilidad", "http://www.sat.gob.mx/ine");
+                xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@LugarExpedicion", nms);
+                xAttrib.Value = datosFacturaElectronica.domicilioEmisorCodigoPostal;
+                datosFacturaElectronica.lugarExpedicion = "Tepic, Nay.";
 
-                        xa = xDoc.CreateAttribute("IdContabilidad");
-                        xa.Value = datosFacturaElectronica.IneIdContabilidad;
-                        xNodoIdContabilidad.Attributes.Append(xa);
+                xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@NoCertificado", nms);
+                datosFacturaElectronica.numeroCertificado = xAttrib.Value;
 
-                        xNodoEntidad.AppendChild(xNodoIdContabilidad);
-                    }
+                if (FacturaCancelada != null)
+                {
+                    XmlNode xCfdiRelacionados = xDoc.SelectSingleNode("//cfdi:CfdiRelacionados", nms);
+                    XmlNode xCfdiRelacionado = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "CfdiRelacionado", "http://www.sat.gob.mx/cfd/4");
 
-                    xComplementoINE.AppendChild(xNodoEntidad);
-                    xComplemento.AppendChild(xComplementoINE);
-                    xComprobante.AppendChild(xComplemento);
+                    XmlAttribute xR = xDoc.CreateAttribute("UUID");
+                    xR.Value = UUIDCancelado;
+                    xCfdiRelacionado.Attributes.Append(xR);
+
+                    xCfdiRelacionados.AppendChild(xCfdiRelacionado);
                 }
 
+                xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Emisor//@Rfc", nms);
+                xAttrib.Value = rfcEmisor;
+                datosFacturaElectronica.rfcEmisor = xAttrib.Value;
+
+                xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Emisor//@Nombre", nms);
+                xAttrib.Value = nombreEmisor;
+                datosFacturaElectronica.nombreEmisor = xAttrib.Value;
+
+                xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Emisor//@RegimenFiscal", nms);
+                xAttrib.Value = "626";
+
+                xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Receptor//@Rfc", nms);
+                xAttrib.Value = _clienteElegido.rfc.Replace("-", "");
+                datosFacturaElectronica.rfcReceptor = xAttrib.Value;
+                //PRUEBAS
+                //xAttrib.Value = "FUNK671228PH6";
+                //datosFacturaElectronica.rfcReceptor = xAttrib.Value;
+
+                xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Receptor//@Nombre", nms);
+                //xAttrib.Value = _clienteElegido.nombre;
+                xAttrib.Value = _clienteElegido.nombre_constancia.Trim();
+                datosFacturaElectronica.nombreReceptor = xAttrib.Value;
+                //PRUEBAS
+                //xAttrib.Value = "KARLA FUENTE NOLASCO";
+                //datosFacturaElectronica.nombreReceptor = xAttrib.Value;
+
+                xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Receptor//@UsoCFDI", nms);
+                xAttrib.Value = datosFacturaElectronica.usoCFDI;
+
+                xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Receptor//@RegimenFiscalReceptor", nms);
+                xAttrib.Value = _clienteElegido.regimen_fiscal;
+
+                datosFacturaElectronica.regimenFiscalReceptor = xAttrib.Value;
+
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    datosFacturaElectronica.regimenFiscalReceptor = dbContext.RegimenFiscal.Where(C => C.Clave == datosFacturaElectronica.regimenFiscalReceptor).First().Descripcion;
+                }
+                //PRUEBAS
+                //xAttrib.Value = "612";
+
+                xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Receptor//@DomicilioFiscalReceptor", nms);
+                xAttrib.Value = _clienteElegido.codigo_postal;
+                //PRUEBAS
+                //xAttrib.Value = "44970";
+
+                datosFacturaElectronica.domicilioReceptorCalle = _clienteElegido.domicilio;
+                datosFacturaElectronica.domicilioReceptorNumeroExterior = _clienteElegido.numero_exterior;
+                datosFacturaElectronica.domicilioReceptorColonia = _clienteElegido.colonia;
+                datosFacturaElectronica.domicilioReceptorEstado = _clienteElegido.estado;
+                datosFacturaElectronica.domicilioReceptorMunicipio = _clienteElegido.ciudad;
+                datosFacturaElectronica.domicilioReceptorCodigoPostal = _clienteElegido.codigo_postal;
+
+                XmlNode xConceptos = xDoc.SelectSingleNode("//cfdi:Conceptos", nms);
+                XmlNode xImpuestosNodo = xDoc.SelectSingleNode("//cfdi:Impuestos", nms);
+
+                double impuesto = 0;
+                double impuestoTotal = 0;
+                double baseTotal = 0;
+                double impuestoRetencion = 0;
+                double impuestoRetencionTotal = 0;
+                double baseTotalRetencion = 0;
+
+                datosFacturaElectronica.conceptos = new List<ConceptoFactura>();
+
+                XmlAttribute xa;
+
+                foreach (ConceptoFactura item in _conceptos)
+                {
+                    if (item != null)
+                    {
+                        ConceptoFactura cConcepto = new ConceptoFactura();
+
+                        XmlNode xConcepto = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Concepto", "http://www.sat.gob.mx/cfd/4");
+
+                        xa = xDoc.CreateAttribute("ClaveProdServ");
+                        xa.Value = item.Clave;
+                        xConcepto.Attributes.Append(xa);
+                        cConcepto.descripcionConcepto = xa.Value;
+
+                        xa = xDoc.CreateAttribute("ClaveUnidad");
+                        xa.Value = item.claveUnidad;
+                        xConcepto.Attributes.Append(xa);
+                        cConcepto.claveUnidad = xa.Value;
+
+                        xa = xDoc.CreateAttribute("NoIdentificacion");
+                        xa.Value = "-";
+                        xConcepto.Attributes.Append(xa);
+                        cConcepto.noIdentificacion = xa.Value;
+
+                        xa = xDoc.CreateAttribute("ObjetoImp");
+                        xa.Value = "02";
+                        xConcepto.Attributes.Append(xa);
+                        cConcepto.ObjetoImp = xa.Value;
+
+                        xa = xDoc.CreateAttribute("Cantidad");
+                        xa.Value = item.Cantidad.ToString();
+                        xConcepto.Attributes.Append(xa);
+                        cConcepto.cantidad = xa.Value;
+
+                        xa = xDoc.CreateAttribute("Descripcion");
+                        xa.Value = item.Descripcion;
+                        xConcepto.Attributes.Append(xa);
+                        cConcepto.claveProductoServicio = xa.Value;
+                        cConcepto.descripcionProducto = item.Descripcion;
+
+                        xa = xDoc.CreateAttribute("ValorUnitario");
+                        //float.Parse((Math.Round(impuesto, 2)).ToString());
+                        xa.Value = item.PrecioUnitario.ToString();
+                        xConcepto.Attributes.Append(xa);
+                        cConcepto.valorUnitario = xa.Value;
+
+                        xa = xDoc.CreateAttribute("Importe");
+                        xa.Value = AddDecimals(item.Importe.ToString());
+                        xConcepto.Attributes.Append(xa);
+                        cConcepto.importe = xa.Value;
+                        /*
+                        xa = xDoc.CreateAttribute("Descuento");
+                        xa.Value = "0.00";
+                        xConcepto.Attributes.Append(xa);
+                        cConcepto.descuento = xa.Value;
+                        */
+                        /*
+                        datosFacturaElectronica.conceptos[conceptosFacturaIndex] = cConcepto;
+                        conceptosFacturaIndex++;
+                        */
+                        datosFacturaElectronica.conceptos.Add(cConcepto);
+
+                        //IVA
+                        impuesto = item.Cantidad * (double)item.PrecioUnitario;
+                        impuesto = impuesto * 0.16d;
+                        impuesto = double.Parse((Math.Round(impuesto, 4)).ToString());
+                        impuestoTotal = impuestoTotal + impuesto;
+                        baseTotal = baseTotal + (double)item.Importe;
+                        baseTotal = Math.Round(baseTotal, 4);
+
+                        //RETENCION
+                        impuestoRetencion = item.Cantidad * (double)item.PrecioUnitario;
+                        impuestoRetencion = impuestoRetencion * 0.012500d;
+                        impuestoRetencion = (Math.Round(impuestoRetencion, 4));
+                        impuestoRetencionTotal = impuestoRetencionTotal + impuestoRetencion;
+                        baseTotalRetencion = baseTotalRetencion + (double)item.Importe;
+                        baseTotalRetencion = Math.Round(baseTotalRetencion, 4);
+
+                        XmlNode xImpuestos = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Impuestos", "http://www.sat.gob.mx/cfd/4");
+
+                        XmlNode xTraslados = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Traslados", "http://www.sat.gob.mx/cfd/4");
+
+                        XmlNode xTraslado = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Traslado", "http://www.sat.gob.mx/cfd/4");
+
+                        xa = xDoc.CreateAttribute("Base");
+                        xa.Value = item.Importe.ToString();
+                        xTraslado.Attributes.Append(xa);
+
+                        xa = xDoc.CreateAttribute("Impuesto");
+                        xa.Value = "002";
+                        xTraslado.Attributes.Append(xa);
+
+                        xa = xDoc.CreateAttribute("TipoFactor");
+                        xa.Value = "Tasa";
+                        xTraslado.Attributes.Append(xa);
+
+                        xa = xDoc.CreateAttribute("TasaOCuota");
+                        xa.Value = "0.160000";
+                        xTraslado.Attributes.Append(xa);
+
+                        xa = xDoc.CreateAttribute("Importe");
+                        xa.Value = AddDecimals(impuesto.ToString());
+                        xTraslado.Attributes.Append(xa);
+
+                        xTraslados.AppendChild(xTraslado);
+                        xImpuestos.AppendChild(xTraslados);
+
+                        if (_clienteElegido.aplica_retencion == "SI")
+                        {
+                            XmlNode xRetenciones = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Retenciones", "http://www.sat.gob.mx/cfd/4");
+
+                            XmlNode xRetencion = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Retencion", "http://www.sat.gob.mx/cfd/4");
+
+                            xa = xDoc.CreateAttribute("Base");
+                            xa.Value = item.Importe.ToString();
+                            xRetencion.Attributes.Append(xa);
+
+                            xa = xDoc.CreateAttribute("Impuesto");
+                            xa.Value = "001";
+                            xRetencion.Attributes.Append(xa);
+
+                            xa = xDoc.CreateAttribute("TipoFactor");
+                            xa.Value = "Tasa";
+                            xRetencion.Attributes.Append(xa);
+
+                            xa = xDoc.CreateAttribute("TasaOCuota");
+                            xa.Value = "0.012500";
+                            xRetencion.Attributes.Append(xa);
+
+                            xa = xDoc.CreateAttribute("Importe");
+                            xa.Value = AddDecimals(impuestoRetencion.ToString());
+                            xRetencion.Attributes.Append(xa);
+
+                            xRetenciones.AppendChild(xRetencion);
+                            xImpuestos.AppendChild(xRetenciones);
+                        }
+
+                        xConcepto.AppendChild(xImpuestos);
+                        xConceptos.AppendChild(xConcepto);
+
+                    }
+
+                }
+
+                XmlNode xTrasladosImpuestos = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Traslados", "http://www.sat.gob.mx/cfd/4");
+
+                XmlNode xTrasladoImpuestos = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Traslado", "http://www.sat.gob.mx/cfd/4");
+
+                XmlNode xRetencionesImpuestos = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Retenciones", "http://www.sat.gob.mx/cfd/4");
+
+                XmlNode xRetencionImpuestos = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Retencion", "http://www.sat.gob.mx/cfd/4");
+
+                if (_clienteElegido.aplica_retencion == "SI")
+                {
+                    /*
+                    xa = xDoc.CreateAttribute("Base");
+                    xa.Value = baseTotal.ToString();
+                    xRetencionImpuestos.Attributes.Append(xa);
+                    */
+                    xa = xDoc.CreateAttribute("Impuesto");
+                    xa.Value = "001";
+                    /*
+                    xRetencionImpuestos.Attributes.Append(xa);
+                    xa = xDoc.CreateAttribute("TipoFactor");
+                    xa.Value = "Tasa";
+                    */
+                    /*
+                    xTrasladoImpuestos.Attributes.Append(xa);
+                    xa = xDoc.CreateAttribute("TasaOCuota");
+                    xa.Value = "0.012500";
+                    */
+                    xRetencionImpuestos.Attributes.Append(xa);
+                    xa = xDoc.CreateAttribute("Importe");
+                    impuestoRetencionTotal = (Math.Round(impuestoRetencionTotal, 2));
+                    xa.Value = AddDecimals(impuestoRetencionTotal.ToString());
+                    xRetencionImpuestos.Attributes.Append(xa);
+
+                    xRetencionesImpuestos.AppendChild(xRetencionImpuestos);
+
+                    xImpuestosNodo.AppendChild(xRetencionesImpuestos);
+
+                    xa = xDoc.CreateAttribute("TotalImpuestosRetenidos");
+                    xa.Value = AddDecimals(impuestoRetencionTotal.ToString());
+                    xImpuestosNodo.Attributes.Append(xa);
+
+                    //RetencionIsr = impuestoRetencionTotal;
+                }
+
+                xa = xDoc.CreateAttribute("Base");
+                xa.Value = baseTotal.ToString();
+                xTrasladoImpuestos.Attributes.Append(xa);
+
+                xa = xDoc.CreateAttribute("Impuesto");
+                xa.Value = "002";
+                xTrasladoImpuestos.Attributes.Append(xa);
+                xa = xDoc.CreateAttribute("TipoFactor");
+                xa.Value = "Tasa";
+                xTrasladoImpuestos.Attributes.Append(xa);
+                xa = xDoc.CreateAttribute("TasaOCuota");
+                xa.Value = "0.160000";
+                xTrasladoImpuestos.Attributes.Append(xa);
+                xa = xDoc.CreateAttribute("Importe");
+                impuestoTotal = double.Parse((Math.Round(impuestoTotal, 2)).ToString());
+                xa.Value = AddDecimals(impuestoTotal.ToString());
+                xTrasladoImpuestos.Attributes.Append(xa);
+
+                xTrasladosImpuestos.AppendChild(xTrasladoImpuestos);
+
+                xImpuestosNodo.AppendChild(xTrasladosImpuestos);
+
+                xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Impuestos//@TotalImpuestosTrasladados", nms);
+                xAttrib.Value = AddDecimals(impuestoTotal.ToString());
+
+                if (datosFacturaElectronica.IneTipoProceso.Length > 0)
+                {
+                    XmlNode xINEschema = xDoc.SelectSingleNode("//cfdi:Comprobante", nms);
+                    xa = xINEschema.Attributes["xsi:schemaLocation"];
+                    xa.Value = xa.Value + " http://www.sat.gob.mx/ine http://www.sat.gob.mx/sitio_internet/cfd/ine/ine11.xsd";
+
+                    xa = xDoc.CreateAttribute("xmlns:ine");
+                    xa.Value = "http://www.sat.gob.mx/ine";
+                    xINEschema.Attributes.Append(xa);
+
+                    XmlNode xComprobante = xDoc.SelectSingleNode("//cfdi:Comprobante", nms);
+                    XmlNode xComplemento;
+
+                    xComplemento = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Complemento", "http://www.sat.gob.mx/cfd/4");
+
+                    XmlNode xComplementoINE = xDoc.CreateNode(XmlNodeType.Element, "ine", "INE", "http://www.sat.gob.mx/ine");
+
+                    xa = xDoc.CreateAttribute("Version");
+                    xa.Value = "1.1";
+                    xComplementoINE.Attributes.Append(xa);
+
+                    xa = xDoc.CreateAttribute("TipoProceso");
+                    xa.Value = datosFacturaElectronica.IneTipoProceso;
+                    xComplementoINE.Attributes.Append(xa);
+
+                    if (datosFacturaElectronica.IneTipoProceso == "Ordinario")
+                    {
+                        xa = xDoc.CreateAttribute("TipoComite");
+                        xa.Value = datosFacturaElectronica.IneTipoComite;
+                        xComplementoINE.Attributes.Append(xa);
+
+                        if (datosFacturaElectronica.IneTipoComite == "Ejecutivo Nacional")
+                        {
+                            xa = xDoc.CreateAttribute("IdContabilidad");
+                            xa.Value = datosFacturaElectronica.IneClaveContabilidad;
+                            xComplementoINE.Attributes.Append(xa);
+                        }
+
+                        xComplemento.AppendChild(xComplementoINE);
+                        xComprobante.AppendChild(xComplemento);
+                    }
+                    else
+                    {
+                        XmlNode xNodoEntidad = xDoc.CreateNode(XmlNodeType.Element, "ine", "Entidad", "http://www.sat.gob.mx/ine");
+
+                        xa = xDoc.CreateAttribute("ClaveEntidad");
+                        xa.Value = datosFacturaElectronica.IneEntidad;
+                        xNodoEntidad.Attributes.Append(xa);
+
+                        xa = xDoc.CreateAttribute("Ambito");
+                        xa.Value = datosFacturaElectronica.IneAmbito;
+                        xNodoEntidad.Attributes.Append(xa);
+
+                        if (datosFacturaElectronica.IneIdContabilidad.Length > 0)
+                        {
+                            XmlNode xNodoIdContabilidad = xDoc.CreateNode(XmlNodeType.Element, "ine", "Contabilidad", "http://www.sat.gob.mx/ine");
+
+                            xa = xDoc.CreateAttribute("IdContabilidad");
+                            xa.Value = datosFacturaElectronica.IneIdContabilidad;
+                            xNodoIdContabilidad.Attributes.Append(xa);
+
+                            xNodoEntidad.AppendChild(xNodoIdContabilidad);
+                        }
+
+                        xComplementoINE.AppendChild(xNodoEntidad);
+                        xComplemento.AppendChild(xComplementoINE);
+                        xComprobante.AppendChild(xComplemento);
+                    }
+
+                }
+
+                XML = xDoc.InnerXml;
+                //XML = XML.Replace("&amp;", "&");
+
+                File.WriteAllText(@"C:\Impresos\Facturacion\XML_4_0.xml", XML);
             }
-
-            XML = xDoc.InnerXml;
-            //XML = XML.Replace("&amp;", "&");
-
-            File.WriteAllText(@"C:\Impresos\Facturacion\XML_4_0.xml", XML);
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
         private String GenerarCadenaOriginal40()
@@ -3493,6 +3539,328 @@ namespace ImpresosAlvarez
 
             FacturacionElectronica40(false);
             ImprimirPDF(false);
+        }
+
+        private void CargarExcel()
+        {
+            string filePath = @"C:\Impresos\File.xlsx";
+            Excel.Application excelApp = new Excel.Application();
+            Excel.Workbook workbook = excelApp.Workbooks.Open(filePath);
+            Excel.Worksheet worksheet = workbook.Sheets[1];
+            Excel.Range range = worksheet.UsedRange;
+            int o;
+            float f;
+
+            for (int row = 2; row <= 102; row++)
+            {
+                ConceptoFactura concepto = new ConceptoFactura();
+                
+                for (int col = 1; col <= range.Columns.Count; col++)
+                {
+                    //Console.Write(range.Cells[row, col].Value2 + "\t");
+                    if (row > 1)
+                    {
+                        switch (col)
+                        {
+                            case 2:                                
+                                if (int.TryParse(range.Cells[row, col].Value2.ToString(), out o))
+                                {
+                                    concepto.Cantidad = int.Parse(range.Cells[row, col].Value2.ToString());
+                                }
+                                break;
+                            case 3:
+                                concepto.Unidad = range.Cells[row, col].Value2;
+                                break;
+                            case 4:
+                                concepto.Descripcion = range.Cells[row, col].Value2;
+                                break;
+                            case 5:
+                                if (float.TryParse(range.Cells[row, col].Value2.ToString(), out f))
+                                { 
+                                    concepto.PrecioUnitario = float.Parse(range.Cells[row, col].Value2.ToString());
+                                }   
+                                break;
+                            case 6:
+                                if (float.TryParse(range.Cells[row, col].Value2.ToString(), out f))
+                                {
+                                    concepto.Importe = float.Parse(range.Cells[row, col].Value2.ToString());
+                                }
+                                break;
+                            default:
+                                break;
+                        }                        
+                    }                    
+                }
+                //Console.WriteLine();
+                if (row > 1)
+                {
+                    ProductosServicios _ServicioSeleccionado = new ProductosServicios();
+                    _ServicioSeleccionado.descripcion = "SERVICIO";
+                    _ServicioSeleccionado.clave = "820000";
+                    _ServicioSeleccionado.id_productoservicio = 1;
+
+                    concepto.IdServicio = 1;
+                    concepto.Clave = "";
+                    concepto.claveUnidad = "";
+                    concepto.Servicio = _ServicioSeleccionado;
+
+                    concepto.IdInsumo = 0;
+                    concepto.DescripcionInsumo = "";
+
+                    _conceptos.Add(concepto);
+                }
+            }
+            dgConceptos.ItemsSource = null;
+            dgConceptos.ItemsSource = _conceptos;
+            CalcularTotal();
+            workbook.Close();
+            excelApp.Quit();
+        }
+
+        private void btnCargarExcel_Click(object sender, RoutedEventArgs e)
+        {
+            CargarExcel();
+        }
+
+        private void GuardarFacturaPendiente()
+        {
+            using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+            {
+                using (DbContextTransaction transaction = dbContext.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        if (FacturaPendienteElegida == null)
+                        {
+                            Facturas factura = new Facturas();
+                            DetalleFactura detalle = new DetalleFactura();
+
+                            factura.id_cliente = _clienteElegido.id_cliente;
+                            factura.id_contribuyente = ((Contribuyentes)cbContribuyentes.SelectedItem).id_contribuyente;
+                            factura.subtotal = Subtotal;
+                            factura.total = Math.Round(Total, 4);
+                            factura.estado = "PENDIENTE";
+                            factura.fecha = DateTime.Now.ToString().Substring(0, 10);
+                            factura.numero = "";
+                            factura.pagada = "NO";
+                            factura.estado = "PENDIENTE";
+                            factura.razon_cancelado = "";
+                            factura.amparada_por = "";
+                            factura.usuario = "";
+
+                            dbContext.Facturas.Add(factura);
+
+                            dbContext.SaveChanges();
+
+                            foreach (ConceptoFactura item in _conceptos)
+                            {
+                                detalle = new DetalleFactura();
+
+                                detalle.id_factura = factura.id_factura;
+                                detalle.cantidad = item.Cantidad;
+                                detalle.descripcion = item.Descripcion;
+                                detalle.importe = item.Importe;
+                                detalle.precio_unitario = item.PrecioUnitario;
+                                detalle.clave_servicio = item.Clave;
+                                detalle.unidad = item.Unidad;
+
+                                dbContext.DetalleFactura.Add(detalle);
+
+                                if (item.IdOrden > 0)
+                                {
+                                    dbContext.Adjuntar_Orden_Factura(item.IdOrden, factura.id_factura);
+                                    dbContext.Modificar_Tipo_Orden(item.IdOrden, "FACTURA");
+                                    detalle.id_orden = item.IdOrden;
+                                }
+                                else
+                                {
+                                    detalle.id_orden = 0;
+                                }
+
+                                dbContext.SaveChanges();
+
+                                if (item.IdInsumo > 0)
+                                {
+                                    SalidasInventario nueva = new SalidasInventario();
+                                    nueva.fecha = DateTime.Now.Date;
+                                    nueva.presupuesto = 0;
+                                    nueva.orden_trabajo = "";
+                                    nueva.nota = "";
+                                    nueva.cantidad = item.Cantidad;
+                                    nueva.id_insumo = item.IdInsumo;
+                                    nueva.descripcion = item.DescripcionInsumo;
+                                    nueva.factura = factura.id_factura.ToString();
+
+                                    dbContext.SalidasInventario.Add(nueva);
+
+                                    Insumos insumo = dbContext.Insumos.Where(I => I.id_insumo == item.IdInsumo).First();
+                                    insumo.stock = insumo.stock - nueva.cantidad;
+
+                                    detalle.id_articulo = item.IdInsumo;
+                                }
+                            }
+
+                            dbContext.SaveChanges();
+
+                            transaction.Commit();
+
+                            MessageBox.Show("Se ha guardado la factura como pendiente.");
+
+                            this.Close();
+                        }
+                        else
+                        {
+                            Facturas factura = dbContext.Facturas.Where(F => F.id_factura == FacturaPendienteElegida.id_factura).FirstOrDefault();
+                            DetalleFactura detalle = new DetalleFactura();
+
+                            factura.id_cliente = _clienteElegido.id_cliente;
+                            factura.id_contribuyente = ((Contribuyentes)cbContribuyentes.SelectedItem).id_contribuyente;
+                            factura.subtotal = Subtotal;
+                            factura.total = Math.Round(Total, 4);
+                            factura.estado = "PENDIENTE";
+                            factura.fecha = DateTime.Now.ToString().Substring(0, 10);
+                            factura.numero = "";
+                            factura.pagada = "NO";
+                            factura.estado = "PENDIENTE";
+                            factura.razon_cancelado = "";
+                            factura.amparada_por = "";
+                            factura.usuario = "";
+
+                            dbContext.SaveChanges();
+
+                            var listOrders = dbContext.FacturaOrden.Where(F => F.id_factura == FacturaPendienteElegida.id_factura).ToList();
+
+                            foreach (var item in listOrders)
+                            {
+                                dbContext.FacturaOrden.Remove(item);
+                            }
+
+                            var listDetails = dbContext.DetalleFactura.Where(F => F.id_factura == FacturaPendienteElegida.id_factura).ToList();
+
+                            foreach (var item in listDetails)
+                            {
+                                dbContext.DetalleFactura.Remove(item);
+                            }
+
+                            dbContext.SaveChanges();
+
+                            foreach (ConceptoFactura item in _conceptos)
+                            {
+                                detalle = new DetalleFactura();
+
+                                detalle.id_factura = factura.id_factura;
+                                detalle.cantidad = item.Cantidad;
+                                detalle.descripcion = item.Descripcion;
+                                detalle.importe = item.Importe;
+                                detalle.precio_unitario = item.PrecioUnitario;
+                                detalle.clave_servicio = item.Clave;
+                                detalle.unidad = item.Unidad;
+
+                                dbContext.DetalleFactura.Add(detalle);
+
+                                if (item.IdOrden > 0)
+                                {
+                                    dbContext.Adjuntar_Orden_Factura(item.IdOrden, factura.id_factura);
+                                    dbContext.Modificar_Tipo_Orden(item.IdOrden, "FACTURA");
+                                    detalle.id_orden = item.IdOrden;
+                                }
+                                else
+                                {
+                                    detalle.id_orden = 0;
+                                }
+
+                                    dbContext.SaveChanges();
+
+                                if (item.IdInsumo > 0)
+                                {
+                                    SalidasInventario nueva = new SalidasInventario();
+                                    nueva.fecha = DateTime.Now.Date;
+                                    nueva.presupuesto = 0;
+                                    nueva.orden_trabajo = "";
+                                    nueva.nota = "";
+                                    nueva.cantidad = item.Cantidad;
+                                    nueva.id_insumo = item.IdInsumo;
+                                    nueva.descripcion = item.DescripcionInsumo;
+                                    nueva.factura = factura.id_factura.ToString();
+
+                                    dbContext.SalidasInventario.Add(nueva);
+
+                                    Insumos insumo = dbContext.Insumos.Where(I => I.id_insumo == item.IdInsumo).First();
+                                    insumo.stock = insumo.stock - nueva.cantidad;
+
+                                    detalle.id_articulo = item.IdInsumo;
+                                }
+                            }
+
+                            dbContext.SaveChanges();
+
+                            transaction.Commit();
+
+                            MessageBox.Show("Se ha guardado la factura como pendiente.");
+
+                            this.Close();
+                        }
+                    }
+                    catch (Exception exc)
+                    {
+                        transaction.Rollback();
+                        MessageBox.Show(exc.Message);
+                    }
+                }
+            }
+        }
+
+        private void btnGuardarFacturaPendiente_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Desea guardar la factura?", "ATENCION", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                GuardarFacturaPendiente();
+            }
+        }
+
+        private void btnBuscarFacturasPendientes_Click(object sender, RoutedEventArgs e)
+        {
+            if (_clienteElegido is null)
+            {
+                return;
+            }
+            FacturasPendientes Pendientes = new FacturasPendientes(this, _clienteElegido);
+            Pendientes.ShowDialog();
+        }
+
+        public void ElegirFacturaPendiente(Facturas Elegida)
+        {
+            FacturaPendienteElegida = Elegida;
+            cbContribuyentes.SelectedValue = Elegida.id_contribuyente;
+            
+            List<DetalleFactura> Detalle = new List<DetalleFactura>();
+
+            using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+            {
+                Detalle = dbContext.DetalleFactura.Where(D => D.id_factura == Elegida.id_factura).ToList();
+            }
+
+            using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+            {
+
+                foreach (DetalleFactura item in Detalle)
+                {
+                    ConceptoFactura concepto = new ConceptoFactura();
+
+                    concepto.idFactura = Elegida.id_factura.ToString();
+                    concepto.Cantidad = (int)item.cantidad;
+                    concepto.Descripcion = item.descripcion;
+                    concepto.Importe = (float)item.importe;
+                    concepto.PrecioUnitario = (float)item.precio_unitario;
+                    concepto.claveProductoServicio = item.clave_servicio;
+                    concepto.Unidad = item.unidad;
+                    if (item.id_orden != null)
+                    concepto.IdOrden = (int)item.id_orden;
+                    concepto.Servicio = dbContext.ProductosServicios.Where(S => S.clave == item.clave_servicio).First();
+
+                    AgregarConcepto(concepto);
+                }
+            }
         }
     }
 }

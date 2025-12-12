@@ -229,6 +229,8 @@ namespace ImpresosAlvarez
             //WSCancelacionService serCancel = new WSCancelacionService();
             WSCancelacion40Service serCancel = new WSCancelacion40Service();
 
+            String Mensaje = "";
+
             try
             {
                 accesos acc = new accesos();
@@ -238,11 +240,14 @@ namespace ImpresosAlvarez
                 byte[] llavePublicaBytes = File.ReadAllBytes(rutaCertificado);
                 byte[] llavePrivadaBytes = File.ReadAllBytes(strPathLlave);
 
+                Mensaje = "1";
+
                 string[] cadenaOriginal = datosFacturaDigital.cadena_original.Split('|');
 
                 wsFolios40 fol = new wsFolios40();
                 fol.folio = new wsFolio();
 
+                Mensaje = "2";
                 if (UUIDSustituye != null)
                 {
                     fol.folio.uuid = cadenaOriginal[4];
@@ -258,17 +263,28 @@ namespace ImpresosAlvarez
                     folios[0] = fol;
                 }
 
+                Mensaje = "3";
+
                 string fecha = DateTime.UtcNow.AddHours(-7).ToString("s");
 
                 resCancelacion = serCancel.Cancelacion40_1(rfcEmisor, fecha, folios, llavePublicaBytes, llavePrivadaBytes, contraseñaLlave, acc);
+                if (resCancelacion == null)
+                {
+                    MessageBox.Show("ERROR EN LA CANCELACION.");
+                    return;
+                }
+                else
+                {
+                    File.WriteAllText(@"C:\Impresos\Facturacion\Acuse.xml", resCancelacion.acuse);
+                }
 
-                File.WriteAllText(@"C:\Impresos\Facturacion\Acuse.xml", resCancelacion.acuse);
+                Mensaje = "4" + resCancelacion.mensaje;
 
                 switch (resCancelacion.folios[0].estatusUUID)
                 {
                     case "201":
                         using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
-                        {
+                        {                            
                             Entity.FacturaDigital f = dbContext.FacturaDigital.Where(F => F.id_factura == _factura.id_factura).FirstOrDefault();
                             f.acuse = resCancelacion.acuse;
                             f.fecha_cancelado = DateTime.UtcNow.AddHours(-7);
@@ -278,12 +294,15 @@ namespace ImpresosAlvarez
 
                             List<FacturaOrden> facturaOrdenes = dbContext.FacturaOrden.Where(FO => FO.id_factura == _factura.id_factura).ToList();
 
-                            foreach (FacturaOrden item in facturaOrdenes)
+                            if (facturaOrdenes.Count > 0)
                             {
-                                dbContext.Modificar_Tipo_Orden_Grupo(_factura.id_factura, "COTIZACION");
-                                dbContext.Borrar_FacturaOrden(_factura.id_factura);
-                                dbContext.Cambiar_Estado_Factura(_factura.id_factura, "CANCELADO");
-                                dbContext.Factura_Razon_Cancelado(_factura.id_factura, "");
+                                foreach (FacturaOrden item in facturaOrdenes)
+                                {
+                                    dbContext.Modificar_Tipo_Orden_Grupo(_factura.id_factura, "COTIZACION");
+                                    dbContext.Borrar_FacturaOrden(_factura.id_factura);
+                                    dbContext.Cambiar_Estado_Factura(_factura.id_factura, "CANCELADO");
+                                    dbContext.Factura_Razon_Cancelado(_factura.id_factura, "");
+                                }
                             }
 
                             dbContext.SaveChanges();
@@ -311,7 +330,7 @@ namespace ImpresosAlvarez
             }
             catch (Exception exc)
             {
-                MessageBox.Show(exc.Message);
+                MessageBox.Show(exc.Message + " " + Mensaje);
             }
         }
 

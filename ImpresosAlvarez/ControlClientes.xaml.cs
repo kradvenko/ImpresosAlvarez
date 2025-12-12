@@ -120,7 +120,14 @@ namespace ImpresosAlvarez
                             c.contacto = tbContacto.Text;
                             c.tipo_persona = cbTipoPersona.Text;
                             c.pseudonimo = tbNombreCorto.Text;
-                            c.aplica_retencion = "SI";
+                            if (cbTipoPersona.Text == "FISICA")
+                            {
+                                c.aplica_retencion = "NO";
+                            }
+                            else
+                            {
+                                c.aplica_retencion = "NO";
+                            }
                             c.rfc = tbRFC.Text;
                             c.ciudad = tbCiudad.Text;
                             c.nombre_constancia = tbNombreConstancia.Text;

@@ -38,7 +38,11 @@ namespace ImpresosAlvarez
             //04/01/2023
             //Actualizaciones.Actualizacion1();
             //15/06/2025
-            Actualizaciones.Actualizacion2();
+            //Actualizaciones.Actualizacion2();
+            //08/10/2025
+            //Actualizaciones.Actualizacion3();
+            //10/12/2025
+            Actualizaciones.Actualizacion4();
             Login login = new Login(this);
             login.ShowDialog();
         }
@@ -149,12 +153,28 @@ namespace ImpresosAlvarez
                 {
                     using (var client = new WebClient())
                     {
-                        //client.DownloadFile("http://impresosalvarez.atwebpages.com/FileCheck.txt", @"C:\Impresos\FileCheck.txt");
-                        //client.DownloadFile("http://impresosalvarez.atwebpages.com/XLS_4_0.xslt", @"C:\Impresos\Facturacion\XLS_4_0.xslt");
-                        //client.DownloadFile("http://impresosalvarez.atwebpages.com/XML_4_0_Template.xml", @"C:\Impresos\Facturacion\XML_4_0_Template.xml");
                         client.DownloadFile("http://impresosalvarez.atwebpages.com/XML_4_0_Template_Cancelacion.xml", @"C:\Impresos\Facturacion\XML_4_0_Template_Cancelacion.xml");
                     }
                 }
+
+                string orden2File = @"C:\Impresos\orden2File.png";
+                if (!File.Exists(orden2File))
+                {
+                    using (var client = new WebClient())
+                    {
+                        client.DownloadFile("http://impresosalvarez.atwebpages.com/orden2File.png", @"C:\Impresos\orden2File.png");
+                    }
+                }
+
+                string excelFile = @"C:\Impresos\File.xlsx";
+                if (!File.Exists(excelFile))
+                {
+                    using (var client = new WebClient())
+                    {
+                        client.DownloadFile("http://impresosalvarez.atwebpages.com/File.xlsx", @"C:\Impresos\File.xlsx");
+                    }
+                }
+
             }
             catch (Exception exc)
             {
@@ -365,6 +385,12 @@ namespace ImpresosAlvarez
         {
             ControlNotas notas = new ControlNotas();
             notas.ShowDialog();
+        }
+
+        private void btnClientesSinOrdenes_Click(object sender, RoutedEventArgs e)
+        {
+            ClientesSinOrdenes cso = new ClientesSinOrdenes();
+            cso.ShowDialog();
         }
     }
 }

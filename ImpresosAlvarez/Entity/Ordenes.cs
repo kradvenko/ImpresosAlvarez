@@ -72,6 +72,34 @@ namespace ImpresosAlvarez.Entity
         public string orden_anterior { get; set; }
         public string fecha_negativo { get; set; }
         public string tipo_maquina { get; set; }
+        public string tipo_orden { get; set; }
+        public string lona_medida { get; set; }
+        public string lona_normal { get; set; }
+        public string lona_traslucida { get; set; }
+        public string lona_impresion_uv { get; set; }
+        public string lona_impresion_ecosolvente { get; set; }
+        public string lona_acabado_byo { get; set; }
+        public string lona_acabado_bastilla { get; set; }
+        public string lona_acabado_sobrante { get; set; }
+        public string lona_acabado_bolsa { get; set; }
+        public string lona_acabado_otro { get; set; }
+        public string lona_acabado_observaciones { get; set; }
+        public string vinil_medida { get; set; }
+        public string vinil_tipo_brillante { get; set; }
+        public string vinil_tipo_mate { get; set; }
+        public string vinil_impresion_uv { get; set; }
+        public string vinil_impresion_ecosolvente { get; set; }
+        public string vinil_econo { get; set; }
+        public string vinil_ecogris { get; set; }
+        public string vinil_alta { get; set; }
+        public string vinil_micro { get; set; }
+        public string vinil_trans { get; set; }
+        public string vinil_est_blanco { get; set; }
+        public string vinil_est_trans { get; set; }
+        public string vinil_reflejante { get; set; }
+        public string vinil_observaciones { get; set; }
+        public string otro_material { get; set; }
+        public string envio_a { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bitacora> Bitacora { get; set; }

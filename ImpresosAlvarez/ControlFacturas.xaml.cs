@@ -277,8 +277,16 @@ namespace ImpresosAlvarez
                     String idfactura = dgFacturas.SelectedItem.GetType().GetProperty("id_factura").GetValue(dgFacturas.SelectedItem, null).ToString();
                     Facturas f = dbContext.Facturas.Where(F => F.id_factura.ToString() == idfactura).First();
 
-                    VerFactura ver = new VerFactura(this, f);
-                    ver.ShowDialog();
+                    if (f.estado == "PENDIENTE")
+                    {
+                        MessageBox.Show("No es posible ver la factura pendiente.");
+                    }
+                    else
+                    {
+                        VerFactura ver = new VerFactura(this, f);
+                        ver.ShowDialog();
+                    }
+                    
                 }
                 /*
                 Facturas f = (Facturas)dgFacturas.SelectedItem;
@@ -291,6 +299,73 @@ namespace ImpresosAlvarez
         private void btnCancelar_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void btnRestaurar_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgFacturas.SelectedItem != null)
+            {                
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    String idfactura = dgFacturas.SelectedItem.GetType().GetProperty("id_factura").GetValue(dgFacturas.SelectedItem, null).ToString();                    
+
+                    Facturas f = dbContext.Facturas.Where(F => F.id_factura.ToString() == idfactura).First();
+
+                    if (f.estado == "CANCELADO")
+                    {
+                        f.estado = "ACTIVO";
+
+                        dbContext.SaveChanges();
+                        BuscarFacturas();
+                    }
+                    else
+                    {
+
+                    }
+                }
+                /*
+                Facturas f = (Facturas)dgFacturas.SelectedItem;
+                VerFactura ver = new VerFactura(this, f);
+                ver.ShowDialog();
+                */
+            }
+        }
+
+        private void btnCancelarFactura_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgFacturas.SelectedItem != null)
+            {
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    String idfactura = dgFacturas.SelectedItem.GetType().GetProperty("id_factura").GetValue(dgFacturas.SelectedItem, null).ToString();
+
+                    Facturas f = dbContext.Facturas.Where(F => F.id_factura.ToString() == idfactura).First();
+
+                    if (f.estado == "ACTIVO" || f.estado == "PENDIENTE")
+                    {
+                        f.estado = "CANCELADO";
+
+                        var listOrders = dbContext.FacturaOrden.Where(F => F.id_factura.ToString() == idfactura).ToList();
+
+                        foreach (var item in listOrders)
+                        {
+                            dbContext.FacturaOrden.Remove(item);
+                        }
+
+                        dbContext.SaveChanges();
+                        BuscarFacturas();
+                    }
+                    else
+                    {
+
+                    }
+                }
+                /*
+                Facturas f = (Facturas)dgFacturas.SelectedItem;
+                VerFactura ver = new VerFactura(this, f);
+                ver.ShowDialog();
+                */
+            }
         }
     }
 }

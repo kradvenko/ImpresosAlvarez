@@ -29,11 +29,11 @@ namespace ImpresosAlvarez.mx.facturacfdiCancelacion.v40 {
     [System.Web.Services.WebServiceBindingAttribute(Name="WSCancelacion40PortBinding", Namespace="http://wservicios/")]
     public partial class WSCancelacion40Service : System.Web.Services.Protocols.SoapHttpClientProtocol {
         
-        private System.Threading.SendOrPostCallback Cancelacion40_2OperationCompleted;
+        private System.Threading.SendOrPostCallback Cancelacion40_3OperationCompleted;
         
         private System.Threading.SendOrPostCallback Cancelacion40_1OperationCompleted;
         
-        private System.Threading.SendOrPostCallback Cancelacion40_3OperationCompleted;
+        private System.Threading.SendOrPostCallback Cancelacion40_2OperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -74,49 +74,45 @@ namespace ImpresosAlvarez.mx.facturacfdiCancelacion.v40 {
         }
         
         /// <remarks/>
-        public event Cancelacion40_2CompletedEventHandler Cancelacion40_2Completed;
+        public event Cancelacion40_3CompletedEventHandler Cancelacion40_3Completed;
         
         /// <remarks/>
         public event Cancelacion40_1CompletedEventHandler Cancelacion40_1Completed;
         
         /// <remarks/>
-        public event Cancelacion40_3CompletedEventHandler Cancelacion40_3Completed;
+        public event Cancelacion40_2CompletedEventHandler Cancelacion40_2Completed;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="http://wservicios/", ResponseNamespace="http://wservicios/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public wsCancelacionResponse Cancelacion40_2([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string rfcEmisor, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string fecha, [System.Xml.Serialization.XmlElementAttribute("folios", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] wsFolios40[] folios, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] SignatureType signatureType, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] accesos accesos) {
-            object[] results = this.Invoke("Cancelacion40_2", new object[] {
-                        rfcEmisor,
-                        fecha,
+        public wsCancelacionResponse Cancelacion40_3([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string nocertificado, [System.Xml.Serialization.XmlElementAttribute("folios", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] wsFolios40[] folios, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] accesos accesos) {
+            object[] results = this.Invoke("Cancelacion40_3", new object[] {
+                        nocertificado,
                         folios,
-                        signatureType,
                         accesos});
             return ((wsCancelacionResponse)(results[0]));
         }
         
         /// <remarks/>
-        public void Cancelacion40_2Async(string rfcEmisor, string fecha, wsFolios40[] folios, SignatureType signatureType, accesos accesos) {
-            this.Cancelacion40_2Async(rfcEmisor, fecha, folios, signatureType, accesos, null);
+        public void Cancelacion40_3Async(string nocertificado, wsFolios40[] folios, accesos accesos) {
+            this.Cancelacion40_3Async(nocertificado, folios, accesos, null);
         }
         
         /// <remarks/>
-        public void Cancelacion40_2Async(string rfcEmisor, string fecha, wsFolios40[] folios, SignatureType signatureType, accesos accesos, object userState) {
-            if ((this.Cancelacion40_2OperationCompleted == null)) {
-                this.Cancelacion40_2OperationCompleted = new System.Threading.SendOrPostCallback(this.OnCancelacion40_2OperationCompleted);
+        public void Cancelacion40_3Async(string nocertificado, wsFolios40[] folios, accesos accesos, object userState) {
+            if ((this.Cancelacion40_3OperationCompleted == null)) {
+                this.Cancelacion40_3OperationCompleted = new System.Threading.SendOrPostCallback(this.OnCancelacion40_3OperationCompleted);
             }
-            this.InvokeAsync("Cancelacion40_2", new object[] {
-                        rfcEmisor,
-                        fecha,
+            this.InvokeAsync("Cancelacion40_3", new object[] {
+                        nocertificado,
                         folios,
-                        signatureType,
-                        accesos}, this.Cancelacion40_2OperationCompleted, userState);
+                        accesos}, this.Cancelacion40_3OperationCompleted, userState);
         }
         
-        private void OnCancelacion40_2OperationCompleted(object arg) {
-            if ((this.Cancelacion40_2Completed != null)) {
+        private void OnCancelacion40_3OperationCompleted(object arg) {
+            if ((this.Cancelacion40_3Completed != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.Cancelacion40_2Completed(this, new Cancelacion40_2CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.Cancelacion40_3Completed(this, new Cancelacion40_3CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -165,34 +161,38 @@ namespace ImpresosAlvarez.mx.facturacfdiCancelacion.v40 {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="http://wservicios/", ResponseNamespace="http://wservicios/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public wsCancelacionResponse Cancelacion40_3([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string nocertificado, [System.Xml.Serialization.XmlElementAttribute("folios", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] wsFolios40[] folios, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] accesos accesos) {
-            object[] results = this.Invoke("Cancelacion40_3", new object[] {
-                        nocertificado,
+        public wsCancelacionResponse Cancelacion40_2([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string rfcEmisor, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string fecha, [System.Xml.Serialization.XmlElementAttribute("folios", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] wsFolios40[] folios, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] SignatureType signatureType, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] accesos accesos) {
+            object[] results = this.Invoke("Cancelacion40_2", new object[] {
+                        rfcEmisor,
+                        fecha,
                         folios,
+                        signatureType,
                         accesos});
             return ((wsCancelacionResponse)(results[0]));
         }
         
         /// <remarks/>
-        public void Cancelacion40_3Async(string nocertificado, wsFolios40[] folios, accesos accesos) {
-            this.Cancelacion40_3Async(nocertificado, folios, accesos, null);
+        public void Cancelacion40_2Async(string rfcEmisor, string fecha, wsFolios40[] folios, SignatureType signatureType, accesos accesos) {
+            this.Cancelacion40_2Async(rfcEmisor, fecha, folios, signatureType, accesos, null);
         }
         
         /// <remarks/>
-        public void Cancelacion40_3Async(string nocertificado, wsFolios40[] folios, accesos accesos, object userState) {
-            if ((this.Cancelacion40_3OperationCompleted == null)) {
-                this.Cancelacion40_3OperationCompleted = new System.Threading.SendOrPostCallback(this.OnCancelacion40_3OperationCompleted);
+        public void Cancelacion40_2Async(string rfcEmisor, string fecha, wsFolios40[] folios, SignatureType signatureType, accesos accesos, object userState) {
+            if ((this.Cancelacion40_2OperationCompleted == null)) {
+                this.Cancelacion40_2OperationCompleted = new System.Threading.SendOrPostCallback(this.OnCancelacion40_2OperationCompleted);
             }
-            this.InvokeAsync("Cancelacion40_3", new object[] {
-                        nocertificado,
+            this.InvokeAsync("Cancelacion40_2", new object[] {
+                        rfcEmisor,
+                        fecha,
                         folios,
-                        accesos}, this.Cancelacion40_3OperationCompleted, userState);
+                        signatureType,
+                        accesos}, this.Cancelacion40_2OperationCompleted, userState);
         }
         
-        private void OnCancelacion40_3OperationCompleted(object arg) {
-            if ((this.Cancelacion40_3Completed != null)) {
+        private void OnCancelacion40_2OperationCompleted(object arg) {
+            if ((this.Cancelacion40_2Completed != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.Cancelacion40_3Completed(this, new Cancelacion40_3CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.Cancelacion40_2Completed(this, new Cancelacion40_2CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -281,151 +281,6 @@ namespace ImpresosAlvarez.mx.facturacfdiCancelacion.v40 {
             }
             set {
                 this.uuidField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://wservicios/")]
-    public partial class folio {
-        
-        private string estatusUUIDField;
-        
-        private string mensajeField;
-        
-        private string uuidField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string estatusUUID {
-            get {
-                return this.estatusUUIDField;
-            }
-            set {
-                this.estatusUUIDField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string mensaje {
-            get {
-                return this.mensajeField;
-            }
-            set {
-                this.mensajeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string uuid {
-            get {
-                return this.uuidField;
-            }
-            set {
-                this.uuidField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://wservicios/")]
-    public partial class wsCancelacionResponse {
-        
-        private string acuseField;
-        
-        private string codEstatusField;
-        
-        private folio[] foliosField;
-        
-        private string mensajeField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string acuse {
-            get {
-                return this.acuseField;
-            }
-            set {
-                this.acuseField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string codEstatus {
-            get {
-                return this.codEstatusField;
-            }
-            set {
-                this.codEstatusField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        [System.Xml.Serialization.XmlArrayItemAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public folio[] folios {
-            get {
-                return this.foliosField;
-            }
-            set {
-                this.foliosField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string mensaje {
-            get {
-                return this.mensajeField;
-            }
-            set {
-                this.mensajeField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://wservicios/")]
-    public partial class accesos {
-        
-        private string passwordField;
-        
-        private string usuarioField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string password {
-            get {
-                return this.passwordField;
-            }
-            set {
-                this.passwordField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string usuario {
-            get {
-                return this.usuarioField;
-            }
-            set {
-                this.usuarioField = value;
             }
         }
     }
@@ -1417,18 +1272,163 @@ namespace ImpresosAlvarez.mx.facturacfdiCancelacion.v40 {
     }
     
     /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://wservicios/")]
+    public partial class folio {
+        
+        private string estatusUUIDField;
+        
+        private string mensajeField;
+        
+        private string uuidField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string estatusUUID {
+            get {
+                return this.estatusUUIDField;
+            }
+            set {
+                this.estatusUUIDField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string mensaje {
+            get {
+                return this.mensajeField;
+            }
+            set {
+                this.mensajeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string uuid {
+            get {
+                return this.uuidField;
+            }
+            set {
+                this.uuidField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://wservicios/")]
+    public partial class wsCancelacionResponse {
+        
+        private string acuseField;
+        
+        private string codEstatusField;
+        
+        private folio[] foliosField;
+        
+        private string mensajeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string acuse {
+            get {
+                return this.acuseField;
+            }
+            set {
+                this.acuseField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string codEstatus {
+            get {
+                return this.codEstatusField;
+            }
+            set {
+                this.codEstatusField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlArrayItemAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public folio[] folios {
+            get {
+                return this.foliosField;
+            }
+            set {
+                this.foliosField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string mensaje {
+            get {
+                return this.mensajeField;
+            }
+            set {
+                this.mensajeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://wservicios/")]
+    public partial class accesos {
+        
+        private string passwordField;
+        
+        private string usuarioField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string password {
+            get {
+                return this.passwordField;
+            }
+            set {
+                this.passwordField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string usuario {
+            get {
+                return this.usuarioField;
+            }
+            set {
+                this.usuarioField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
-    public delegate void Cancelacion40_2CompletedEventHandler(object sender, Cancelacion40_2CompletedEventArgs e);
+    public delegate void Cancelacion40_3CompletedEventHandler(object sender, Cancelacion40_3CompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class Cancelacion40_2CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class Cancelacion40_3CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal Cancelacion40_2CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal Cancelacion40_3CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
@@ -1470,17 +1470,17 @@ namespace ImpresosAlvarez.mx.facturacfdiCancelacion.v40 {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
-    public delegate void Cancelacion40_3CompletedEventHandler(object sender, Cancelacion40_3CompletedEventArgs e);
+    public delegate void Cancelacion40_2CompletedEventHandler(object sender, Cancelacion40_2CompletedEventArgs e);
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class Cancelacion40_3CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+    public partial class Cancelacion40_2CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         
         private object[] results;
         
-        internal Cancelacion40_3CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+        internal Cancelacion40_2CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }
