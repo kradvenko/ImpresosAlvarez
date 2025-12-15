@@ -259,7 +259,7 @@ namespace ImpresosAlvarez
             }            
 
             datosFacturaElectronica.iva = iva.ToString();
-            datosFacturaElectronica.retencionIsr = RetencionIsr.ToString();
+            datosFacturaElectronica.retencionIsr = Math.Round(RetencionIsr, 2).ToString();
 
             //datosFacturaElectronica.totalImpuestos = datosFacturaElectronica.CalcularTotalImpuestos().ToString();
 
@@ -286,10 +286,10 @@ namespace ImpresosAlvarez
             Total = double.Parse(Math.Round(Total, 6).ToString());
 
             //lblTotalImpuestos.Content = "$ " + datosFacturaElectronica.totalImpuestos;
-            lblSubtotal.Content = "$ " + Subtotal.ToString();
-            lblISR.Content = "$ " + RetencionIsr.ToString();
-            lblIVA.Content = "$ " + iva.ToString();
-            lblTotal.Content = "$ " + Math.Round(Total, 6).ToString() + " (" + ConvertirALetra(Total.ToString()) + ") ";
+            lblSubtotal.Content = "$ " + Math.Round(Subtotal, 2).ToString();
+            lblISR.Content = "$ " + Math.Round(RetencionIsr, 2).ToString();
+            lblIVA.Content = "$ " + Math.Round(iva, 2).ToString();
+            lblTotal.Content = "$ " + Math.Round(Total, 2).ToString() + " (" + ConvertirALetra(Math.Round(Total, 2).ToString()) + ") ";
         }
 
         private void btnAgregarConcepto_Click(object sender, RoutedEventArgs e)
