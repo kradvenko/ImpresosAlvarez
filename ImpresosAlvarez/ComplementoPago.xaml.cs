@@ -934,7 +934,7 @@ namespace ImpresosAlvarez
                 item.Parcialidad = xa.Value;
 
                 xa = xCom.CreateAttribute("ImpSaldoAnt");
-                xa.Value = item.SaldoAnterior;
+                xa.Value = Math.Round(double.Parse(item.SaldoAnterior), 2).ToString();
                 xDocto.Attributes.Append(xa);
                 item.SaldoAnterior = xa.Value;
 
