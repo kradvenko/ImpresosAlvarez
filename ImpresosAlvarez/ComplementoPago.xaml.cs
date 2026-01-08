@@ -939,7 +939,7 @@ namespace ImpresosAlvarez
                 item.SaldoAnterior = xa.Value;
 
                 xa = xCom.CreateAttribute("ImpPagado");
-                xa.Value = item.Pagado;
+                xa.Value = Math.Round(double.Parse(item.Pagado), 2).ToString();
                 xDocto.Attributes.Append(xa);
                 item.ImportePagado = xa.Value;
 
