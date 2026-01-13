@@ -239,7 +239,7 @@ namespace ImpresosAlvarez
                     //RetencionIsr += Redondear(item.Importe * 0.012500f);
                     //RetencionIsr += float.Parse((Math.Ceiling(item.Importe * 0.012500f)).ToString());
                     double temp2 = item.Importe * 0.012500d;
-                    double temp3 = Math.Round(temp2, 2);
+                    double temp3 = Math.Round(temp2, 6);
                     RetencionIsr += temp3;
                     //RetencionIsr += float.Parse(Math.Round((item.Importe * 0.012500f), 2).ToString());
                 }
@@ -256,13 +256,16 @@ namespace ImpresosAlvarez
             {
                 RetencionIsr = Subtotal * 0.0125;
                 //RetencionIsr = RetencionIsr * 0.0125;
+                /*
                 RetencionIsr = double.Parse((Math.Round(RetencionIsr, 2)).ToString());
                 if (RetencionIsr == 10257.43)
                 {
                     RetencionIsr = 10257.42;
                 }
-            }            
+                */
+            }
 
+            RetencionIsr = Math.Round(RetencionIsr, 2);
             datosFacturaElectronica.iva = iva.ToString();
             datosFacturaElectronica.retencionIsr = RetencionIsr.ToString();
 
@@ -294,11 +297,11 @@ namespace ImpresosAlvarez
             */
             Total = Subtotal + iva - RetencionIsr - RetencionIva - RetencionCedular;
 
-            Total = double.Parse(Math.Round(Total, 4).ToString());
+            Total = double.Parse(Math.Round(Total, 2).ToString());
 
             //lblTotalImpuestos.Content = "$ " + datosFacturaElectronica.totalImpuestos;
             lblSubtotal.Content = "$ " + Math.Round(Subtotal, 2).ToString();
-            lblISR.Content = "$ " + Math.Round(Subtotal * 0.0125, 3).ToString();
+            lblISR.Content = "$ " + Math.Round(Subtotal * 0.0125, 2).ToString();
             lblIVA.Content = "$ " + Math.Round(iva, 2).ToString();
             lblTotal.Content = "$ " + Math.Round(Total, 2).ToString() + " (" + ConvertirALetra(Math.Round(Total, 2).ToString()) + ") ";
         }
@@ -2954,7 +2957,7 @@ namespace ImpresosAlvarez
                 datosFacturaElectronica.metodoPago = xAttrib.Value;
 
                 xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@SubTotal", nms);
-                xAttrib.Value = Math.Round(Subtotal + 0.01d, 2).ToString();
+                xAttrib.Value = Subtotal.ToString();
                 datosFacturaElectronica.subTotal = xAttrib.Value;
                 /*
                 xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Comprobante//@Descuento", nms);
@@ -3112,6 +3115,7 @@ namespace ImpresosAlvarez
 
                         xa = xDoc.CreateAttribute("ValorUnitario");
                         //float.Parse((Math.Round(impuesto, 2)).ToString());
+                        /*
                         if (item.Importe == 53011)
                         {
                             item.PrecioUnitario = 1060.22022f;
@@ -3122,14 +3126,18 @@ namespace ImpresosAlvarez
                         {
                             xa.Value = item.PrecioUnitario.ToString();
                         }
+                        */
+                        xa.Value = item.PrecioUnitario.ToString();
                         xConcepto.Attributes.Append(xa);
                         cConcepto.valorUnitario = xa.Value;
 
                         xa = xDoc.CreateAttribute("Importe");
+                        /*
                         if (item.Importe == 53011)
                         {
                             item.Importe = 53011.01f;
-                        }    
+                        }
+                        */
                         xa.Value = AddDecimals(item.Importe.ToString());
                         xConcepto.Attributes.Append(xa);
                         cConcepto.importe = xa.Value;
@@ -3155,22 +3163,22 @@ namespace ImpresosAlvarez
                         datosFacturaElectronica.conceptos.Add(cConcepto);
 
                         //IVA
-                        impuesto = item.Cantidad * (double)item.PrecioUnitario;
+                        double c = double.Parse(item.Cantidad.ToString());
+                        double p = double.Parse(item.PrecioUnitario.ToString());
+                        impuesto = c * p;
                         impuesto = impuesto * 0.16d;
                         impuesto = double.Parse((Math.Round(impuesto, 6)).ToString());
                         impuestoTotal = impuestoTotal + impuesto;
                         baseTotal = baseTotal + (double)item.Importe;
                         baseTotal = Math.Round(baseTotal, 2);
 
-                        //RETENCION
-                        double c = double.Parse(item.Cantidad.ToString());
-                        double p = double.Parse(item.PrecioUnitario.ToString());                        
+                        //RETENCION                        
                         impuestoRetencion = c * p;
                         impuestoRetencion = impuestoRetencion * 0.012500d;
-                        impuestoRetencion = (Math.Round(impuestoRetencion, 2));
+                        impuestoRetencion = (Math.Round(impuestoRetencion, 6));
                         impuestoRetencionTotal = impuestoRetencionTotal + impuestoRetencion;
                         baseTotalRetencion = baseTotalRetencion + (double)item.Importe;
-                        baseTotalRetencion = Math.Round(baseTotalRetencion, 2);
+                        baseTotalRetencion = Math.Round(baseTotalRetencion, 6);
 
                         XmlNode xImpuestos = xDoc.CreateNode(XmlNodeType.Element, "cfdi", "Impuestos", "http://www.sat.gob.mx/cfd/4");
 
@@ -3195,8 +3203,8 @@ namespace ImpresosAlvarez
                         xTraslado.Attributes.Append(xa);
 
                         xa = xDoc.CreateAttribute("Importe");
-                        //xa.Value = AddDecimals(impuesto.ToString());
-                        xa.Value = impuesto.ToString();
+                        xa.Value = AddDecimals(impuesto.ToString());
+                        //xa.Value = impuesto.ToString();
                         xTraslado.Attributes.Append(xa);
 
                         xTraslados.AppendChild(xTraslado);
@@ -3225,7 +3233,7 @@ namespace ImpresosAlvarez
                             xRetencion.Attributes.Append(xa);
 
                             xa = xDoc.CreateAttribute("Importe");
-                            xa.Value = impuestoRetencion.ToString();
+                            xa.Value = AddDecimals(Math.Round(impuestoRetencion, 2).ToString());
                             xRetencion.Attributes.Append(xa);
 
                             xRetenciones.AppendChild(xRetencion);
@@ -3280,7 +3288,8 @@ namespace ImpresosAlvarez
                     */
                     //impuestoRetencionTotal = (Math.Round(RetencionIsr, 6));
                     //xa.Value = AddDecimals(impuestoRetencionTotal.ToString());
-                    xa.Value = impuestoRetencionTotal.ToString();
+                    xa.Value = Math.Round(impuestoRetencionTotal, 2).ToString();
+                    xa.Value = AddDecimals(xa.Value);
                     xRetencionImpuestos.Attributes.Append(xa);
 
                     xRetencionesImpuestos.AppendChild(xRetencionImpuestos);
@@ -3289,7 +3298,7 @@ namespace ImpresosAlvarez
 
                     xa = xDoc.CreateAttribute("TotalImpuestosRetenidos");
                     //xa.Value = AddDecimals(impuestoRetencionTotal.ToString());
-                    xa.Value = impuestoRetencionTotal.ToString();
+                    xa.Value = Math.Round(impuestoRetencionTotal, 2).ToString();
                     xImpuestosNodo.Attributes.Append(xa);
 
                     //RetencionIsr = impuestoRetencionTotal;
@@ -3310,7 +3319,9 @@ namespace ImpresosAlvarez
                 xTrasladoImpuestos.Attributes.Append(xa);
                 xa = xDoc.CreateAttribute("Importe");
                 //impuestoTotal = double.Parse((Math.Round(impuestoTotal, 2)).ToString());
-                xa.Value = datosFacturaElectronica.iva;
+                //xa.Value = datosFacturaElectronica.iva;
+                xa.Value = Math.Round(impuestoTotal, 2).ToString();
+                xa.Value = AddDecimals(xa.Value);
                 xTrasladoImpuestos.Attributes.Append(xa);
 
                 xTrasladosImpuestos.AppendChild(xTrasladoImpuestos);
@@ -3318,7 +3329,7 @@ namespace ImpresosAlvarez
                 xImpuestosNodo.AppendChild(xTrasladosImpuestos);
 
                 xAttrib = (XmlAttribute)xDoc.SelectSingleNode("//cfdi:Impuestos//@TotalImpuestosTrasladados", nms);
-                xAttrib.Value = datosFacturaElectronica.iva;//AddDecimals(impuestoTotal.ToString());
+                xAttrib.Value = AddDecimals(impuestoTotal.ToString());//datosFacturaElectronica.iva;
 
                 if (datosFacturaElectronica.IneTipoProceso.Length > 0)
                 {
