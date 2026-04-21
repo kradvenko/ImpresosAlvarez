@@ -40,7 +40,7 @@
             <Setter Property="FontFamily" Value="Fonts/#Montserrat"></Setter>
             <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
             <Setter Property="Height" Value="30"></Setter>
-            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="FontSize" Value="10"></Setter>
             <Setter Property="Foreground" Value="Black"></Setter>
         </Style>
         <Style x:Key="LabelBoldred" TargetType="{x:Type Label}">
@@ -50,6 +50,22 @@
             <Setter Property="FontSize" Value="16"></Setter>
             <Setter Property="FontWeight" Value="Bold"></Setter>
             <Setter Property="Foreground" Value="Red"></Setter>
+        </Style>
+        <Style x:Key="LabelDarkGrey" TargetType="{x:Type Label}">
+            <Setter Property="FontFamily" Value="Fonts/#Montserrat"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+            <Setter Property="Height" Value="30"></Setter>
+            <Setter Property="FontSize" Value="10"></Setter>
+            <Setter Property="Foreground" Value="#FF4E4949"></Setter>
+        </Style>
+        <Style x:Key="LabelBoldOrangeBG" TargetType="{x:Type Label}">
+            <Setter Property="FontFamily" Value="Fonts/#Montserrat"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+            <Setter Property="Height" Value="30"></Setter>
+            <Setter Property="FontSize" Value="16"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Background" Value="Orange"></Setter>
         </Style>
         <!--Textbox-->
         <Style x:Key="TextBox01" TargetType="TextBox">
@@ -128,17 +144,26 @@
             <Setter Property="FontSize" Value="13" />
             <Setter Property="FontFamily" Value="Calibri" />
         </Style>
+        <!--Button Interfaz 1-->
         <Style x:Key="btnInterfaz01" TargetType="{x:Type Button}">
             <Setter Property="MaxHeight" Value="60"></Setter>
             <Setter Property="Margin" Value="5"></Setter>
-            <Setter Property="Background" Value="MistyRose"/>
-            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontSize" Value="19"></Setter>            
             <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+            <Setter Property="Padding" Value="10,0,0,0"></Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <Border Background="{TemplateBinding Background}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <ContentPresenter
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Margin="{TemplateBinding Padding}"
+                                RecognizesAccessKey="True"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
@@ -165,7 +190,7 @@
                                         <TranslateTransform/>
                                     </TransformGroup>
                                 </LinearGradientBrush.RelativeTransform>
-                                <GradientStop Color="#FFF9FFF9" Offset="0"/>
+                                <GradientStop Color="Orange" Offset="0"/>
                                 <GradientStop Color="Orange" Offset="1"/>
                             </LinearGradientBrush>
                         </Setter.Value>
@@ -173,6 +198,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        
         <Style x:Key="btnInterfaz02" TargetType="{x:Type Button}">
             <Setter Property="MaxHeight" Value="60"></Setter>
             <Setter Property="Margin" Value="5"></Setter>
@@ -302,7 +328,7 @@
                                         <TranslateTransform/>
                                     </TransformGroup>
                                 </LinearGradientBrush.RelativeTransform>
-                                <GradientStop Color="#FFF9FFF9" Offset="0"/>
+                                <GradientStop Color="Orange" Offset="0"/>
                                 <GradientStop Color="Orange" Offset="1"/>
                             </LinearGradientBrush>
                         </Setter.Value>
@@ -310,11 +336,67 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <!--Button Interfaz 5-->
+        <Style x:Key="btnInterfaz05" TargetType="{x:Type Button}">
+            <Setter Property="MaxHeight" Value="60"></Setter>
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="Background" Value="White"/>
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+            <Setter Property="Padding" Value="10,0,0,0"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        Margin="{TemplateBinding Padding}"
+                        RecognizesAccessKey="True"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="5"
+                      Direction="270"
+                      Color="Black"
+                      RenderingBias="Quality"
+                      ShadowDepth="2"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                                <LinearGradientBrush.RelativeTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                        <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                        <RotateTransform Angle="90" CenterY="0.5" CenterX="0.5"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </LinearGradientBrush.RelativeTransform>
+                                <GradientStop Color="Orange" Offset="0"/>
+                                <GradientStop Color="Orange" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
         <Style x:Key="LabelBoldBlack" TargetType="{x:Type Label}">
             <Setter Property="FontFamily" Value="Fonts/#Montserrat"></Setter>
             <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
             <Setter Property="Height" Value="30"></Setter>
-            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="FontSize" Value="10"></Setter>
             <Setter Property="FontWeight" Value="Bold"></Setter>
             <Setter Property="Foreground" Value="Black"></Setter>
         </Style>

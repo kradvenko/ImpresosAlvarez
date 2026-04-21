@@ -97,7 +97,7 @@
                 </Style>
             </DataGrid.RowStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Folio" Binding="{Binding Path=numero}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Folio" Binding="{Binding Path=Numero}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Fecha" Binding="{Binding Path=Fecha}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Contribuyente" Binding="{Binding Path=nombre}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Cliente" Binding="{Binding Path=Cliente}" Width="*"></DataGridTextColumn>
@@ -106,10 +106,10 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button x:Name="btnCancelarFactura" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Cancelar factura en sistema" Click="btnCancelarFactura_Click"></Button>
-        <Button x:Name="btnRestaurar" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Restaurar factura en sistema" Click="btnRestaurar_Click"></Button>
-        <Button x:Name="btnVerTodas" Grid.Row="11" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Todas las facturas" Click="btnVerTodas_Click"></Button>
-        <Button x:Name="btnVerFactura" Grid.Row="11" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Ver factura" Click="btnVerFactura_Click"></Button>
+        <Button x:Name="btnCancelarFactura" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cancelar factura en sistema" Click="btnCancelarFactura_Click"></Button>
+        <Button x:Name="btnRestaurar" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz02}" Content="Restaurar factura en sistema" Click="btnRestaurar_Click"></Button>
+        <Button x:Name="btnVerTodas" Grid.Row="11" Grid.Column="2" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz04}" Content="Todas las facturas" Click="btnVerTodas_Click"></Button>
+        <Button x:Name="btnVerFactura" Grid.Row="11" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz04}" Content="Ver factura" Click="btnVerFactura_Click"></Button>
         <Button x:Name="btnCancelar" Grid.Row="11" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cancelar" Click="btnCancelar_Click"></Button>
 
     </Grid>

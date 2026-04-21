@@ -2511,6 +2511,7 @@ namespace ImpresosAlvarez
                     LimpiarFormulario();
                     */
                     EnviarPorCorreo();
+                    LimpiarFormulario();
                 }
                 else
                 {

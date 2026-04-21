@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Syncfusion="clr-namespace:Syncfusion.Windows.Controls.Input;assembly=Syncfusion.SfInput.Wpf"
         xmlns:local="clr-namespace:ImpresosAlvarez"
         mc:Ignorable="d"
         Title="Clientes Sin Ordenes" Height="600" Width="970" Loaded="Window_Loaded">
@@ -49,7 +50,24 @@
             </Border.Background>
         </Border>
 
-        <DataGrid x:Name="dgClientes" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="8" Grid.RowSpan="10" AutoGenerateColumns="False" IsReadOnly="True">
+        <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Buscar Cliente"></Label>
+        <Syncfusion:SfTextBoxExt Grid.Column="1" Grid.Row="1" Margin="2" x:Name="tbClientes"
+                     Watermark="Escribe el nombre del cliente."                                     
+                     AutoCompleteMode="SuggestAppend" AutoCompleteSource="{Binding _clientes}" SearchItemPath="pseudonimo"
+                     SuggestionMode="Contains"
+                     WatermarkTemplate="{StaticResource WatermarkTemplate}"                             
+                     SelectedItemChanged="tbClientes_SelectedItemChanged"
+                     HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CharacterCasing="Upper" Grid.ColumnSpan="3">
+            <Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding pseudonimo}" Margin="3 0 0 0" />
+                    </StackPanel>
+                </DataTemplate>
+            </Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+        </Syncfusion:SfTextBoxExt>
+
+        <DataGrid x:Name="dgClientes" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="8" Grid.RowSpan="9" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
@@ -74,7 +92,9 @@
                 <DataGridTextColumn Header="Contacto" Binding="{Binding Path=contacto}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        
+
+        <Label x:Name="lblTotalClientes" Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="4" Style="{StaticResource LabelBoldBlack}" Content="Total Clientes: "></Label>
+
         <Button x:Name="btnEliminar" Grid.Row="11" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Eliminar" Click="btnEliminar_Click"></Button>
         <Button x:Name="btnCancelar" Grid.Row="11" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cerrar" Click="btnCancelar_Click"></Button>
 

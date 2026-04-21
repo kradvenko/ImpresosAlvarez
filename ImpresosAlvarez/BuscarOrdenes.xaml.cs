@@ -122,6 +122,7 @@ namespace ImpresosAlvarez
             nuevaOrden.IdOrden = orden.id_orden;
             nuevaOrden.Cantidad = (int)orden.cantidad;
             nuevaOrden.Descripcion = orden.nombre_trabajo + " " + orden.color_tintas + " " + orden.tipo_papel + " " + orden.del_numero + " " + orden.al_numero + " " + orden.tamano + " " + copias;
+            nuevaOrden.Descripcion = nuevaOrden.Descripcion.Trim();
             nuevaOrden.PrecioUnitario = (float)orden.total / nuevaOrden.Cantidad;
             nuevaOrden.PrecioUnitario = (float)Math.Round(nuevaOrden.PrecioUnitario, 6);
             nuevaOrden.Importe = (float)orden.total;

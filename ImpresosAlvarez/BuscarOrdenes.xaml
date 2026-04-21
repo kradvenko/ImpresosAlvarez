@@ -61,7 +61,7 @@
             </DataGrid.Columns>
         </DataGrid>
         
-        <Button x:Name="btnAgregar" Grid.Row="9" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz01}" Content="Agregar" Click="btnAgregar_Click"></Button>
+        <Button x:Name="btnAgregar" Grid.Row="9" Grid.Column="4" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz02}" Content="Agregar" Click="btnAgregar_Click"></Button>
         <Button x:Name="btnCancelar" Grid.Row="9" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cancelar" Click="btnCancelar_Click"></Button>
     </Grid>
 </Window>

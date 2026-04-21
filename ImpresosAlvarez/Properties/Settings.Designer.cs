@@ -26,26 +26,6 @@ namespace ImpresosAlvarez.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://v33.facturacfdi.mx:80/WSForcogsaService")]
-        public string ImpresosAlvarez_mx_facturacfdi_v33_WSForcogsaService {
-            get {
-                return ((string)(this["ImpresosAlvarez_mx_facturacfdi_v33_WSForcogsaService"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://v33.facturacfdi.mx:80/WSCancelacionService")]
-        public string ImpresosAlvarez_mx_facturacfdi_v331_WSCancelacionService {
-            get {
-                return ((string)(this["ImpresosAlvarez_mx_facturacfdi_v331_WSCancelacionService"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
         [global::System.Configuration.DefaultSettingValueAttribute("https://cancelacion.facturacfdi.mx:443/WSCancelacion40Service")]
         public string ImpresosAlvarez_mx_facturacfdi_v40_WSCancelacion40Service {
             get {
@@ -60,6 +40,26 @@ namespace ImpresosAlvarez.Properties {
         public string ImpresosAlvarez_mx_facturacfdi_dev33_WSForcogsaService {
             get {
                 return ((string)(this["ImpresosAlvarez_mx_facturacfdi_dev33_WSForcogsaService"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://v33.facturacfdi.mx:443/WSForcogsaService")]
+        public string ImpresosAlvarez_mx_facturacfdi_v33_WSForcogsaService {
+            get {
+                return ((string)(this["ImpresosAlvarez_mx_facturacfdi_v33_WSForcogsaService"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://v33.facturacfdi.mx:443/WSCancelacionService")]
+        public string ImpresosAlvarez_mx_facturacfdi_v331_WSCancelacionService {
+            get {
+                return ((string)(this["ImpresosAlvarez_mx_facturacfdi_v331_WSCancelacionService"]));
             }
         }
     }

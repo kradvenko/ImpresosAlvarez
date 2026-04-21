@@ -29,7 +29,7 @@
     <UpdateUrl>http://impresosalvarez.atwebpages.com/</UpdateUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>278</ApplicationRevision>
+    <ApplicationRevision>297</ApplicationRevision>
     <ApplicationVersion>1.3.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -1001,10 +1001,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://dev33.facturacfdi.mx/WSForcogsaService%3fwsdl">
+    <WebReferenceUrl Include="http://dev33.facturacfdi.mx:443/WSForcogsaService%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\mx.facturacfdi.dev33\</RelPath>
-      <UpdateFromURL>http://dev33.facturacfdi.mx/WSForcogsaService%3fwsdl</UpdateFromURL>
+      <UpdateFromURL>http://dev33.facturacfdi.mx:443/WSForcogsaService%3fwsdl</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

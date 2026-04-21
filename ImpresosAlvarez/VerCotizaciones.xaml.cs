@@ -85,6 +85,15 @@ namespace ImpresosAlvarez
                     dgNotasPasadas.ItemsSource = null;
                     dgNotasPasadas.ItemsSource = OrdenesAnteriores;
                 }
+
+                if (_clienteElegido.pseudonimo.Contains("VARIOS"))
+                {
+                    lblClienteGenerico.Content = "HA ELEGIDO A UN CLIENTE GENERICO, EN LA NOTA APARECERÁ EL SOLICITANTE.";
+                } 
+                else
+                {
+                    lblClienteGenerico.Content = "";
+                }
             }
         }
 
@@ -153,6 +162,11 @@ namespace ImpresosAlvarez
             if (_clienteElegido == null)
             {
                 MessageBox.Show("No ha elegido un cliente.");
+                return;
+            }
+            if (tbSolicita.Text.Length == 0)
+            {
+                MessageBox.Show("No ha escrito el nombre de quien solicita");
                 return;
             }
             else
@@ -362,12 +376,25 @@ namespace ImpresosAlvarez
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                 .Add(new Paragraph("NOMBRE")));
 
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(lblNombreCliente.Content.ToString())));
+            if (_clienteElegido.pseudonimo.Contains("VARIOS"))
+            {
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(tbSolicita.Text)));
+            }
+            else
+            {
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(lblNombreCliente.Content.ToString())));
+            }
+                
 
             table.AddCell(new Cell()
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
@@ -381,12 +408,24 @@ namespace ImpresosAlvarez
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                 .Add(new Paragraph("NOMBRE")));
 
-            table.AddCell(new Cell(1, 3)
-                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
-                .SetFont(f)
-                .SetFontSize(fs)
-                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .Add(new Paragraph(lblNombreCliente.Content.ToString())));
+            if (_clienteElegido.pseudonimo.Contains("VARIOS"))
+            {
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(tbSolicita.Text)));
+            }
+            else
+            {
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(lblNombreCliente.Content.ToString())));
+            }
 
             //4to Renglón
 

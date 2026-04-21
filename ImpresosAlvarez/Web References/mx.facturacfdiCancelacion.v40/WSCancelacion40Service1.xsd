@@ -47,6 +47,7 @@
       <xs:element minOccurs="0" name="codEstatus" type="xs:string" />
       <xs:element minOccurs="0" name="folios" type="tns:wsFoliosResponse" />
       <xs:element minOccurs="0" name="mensaje" type="xs:string" />
+      <xs:element minOccurs="0" name="pathXML" type="xs:string" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="wsFoliosResponse">

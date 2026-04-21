@@ -120,6 +120,27 @@ namespace ImpresosAlvarez
                                 c.nombre
                             }
                         )
+                        .Join(
+                            dbContext.Contribuyentes,
+                            f => f.id_contribuyente,
+                            co => co.id_contribuyente,
+                            (f, co) => new
+                            {
+                                f.id_factura,
+                                f.id_cliente,
+                                f.id_contribuyente,
+                                f.subtotal,
+                                f.total,
+                                f.pagada,
+                                f.estado,
+                                f.fecha,
+                                f.numero,
+                                f.razon_cancelado,
+                                f.amparada_por,
+                                f.nombre,
+                                NombreContribuyente = co.nombre
+                            }
+                        )
                        .Where(F => F.fecha == Fecha)
                        .ToList();
 
@@ -146,7 +167,8 @@ namespace ImpresosAlvarez
                                 f.fecha,
                                 f.numero,
                                 f.solicita,
-                                c.nombre
+                                c.nombre,
+                                NombreUnificado = (c.nombre + " / " + f.solicita)
                             }
                         )
                        .Where(F => F.fecha == Fecha)

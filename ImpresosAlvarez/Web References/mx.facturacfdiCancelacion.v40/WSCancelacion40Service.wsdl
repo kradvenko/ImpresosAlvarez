@@ -29,21 +29,21 @@
   <message name="Cancelacion40_2Response">
     <part name="parameters" element="tns:Cancelacion40_2Response" />
   </message>
-  <portType name="WSCancelacion40">
+  <portType name="WSCancelacion40Service">
     <operation name="Cancelacion40_3">
-      <input wsam:Action="http://wservicios/WSCancelacion40/Cancelacion40_3Request" message="tns:Cancelacion40_3" />
-      <output wsam:Action="http://wservicios/WSCancelacion40/Cancelacion40_3Response" message="tns:Cancelacion40_3Response" />
+      <input wsam:Action="http://wservicios/WSCancelacion40Service/Cancelacion40_3Request" message="tns:Cancelacion40_3" />
+      <output wsam:Action="http://wservicios/WSCancelacion40Service/Cancelacion40_3Response" message="tns:Cancelacion40_3Response" />
     </operation>
     <operation name="Cancelacion40_1">
-      <input wsam:Action="http://wservicios/WSCancelacion40/Cancelacion40_1Request" message="tns:Cancelacion40_1" />
-      <output wsam:Action="http://wservicios/WSCancelacion40/Cancelacion40_1Response" message="tns:Cancelacion40_1Response" />
+      <input wsam:Action="http://wservicios/WSCancelacion40Service/Cancelacion40_1Request" message="tns:Cancelacion40_1" />
+      <output wsam:Action="http://wservicios/WSCancelacion40Service/Cancelacion40_1Response" message="tns:Cancelacion40_1Response" />
     </operation>
     <operation name="Cancelacion40_2">
-      <input wsam:Action="http://wservicios/WSCancelacion40/Cancelacion40_2Request" message="tns:Cancelacion40_2" />
-      <output wsam:Action="http://wservicios/WSCancelacion40/Cancelacion40_2Response" message="tns:Cancelacion40_2Response" />
+      <input wsam:Action="http://wservicios/WSCancelacion40Service/Cancelacion40_2Request" message="tns:Cancelacion40_2" />
+      <output wsam:Action="http://wservicios/WSCancelacion40Service/Cancelacion40_2Response" message="tns:Cancelacion40_2Response" />
     </operation>
   </portType>
-  <binding name="WSCancelacion40PortBinding" type="tns:WSCancelacion40">
+  <binding name="WSCancelacion40PortBinding" type="tns:WSCancelacion40Service">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
     <operation name="Cancelacion40_3">
       <soap:operation soapAction="" />

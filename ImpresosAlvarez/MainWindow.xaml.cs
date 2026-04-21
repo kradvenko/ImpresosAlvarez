@@ -42,7 +42,7 @@ namespace ImpresosAlvarez
             //08/10/2025
             //Actualizaciones.Actualizacion3();
             //10/12/2025
-            Actualizaciones.Actualizacion4();
+            //Actualizaciones.Actualizacion4();
             Login login = new Login(this);
             login.ShowDialog();
         }
@@ -165,13 +165,28 @@ namespace ImpresosAlvarez
                         client.DownloadFile("http://impresosalvarez.atwebpages.com/orden2File.png", @"C:\Impresos\orden2File.png");
                     }
                 }
-
+                /*
                 string excelFile = @"C:\Impresos\File.xlsx";
                 if (!File.Exists(excelFile))
                 {
                     using (var client = new WebClient())
                     {
                         client.DownloadFile("http://impresosalvarez.atwebpages.com/File.xlsx", @"C:\Impresos\File.xlsx");
+                    }
+                }
+                */
+
+                string logoFile = @"C:\Impresos\Logo\Logo.png";
+                var logoDir = System.IO.Path.GetDirectoryName(logoFile);
+                if (!string.IsNullOrEmpty(logoDir))
+                {
+                    Directory.CreateDirectory(logoDir);
+                }
+                if (!File.Exists(logoFile))
+                {
+                    using (var client = new WebClient())
+                    {
+                        client.DownloadFile("http://impresosalvarez.atwebpages.com/Logo/Logo.png", @"C:\Impresos\Logo\Logo.png");
                     }
                 }
 
@@ -225,8 +240,10 @@ namespace ImpresosAlvarez
 
         private void btnCalculadora_Click(object sender, RoutedEventArgs e)
         {
+            /*
             Calculadora calc = new Calculadora();
             calc.Show();
+            */
         }
 
         private void btnRecepcion_Click(object sender, RoutedEventArgs e)

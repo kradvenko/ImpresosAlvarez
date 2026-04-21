@@ -23,7 +23,7 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="WSCancelacionPortBinding", Namespace="http://wservicios/")]
@@ -31,12 +31,6 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AcusePeticionesPendientes))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(ConsultaRelacionados))]
     public partial class WSCancelacionService : System.Web.Services.Protocols.SoapHttpClientProtocol {
-        
-        private System.Threading.SendOrPostCallback Cancelacion_2OperationCompleted;
-        
-        private System.Threading.SendOrPostCallback Cancelacion_1OperationCompleted;
-        
-        private System.Threading.SendOrPostCallback ConsultarEstatusCFDI_1OperationCompleted;
         
         private System.Threading.SendOrPostCallback ConsultarEstatusCFDI_2OperationCompleted;
         
@@ -49,6 +43,14 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
         private System.Threading.SendOrPostCallback AceptarRechazarSolicitudCancelacion_1OperationCompleted;
         
         private System.Threading.SendOrPostCallback AceptarRechazarSolicitudCancelacion_2OperationCompleted;
+        
+        private System.Threading.SendOrPostCallback Cancelacion_3OperationCompleted;
+        
+        private System.Threading.SendOrPostCallback Cancelacion_2OperationCompleted;
+        
+        private System.Threading.SendOrPostCallback Cancelacion_1OperationCompleted;
+        
+        private System.Threading.SendOrPostCallback ConsultarEstatusCFDI_1OperationCompleted;
         
         private bool useDefaultCredentialsSetExplicitly;
         
@@ -89,15 +91,6 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
         }
         
         /// <remarks/>
-        public event Cancelacion_2CompletedEventHandler Cancelacion_2Completed;
-        
-        /// <remarks/>
-        public event Cancelacion_1CompletedEventHandler Cancelacion_1Completed;
-        
-        /// <remarks/>
-        public event ConsultarEstatusCFDI_1CompletedEventHandler ConsultarEstatusCFDI_1Completed;
-        
-        /// <remarks/>
         public event ConsultarEstatusCFDI_2CompletedEventHandler ConsultarEstatusCFDI_2Completed;
         
         /// <remarks/>
@@ -116,116 +109,16 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
         public event AceptarRechazarSolicitudCancelacion_2CompletedEventHandler AceptarRechazarSolicitudCancelacion_2Completed;
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="http://wservicios/", ResponseNamespace="http://wservicios/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        [return: System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public wsCancelacionResponse Cancelacion_2([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string rfcEmisor, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string fecha, [System.Xml.Serialization.XmlElementAttribute("folios", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string[] folios, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] SignatureType signatureType, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] accesos accesos) {
-            object[] results = this.Invoke("Cancelacion_2", new object[] {
-                        rfcEmisor,
-                        fecha,
-                        folios,
-                        signatureType,
-                        accesos});
-            return ((wsCancelacionResponse)(results[0]));
-        }
+        public event Cancelacion_3CompletedEventHandler Cancelacion_3Completed;
         
         /// <remarks/>
-        public void Cancelacion_2Async(string rfcEmisor, string fecha, string[] folios, SignatureType signatureType, accesos accesos) {
-            this.Cancelacion_2Async(rfcEmisor, fecha, folios, signatureType, accesos, null);
-        }
+        public event Cancelacion_2CompletedEventHandler Cancelacion_2Completed;
         
         /// <remarks/>
-        public void Cancelacion_2Async(string rfcEmisor, string fecha, string[] folios, SignatureType signatureType, accesos accesos, object userState) {
-            if ((this.Cancelacion_2OperationCompleted == null)) {
-                this.Cancelacion_2OperationCompleted = new System.Threading.SendOrPostCallback(this.OnCancelacion_2OperationCompleted);
-            }
-            this.InvokeAsync("Cancelacion_2", new object[] {
-                        rfcEmisor,
-                        fecha,
-                        folios,
-                        signatureType,
-                        accesos}, this.Cancelacion_2OperationCompleted, userState);
-        }
-        
-        private void OnCancelacion_2OperationCompleted(object arg) {
-            if ((this.Cancelacion_2Completed != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.Cancelacion_2Completed(this, new Cancelacion_2CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
+        public event Cancelacion_1CompletedEventHandler Cancelacion_1Completed;
         
         /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="http://wservicios/", ResponseNamespace="http://wservicios/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        [return: System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public wsCancelacionResponse Cancelacion_1([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string rfcEmisor, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string fecha, [System.Xml.Serialization.XmlElementAttribute("folios", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string[] folios, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary", IsNullable=true)] byte[] publicKey, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary", IsNullable=true)] byte[] privateKey, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string password, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] accesos accesos) {
-            object[] results = this.Invoke("Cancelacion_1", new object[] {
-                        rfcEmisor,
-                        fecha,
-                        folios,
-                        publicKey,
-                        privateKey,
-                        password,
-                        accesos});
-            return ((wsCancelacionResponse)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void Cancelacion_1Async(string rfcEmisor, string fecha, string[] folios, byte[] publicKey, byte[] privateKey, string password, accesos accesos) {
-            this.Cancelacion_1Async(rfcEmisor, fecha, folios, publicKey, privateKey, password, accesos, null);
-        }
-        
-        /// <remarks/>
-        public void Cancelacion_1Async(string rfcEmisor, string fecha, string[] folios, byte[] publicKey, byte[] privateKey, string password, accesos accesos, object userState) {
-            if ((this.Cancelacion_1OperationCompleted == null)) {
-                this.Cancelacion_1OperationCompleted = new System.Threading.SendOrPostCallback(this.OnCancelacion_1OperationCompleted);
-            }
-            this.InvokeAsync("Cancelacion_1", new object[] {
-                        rfcEmisor,
-                        fecha,
-                        folios,
-                        publicKey,
-                        privateKey,
-                        password,
-                        accesos}, this.Cancelacion_1OperationCompleted, userState);
-        }
-        
-        private void OnCancelacion_1OperationCompleted(object arg) {
-            if ((this.Cancelacion_1Completed != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.Cancelacion_1Completed(this, new Cancelacion_1CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
-        
-        /// <remarks/>
-        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="http://wservicios/", ResponseNamespace="http://wservicios/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        [return: System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public wsConsultarEstatusCFDIResponse ConsultarEstatusCFDI_1([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string xmlCFDI, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] accesos accesos) {
-            object[] results = this.Invoke("ConsultarEstatusCFDI_1", new object[] {
-                        xmlCFDI,
-                        accesos});
-            return ((wsConsultarEstatusCFDIResponse)(results[0]));
-        }
-        
-        /// <remarks/>
-        public void ConsultarEstatusCFDI_1Async(string xmlCFDI, accesos accesos) {
-            this.ConsultarEstatusCFDI_1Async(xmlCFDI, accesos, null);
-        }
-        
-        /// <remarks/>
-        public void ConsultarEstatusCFDI_1Async(string xmlCFDI, accesos accesos, object userState) {
-            if ((this.ConsultarEstatusCFDI_1OperationCompleted == null)) {
-                this.ConsultarEstatusCFDI_1OperationCompleted = new System.Threading.SendOrPostCallback(this.OnConsultarEstatusCFDI_1OperationCompleted);
-            }
-            this.InvokeAsync("ConsultarEstatusCFDI_1", new object[] {
-                        xmlCFDI,
-                        accesos}, this.ConsultarEstatusCFDI_1OperationCompleted, userState);
-        }
-        
-        private void OnConsultarEstatusCFDI_1OperationCompleted(object arg) {
-            if ((this.ConsultarEstatusCFDI_1Completed != null)) {
-                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.ConsultarEstatusCFDI_1Completed(this, new ConsultarEstatusCFDI_1CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
-            }
-        }
+        public event ConsultarEstatusCFDI_1CompletedEventHandler ConsultarEstatusCFDI_1Completed;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="http://wservicios/", ResponseNamespace="http://wservicios/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -460,6 +353,152 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="http://wservicios/", ResponseNamespace="http://wservicios/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public wsCancelacionResponse Cancelacion_3([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string nocertificado, [System.Xml.Serialization.XmlElementAttribute("folios", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string[] folios, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] accesos accesos) {
+            object[] results = this.Invoke("Cancelacion_3", new object[] {
+                        nocertificado,
+                        folios,
+                        accesos});
+            return ((wsCancelacionResponse)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void Cancelacion_3Async(string nocertificado, string[] folios, accesos accesos) {
+            this.Cancelacion_3Async(nocertificado, folios, accesos, null);
+        }
+        
+        /// <remarks/>
+        public void Cancelacion_3Async(string nocertificado, string[] folios, accesos accesos, object userState) {
+            if ((this.Cancelacion_3OperationCompleted == null)) {
+                this.Cancelacion_3OperationCompleted = new System.Threading.SendOrPostCallback(this.OnCancelacion_3OperationCompleted);
+            }
+            this.InvokeAsync("Cancelacion_3", new object[] {
+                        nocertificado,
+                        folios,
+                        accesos}, this.Cancelacion_3OperationCompleted, userState);
+        }
+        
+        private void OnCancelacion_3OperationCompleted(object arg) {
+            if ((this.Cancelacion_3Completed != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.Cancelacion_3Completed(this, new Cancelacion_3CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="http://wservicios/", ResponseNamespace="http://wservicios/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public wsCancelacionResponse Cancelacion_2([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string rfcEmisor, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string fecha, [System.Xml.Serialization.XmlElementAttribute("folios", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string[] folios, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] SignatureType signatureType, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] accesos accesos) {
+            object[] results = this.Invoke("Cancelacion_2", new object[] {
+                        rfcEmisor,
+                        fecha,
+                        folios,
+                        signatureType,
+                        accesos});
+            return ((wsCancelacionResponse)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void Cancelacion_2Async(string rfcEmisor, string fecha, string[] folios, SignatureType signatureType, accesos accesos) {
+            this.Cancelacion_2Async(rfcEmisor, fecha, folios, signatureType, accesos, null);
+        }
+        
+        /// <remarks/>
+        public void Cancelacion_2Async(string rfcEmisor, string fecha, string[] folios, SignatureType signatureType, accesos accesos, object userState) {
+            if ((this.Cancelacion_2OperationCompleted == null)) {
+                this.Cancelacion_2OperationCompleted = new System.Threading.SendOrPostCallback(this.OnCancelacion_2OperationCompleted);
+            }
+            this.InvokeAsync("Cancelacion_2", new object[] {
+                        rfcEmisor,
+                        fecha,
+                        folios,
+                        signatureType,
+                        accesos}, this.Cancelacion_2OperationCompleted, userState);
+        }
+        
+        private void OnCancelacion_2OperationCompleted(object arg) {
+            if ((this.Cancelacion_2Completed != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.Cancelacion_2Completed(this, new Cancelacion_2CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="http://wservicios/", ResponseNamespace="http://wservicios/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public wsCancelacionResponse Cancelacion_1([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string rfcEmisor, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string fecha, [System.Xml.Serialization.XmlElementAttribute("folios", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string[] folios, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary", IsNullable=true)] byte[] publicKey, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, DataType="base64Binary", IsNullable=true)] byte[] privateKey, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string password, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] accesos accesos) {
+            object[] results = this.Invoke("Cancelacion_1", new object[] {
+                        rfcEmisor,
+                        fecha,
+                        folios,
+                        publicKey,
+                        privateKey,
+                        password,
+                        accesos});
+            return ((wsCancelacionResponse)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void Cancelacion_1Async(string rfcEmisor, string fecha, string[] folios, byte[] publicKey, byte[] privateKey, string password, accesos accesos) {
+            this.Cancelacion_1Async(rfcEmisor, fecha, folios, publicKey, privateKey, password, accesos, null);
+        }
+        
+        /// <remarks/>
+        public void Cancelacion_1Async(string rfcEmisor, string fecha, string[] folios, byte[] publicKey, byte[] privateKey, string password, accesos accesos, object userState) {
+            if ((this.Cancelacion_1OperationCompleted == null)) {
+                this.Cancelacion_1OperationCompleted = new System.Threading.SendOrPostCallback(this.OnCancelacion_1OperationCompleted);
+            }
+            this.InvokeAsync("Cancelacion_1", new object[] {
+                        rfcEmisor,
+                        fecha,
+                        folios,
+                        publicKey,
+                        privateKey,
+                        password,
+                        accesos}, this.Cancelacion_1OperationCompleted, userState);
+        }
+        
+        private void OnCancelacion_1OperationCompleted(object arg) {
+            if ((this.Cancelacion_1Completed != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.Cancelacion_1Completed(this, new Cancelacion_1CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("", RequestNamespace="http://wservicios/", ResponseNamespace="http://wservicios/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return", Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public wsConsultarEstatusCFDIResponse ConsultarEstatusCFDI_1([System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] string xmlCFDI, [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)] accesos accesos) {
+            object[] results = this.Invoke("ConsultarEstatusCFDI_1", new object[] {
+                        xmlCFDI,
+                        accesos});
+            return ((wsConsultarEstatusCFDIResponse)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void ConsultarEstatusCFDI_1Async(string xmlCFDI, accesos accesos) {
+            this.ConsultarEstatusCFDI_1Async(xmlCFDI, accesos, null);
+        }
+        
+        /// <remarks/>
+        public void ConsultarEstatusCFDI_1Async(string xmlCFDI, accesos accesos, object userState) {
+            if ((this.ConsultarEstatusCFDI_1OperationCompleted == null)) {
+                this.ConsultarEstatusCFDI_1OperationCompleted = new System.Threading.SendOrPostCallback(this.OnConsultarEstatusCFDI_1OperationCompleted);
+            }
+            this.InvokeAsync("ConsultarEstatusCFDI_1", new object[] {
+                        xmlCFDI,
+                        accesos}, this.ConsultarEstatusCFDI_1OperationCompleted, userState);
+        }
+        
+        private void OnConsultarEstatusCFDI_1OperationCompleted(object arg) {
+            if ((this.ConsultarEstatusCFDI_1Completed != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.ConsultarEstatusCFDI_1Completed(this, new ConsultarEstatusCFDI_1CompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -479,174 +518,153 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
-    public partial class SignatureType {
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://wservicios/")]
+    public partial class accesos {
         
-        private SignedInfoType signedInfoField;
+        private string passwordField;
         
-        private byte[] signatureValueField;
-        
-        private KeyInfoType keyInfoField;
-        
-        private ObjectType[] objectField;
-        
-        private string idField;
+        private string usuarioField;
         
         /// <remarks/>
-        public SignedInfoType SignedInfo {
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string password {
             get {
-                return this.signedInfoField;
+                return this.passwordField;
             }
             set {
-                this.signedInfoField = value;
+                this.passwordField = value;
             }
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
-        public byte[] SignatureValue {
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string usuario {
             get {
-                return this.signatureValueField;
+                return this.usuarioField;
             }
             set {
-                this.signatureValueField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public KeyInfoType KeyInfo {
-            get {
-                return this.keyInfoField;
-            }
-            set {
-                this.keyInfoField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("Object")]
-        public ObjectType[] Object {
-            get {
-                return this.objectField;
-            }
-            set {
-                this.objectField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType="ID")]
-        public string Id {
-            get {
-                return this.idField;
-            }
-            set {
-                this.idField = value;
+                this.usuarioField = value;
             }
         }
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
-    public partial class SignedInfoType {
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://wservicios/")]
+    public partial class folio {
         
-        private CanonicalizationMethodType canonicalizationMethodField;
+        private string estatusUUIDField;
         
-        private SignatureMethodType signatureMethodField;
+        private string mensajeField;
         
-        private ReferenceType referenceField;
-        
-        private string idField;
+        private string uuidField;
         
         /// <remarks/>
-        public CanonicalizationMethodType CanonicalizationMethod {
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string estatusUUID {
             get {
-                return this.canonicalizationMethodField;
+                return this.estatusUUIDField;
             }
             set {
-                this.canonicalizationMethodField = value;
+                this.estatusUUIDField = value;
             }
         }
         
         /// <remarks/>
-        public SignatureMethodType SignatureMethod {
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string mensaje {
             get {
-                return this.signatureMethodField;
+                return this.mensajeField;
             }
             set {
-                this.signatureMethodField = value;
+                this.mensajeField = value;
             }
         }
         
         /// <remarks/>
-        public ReferenceType Reference {
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string uuid {
             get {
-                return this.referenceField;
+                return this.uuidField;
             }
             set {
-                this.referenceField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType="ID")]
-        public string Id {
-            get {
-                return this.idField;
-            }
-            set {
-                this.idField = value;
+                this.uuidField = value;
             }
         }
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
-    public partial class CanonicalizationMethodType {
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://wservicios/")]
+    public partial class wsCancelacionResponse {
         
-        private System.Xml.XmlNode[] anyField;
+        private string acuseField;
         
-        private string algorithmField;
+        private string codEstatusField;
+        
+        private folio[] foliosField;
+        
+        private string mensajeField;
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        [System.Xml.Serialization.XmlAnyElementAttribute()]
-        public System.Xml.XmlNode[] Any {
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string acuse {
             get {
-                return this.anyField;
+                return this.acuseField;
             }
             set {
-                this.anyField = value;
+                this.acuseField = value;
             }
         }
         
         /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
-        public string Algorithm {
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string codEstatus {
             get {
-                return this.algorithmField;
+                return this.codEstatusField;
             }
             set {
-                this.algorithmField = value;
+                this.codEstatusField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        [System.Xml.Serialization.XmlArrayItemAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public folio[] folios {
+            get {
+                return this.foliosField;
+            }
+            set {
+                this.foliosField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
+        public string mensaje {
+            get {
+                return this.mensajeField;
+            }
+            set {
+                this.mensajeField = value;
             }
         }
     }
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(wsSolicitudAceptacionRechazoResponse))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -733,7 +751,7 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -779,7 +797,642 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
+    public partial class SignatureType {
+        
+        private SignedInfoType signedInfoField;
+        
+        private byte[] signatureValueField;
+        
+        private KeyInfoType keyInfoField;
+        
+        private ObjectType[] objectField;
+        
+        private string idField;
+        
+        /// <remarks/>
+        public SignedInfoType SignedInfo {
+            get {
+                return this.signedInfoField;
+            }
+            set {
+                this.signedInfoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] SignatureValue {
+            get {
+                return this.signatureValueField;
+            }
+            set {
+                this.signatureValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public KeyInfoType KeyInfo {
+            get {
+                return this.keyInfoField;
+            }
+            set {
+                this.keyInfoField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("Object")]
+        public ObjectType[] Object {
+            get {
+                return this.objectField;
+            }
+            set {
+                this.objectField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="ID")]
+        public string Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
+    public partial class SignedInfoType {
+        
+        private CanonicalizationMethodType canonicalizationMethodField;
+        
+        private SignatureMethodType signatureMethodField;
+        
+        private ReferenceType referenceField;
+        
+        private string idField;
+        
+        /// <remarks/>
+        public CanonicalizationMethodType CanonicalizationMethod {
+            get {
+                return this.canonicalizationMethodField;
+            }
+            set {
+                this.canonicalizationMethodField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public SignatureMethodType SignatureMethod {
+            get {
+                return this.signatureMethodField;
+            }
+            set {
+                this.signatureMethodField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public ReferenceType Reference {
+            get {
+                return this.referenceField;
+            }
+            set {
+                this.referenceField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="ID")]
+        public string Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
+    public partial class CanonicalizationMethodType {
+        
+        private System.Xml.XmlNode[] anyField;
+        
+        private string algorithmField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlTextAttribute()]
+        [System.Xml.Serialization.XmlAnyElementAttribute()]
+        public System.Xml.XmlNode[] Any {
+            get {
+                return this.anyField;
+            }
+            set {
+                this.anyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
+        public string Algorithm {
+            get {
+                return this.algorithmField;
+            }
+            set {
+                this.algorithmField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
+    public partial class SignatureMethodType {
+        
+        private object[] itemsField;
+        
+        private string[] textField;
+        
+        private string algorithmField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAnyElementAttribute()]
+        [System.Xml.Serialization.XmlElementAttribute("HMACOutputLength", typeof(string), DataType="integer")]
+        public object[] Items {
+            get {
+                return this.itemsField;
+            }
+            set {
+                this.itemsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlTextAttribute()]
+        public string[] Text {
+            get {
+                return this.textField;
+            }
+            set {
+                this.textField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
+        public string Algorithm {
+            get {
+                return this.algorithmField;
+            }
+            set {
+                this.algorithmField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
+    public partial class ReferenceType {
+        
+        private TransformType[] transformsField;
+        
+        private DigestMethodType digestMethodField;
+        
+        private byte[] digestValueField;
+        
+        private string idField;
+        
+        private string uRIField;
+        
+        private string typeField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlArrayItemAttribute("Transform", IsNullable=false)]
+        public TransformType[] Transforms {
+            get {
+                return this.transformsField;
+            }
+            set {
+                this.transformsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        public DigestMethodType DigestMethod {
+            get {
+                return this.digestMethodField;
+            }
+            set {
+                this.digestMethodField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] DigestValue {
+            get {
+                return this.digestValueField;
+            }
+            set {
+                this.digestValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="ID")]
+        public string Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
+        public string URI {
+            get {
+                return this.uRIField;
+            }
+            set {
+                this.uRIField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
+        public string Type {
+            get {
+                return this.typeField;
+            }
+            set {
+                this.typeField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
+    public partial class TransformType {
+        
+        private string[] xPathField;
+        
+        private string[] textField;
+        
+        private string algorithmField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("XPath")]
+        public string[] XPath {
+            get {
+                return this.xPathField;
+            }
+            set {
+                this.xPathField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlTextAttribute()]
+        public string[] Text {
+            get {
+                return this.textField;
+            }
+            set {
+                this.textField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
+        public string Algorithm {
+            get {
+                return this.algorithmField;
+            }
+            set {
+                this.algorithmField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
+    public partial class DigestMethodType {
+        
+        private System.Xml.XmlNode[] anyField;
+        
+        private string algorithmField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlTextAttribute()]
+        [System.Xml.Serialization.XmlAnyElementAttribute()]
+        public System.Xml.XmlNode[] Any {
+            get {
+                return this.anyField;
+            }
+            set {
+                this.anyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
+        public string Algorithm {
+            get {
+                return this.algorithmField;
+            }
+            set {
+                this.algorithmField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
+    public partial class KeyInfoType {
+        
+        private object[] itemsField;
+        
+        private string[] textField;
+        
+        private string idField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("KeyName", typeof(string))]
+        [System.Xml.Serialization.XmlElementAttribute("KeyValue", typeof(KeyValueType))]
+        [System.Xml.Serialization.XmlElementAttribute("X509Data", typeof(X509DataType))]
+        public object[] Items {
+            get {
+                return this.itemsField;
+            }
+            set {
+                this.itemsField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlTextAttribute()]
+        public string[] Text {
+            get {
+                return this.textField;
+            }
+            set {
+                this.textField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="ID")]
+        public string Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
+    public partial class KeyValueType {
+        
+        private RSAKeyValueType[] rSAKeyValueField;
+        
+        private string[] textField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute("RSAKeyValue")]
+        public RSAKeyValueType[] RSAKeyValue {
+            get {
+                return this.rSAKeyValueField;
+            }
+            set {
+                this.rSAKeyValueField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlTextAttribute()]
+        public string[] Text {
+            get {
+                return this.textField;
+            }
+            set {
+                this.textField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
+    public partial class RSAKeyValueType {
+        
+        private byte[] modulusField;
+        
+        private byte[] exponentField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] Modulus {
+            get {
+                return this.modulusField;
+            }
+            set {
+                this.modulusField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] Exponent {
+            get {
+                return this.exponentField;
+            }
+            set {
+                this.exponentField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
+    public partial class X509DataType {
+        
+        private X509IssuerSerialType x509IssuerSerialField;
+        
+        private byte[] x509CertificateField;
+        
+        /// <remarks/>
+        public X509IssuerSerialType X509IssuerSerial {
+            get {
+                return this.x509IssuerSerialField;
+            }
+            set {
+                this.x509IssuerSerialField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
+        public byte[] X509Certificate {
+            get {
+                return this.x509CertificateField;
+            }
+            set {
+                this.x509CertificateField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
+    public partial class X509IssuerSerialType {
+        
+        private string x509IssuerNameField;
+        
+        private string x509SerialNumberField;
+        
+        /// <remarks/>
+        public string X509IssuerName {
+            get {
+                return this.x509IssuerNameField;
+            }
+            set {
+                this.x509IssuerNameField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlElementAttribute(DataType="integer")]
+        public string X509SerialNumber {
+            get {
+                return this.x509SerialNumberField;
+            }
+            set {
+                this.x509SerialNumberField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
+    [System.SerializableAttribute()]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
+    public partial class ObjectType {
+        
+        private System.Xml.XmlNode[] anyField;
+        
+        private string idField;
+        
+        private string mimeTypeField;
+        
+        private string encodingField;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlTextAttribute()]
+        [System.Xml.Serialization.XmlAnyElementAttribute()]
+        public System.Xml.XmlNode[] Any {
+            get {
+                return this.anyField;
+            }
+            set {
+                this.anyField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="ID")]
+        public string Id {
+            get {
+                return this.idField;
+            }
+            set {
+                this.idField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+        public string MimeType {
+            get {
+                return this.mimeTypeField;
+            }
+            set {
+                this.mimeTypeField = value;
+            }
+        }
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
+        public string Encoding {
+            get {
+                return this.encodingField;
+            }
+            set {
+                this.encodingField = value;
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -879,7 +1532,7 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -925,7 +1578,7 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -961,7 +1614,7 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(wsBuzonPeticionesCancelacionResponse))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -996,7 +1649,7 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1018,7 +1671,7 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1063,7 +1716,7 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1109,7 +1762,7 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(wsConsultarCFDIRelacionadoResponse))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1166,7 +1819,7 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1201,7 +1854,7 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9221.0")]
     [System.SerializableAttribute()]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -1262,703 +1915,11 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://wservicios/")]
-    public partial class folio {
-        
-        private string estatusUUIDField;
-        
-        private string mensajeField;
-        
-        private string uuidField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string estatusUUID {
-            get {
-                return this.estatusUUIDField;
-            }
-            set {
-                this.estatusUUIDField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string mensaje {
-            get {
-                return this.mensajeField;
-            }
-            set {
-                this.mensajeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string uuid {
-            get {
-                return this.uuidField;
-            }
-            set {
-                this.uuidField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://wservicios/")]
-    public partial class wsCancelacionResponse {
-        
-        private string acuseField;
-        
-        private string codEstatusField;
-        
-        private folio[] foliosField;
-        
-        private string mensajeField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string acuse {
-            get {
-                return this.acuseField;
-            }
-            set {
-                this.acuseField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string codEstatus {
-            get {
-                return this.codEstatusField;
-            }
-            set {
-                this.codEstatusField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        [System.Xml.Serialization.XmlArrayItemAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public folio[] folios {
-            get {
-                return this.foliosField;
-            }
-            set {
-                this.foliosField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string mensaje {
-            get {
-                return this.mensajeField;
-            }
-            set {
-                this.mensajeField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://wservicios/")]
-    public partial class accesos {
-        
-        private string passwordField;
-        
-        private string usuarioField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string password {
-            get {
-                return this.passwordField;
-            }
-            set {
-                this.passwordField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified)]
-        public string usuario {
-            get {
-                return this.usuarioField;
-            }
-            set {
-                this.usuarioField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
-    public partial class ObjectType {
-        
-        private System.Xml.XmlNode[] anyField;
-        
-        private string idField;
-        
-        private string mimeTypeField;
-        
-        private string encodingField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        [System.Xml.Serialization.XmlAnyElementAttribute()]
-        public System.Xml.XmlNode[] Any {
-            get {
-                return this.anyField;
-            }
-            set {
-                this.anyField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType="ID")]
-        public string Id {
-            get {
-                return this.idField;
-            }
-            set {
-                this.idField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute()]
-        public string MimeType {
-            get {
-                return this.mimeTypeField;
-            }
-            set {
-                this.mimeTypeField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
-        public string Encoding {
-            get {
-                return this.encodingField;
-            }
-            set {
-                this.encodingField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
-    public partial class RSAKeyValueType {
-        
-        private byte[] modulusField;
-        
-        private byte[] exponentField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
-        public byte[] Modulus {
-            get {
-                return this.modulusField;
-            }
-            set {
-                this.modulusField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
-        public byte[] Exponent {
-            get {
-                return this.exponentField;
-            }
-            set {
-                this.exponentField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
-    public partial class KeyValueType {
-        
-        private RSAKeyValueType[] rSAKeyValueField;
-        
-        private string[] textField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("RSAKeyValue")]
-        public RSAKeyValueType[] RSAKeyValue {
-            get {
-                return this.rSAKeyValueField;
-            }
-            set {
-                this.rSAKeyValueField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        public string[] Text {
-            get {
-                return this.textField;
-            }
-            set {
-                this.textField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
-    public partial class X509IssuerSerialType {
-        
-        private string x509IssuerNameField;
-        
-        private string x509SerialNumberField;
-        
-        /// <remarks/>
-        public string X509IssuerName {
-            get {
-                return this.x509IssuerNameField;
-            }
-            set {
-                this.x509IssuerNameField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="integer")]
-        public string X509SerialNumber {
-            get {
-                return this.x509SerialNumberField;
-            }
-            set {
-                this.x509SerialNumberField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
-    public partial class X509DataType {
-        
-        private X509IssuerSerialType x509IssuerSerialField;
-        
-        private byte[] x509CertificateField;
-        
-        /// <remarks/>
-        public X509IssuerSerialType X509IssuerSerial {
-            get {
-                return this.x509IssuerSerialField;
-            }
-            set {
-                this.x509IssuerSerialField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
-        public byte[] X509Certificate {
-            get {
-                return this.x509CertificateField;
-            }
-            set {
-                this.x509CertificateField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
-    public partial class KeyInfoType {
-        
-        private object[] itemsField;
-        
-        private string[] textField;
-        
-        private string idField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("KeyName", typeof(string))]
-        [System.Xml.Serialization.XmlElementAttribute("KeyValue", typeof(KeyValueType))]
-        [System.Xml.Serialization.XmlElementAttribute("X509Data", typeof(X509DataType))]
-        public object[] Items {
-            get {
-                return this.itemsField;
-            }
-            set {
-                this.itemsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        public string[] Text {
-            get {
-                return this.textField;
-            }
-            set {
-                this.textField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType="ID")]
-        public string Id {
-            get {
-                return this.idField;
-            }
-            set {
-                this.idField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
-    public partial class DigestMethodType {
-        
-        private System.Xml.XmlNode[] anyField;
-        
-        private string algorithmField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        [System.Xml.Serialization.XmlAnyElementAttribute()]
-        public System.Xml.XmlNode[] Any {
-            get {
-                return this.anyField;
-            }
-            set {
-                this.anyField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
-        public string Algorithm {
-            get {
-                return this.algorithmField;
-            }
-            set {
-                this.algorithmField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
-    public partial class TransformType {
-        
-        private string[] xPathField;
-        
-        private string[] textField;
-        
-        private string algorithmField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute("XPath")]
-        public string[] XPath {
-            get {
-                return this.xPathField;
-            }
-            set {
-                this.xPathField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        public string[] Text {
-            get {
-                return this.textField;
-            }
-            set {
-                this.textField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
-        public string Algorithm {
-            get {
-                return this.algorithmField;
-            }
-            set {
-                this.algorithmField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
-    public partial class ReferenceType {
-        
-        private TransformType[] transformsField;
-        
-        private DigestMethodType digestMethodField;
-        
-        private byte[] digestValueField;
-        
-        private string idField;
-        
-        private string uRIField;
-        
-        private string typeField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlArrayItemAttribute("Transform", IsNullable=false)]
-        public TransformType[] Transforms {
-            get {
-                return this.transformsField;
-            }
-            set {
-                this.transformsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        public DigestMethodType DigestMethod {
-            get {
-                return this.digestMethodField;
-            }
-            set {
-                this.digestMethodField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlElementAttribute(DataType="base64Binary")]
-        public byte[] DigestValue {
-            get {
-                return this.digestValueField;
-            }
-            set {
-                this.digestValueField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType="ID")]
-        public string Id {
-            get {
-                return this.idField;
-            }
-            set {
-                this.idField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
-        public string URI {
-            get {
-                return this.uRIField;
-            }
-            set {
-                this.uRIField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
-        public string Type {
-            get {
-                return this.typeField;
-            }
-            set {
-                this.typeField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "4.8.9032.0")]
-    [System.SerializableAttribute()]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://www.w3.org/2000/09/xmldsig#")]
-    public partial class SignatureMethodType {
-        
-        private object[] itemsField;
-        
-        private string[] textField;
-        
-        private string algorithmField;
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAnyElementAttribute()]
-        [System.Xml.Serialization.XmlElementAttribute("HMACOutputLength", typeof(string), DataType="integer")]
-        public object[] Items {
-            get {
-                return this.itemsField;
-            }
-            set {
-                this.itemsField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlTextAttribute()]
-        public string[] Text {
-            get {
-                return this.textField;
-            }
-            set {
-                this.textField = value;
-            }
-        }
-        
-        /// <remarks/>
-        [System.Xml.Serialization.XmlAttributeAttribute(DataType="anyURI")]
-        public string Algorithm {
-            get {
-                return this.algorithmField;
-            }
-            set {
-                this.algorithmField = value;
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
-    public delegate void Cancelacion_2CompletedEventHandler(object sender, Cancelacion_2CompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class Cancelacion_2CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal Cancelacion_2CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public wsCancelacionResponse Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((wsCancelacionResponse)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
-    public delegate void Cancelacion_1CompletedEventHandler(object sender, Cancelacion_1CompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class Cancelacion_1CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal Cancelacion_1CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public wsCancelacionResponse Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((wsCancelacionResponse)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
-    public delegate void ConsultarEstatusCFDI_1CompletedEventHandler(object sender, ConsultarEstatusCFDI_1CompletedEventArgs e);
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.ComponentModel.DesignerCategoryAttribute("code")]
-    public partial class ConsultarEstatusCFDI_1CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
-        
-        private object[] results;
-        
-        internal ConsultarEstatusCFDI_1CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
-                base(exception, cancelled, userState) {
-            this.results = results;
-        }
-        
-        /// <remarks/>
-        public wsConsultarEstatusCFDIResponse Result {
-            get {
-                this.RaiseExceptionIfNecessary();
-                return ((wsConsultarEstatusCFDIResponse)(this.results[0]));
-            }
-        }
-    }
-    
-    /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void ConsultarEstatusCFDI_2CompletedEventHandler(object sender, ConsultarEstatusCFDI_2CompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class ConsultarEstatusCFDI_2CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -1980,11 +1941,11 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void ConsultarCFDIRelacionado_1CompletedEventHandler(object sender, ConsultarCFDIRelacionado_1CompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class ConsultarCFDIRelacionado_1CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2006,11 +1967,11 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void ConsultarCFDIRelacionado_2CompletedEventHandler(object sender, ConsultarCFDIRelacionado_2CompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class ConsultarCFDIRelacionado_2CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2032,11 +1993,11 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void BuzonPeticionesCancelacionCompletedEventHandler(object sender, BuzonPeticionesCancelacionCompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class BuzonPeticionesCancelacionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2058,11 +2019,11 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void AceptarRechazarSolicitudCancelacion_1CompletedEventHandler(object sender, AceptarRechazarSolicitudCancelacion_1CompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class AceptarRechazarSolicitudCancelacion_1CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2084,11 +2045,11 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     public delegate void AceptarRechazarSolicitudCancelacion_2CompletedEventHandler(object sender, AceptarRechazarSolicitudCancelacion_2CompletedEventArgs e);
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9032.0")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class AceptarRechazarSolicitudCancelacion_2CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
@@ -2105,6 +2066,110 @@ namespace ImpresosAlvarez.mx.facturacfdi.v331 {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((wsSolicitudAceptacionRechazoResponse)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
+    public delegate void Cancelacion_3CompletedEventHandler(object sender, Cancelacion_3CompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Cancelacion_3CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal Cancelacion_3CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public wsCancelacionResponse Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((wsCancelacionResponse)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
+    public delegate void Cancelacion_2CompletedEventHandler(object sender, Cancelacion_2CompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Cancelacion_2CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal Cancelacion_2CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public wsCancelacionResponse Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((wsCancelacionResponse)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
+    public delegate void Cancelacion_1CompletedEventHandler(object sender, Cancelacion_1CompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class Cancelacion_1CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal Cancelacion_1CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public wsCancelacionResponse Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((wsCancelacionResponse)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
+    public delegate void ConsultarEstatusCFDI_1CompletedEventHandler(object sender, ConsultarEstatusCFDI_1CompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.8.9221.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class ConsultarEstatusCFDI_1CompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal ConsultarEstatusCFDI_1CompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public wsConsultarEstatusCFDIResponse Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((wsConsultarEstatusCFDIResponse)(this.results[0]));
             }
         }
     }

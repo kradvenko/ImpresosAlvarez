@@ -69,6 +69,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Número" Binding="{Binding Path=numero}" Width="*"></DataGridTextColumn>                
                 <DataGridTextColumn Header="Cliente" Binding="{Binding Path=nombre}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Contribuyente" Binding="{Binding Path=NombreContribuyente}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="SubTotal" Binding="{Binding Path=subtotal}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Total" Binding="{Binding Path=total}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
@@ -78,8 +79,7 @@
         <DataGrid x:Name="dgCotizaciones" Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="4" Grid.RowSpan="4" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" SelectionUnit="Cell">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Número" Binding="{Binding Path=numero}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Cliente" Binding="{Binding Path=nombre}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Solicita" Binding="{Binding Path=solicita}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Cliente" Binding="{Binding Path=NombreUnificado}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Total" Binding="{Binding Path=total}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>

@@ -20,6 +20,18 @@ namespace ImpresosAlvarez
     /// </summary>
     public partial class ControlFacturas : Window
     {
+        private class FacturaView
+        {
+            public int id_cliente { get; set; }
+            public int id_factura { get; set; }
+            public float Numero { get; set; }
+            public string Fecha { get; set; }
+            public string estado { get; set; }
+            public double Total { get; set; }
+            public string nombre { get; set; }
+            public string Cliente { get; set; }
+        }
+
         List<Clientes> _clientes;
         Clientes _clienteElegido;
         String TipoBusqueda;
@@ -55,6 +67,45 @@ namespace ImpresosAlvarez
         {
             TipoBusqueda = "CLIENTE";
             BuscarFacturas();
+        }
+
+        private List<FacturaView> ToFacturaViewList(IEnumerable<dynamic> facts)
+        {
+            var list = new List<FacturaView>();
+
+            foreach (var f in facts)
+            {
+                // Intentar parsear campo 'numero' (maneja nombres 'numero' o 'Numero')
+                string numeroStr = null;
+                try
+                {
+                    // si el objeto anónimo contiene 'numero' o 'Numero'
+                    var prop = (f.GetType().GetProperty("numero") ?? f.GetType().GetProperty("Numero"));
+                    if (prop != null)
+                        numeroStr = (prop.GetValue(f, null) ?? "").ToString();
+                }
+                catch
+                {
+                    numeroStr = "";
+                }
+
+                float numero = 0f;
+                float.TryParse(numeroStr, out numero);
+
+                list.Add(new FacturaView
+                {
+                    id_cliente = (int)f.id_cliente,
+                    id_factura = (int)f.id_factura,
+                    Numero = numero,
+                    Fecha = (string)f.Fecha,
+                    estado = (string)f.estado,
+                    Total = (double)f.Total,
+                    nombre = (string)f.nombre,
+                    Cliente = (f.GetType().GetProperty("Cliente") != null) ? (string)f.Cliente : null
+                });
+            }
+
+            return list;
         }
 
         private void BuscarFacturas()
@@ -102,9 +153,14 @@ namespace ImpresosAlvarez
                                 }
                             )
                             .Where(F => F.id_cliente == _clienteElegido.id_cliente)
+                            .OrderByDescending(F => F.numero)
                             .ToList();
 
-                        dgFacturas.ItemsSource = facts;
+                        List<FacturaView> facturaViews = ToFacturaViewList(facts)
+                        .OrderByDescending(f => f.Numero)
+                        .ToList();
+
+                        dgFacturas.ItemsSource = facturaViews;
                     }
                 }
             } 
@@ -146,9 +202,14 @@ namespace ImpresosAlvarez
                                 }
                             )
                            .Where(F => F.numero == folio.ToString())
+                           .OrderByDescending(F => F.numero)
                            .ToList();
 
-                    dgFacturas.ItemsSource = facts;
+                    List<FacturaView> facturaViews = ToFacturaViewList(facts)
+                        .OrderByDescending(f => f.Numero)
+                        .ToList();
+
+                    dgFacturas.ItemsSource = facturaViews;
                 }
             }
             else if (TipoBusqueda == "FECHA")
@@ -193,9 +254,14 @@ namespace ImpresosAlvarez
                                 }
                             )
                                .Where(F => F.Fecha == fecha)
+                               .OrderByDescending(F => F.numero)
                                .ToList();
                         //MessageBox.Show(dpFecha.SelectedDate.ToString().Substring(0, 10));
-                        dgFacturas.ItemsSource = facts;
+                        List<FacturaView> facturaViews = ToFacturaViewList(facts)
+                        .OrderByDescending(f => f.Numero)
+                        .ToList();
+
+                        dgFacturas.ItemsSource = facturaViews;
 
                     }
                 }
@@ -262,9 +328,14 @@ namespace ImpresosAlvarez
                                 Cliente = cli.nombre
                             }
                         )
+                        .OrderByDescending(F => F.numero)
                        .ToList();
 
-                dgFacturas.ItemsSource = facts;
+                List<FacturaView> facturaViews = ToFacturaViewList(facts)
+                        .OrderByDescending(f => f.Numero)
+                        .ToList();
+
+                dgFacturas.ItemsSource = facturaViews;
             }
         }
 

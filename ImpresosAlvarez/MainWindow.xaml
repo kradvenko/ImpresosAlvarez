@@ -53,7 +53,7 @@
                             <TranslateTransform/>
                         </TransformGroup>
                     </LinearGradientBrush.RelativeTransform>
-                    <GradientStop Color="#EEEEEE" Offset="1"/>
+                    <GradientStop Color="#FFC1B3B3" Offset="1"/>
                     <GradientStop Color="Gray"/>
                 </LinearGradientBrush>
             </Border.Background>
@@ -588,7 +588,7 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
                     <Image Source="Icons/add-folder.png" Grid.Column="0" MaxHeight="40"></Image>
@@ -648,7 +648,7 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
 
                     <Image Source="Icons/order-food-online.png" Grid.Column="0" MaxHeight="40"></Image>
