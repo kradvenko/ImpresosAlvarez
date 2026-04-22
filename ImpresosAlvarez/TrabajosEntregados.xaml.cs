@@ -168,7 +168,7 @@ namespace ImpresosAlvarez
                                 f.numero,
                                 f.solicita,
                                 c.nombre,
-                                NombreUnificado = (c.nombre + " / " + f.solicita)
+                                NombreUnificado = c.nombre.Contains("VARIOS") ? (c.nombre + " / " + f.solicita) : c.nombre
                             }
                         )
                        .Where(F => F.fecha == Fecha)
