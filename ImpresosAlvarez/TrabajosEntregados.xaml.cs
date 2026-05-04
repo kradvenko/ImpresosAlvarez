@@ -138,7 +138,7 @@ namespace ImpresosAlvarez
                                 f.razon_cancelado,
                                 f.amparada_por,
                                 f.nombre,
-                                NombreContribuyente = co.nombre
+                                NombreContribuyente = co.nombre.Substring(0, co.nombre.IndexOf(" "))
                             }
                         )
                        .Where(F => F.fecha == Fecha)

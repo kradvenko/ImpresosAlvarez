@@ -30,6 +30,7 @@ namespace ImpresosAlvarez
             public double Total { get; set; }
             public string nombre { get; set; }
             public string Cliente { get; set; }
+            public string Pagada { get; set; }
         }
 
         List<Clientes> _clientes;
@@ -101,7 +102,8 @@ namespace ImpresosAlvarez
                     estado = (string)f.estado,
                     Total = (double)f.Total,
                     nombre = (string)f.nombre,
-                    Cliente = (f.GetType().GetProperty("Cliente") != null) ? (string)f.Cliente : null
+                    Cliente = (f.GetType().GetProperty("Cliente") != null) ? (string)f.Cliente : null,
+                    Pagada = (string)f.pagada
                 });
             }
 
@@ -133,6 +135,7 @@ namespace ImpresosAlvarez
                                     Fecha = f.fecha.Substring(0, 10),
                                     f.estado,
                                     Total = Math.Round((double)f.total, 2),
+                                    f.pagada,
                                     c.nombre
                                 }
                             )
@@ -149,6 +152,7 @@ namespace ImpresosAlvarez
                                     comb.estado,
                                     comb.nombre,
                                     comb.Total,
+                                    comb.pagada,
                                     Cliente = cli.nombre
                                 }
                             )
@@ -159,6 +163,21 @@ namespace ImpresosAlvarez
                         List<FacturaView> facturaViews = ToFacturaViewList(facts)
                         .OrderByDescending(f => f.Numero)
                         .ToList();
+
+                        float TotalPorPagar = 0f;
+                        int TotalFacturasSinPagar = 0;
+
+                        foreach (FacturaView item in facturaViews)
+                        {
+                            if (item.Pagada == "NO" && item.estado != "CANCELADO")
+                            {
+                                TotalPorPagar += (float)item.Total;
+                                TotalFacturasSinPagar++;
+                            }
+                        }
+
+                        lblNumeroFacturas.Content = "Facturas sin pagar: " + TotalFacturasSinPagar;
+                        lblTotalPorPagar.Content = "Total por pagar: " + TotalPorPagar;
 
                         dgFacturas.ItemsSource = facturaViews;
                     }
@@ -182,6 +201,7 @@ namespace ImpresosAlvarez
                                     Fecha = f.fecha.Substring(0, 10),
                                     f.estado,
                                     Total = Math.Round((double)f.total, 2),
+                                    f.pagada,
                                     c.nombre
                                 }
                             )
@@ -198,6 +218,7 @@ namespace ImpresosAlvarez
                                     comb.estado,
                                     comb.nombre,
                                     comb.Total,
+                                    comb.pagada,
                                     Cliente = cli.nombre
                                 }
                             )
@@ -208,6 +229,21 @@ namespace ImpresosAlvarez
                     List<FacturaView> facturaViews = ToFacturaViewList(facts)
                         .OrderByDescending(f => f.Numero)
                         .ToList();
+
+                    float TotalPorPagar = 0f;
+                    int TotalFacturasSinPagar = 0;
+
+                    foreach (FacturaView item in facturaViews)
+                    {
+                        if (item.Pagada == "NO" && item.estado != "CANCELADO")
+                        {
+                            TotalPorPagar += (float)item.Total;
+                            TotalFacturasSinPagar++;
+                        }
+                    }
+
+                    lblNumeroFacturas.Content = "Facturas sin pagar: " + TotalFacturasSinPagar;
+                    lblTotalPorPagar.Content = "Total por pagar: " + TotalPorPagar;
 
                     dgFacturas.ItemsSource = facturaViews;
                 }
@@ -234,6 +270,7 @@ namespace ImpresosAlvarez
                                     Fecha = f.fecha.Substring(0, 10),
                                     f.estado,
                                     Total = Math.Round((double)f.total, 2),
+                                    f.pagada,
                                     c.nombre
                                 }
                             )
@@ -250,6 +287,7 @@ namespace ImpresosAlvarez
                                     comb.estado,
                                     comb.nombre,
                                     comb.Total,
+                                    comb.pagada,
                                     Cliente = cli.nombre
                                 }
                             )
@@ -260,6 +298,21 @@ namespace ImpresosAlvarez
                         List<FacturaView> facturaViews = ToFacturaViewList(facts)
                         .OrderByDescending(f => f.Numero)
                         .ToList();
+
+                        float TotalPorPagar = 0f;
+                        int TotalFacturasSinPagar = 0;
+
+                        foreach (FacturaView item in facturaViews)
+                        {
+                            if (item.Pagada == "NO" && item.estado != "CANCELADO")
+                            {
+                                TotalPorPagar += (float)item.Total;
+                                TotalFacturasSinPagar++;
+                            }
+                        }
+
+                        lblNumeroFacturas.Content = "Facturas sin pagar: " + TotalFacturasSinPagar;
+                        lblTotalPorPagar.Content = "Total por pagar: " + TotalPorPagar;
 
                         dgFacturas.ItemsSource = facturaViews;
 
@@ -309,6 +362,7 @@ namespace ImpresosAlvarez
                                 Fecha = f.fecha.Substring(0, 10),
                                 f.estado,
                                 Total = Math.Round((double)f.total, 2),
+                                f.pagada,
                                 c.nombre
                             }
                         )
@@ -325,6 +379,7 @@ namespace ImpresosAlvarez
                                 comb.estado,
                                 comb.nombre,
                                 comb.Total,
+                                comb.pagada,
                                 Cliente = cli.nombre
                             }
                         )
@@ -334,6 +389,20 @@ namespace ImpresosAlvarez
                 List<FacturaView> facturaViews = ToFacturaViewList(facts)
                         .OrderByDescending(f => f.Numero)
                         .ToList();
+                float TotalPorPagar = 0f;
+                int TotalFacturasSinPagar = 0;
+
+                foreach (FacturaView item in facturaViews)
+                {
+                    if (item.Pagada == "NO" && item.estado != "CANCELADO")
+                    {
+                        TotalPorPagar += (float)item.Total;
+                        TotalFacturasSinPagar++;
+                    }
+                }
+
+                lblNumeroFacturas.Content = "Facturas sin pagar: " + TotalFacturasSinPagar;
+                lblTotalPorPagar.Content = "Total por pagar: " + TotalPorPagar;
 
                 dgFacturas.ItemsSource = facturaViews;
             }
