@@ -52,8 +52,8 @@ namespace ImpresosAlvarez
         {
             if (e.Key == Key.Enter)
             {
-                float unitario = 0;
-                if (float.TryParse(tbUnitario.Text, out unitario))
+                double unitario = 0;
+                if (double.TryParse(tbUnitario.Text, out unitario))
                 {
                     tbImporte.Focus();
                 }
@@ -68,8 +68,8 @@ namespace ImpresosAlvarez
         {
             if (e.Key == Key.Enter)
             {
-                float importe = 0;
-                if (float.TryParse(tbImporte.Text, out importe))
+                double importe = 0;
+                if (double.TryParse(tbImporte.Text, out importe))
                 {
                     Calcular();
                 }
@@ -85,12 +85,12 @@ namespace ImpresosAlvarez
             try
             {
                 int cantidad;
-                float unitario;
-                float importe;
+                double unitario;
+                double importe;
 
                 cantidad = int.Parse(tbCantidad.Text);
-                unitario = float.Parse(tbUnitario.Text);
-                importe = float.Parse(tbImporte.Text);
+                unitario = double.Parse(tbUnitario.Text);
+                importe = double.Parse(tbImporte.Text);
 
                 if (cantidad <= 0)
                 {
@@ -132,32 +132,32 @@ namespace ImpresosAlvarez
             }
         }
 
-        private void Agregar(int cantidad, float unitario, float importe)
+        private void Agregar(int cantidad, double unitario, double importe)
         {
             CalcElement ele = new CalcElement();
             ele.Cantidad = cantidad;
             ele.Unitario = unitario;
             ele.Importe = importe;
 
-            float subtotal = 0;
-            float iva = 0;
-            float isr = 0;
+            double subtotal = 0;
+            double iva = 0;
+            double isr = 0;
 
             elementos.Add(ele);
             dgConceptos.ItemsSource = null;
             dgConceptos.ItemsSource = elementos;
 
-            float t1;
+            double t1;
 
             foreach (CalcElement item in elementos)
             {
                 subtotal += item.Importe;
                 t1 = item.Importe * 0.16f;
-                iva += float.Parse(Math.Round(t1, 2).ToString());
+                iva += double.Parse(Math.Round(t1, 2, MidpointRounding.AwayFromZero).ToString());
                 if (chbAplicarISR.IsChecked == true)
                 {
-                    t1 = item.Importe * 0.012500f;
-                    isr += float.Parse(Math.Round(t1, 2).ToString());
+                    t1 = item.Importe * 0.012500d;
+                    isr += double.Parse(Math.Round(t1, 2, MidpointRounding.AwayFromZero).ToString());
                 }
             }
 
@@ -187,21 +187,21 @@ namespace ImpresosAlvarez
 
         private void btnAplicarISR_Click(object sender, RoutedEventArgs e)
         {
-            float subtotal = 0;
-            float iva = 0;
-            float isr = 0;
+            double subtotal = 0;
+            double iva = 0;
+            double isr = 0;
 
-            float t1;
+            double t1;
 
             foreach (CalcElement item in elementos)
             {
                 subtotal += item.Importe;
                 t1 = item.Importe * 0.16f;
-                iva += float.Parse(Math.Round(t1, 2).ToString());
+                iva += double.Parse(Math.Round(t1, 2, MidpointRounding.AwayFromZero).ToString());
                 if (chbAplicarISR.IsChecked == true)
                 {
-                    t1 = item.Importe * 0.012500f;
-                    isr += float.Parse(Math.Round(t1, 2).ToString());
+                    t1 = item.Importe * 0.012500d;
+                    isr += double.Parse(Math.Round(t1, 2, MidpointRounding.AwayFromZero).ToString());
                 }
             }
 

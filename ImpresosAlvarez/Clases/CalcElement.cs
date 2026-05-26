@@ -9,8 +9,8 @@ namespace ImpresosAlvarez.Clases
     public class CalcElement
     {
         public int Cantidad { get; set; }
-        public float Unitario { get; set; }
-        public float Importe { get; set; }
+        public double Unitario { get; set; }
+        public double Importe { get; set; }
 
         public CalcElement()
         {
