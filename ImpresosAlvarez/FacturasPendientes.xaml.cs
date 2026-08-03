@@ -1,4 +1,5 @@
 ﻿using ImpresosAlvarez.Entity;
+using Syncfusion.Windows.Controls.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -95,6 +96,47 @@ namespace ImpresosAlvarez
 
                         ParentForm.ElegirFacturaPendiente(Elegida);
                         this.Close();
+                    }
+                    catch (Exception exc)
+                    {
+                        MessageBox.Show(exc.Message);
+                    }
+                }
+            }
+        }
+
+        private void btnBorrarFacturaPendiente_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgFacturas.SelectedItem != null)
+            {
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    try
+                    {
+                        String idfactura = dgFacturas.SelectedItem.GetType().GetProperty("id_factura").GetValue(dgFacturas.SelectedItem, null).ToString();
+                        Entity.Facturas Elegida = dbContext.Facturas.Where(F => F.id_factura.ToString() == idfactura).First();
+                        if (MessageBox.Show("¿Está seguro de eliminar la factura pendiente seleccionada?", "Confirmación", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                        {
+                            FacturaOrden[] facturaOrdenes = dbContext.FacturaOrden.Where(FO => FO.id_factura == Elegida.id_factura).ToArray();
+
+                            for (int i = 0; i < facturaOrdenes.Length; i++)
+                            {
+                                int idOrden = facturaOrdenes[i].id_orden;
+                                Ordenes orden = dbContext.Ordenes.Where(O => O.id_orden == idOrden).FirstOrDefault();
+                                if (orden != null)
+                                {
+                                    dbContext.Modificar_Tipo_Orden(orden.id_orden, "COTIZACION");
+                                }
+                            }
+
+                            dbContext.Facturas.Remove(Elegida);
+                            dbContext.FacturaOrden.Where(FO => FO.id_factura == Elegida.id_factura).ToList().ForEach(FO => dbContext.FacturaOrden.Remove(FO));
+                            dbContext.DetalleFactura.Where(FD => FD.id_factura == Elegida.id_factura).ToList().ForEach(FD => dbContext.DetalleFactura.Remove(FD));
+
+                            dbContext.SaveChanges();
+                            MessageBox.Show("Factura pendiente eliminada correctamente.", "Éxito", MessageBoxButton.OK, MessageBoxImage.Information);
+                            Window_Loaded(sender, e); // Refresh the data grid
+                        }
                     }
                     catch (Exception exc)
                     {

@@ -12,13 +12,13 @@ namespace ImpresosAlvarez.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class Insumos
+    public partial class DetalleVentaDirecta
     {
-        public int id_insumo { get; set; }
-        public Nullable<int> id_categoria { get; set; }
-        public string descripcion { get; set; }
-        public Nullable<double> stock { get; set; }
-        public string estado { get; set; }
+        public int id_detalle_venta_directa { get; set; }
+        public Nullable<int> id_venta_directa { get; set; }
+        public Nullable<int> id_insumo { get; set; }
+        public Nullable<int> cantidad { get; set; }
         public Nullable<double> precio { get; set; }
+        public Nullable<double> costo { get; set; }
     }
 }

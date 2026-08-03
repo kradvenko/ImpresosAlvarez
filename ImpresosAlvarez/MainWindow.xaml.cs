@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Deployment.Application;
 
 namespace ImpresosAlvarez
 {
@@ -45,6 +46,15 @@ namespace ImpresosAlvarez
             //Actualizaciones.Actualizacion4();
             Login login = new Login(this);
             login.ShowDialog();
+            try
+            {
+                string versionVar = ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+                lblVersion.Content = "Versión: " + versionVar;
+            }
+            catch (Exception ex)
+            {
+                lblVersion.Content = "Versión: Desconocida";
+            }
         }
 
         public void SetMainWindow()
@@ -239,11 +249,9 @@ namespace ImpresosAlvarez
         }
 
         private void btnCalculadora_Click(object sender, RoutedEventArgs e)
-        {
-            /*
+        {            
             Calculadora calc = new Calculadora();
             calc.Show();
-            */
         }
 
         private void btnRecepcion_Click(object sender, RoutedEventArgs e)
@@ -408,6 +416,12 @@ namespace ImpresosAlvarez
         {
             ClientesSinOrdenes cso = new ClientesSinOrdenes();
             cso.ShowDialog();
+        }
+
+        private void btnVentaDirecta_Click(object sender, RoutedEventArgs e)
+        {
+            NuevaVentaDirecta ventadirecta = new NuevaVentaDirecta();
+            ventadirecta.ShowDialog();
         }
     }
 }

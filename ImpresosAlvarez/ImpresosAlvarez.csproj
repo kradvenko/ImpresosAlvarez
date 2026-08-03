@@ -29,8 +29,8 @@
     <UpdateUrl>http://impresosalvarez.atwebpages.com/</UpdateUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>300</ApplicationRevision>
-    <ApplicationVersion>1.3.0.%2a</ApplicationVersion>
+    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationVersion>1.4.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -135,6 +135,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Runtime.Serialization" />
@@ -183,6 +184,7 @@
     <Compile Include="Clases\opensslkey.cs" />
     <Compile Include="Clases\ProductoServicioAutocomplete.cs" />
     <Compile Include="Clases\Salida.cs" />
+    <Compile Include="Clases\VentaDirectaItem.cs" />
     <Compile Include="ClientesSinOrdenes.xaml.cs">
       <DependentUpon>ClientesSinOrdenes.xaml</DependentUpon>
     </Compile>
@@ -262,6 +264,9 @@
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\DetalleNota.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity\DetalleVentaDirecta.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\Disenos.cs">
@@ -459,6 +464,9 @@
     <Compile Include="Entity\Valores.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\VentaDirecta.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\vOrdenesImpresion.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
@@ -497,6 +505,12 @@
     </Compile>
     <Compile Include="NuevaOrden.xaml.cs">
       <DependentUpon>NuevaOrden.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NuevaVentaDirecta.xaml.cs">
+      <DependentUpon>NuevaVentaDirecta.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NuevaVentaDirectaModificarItem.xaml.cs">
+      <DependentUpon>NuevaVentaDirectaModificarItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="OrdenesAnteriores.xaml.cs">
       <DependentUpon>OrdenesAnteriores.xaml</DependentUpon>
@@ -714,6 +728,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="NuevaOrden.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NuevaVentaDirecta.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NuevaVentaDirectaModificarItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

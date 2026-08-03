@@ -1241,9 +1241,11 @@ namespace ImpresosAlvarez
                         //total = total + (float.Parse(item.Pagado) / 1.1475f);
                         total = total + double.Parse(item.Pagado);
 
-                        double totalItem = (double.Parse(item.Pagado) / 1.1475f);
-                        
-
+                        double totalItem = (double.Parse(item.Pagado) / 1.1475f);//PARA OBTENER EL TOTAL SIN IVA NI ISR, SE DIVIDE ENTRE 1.1475. SIN EMBARGO, PARA OBTENER EL TOTAL CON IVA Y SIN ISR, SE DIVIDE ENTRE 1.16. ESTO ES PARA QUE EL TOTAL DE LA PARCIALIDAD SEA IGUAL AL TOTAL DE LA FACTURA.
+                        if (item.ISR == "" || item.ISR == "0" || item.ISR == "0.0" || item.ISR == "0.00")
+                        {
+                            totalItem = (double.Parse(item.Pagado) / 1.16);
+                        }
                         totalIva = totalIva + (totalItem * 0.16f);
 
                         if (item.ISR != "" && item.ISR != "0" && item.ISR != "0.0" && item.ISR != "0.00")
@@ -1270,7 +1272,11 @@ namespace ImpresosAlvarez
                     total = total + double.Parse(item.Pagado);
 
                     double totalItem = (double.Parse(item.Pagado) / 1.1475f);
-                    
+
+                    if (item.ISR == "" || item.ISR == "0" || item.ISR == "0.0" || item.ISR == "0.00")
+                    {
+                        totalItem = (double.Parse(item.Pagado) / 1.16);
+                    }
 
                     totalIva = totalIva + (totalItem * 0.16f);
 

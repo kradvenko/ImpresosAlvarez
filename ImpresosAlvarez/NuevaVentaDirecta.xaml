@@ -1,11 +1,11 @@
-﻿<Window x:Class="ImpresosAlvarez.Existencias"
+﻿<Window x:Class="ImpresosAlvarez.NuevaVentaDirecta"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImpresosAlvarez"
         mc:Ignorable="d"
-        Title="Existencias" Height="450" Width="800" WindowStartupLocation="CenterScreen" WindowState="Maximized" Loaded="Window_Loaded">
+        Title="Nueva Venta Directa" Height="650" Width="800" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -53,18 +53,27 @@
         <ComboBox x:Name="cbCategorias" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MaxHeight="50" SelectionChanged="cbCategorias_SelectionChanged" Style="{StaticResource ComboBoxFlatStyle}">
         </ComboBox>
 
-        <DataGrid x:Name="dgInsumos" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="8" Grid.RowSpan="9" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid x:Name="dgInsumos" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="8" Grid.RowSpan="4" AutoGenerateColumns="False" IsReadOnly="True" MouseDoubleClick="dgInsumos_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Código" Binding="{Binding Path=id_insumo}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Descripción" Binding="{Binding Path=descripcion}" Width="7*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Stock" Binding="{Binding Path=stock}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Precio" Binding="{Binding Path=precio}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        
-        <Button x:Name="btnNuevoInsumo" Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Content="Nuevo insumo" Margin="2" Click="btnNuevoInsumo_Click"></Button>
-        <Button x:Name="btnModificarInsumo" Grid.Column="2" Grid.Row="11" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Content="Modificar insumo" Margin="2" Click="btnModificarInsumo_Click"></Button>
-        <Button x:Name="btnVerMovimientos" Grid.Column="4" Grid.Row="11" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Content="Ver Movimientos" Margin="2" Click="btnVerMovimientos_Click"></Button>
+
+        <DataGrid x:Name="dgVenta" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="8" Grid.RowSpan="4" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Código" Binding="{Binding Path=id_insumo}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Descripción" Binding="{Binding Path=descripcion}" Width="7*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Precio" Binding="{Binding Path=precio}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Cantidad" Binding="{Binding Path=cantidad}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Total" Binding="{Binding Path=total}" Width="*"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button x:Name="btnModificar" Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz05}" Content="Modificar" Margin="2" Click="btnModificar_Click"></Button>
+        <Button x:Name="btnEliminar" Grid.Column="2" Grid.Row="11" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz05}" Content="Eliminar" Margin="2" Click="btnEliminar_Click"></Button>
+        <Button x:Name="btnVender" Grid.Column="4" Grid.Row="11" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz05}" Content="Vender" Margin="2" Click="btnVender_Click"></Button>
         <Button x:Name="btnCerrar" Grid.Row="11" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cerrar" Click="btnCerrar_Click"></Button>
     </Grid>
 </Window>

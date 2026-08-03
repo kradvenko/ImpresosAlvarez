@@ -56,6 +56,7 @@ namespace ImpresosAlvarez
                 cbCategorias.SelectedValue = Insumo.id_categoria;
                 tbDescripcion.Text = Insumo.descripcion;
                 tbStock.Text = Insumo.stock.ToString();
+                tbPrecio.Text = Insumo.precio.ToString();
             }
         }
 
@@ -74,6 +75,7 @@ namespace ImpresosAlvarez
                     InsumoM.id_categoria = int.Parse(cbCategorias.SelectedValue.ToString());
                     InsumoM.descripcion = tbDescripcion.Text;
                     InsumoM.stock = int.Parse(tbStock.Text);
+                    InsumoM.precio = double.Parse(tbPrecio.Text);
                     InsumoM.estado = "ACTIVO";
 
                     //dbContext.Insumos.Add(Insumo);
@@ -93,6 +95,7 @@ namespace ImpresosAlvarez
                     Insumo.descripcion = tbDescripcion.Text;
                     Insumo.stock = int.Parse(tbStock.Text);
                     Insumo.estado = "ACTIVO";
+                    Insumo.precio = double.Parse(tbPrecio.Text);
 
                     dbContext.Insumos.Add(Insumo);
 
