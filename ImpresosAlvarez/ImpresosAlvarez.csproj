@@ -524,6 +524,9 @@
     <Compile Include="ReimprimirOrden.xaml.cs">
       <DependentUpon>ReimprimirOrden.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ReporteVentasDirectas.xaml.cs">
+      <DependentUpon>ReporteVentasDirectas.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Salidas.xaml.cs">
       <DependentUpon>Salidas.xaml</DependentUpon>
     </Compile>
@@ -752,6 +755,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ReimprimirOrden.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ReporteVentasDirectas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

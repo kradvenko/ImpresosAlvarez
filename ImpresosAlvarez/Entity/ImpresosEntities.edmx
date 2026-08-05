@@ -119,7 +119,7 @@
           <Key>
             <PropertyRef Name="id_detalle_venta_directa" />
           </Key>
-          <Property Name="id_detalle_venta_directa" Type="int" Nullable="false" />
+          <Property Name="id_detalle_venta_directa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_venta_directa" Type="int" />
           <Property Name="id_insumo" Type="int" />
           <Property Name="cantidad" Type="int" />
@@ -549,12 +549,13 @@
           <Key>
             <PropertyRef Name="id_venta_directa" />
           </Key>
-          <Property Name="id_venta_directa" Type="int" Nullable="false" />
+          <Property Name="id_venta_directa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="id_usuario" Type="int" />
-          <Property Name="fecha" Type="nvarchar" MaxLength="20" />
+          <Property Name="fecha" Type="nvarchar" MaxLength="40" />
           <Property Name="fecha_ingreso" Type="datetime" />
           <Property Name="notas" Type="nvarchar" MaxLength="150" />
           <Property Name="estado" Type="nvarchar" MaxLength="10" />
+          <Property Name="total" Type="float" />
         </EntityType>
         <!--Errores durante la generación:
 advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesImpresion' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
@@ -3632,10 +3633,11 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           </Key>
           <Property Name="id_venta_directa" Type="Int32" Nullable="false" />
           <Property Name="id_usuario" Type="Int32" />
-          <Property Name="fecha" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="fecha" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
           <Property Name="fecha_ingreso" Type="DateTime" Precision="3" />
           <Property Name="notas" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="estado" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="total" Type="Double" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -5131,6 +5133,7 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <EntitySetMapping Name="VentaDirecta">
             <EntityTypeMapping TypeName="ImpresosBDModel.VentaDirecta">
               <MappingFragment StoreEntitySet="VentaDirecta">
+                <ScalarProperty Name="total" ColumnName="total" />
                 <ScalarProperty Name="estado" ColumnName="estado" />
                 <ScalarProperty Name="notas" ColumnName="notas" />
                 <ScalarProperty Name="fecha_ingreso" ColumnName="fecha_ingreso" />

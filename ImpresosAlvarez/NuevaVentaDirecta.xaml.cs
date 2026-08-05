@@ -26,9 +26,11 @@ namespace ImpresosAlvarez
         List<Insumos> insumos;
         Insumos Insumo;
         List<VentaDirectaItem> ventaDirectaItems;
-        public NuevaVentaDirecta()
+        MainWindow ParentWindow;
+        public NuevaVentaDirecta(MainWindow parentWindow)
         {
             InitializeComponent();
+            ParentWindow = parentWindow;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -80,7 +82,52 @@ namespace ImpresosAlvarez
 
         private void btnVender_Click(object sender, RoutedEventArgs e)
         {
-
+            if (dgVenta.Items.Count > 0)
+            {
+                if (MessageBox.Show("¿Desea realizar la venta?", "Confirmación", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                        {
+                            VentaDirecta ventaDirecta = new VentaDirecta
+                            {
+                                id_usuario = ParentWindow.CurrentUser.id_usuario,
+                                fecha = DateTime.Now.ToString(),
+                                fecha_ingreso = DateTime.Now,
+                                notas = "",
+                                estado = "ACTIVO",
+                                total = ventaDirectaItems.Sum(item => item.total)
+                            };
+                            dbContext.VentaDirecta.Add(ventaDirecta);
+                            dbContext.SaveChanges();
+                            foreach (var item in ventaDirectaItems)
+                            {
+                                DetalleVentaDirecta detalleVentaDirecta = new DetalleVentaDirecta
+                                {
+                                    id_venta_directa = ventaDirecta.id_venta_directa,
+                                    id_insumo = item.id_insumo,
+                                    cantidad = item.cantidad,
+                                    precio = item.precio,
+                                    costo = item.total
+                                };
+                                dbContext.DetalleVentaDirecta.Add(detalleVentaDirecta);
+                            }
+                            dbContext.SaveChanges();
+                        }
+                        MessageBox.Show("Venta realizada con éxito.");
+                        this.Close();
+                    }
+                    catch (Exception exc)
+                    {
+                        MessageBox.Show(exc.Message);
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("No hay productos en la venta.");
+            }
         }
 
         private void btnCerrar_Click(object sender, RoutedEventArgs e)
@@ -114,6 +161,7 @@ namespace ImpresosAlvarez
                 ventaDirectaItems.Add(ventaDirectaItem);
                 dgVenta.ItemsSource = null;
                 dgVenta.ItemsSource = ventaDirectaItems;
+                ActualizarTotal();
             }
         }
 
@@ -121,6 +169,13 @@ namespace ImpresosAlvarez
         {
             dgVenta.ItemsSource = null;
             dgVenta.ItemsSource = ventaDirectaItems;
+            ActualizarTotal();
+        }
+
+        public void ActualizarTotal()
+        {
+            double total = ventaDirectaItems.Sum(item => item.total);
+            lblTotal.Content = "Total: " + total.ToString("C2");
         }
     }
 }

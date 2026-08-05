@@ -44,6 +44,8 @@ namespace ImpresosAlvarez
             //Actualizaciones.Actualizacion3();
             //10/12/2025
             //Actualizaciones.Actualizacion4();
+            //05/08/2026
+            Actualizaciones.Actualizacion5();
             Login login = new Login(this);
             login.ShowDialog();
             try
@@ -420,8 +422,14 @@ namespace ImpresosAlvarez
 
         private void btnVentaDirecta_Click(object sender, RoutedEventArgs e)
         {
-            NuevaVentaDirecta ventadirecta = new NuevaVentaDirecta();
+            NuevaVentaDirecta ventadirecta = new NuevaVentaDirecta(this);
             ventadirecta.ShowDialog();
+        }
+
+        private void btnReporteVentasDirectas_Click(object sender, RoutedEventArgs e)
+        {
+            ReporteVentasDirectas reporte = new ReporteVentasDirectas();
+            reporte.ShowDialog();
         }
     }
 }

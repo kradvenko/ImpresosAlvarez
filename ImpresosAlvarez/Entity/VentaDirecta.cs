@@ -20,5 +20,6 @@ namespace ImpresosAlvarez.Entity
         public Nullable<System.DateTime> fecha_ingreso { get; set; }
         public string notas { get; set; }
         public string estado { get; set; }
+        public Nullable<double> total { get; set; }
     }
 }

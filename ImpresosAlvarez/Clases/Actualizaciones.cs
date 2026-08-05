@@ -221,5 +221,141 @@ namespace ImpresosAlvarez.Clases
                 }
             }
         }
+
+        public static void Actualizacion5()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ImpresosBDConn"].ConnectionString))
+                {
+                    using (SqlCommand comm = new SqlCommand(" " +
+                        "SELECT precio " +
+                        "FROM Insumos " +
+                        "", con))
+                    {
+                        con.Open();
+
+                        SqlDataReader reader = comm.ExecuteReader();
+                        con.Close();
+                    }
+                }
+            }
+            catch
+            {
+                try
+                {
+                    using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ImpresosBDConn"].ConnectionString))
+                    {
+                        using (SqlCommand comm = new SqlCommand(" " +
+                            "ALTER TABLE Insumos " +
+                            "ADD precio float NULL DEFAULT 0 WITH VALUES " +
+                            "", con))
+                        {
+                            con.Open();
+
+                            comm.ExecuteNonQuery();
+
+                            con.Close();
+                        }
+                    }
+                }
+                catch (Exception exc)
+                {
+
+                }
+            }
+
+            // Crear tabla VentaDirecta si no existe
+            try
+            {
+                using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ImpresosBDConn"].ConnectionString))
+                {
+                    using (SqlCommand comm = new SqlCommand(" " +
+                        "SELECT id_venta_directa " +
+                        "FROM VentaDirecta " +
+                        "", con))
+                    {
+                        con.Open();
+                        SqlDataReader reader = comm.ExecuteReader();
+                        con.Close();
+                    }
+                }
+            }
+            catch
+            {
+                try
+                {
+                    using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ImpresosBDConn"].ConnectionString))
+                    {
+                        using (SqlCommand comm = new SqlCommand(" " +
+                            "CREATE TABLE VentaDirecta ( " +
+                            "    id_venta_directa INT PRIMARY KEY IDENTITY(1,1) NOT NULL, " +
+                            "    id_usuario INT NULL, " +
+                            "    fecha NVARCHAR(40) NULL, " +
+                            "    fecha_ingreso DATETIME NULL, " +
+                            "    notas NVARCHAR(150) NULL, " +
+                            "    estado NVARCHAR(10) NULL, " +
+                            "    total FLOAT NULL " +
+                            ") " +
+                            "", con))
+                        {
+                            con.Open();
+                            comm.ExecuteNonQuery();
+                            con.Close();
+                        }
+                    }
+                }
+                catch (Exception exc)
+                {
+
+                }
+            }
+
+            // Crear tabla DetalleVentaDirecta si no existe
+            try
+            {
+                using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ImpresosBDConn"].ConnectionString))
+                {
+                    using (SqlCommand comm = new SqlCommand(" " +
+                        "SELECT id_detalle_venta_directa " +
+                        "FROM DetalleVentaDirecta " +
+                        "", con))
+                    {
+                        con.Open();
+                        SqlDataReader reader = comm.ExecuteReader();
+                        con.Close();
+                    }
+                }
+            }
+            catch
+            {
+                try
+                {
+                    using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ImpresosBDConn"].ConnectionString))
+                    {
+                        using (SqlCommand comm = new SqlCommand(" " +
+                            "CREATE TABLE DetalleVentaDirecta ( " +
+                            "    id_detalle_venta_directa INT PRIMARY KEY IDENTITY(1,1) NOT NULL, " +
+                            "    id_venta_directa INT NULL, " +
+                            "    id_insumo INT NULL, " +
+                            "    cantidad INT NULL, " +
+                            "    precio FLOAT NULL, " +
+                            "    costo FLOAT NULL " +
+                            ") " +
+                            "", con))
+                        {
+                            con.Open();
+                            comm.ExecuteNonQuery();
+                            con.Close();
+                        }
+                    }
+                }
+                catch (Exception exc)
+                {
+
+                }
+            }       
+
+        }
     }
 }
