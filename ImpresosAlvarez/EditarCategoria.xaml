@@ -1,0 +1,41 @@
+<Window x:Class="ImpresosAlvarez.EditarCategoria"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Editar Categoria" Height="200" Width="400"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Formulario -->
+        <GroupBox Header="Datos de la Categoría" Grid.Row="0" Margin="10">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label Content="Nombre:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" Margin="0,0,10,0"/>
+                <TextBox x:Name="txtNombre" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" 
+                         MaxLength="50" Height="25"/>
+            </Grid>
+        </GroupBox>
+
+        <!-- Botones -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+            <Button x:Name="btnGuardar" Content="Guardar" Width="100" Height="30" 
+                    Click="btnGuardar_Click" Margin="0,0,10,0"/>
+            <Button x:Name="btnCancelar" Content="Cancelar" Width="100" Height="30" 
+                    Click="btnCancelar_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

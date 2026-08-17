@@ -53,6 +53,8 @@
         <ComboBox x:Name="cbCategorias" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" MaxHeight="50" SelectionChanged="cbCategorias_SelectionChanged" Style="{StaticResource ComboBoxFlatStyle}">
         </ComboBox>
 
+        <Button x:Name="btnControlCategorias" Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Content="Control Categorías" Margin="2" Click="btnControlCategorias_Click"></Button>
+
         <DataGrid x:Name="dgInsumos" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="8" Grid.RowSpan="9" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Código" Binding="{Binding Path=id_insumo}" Width="*"></DataGridTextColumn>
@@ -62,9 +64,10 @@
             </DataGrid.Columns>
         </DataGrid>
         
-        <Button x:Name="btnNuevoInsumo" Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Content="Nuevo insumo" Margin="2" Click="btnNuevoInsumo_Click"></Button>
-        <Button x:Name="btnModificarInsumo" Grid.Column="2" Grid.Row="11" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Content="Modificar insumo" Margin="2" Click="btnModificarInsumo_Click"></Button>
-        <Button x:Name="btnVerMovimientos" Grid.Column="4" Grid.Row="11" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Content="Ver Movimientos" Margin="2" Click="btnVerMovimientos_Click"></Button>
-        <Button x:Name="btnCerrar" Grid.Row="11" Grid.Column="6" Grid.ColumnSpan="2" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cerrar" Click="btnCerrar_Click"></Button>
+        <Button x:Name="btnNuevoInsumo" Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="1" Style="{StaticResource btnInterfaz01}" Content="Nuevo" Margin="2" Click="btnNuevoInsumo_Click"></Button>
+        <Button x:Name="btnModificarInsumo" Grid.Column="1" Grid.Row="11" Grid.ColumnSpan="1" Style="{StaticResource btnInterfaz01}" Content="Modificar" Margin="2" Click="btnModificarInsumo_Click"></Button>
+        <Button x:Name="btnEliminarInsumo" Grid.Column="2" Grid.Row="11" Grid.ColumnSpan="1" Style="{StaticResource btnInterfaz01}" Content="Eliminar" Margin="2" Click="btnEliminarInsumo_Click"></Button>
+        <Button x:Name="btnVerMovimientos" Grid.Column="3" Grid.Row="11" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Content="Ver Movimientos" Margin="2" Click="btnVerMovimientos_Click"></Button>
+        <Button x:Name="btnCerrar" Grid.Row="11" Grid.Column="7" Grid.ColumnSpan="1" Grid.RowSpan="1" Style="{StaticResource btnInterfaz03}" Content="Cerrar" Click="btnCerrar_Click"></Button>
     </Grid>
 </Window>

@@ -1,0 +1,46 @@
+<Window x:Class="ImpresosAlvarez.AdministrarCategorias"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Administrar Categorias" Height="500" Width="700"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Barra de herramientas -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10" Height="40">
+            <Button x:Name="btnNuevo" Content="Nueva Categoría" Width="130" Height="30" 
+                    Click="btnNuevo_Click" Margin="0,0,10,0"/>
+            <Button x:Name="btnEditar" Content="Editar" Width="100" Height="30" 
+                    Click="btnEditar_Click" Margin="0,0,10,0"/>
+            <Button x:Name="btnEliminar" Content="Eliminar" Width="100" Height="30" 
+                    Click="btnEliminar_Click" Margin="0,0,10,0"/>
+            <Button x:Name="btnActualizar" Content="Actualizar" Width="100" Height="30" 
+                    Click="btnActualizar_Click"/>
+        </StackPanel>
+
+        <!-- DataGrid de Categorías -->
+        <DataGrid x:Name="dgCategorias" Grid.Row="1" Margin="10,0,10,10"
+                  AutoGenerateColumns="False" 
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  CanUserAddRows="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding id_categoria}" Width="80"/>
+                <DataGridTextColumn Header="Nombre" Binding="{Binding nombre}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Panel de información -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10" Height="30">
+            <Label Content="Total de categorías:" FontWeight="Bold"/>
+            <Label x:Name="lblTotal" Content="0" Margin="5,0,0,0"/>
+        </StackPanel>
+    </Grid>
+</Window>

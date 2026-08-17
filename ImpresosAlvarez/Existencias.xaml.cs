@@ -72,6 +72,10 @@ namespace ImpresosAlvarez
         {
             using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
             {
+                if (cbCategorias.SelectedItem == null)
+                {
+                    return;
+                }
                 Categorias c = (Categorias)cbCategorias.SelectedItem;
                 insumos = dbContext.Insumos.Where(I => I.id_categoria == c.id_categoria).ToList();
                 dgInsumos.ItemsSource = null;
@@ -106,6 +110,45 @@ namespace ImpresosAlvarez
                 Insumos Insumo = (Insumos)dgInsumos.SelectedItem;
                 MovimientosInventario movimientos = new MovimientosInventario(Insumo);
                 movimientos.ShowDialog();
+            }
+        }
+        private void btnControlCategorias_Click(object sender, RoutedEventArgs e)
+        {
+            AdministrarCategorias admin = new AdministrarCategorias();
+            admin.ShowDialog();
+        }
+
+        private void btnEliminarInsumo_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgInsumos.SelectedItem != null)
+            {
+                Insumos i = (Insumos)dgInsumos.SelectedItem;
+                MessageBoxResult result = MessageBox.Show($"¿Está seguro de eliminar el insumo '{i.descripcion}'?", "Confirmar eliminación", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                        {
+                            // Verificar si el insumo tiene movimientos asociados
+                            var movimientosAsociados = dbContext.DetalleFactura.Count(m => m.id_articulo == i.id_insumo);
+                            if (movimientosAsociados > 0)
+                            {
+                                MessageBox.Show($"No se puede eliminar el insumo porque tiene {movimientosAsociados} movimiento(s) asociado(s).", 
+                                    "Advertencia", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                return;
+                            }
+                            dbContext.Insumos.Attach(i);
+                            dbContext.Insumos.Remove(i);
+                            dbContext.SaveChanges();
+                        }
+                        ActualizarListaInsumos();
+                    }
+                    catch (Exception exc)
+                    {
+                        MessageBox.Show(exc.Message);
+                    }
+                }
             }
         }
     }

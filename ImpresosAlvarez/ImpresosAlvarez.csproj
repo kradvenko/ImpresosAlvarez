@@ -29,7 +29,7 @@
     <UpdateUrl>http://impresosalvarez.atwebpages.com/</UpdateUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>5</ApplicationRevision>
+    <ApplicationRevision>7</ApplicationRevision>
     <ApplicationVersion>1.4.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -159,6 +159,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AdministrarCategorias.xaml.cs">
+      <DependentUpon>AdministrarCategorias.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BuscarFacturaCancelada.xaml.cs">
       <DependentUpon>BuscarFacturaCancelada.xaml</DependentUpon>
     </Compile>
@@ -238,6 +241,9 @@
     </Compile>
     <Compile Include="DisenoOrdenesPendientes.xaml.cs">
       <DependentUpon>DisenoOrdenesPendientes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditarCategoria.xaml.cs">
+      <DependentUpon>EditarCategoria.xaml</DependentUpon>
     </Compile>
     <Compile Include="Entity\Bitacora.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
@@ -503,6 +509,9 @@
     <Compile Include="MovimientosInventario.xaml.cs">
       <DependentUpon>MovimientosInventario.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NuevaCategoria.xaml.cs">
+      <DependentUpon>NuevaCategoria.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NuevaOrden.xaml.cs">
       <DependentUpon>NuevaOrden.xaml</DependentUpon>
     </Compile>
@@ -583,6 +592,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.map</DependentUpon>
     </Compile>
+    <Page Include="AdministrarCategorias.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="BuscarFacturaCancelada.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -671,6 +683,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="EditarCategoria.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Entradas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -727,6 +742,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MovimientosInventario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NuevaCategoria.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
