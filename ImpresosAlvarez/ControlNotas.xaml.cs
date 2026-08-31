@@ -78,7 +78,7 @@ namespace ImpresosAlvarez
 
         private void btnCancelarNota_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Desea cancelar la nota?", "Atención", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+             if (MessageBox.Show("Desea cancelar la nota?", "Atención", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
                 using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                 {
@@ -86,6 +86,12 @@ namespace ImpresosAlvarez
                     Notas n = dbContext.Notas.Where(F => F.id_nota.ToString() == idnota).First();
 
                     n.estado = "CANCELADO";
+
+                    NotaOrden notaOrden = dbContext.NotaOrden.Where(NO => NO.id_nota == n.id_nota).FirstOrDefault();
+                    if (notaOrden != null)
+                    {
+                        dbContext.NotaOrden.Remove(notaOrden);
+                    }
 
                     dbContext.SaveChanges();
 
