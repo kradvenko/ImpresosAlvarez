@@ -431,5 +431,11 @@ namespace ImpresosAlvarez
             ReporteVentasDirectas reporte = new ReporteVentasDirectas();
             reporte.ShowDialog();
         }
+
+        private void btnCorteDiario_Click(object sender, RoutedEventArgs e)
+        {
+            CorteDiario corte = new CorteDiario();
+            corte.ShowDialog();
+        }
     }
 }

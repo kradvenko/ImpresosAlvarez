@@ -239,6 +239,9 @@
     <Compile Include="CorreosCliente.xaml.cs">
       <DependentUpon>CorreosCliente.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CorteDiario.xaml.cs">
+      <DependentUpon>CorteDiario.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DisenoOrdenesPendientes.xaml.cs">
       <DependentUpon>DisenoOrdenesPendientes.xaml</DependentUpon>
     </Compile>
@@ -679,6 +682,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CorteDiario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DisenoOrdenesPendientes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1000,6 +1007,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Icons\star.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Icons\coin.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Content Include="Imagenes\LogoAlvarez.png">

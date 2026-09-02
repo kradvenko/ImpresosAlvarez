@@ -644,6 +644,18 @@
                     <Label Grid.Column="1" Content="Trabajos Entregados" VerticalAlignment="Center"></Label>
                 </Grid>
             </Button>
+            <Button x:Name="btnCorteDiario" Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Click="btnCorteDiario_Click">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Image Source="/Icons/coin.png" Grid.Column="0" MaxHeight="40"></Image>
+                    <Label Grid.Column="1" Content="Corte Diario" VerticalAlignment="Center"></Label>
+                </Grid>
+            </Button>
+
             <!--<Button x:Name="btnServiciosProductos" Grid.Row="4" Grid.Column="5" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Content="Control Servicios y Productos" Click="btnServiciosProductos_Click"></Button>-->
 
             <Button x:Name="btnSeguimiento" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Click="btnSeguimiento_Click">
