@@ -77,7 +77,10 @@ namespace ImpresosAlvarez
                                 f.razon_cancelado,
                                 f.amparada_por,
                                 f.nombre,
-                                NombreContribuyente = co.nombre.Substring(0, co.nombre.IndexOf(" "))
+                                NombreContribuyente = co.nombre.Substring(0, co.nombre.IndexOf(" ")),
+                                entrego = "",
+                                referencia = "",
+                                observaciones = ""
                             }
                         )
                        .Where(F => F.fecha == Fecha)
@@ -107,7 +110,10 @@ namespace ImpresosAlvarez
                                 f.numero,
                                 f.solicita,
                                 c.nombre,
-                                NombreUnificado = c.nombre.Contains("VARIOS") ? (c.nombre + " / " + f.solicita) : c.nombre
+                                NombreUnificado = c.nombre.Contains("VARIOS") ? (c.nombre + " / " + f.solicita) : c.nombre,
+                                entrego = "",
+                                referencia = "",
+                                observaciones = ""
                             }
                         )
                        .Where(F => F.fecha == Fecha)
@@ -115,6 +121,11 @@ namespace ImpresosAlvarez
 
                 dgCotizaciones.ItemsSource = cotizaciones;
             }
+        }
+
+        private void dpFecha_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }
