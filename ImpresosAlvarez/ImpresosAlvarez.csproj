@@ -29,7 +29,7 @@
     <UpdateUrl>http://impresosalvarez.atwebpages.com/</UpdateUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>8</ApplicationRevision>
+    <ApplicationRevision>9</ApplicationRevision>
     <ApplicationVersion>1.4.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -183,6 +183,7 @@
     <Compile Include="Clases\Entrada.cs" />
     <Compile Include="Clases\Factura.cs" />
     <Compile Include="Clases\FacturaComplemento.cs" />
+    <Compile Include="Clases\FacturaViewModel.cs" />
     <Compile Include="Clases\FileMessaging.cs" />
     <Compile Include="Clases\opensslkey.cs" />
     <Compile Include="Clases\ProductoServicioAutocomplete.cs" />
@@ -241,6 +242,9 @@
     </Compile>
     <Compile Include="CorteDiario.xaml.cs">
       <DependentUpon>CorteDiario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CorteDiarioDetalle.xaml.cs">
+      <DependentUpon>CorteDiarioDetalle.xaml</DependentUpon>
     </Compile>
     <Compile Include="DisenoOrdenesPendientes.xaml.cs">
       <DependentUpon>DisenoOrdenesPendientes.xaml</DependentUpon>
@@ -683,6 +687,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CorteDiario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CorteDiarioDetalle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

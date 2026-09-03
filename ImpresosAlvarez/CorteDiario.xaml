@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ImpresosAlvarez"
         mc:Ignorable="d"
-                Title="Trabajos Entregados" Height="450" Width="800" WindowState="Maximized" Loaded="Window_Loaded">
+                Title="Trabajos Entregados" Height="450" Width="900" WindowState="Maximized" Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -53,13 +53,16 @@
         <DatePicker x:Name="dpFecha" Grid.Column="1" Grid.Row="1" SelectedDateChanged="dpFecha_SelectedDateChanged"></DatePicker>        
         
         <GroupBox Header="Facturas" Grid.Row="2" Grid.ColumnSpan="8" Grid.RowSpan="5">
-            <DataGrid x:Name="dgFacturas" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="8" Grid.RowSpan="4" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" SelectionUnit="Cell">
+            <DataGrid x:Name="dgFacturas" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="8" Grid.RowSpan="4" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" SelectionUnit="FullRow" MouseDoubleClick="dgFacturas_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Número" Binding="{Binding Path=numero}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Cliente" Binding="{Binding Path=nombre}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Contribuyente" Binding="{Binding Path=NombreContribuyente}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="SubTotal" Binding="{Binding Path=subtotal}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Total" Binding="{Binding Path=total}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Referencia" Binding="{Binding Path=referencia}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Entrega" Binding="{Binding Path=entrego}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Observaciones" Binding="{Binding Path=observaciones}" Width="*"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
@@ -70,6 +73,9 @@
                     <DataGridTextColumn Header="Número" Binding="{Binding Path=numero}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Cliente" Binding="{Binding Path=NombreUnificado}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Total" Binding="{Binding Path=total}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Referencia" Binding="{Binding Path=referencia}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Entrega" Binding="{Binding Path=entrego}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Observaciones" Binding="{Binding Path=observaciones}" Width="*"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>

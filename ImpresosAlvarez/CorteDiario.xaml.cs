@@ -1,4 +1,5 @@
-﻿using ImpresosAlvarez.Entity;
+﻿using ImpresosAlvarez.Clases;
+using ImpresosAlvarez.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace ImpresosAlvarez
     /// </summary>
     public partial class CorteDiario : Window
     {
-        String Fecha;
+        String Fecha;        
         public CorteDiario()
         {
             InitializeComponent();
@@ -78,12 +79,31 @@ namespace ImpresosAlvarez
                                 f.amparada_por,
                                 f.nombre,
                                 NombreContribuyente = co.nombre.Substring(0, co.nombre.IndexOf(" ")),
+                                id_entrega = 0,
                                 entrego = "",
                                 referencia = "",
                                 observaciones = ""
                             }
                         )
                        .Where(F => F.fecha == Fecha)
+                       .ToList()
+                       .Select(f => new FacturaViewModel {
+                           id_factura = f.id_factura,
+                           id_cliente = f.id_cliente,
+                           id_contribuyente = f.id_contribuyente,
+                           subtotal = (decimal)f.subtotal,
+                           total = (decimal)f.total,
+                           pagada = f.pagada,
+                           estado = f.estado,
+                           fecha = f.fecha,
+                           numero = f.numero,
+                           nombre = f.nombre,
+                           NombreContribuyente = f.NombreContribuyente,
+                           id_entrega = f.id_entrega,
+                           entrego = f.entrego,
+                           referencia = f.referencia,
+                           observaciones = f.observaciones
+                       })
                        .ToList();
 
                 dgFacturas.ItemsSource = facturas;
@@ -111,6 +131,7 @@ namespace ImpresosAlvarez
                                 f.solicita,
                                 c.nombre,
                                 NombreUnificado = c.nombre.Contains("VARIOS") ? (c.nombre + " / " + f.solicita) : c.nombre,
+                                id_entrega = 0,
                                 entrego = "",
                                 referencia = "",
                                 observaciones = ""
@@ -125,7 +146,46 @@ namespace ImpresosAlvarez
 
         private void dpFecha_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (dpFecha.SelectedDate.HasValue)
+            {
+                Fecha = dpFecha.SelectedDate.Value.ToShortDateString();
+                CargarFacturas();
+                CargarCotizaciones();
+            }
 
+        }
+
+        private void dgFacturas_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (dgFacturas.SelectedItem != null)
+            {
+                FacturaViewModel selectedFactura = dgFacturas.SelectedItem as FacturaViewModel;
+                if (selectedFactura.entrego == null)
+                {
+                    selectedFactura.entrego = "";
+                    CorteDiarioDetalle detalleWindow = new CorteDiarioDetalle(selectedFactura, "Factura", this, "");
+                    detalleWindow.ShowDialog();
+                }
+                else
+                {
+                    CorteDiarioDetalle detalleWindow = new CorteDiarioDetalle(selectedFactura, "Factura", this, "EDITAR");
+                    detalleWindow.ShowDialog();
+                }                
+            }
+        }
+        public void ActualizarFactura(FacturaViewModel facturaActualizada)
+        {
+            var facturas = dgFacturas.ItemsSource as List<FacturaViewModel>;
+            if (facturas != null)
+            {
+                int index = facturas.FindIndex(f => f.id_factura == facturaActualizada.id_factura);
+                if (index >= 0)
+                {
+                    facturas[index] = facturaActualizada;
+                    dgFacturas.ItemsSource = null;
+                    dgFacturas.ItemsSource = facturas;
+                }
+            }
         }
     }
 }
