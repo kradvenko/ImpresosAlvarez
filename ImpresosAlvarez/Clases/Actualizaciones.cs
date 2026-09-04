@@ -357,5 +357,61 @@ namespace ImpresosAlvarez.Clases
             }       
 
         }
-    }
+
+        // Crear Tabla CorteDiario si no existe
+        public static void Actualizacion6()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ImpresosBDConn"].ConnectionString))
+                {
+                    using (SqlCommand comm = new SqlCommand(" " +
+                        "SELECT id_corte_diario " +
+                        "FROM CorteDiario " +
+                        "", con))
+                    {
+                        con.Open();
+                        SqlDataReader reader = comm.ExecuteReader();
+                        con.Close();
+                    }
+                }
+            }
+            catch
+            {
+                try
+                {
+                    using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ImpresosBDConn"].ConnectionString))
+                    {
+                        using (SqlCommand comm = new SqlCommand(" " +
+                            "CREATE TABLE CorteDiario ( " +
+                            "    id_corte_diario INT PRIMARY KEY IDENTITY(1,1) NOT NULL, " +
+                            "    numero NVARCHAR(50) NULL, " +
+                            "   cliente NVARCHAR(150) NULL, " +
+                            "   contribuyente NVARCHAR(150) NULL, " +
+                            "   subtotal FLOAT NULL, " +
+                            "   total FLOAT NULL, " +
+                            "   referencia NVARCHAR(150) NULL, " +
+                            "   id_entrega INT NULL, " +
+                            "   entrega NVARCHAR(150) NULL, " +
+                            "   observaciones NVARCHAR(250) NULL, " +
+                            "   tipo NVARCHAR(50) NULL, " +
+                            "   fecha_pago NVARCHAR(50) NULL, " +
+                            "   aplicado NVARCHAR(50) NULL, " +
+                            "   fecha_aplicado NVARCHAR(50) NULL, " +
+                            "   id_factura INT NULL, " +
+                            "   id_nota INT NULL " +
+                            ") " +
+                            "", con))
+                        {
+                            con.Open();
+                            comm.ExecuteNonQuery();
+                            con.Close();
+                        }
+                    }
+                }
+                catch (Exception exc)
+                {
+                }
+            }
+        }
 }

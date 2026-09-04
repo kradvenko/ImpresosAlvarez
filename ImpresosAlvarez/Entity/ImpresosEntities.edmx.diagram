@@ -56,6 +56,7 @@
         <EntityTypeShape EntityType="ImpresosBDModel.RegimenFiscal" Width="1.5" PointX="9.375" PointY="18.75" />
         <EntityTypeShape EntityType="ImpresosBDModel.DetalleVentaDirecta" Width="1.5" PointX="11.375" PointY="18.75" />
         <EntityTypeShape EntityType="ImpresosBDModel.VentaDirecta" Width="1.5" PointX="18.375" PointY="16.75" />
+        <EntityTypeShape EntityType="ImpresosBDModel.CorteDiario" Width="1.5" PointX="19.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

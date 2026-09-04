@@ -61,7 +61,14 @@ namespace ImpresosAlvarez
             Pago.referencia = cbReferencia.Text;
             Pago.observaciones = txtObservaciones.Text;
 
-            ParentWindow.ActualizarFactura(Pago);
+            if (Tipo == "Factura")
+            {
+                ParentWindow.ActualizarFactura(Pago);
+            }
+            else if (Tipo == "Cotizacion")
+            {
+                ParentWindow.ActualizarNota(Pago);
+            }
 
             this.Close();
         }

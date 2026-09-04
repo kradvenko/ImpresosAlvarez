@@ -8,7 +8,9 @@ namespace ImpresosAlvarez.Clases
 {    
     public class FacturaViewModel
     {
+        public int id_corte_diario { get; set; }
         public int id_factura { get; set; }
+        public int id_nota { get; set; }
         public int id_cliente { get; set; }
         public int id_contribuyente { get; set; }
         public decimal subtotal { get; set; }

@@ -89,6 +89,27 @@
           <Property Name="id_cliente" Type="int" Nullable="false" />
           <Property Name="correo" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="CorteDiario">
+          <Key>
+            <PropertyRef Name="id_corte_diario" />
+          </Key>
+          <Property Name="id_corte_diario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="numero" Type="nvarchar" MaxLength="50" />
+          <Property Name="cliente" Type="nvarchar" MaxLength="150" />
+          <Property Name="contribuyente" Type="nvarchar" MaxLength="50" />
+          <Property Name="subtotal" Type="float" />
+          <Property Name="total" Type="float" />
+          <Property Name="referencia" Type="nvarchar" MaxLength="150" />
+          <Property Name="id_entrega" Type="int" />
+          <Property Name="entrega" Type="nvarchar" MaxLength="150" />
+          <Property Name="observaciones" Type="nvarchar" MaxLength="250" />
+          <Property Name="tipo" Type="nvarchar" MaxLength="50" />
+          <Property Name="fecha_pago" Type="nvarchar" MaxLength="50" />
+          <Property Name="aplicado" Type="nvarchar" MaxLength="50" />
+          <Property Name="fecha_aplicado" Type="nvarchar" MaxLength="50" />
+          <Property Name="id_factura" Type="int" />
+          <Property Name="id_nota" Type="int" />
+        </EntityType>
         <EntityType Name="DetalleFactura">
           <Key>
             <PropertyRef Name="id_detallefactura" />
@@ -1360,6 +1381,7 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <EntitySet Name="Configuracion" EntityType="Self.Configuracion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contribuyentes" EntityType="Self.Contribuyentes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Correos" EntityType="Self.Correos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CorteDiario" EntityType="Self.CorteDiario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetalleFactura" EntityType="Self.DetalleFactura" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetalleNota" EntityType="Self.DetalleNota" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetalleVentaDirecta" EntityType="Self.DetalleVentaDirecta" Schema="dbo" store:Type="Tables" />
@@ -2195,6 +2217,7 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <EntitySet Name="RegimenFiscal" EntityType="ImpresosBDModel.RegimenFiscal" />
           <EntitySet Name="DetalleVentaDirecta" EntityType="ImpresosBDModel.DetalleVentaDirecta" />
           <EntitySet Name="VentaDirecta" EntityType="ImpresosBDModel.VentaDirecta" />
+          <EntitySet Name="CorteDiario" EntityType="ImpresosBDModel.CorteDiario" />
           </EntityContainer>
         <ComplexType Name="Obtener_Bitacora_Diaria_Result">
           <Property Type="String" Name="nombre" Nullable="false" MaxLength="50" />
@@ -3638,6 +3661,27 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <Property Name="notas" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="estado" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="total" Type="Double" />
+        </EntityType>
+        <EntityType Name="CorteDiario">
+          <Key>
+            <PropertyRef Name="id_corte_diario" />
+          </Key>
+          <Property Name="id_corte_diario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="numero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="cliente" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="contribuyente" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="subtotal" Type="Double" />
+          <Property Name="total" Type="Double" />
+          <Property Name="referencia" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="id_entrega" Type="Int32" />
+          <Property Name="entrega" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="observaciones" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="tipo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_pago" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="aplicado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_aplicado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="id_factura" Type="Int32" />
+          <Property Name="id_nota" Type="Int32" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -5140,6 +5184,28 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
                 <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
                 <ScalarProperty Name="id_venta_directa" ColumnName="id_venta_directa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CorteDiario">
+            <EntityTypeMapping TypeName="ImpresosBDModel.CorteDiario">
+              <MappingFragment StoreEntitySet="CorteDiario">
+                <ScalarProperty Name="id_nota" ColumnName="id_nota" />
+                <ScalarProperty Name="id_factura" ColumnName="id_factura" />
+                <ScalarProperty Name="fecha_aplicado" ColumnName="fecha_aplicado" />
+                <ScalarProperty Name="aplicado" ColumnName="aplicado" />
+                <ScalarProperty Name="fecha_pago" ColumnName="fecha_pago" />
+                <ScalarProperty Name="tipo" ColumnName="tipo" />
+                <ScalarProperty Name="observaciones" ColumnName="observaciones" />
+                <ScalarProperty Name="entrega" ColumnName="entrega" />
+                <ScalarProperty Name="id_entrega" ColumnName="id_entrega" />
+                <ScalarProperty Name="referencia" ColumnName="referencia" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="subtotal" ColumnName="subtotal" />
+                <ScalarProperty Name="contribuyente" ColumnName="contribuyente" />
+                <ScalarProperty Name="cliente" ColumnName="cliente" />
+                <ScalarProperty Name="numero" ColumnName="numero" />
+                <ScalarProperty Name="id_corte_diario" ColumnName="id_corte_diario" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

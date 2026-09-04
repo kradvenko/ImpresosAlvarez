@@ -273,6 +273,9 @@
     <Compile Include="Entity\Correos.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\CorteDiario.cs">
+      <DependentUpon>ImpresosEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\DetalleFactura.cs">
       <DependentUpon>ImpresosEntities.tt</DependentUpon>
     </Compile>
