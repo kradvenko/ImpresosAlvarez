@@ -151,7 +151,7 @@ namespace ImpresosAlvarez.Clases
                             "vinil_impresion_uv NVARCHAR(5) NULL DEFAULT ' ' WITH VALUES, " +
                             "vinil_impresion_ecosolvente NVARCHAR(5) NULL DEFAULT ' ' WITH VALUES, " +
                             "vinil_econo NVARCHAR(5) NULL DEFAULT ' ' WITH VALUES, " +
-                            "vinil_ecogris NVARCHAR(5) NULL DEFAULT ' ' WITH VALUES, " +                            
+                            "vinil_ecogris NVARCHAR(5) NULL DEFAULT ' ' WITH VALUES, " +
                             "vinil_alta NVARCHAR(5) NULL DEFAULT ' ' WITH VALUES, " +
                             "vinil_micro NVARCHAR(5) NULL DEFAULT ' ' WITH VALUES, " +
                             "vinil_trans NVARCHAR(5) NULL DEFAULT ' ' WITH VALUES, " +
@@ -354,7 +354,7 @@ namespace ImpresosAlvarez.Clases
                 {
 
                 }
-            }       
+            }
 
         }
 
@@ -414,4 +414,5 @@ namespace ImpresosAlvarez.Clases
                 }
             }
         }
+    }
 }

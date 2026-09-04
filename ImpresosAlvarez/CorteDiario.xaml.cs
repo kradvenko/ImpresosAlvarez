@@ -270,6 +270,17 @@ namespace ImpresosAlvarez
                         {
                             corte.aplicado = "SI";
                             corte.fecha_aplicado = Fecha;
+
+                            Pagos pagos = new Pagos();
+                            pagos.id_factura = factura.id_factura;
+                            pagos.tipo = corte.referencia;
+                            pagos.cantidad = (double)factura.total;
+                            pagos.fecha = Fecha;
+                            pagos.notas = factura.observaciones;
+                            pagos.numero_cheque = "";
+                            pagos.banco = "";
+                            pagos.numero_recibo = "";
+                            dbContext.Pagos.Add(pagos);
                         }
                         corte.id_factura = factura.id_factura;
                         corte.id_nota = 0;
@@ -297,8 +308,22 @@ namespace ImpresosAlvarez
                             }
                             else
                             {
-                                corteExistente.aplicado = "SI";
-                                corteExistente.fecha_aplicado = Fecha;
+                                if (corteExistente.aplicado == "NO")
+                                {
+                                    corteExistente.aplicado = "SI";
+                                    corteExistente.fecha_aplicado = Fecha;
+
+                                    Pagos pagos = new Pagos();
+                                    pagos.id_factura = factura.id_factura;
+                                    pagos.tipo = corteExistente.referencia;
+                                    pagos.cantidad = (double)factura.total;
+                                    pagos.fecha = Fecha;
+                                    pagos.notas = factura.observaciones;
+                                    pagos.numero_cheque = "";
+                                    pagos.banco = "";
+                                    pagos.numero_recibo = "";
+                                    dbContext.Pagos.Add(pagos);
+                                }
                             }
                             dbContext.SaveChanges();
                         }
@@ -333,6 +358,17 @@ namespace ImpresosAlvarez
                         {
                             corte.aplicado = "SI";
                             corte.fecha_aplicado = Fecha;
+
+                            PagosNotas pagosNotas = new PagosNotas();
+                            pagosNotas.id_nota = cotizacion.id_nota;
+                            pagosNotas.tipo = corte.referencia;
+                            pagosNotas.cantidad = (double)cotizacion.total;
+                            pagosNotas.fecha = Fecha;
+                            pagosNotas.notas = cotizacion.observaciones;
+                            pagosNotas.numero_cheque = "";
+                            pagosNotas.banco = "";
+                            pagosNotas.numero_recibo = "";
+                            dbContext.PagosNotas.Add(pagosNotas);
                         }
                         corte.id_factura = 0;
                         corte.id_nota = cotizacion.id_nota;
@@ -358,8 +394,22 @@ namespace ImpresosAlvarez
                             }
                             else
                             {
-                                corteExistente.aplicado = "SI";
-                                corteExistente.fecha_aplicado = Fecha;
+                                if (corteExistente.aplicado == "NO")
+                                {
+                                    corteExistente.aplicado = "SI";
+                                    corteExistente.fecha_aplicado = Fecha;
+
+                                    PagosNotas pagosNotas = new PagosNotas();
+                                    pagosNotas.id_nota = cotizacion.id_nota;
+                                    pagosNotas.tipo = corteExistente.referencia;
+                                    pagosNotas.cantidad = (double)cotizacion.total;
+                                    pagosNotas.fecha = Fecha;
+                                    pagosNotas.notas = cotizacion.observaciones;
+                                    pagosNotas.numero_cheque = "";
+                                    pagosNotas.banco = "";
+                                    pagosNotas.numero_recibo = "";
+                                    dbContext.PagosNotas.Add(pagosNotas);
+                                }
                             }
                             dbContext.SaveChanges();
                         }
