@@ -30,6 +30,7 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
         <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="8">
@@ -52,6 +53,7 @@
         <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Fecha"></Label>
         <DatePicker x:Name="dpFecha" Grid.Column="1" Grid.Row="1" SelectedDateChanged="dpFecha_SelectedDateChanged"></DatePicker>
 
+        <Button x:Name="btnGenerarExcel" Grid.Column="5" Grid.Row="1" Content="Generar Excel" Click="btnExportarExcel_Click"></Button>
         <Button x:Name="btnGuardar" Grid.Column="6" Grid.Row="1" Content="Guardar" Click="btnGuardar_Click"></Button>
         <Button x:Name="btnCancelar" Grid.Column="7" Grid.Row="1" Content="Cancelar" Click="btnCancelar_Click"></Button>
 
@@ -82,5 +84,10 @@
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
+
+        <Label x:Name="lblTotalFacturas" Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Total Facturas"></Label>
+
+        <Label x:Name="lblTotalCotizaciones" Grid.Column="4" Grid.Row="12" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Total Cotizaciones"></Label>
+
     </Grid>
 </Window>

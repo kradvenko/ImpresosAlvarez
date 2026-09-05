@@ -1,18 +1,17 @@
 ﻿using ImpresosAlvarez.Clases;
 using ImpresosAlvarez.Entity;
 using System;
-using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+using Microsoft.Win32;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.Collections.Generic;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Windows.Controls;
 
 namespace ImpresosAlvarez
 {
@@ -108,6 +107,9 @@ namespace ImpresosAlvarez
                        })
                        .ToList();
 
+                float totalFacturas = (float)facturas.Sum(f => f.total);
+                lblTotalFacturas.Content = $"Total Facturas: {totalFacturas}";
+
                 foreach (FacturaViewModel factura in facturas)
                 {
                     var corte = dbContext.CorteDiario.FirstOrDefault(c => c.id_factura == factura.id_factura);
@@ -174,6 +176,8 @@ namespace ImpresosAlvarez
                            observaciones = f.observaciones
                        })
                        .ToList();
+                float totalCotizaciones = (float)cotizaciones.Sum(f => f.total);
+                lblTotalCotizaciones.Content = $"Total Cotizaciones: {totalCotizaciones}";
 
                 foreach (FacturaViewModel cotizacion in cotizaciones)
                 {
@@ -449,6 +453,252 @@ namespace ImpresosAlvarez
                     dgCotizaciones.ItemsSource = notas;
                 }
             }
+        }
+
+        // Botón o invocador público para exportar ambos grids
+        private void btnExportarExcel_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new SaveFileDialog
+            {
+                FileName = $"Corte_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx",
+                DefaultExt = ".xlsx",
+                Filter = "Excel Workbook (*.xlsx)|*.xlsx"
+            };
+
+            if (dlg.ShowDialog() == true)
+            {
+                try
+                {
+                    ExportGridsToExcel(dlg.FileName);
+                    MessageBox.Show("Exportación finalizada.", "Exportar a Excel", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error exportando a Excel: {ex.Message}", "Exportar a Excel", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+        }
+
+        // Exporta ambos grids en la misma hoja: primero Facturas, luego Cotizaciones
+        // Ignora propiedades que empiezan por "id".
+        public void ExportGridsToExcel(string filePath)
+        {
+            Excel.Application xlApp = null;
+            Excel.Workbook wb = null;
+            Excel.Worksheet ws = null;
+            try
+            {
+                xlApp = new Excel.Application
+                {
+                    Visible = false,
+                    DisplayAlerts = false
+                };
+                wb = xlApp.Workbooks.Add();
+
+                ws = wb.Worksheets[1] as Excel.Worksheet;
+                try
+                {
+                    ws.Name = "Facturas y Cotizaciones";
+                }
+                catch
+                {
+                    // Ignorar si falla el renombrado
+                }
+
+                int currentRow = 1;
+
+                // Escribir sección de Facturas con orden específico
+                WriteSectionToWorksheet(ws, dgFacturas.ItemsSource as IEnumerable, "Facturas", ref currentRow, SectionKind.Facturas);
+
+                // Fila en blanco entre secciones
+                currentRow += 1;
+
+                // Escribir sección de Cotizaciones con orden específico
+                WriteSectionToWorksheet(ws, dgCotizaciones.ItemsSource as IEnumerable, "Cotizaciones", ref currentRow, SectionKind.Cotizaciones);
+
+                // Ajustar columnas
+                var usedRange = ws.UsedRange;
+                usedRange.Columns.AutoFit();
+                Marshal.ReleaseComObject(usedRange);
+
+                // Guardar libro
+                wb.SaveAs(filePath);
+            }
+            finally
+            {
+                if (ws != null) Marshal.ReleaseComObject(ws);
+                if (wb != null)
+                {
+                    wb.Close(false);
+                    Marshal.ReleaseComObject(wb);
+                }
+                if (xlApp != null)
+                {
+                    xlApp.Quit();
+                    Marshal.ReleaseComObject(xlApp);
+                }
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            }
+        }
+
+        private enum SectionKind { Facturas, Cotizaciones }
+
+        // Escribe una sección (título + tabla) en la hoja en la posición indicada por currentRow (por referencia).
+        // Filtra propiedades cuyo nombre empiece por "id" (case-insensitive).
+        // Ordena columnas según especificado y añade total para columna "total".
+        private void WriteSectionToWorksheet(Excel.Worksheet ws, IEnumerable items, string sectionTitle, ref int currentRow, SectionKind kind)
+        {
+            // Título de sección
+            ws.Cells[currentRow, 1] = sectionTitle;
+            var titleRange = ws.Range[ws.Cells[currentRow, 1], ws.Cells[currentRow, 1]];
+            titleRange.Font.Bold = true;
+            currentRow++;
+
+            if (items == null)
+            {
+                ws.Cells[currentRow, 1] = "No hay datos";
+                currentRow++;
+                Marshal.ReleaseComObject(titleRange);
+                return;
+            }
+
+            // Obtener primer elemento para descubrir propiedades
+            object first = null;
+            foreach (var it in items)
+            {
+                first = it;
+                break;
+            }
+
+            if (first == null)
+            {
+                ws.Cells[currentRow, 1] = "No hay datos";
+                currentRow++;
+                Marshal.ReleaseComObject(titleRange);
+                return;
+            }
+
+            // Obtener propiedades y filtrar las que empiezan por "id" (case-insensitive)
+            var allProps = TypeDescriptor.GetProperties(first)
+                .Cast<PropertyDescriptor>()
+                .Where(p => p != null && !p.Name.StartsWith("id", StringComparison.OrdinalIgnoreCase))
+                .ToArray();
+
+            // Definir orden deseado (misma para Facturas y Cotizaciones según solicitud)
+            // Cada entrada tiene posibles aliases para mapear a propiedades reales
+            var desiredOrder = new[]
+            {
+                new { Label = "Cliente", Aliases = new[] { "nombre", "NombreUnificado", "Nombre", "cliente" } },
+                new { Label = "Contribuyente", Aliases = new[] { "NombreContribuyente", "nombrecontribuyente", "contribuyente" } },
+                new { Label = "Numero", Aliases = new[] { "numero" } },
+                new { Label = "Total", Aliases = new[] { "total" } },
+                new { Label = "Fecha", Aliases = new[] { "fecha" } },
+                new { Label = "Entrega", Aliases = new[] { "entrego", "Entrega", "entrega" } },
+                new { Label = "Referencia", Aliases = new[] { "referencia" } },
+                new { Label = "Observaciones", Aliases = new[] { "observaciones" } }
+            };
+
+            // Construir lista de PropertyDescriptor por el orden deseado (null si no existe)
+            var orderedProps = new PropertyDescriptor[desiredOrder.Length];
+            for (int i = 0; i < desiredOrder.Length; i++)
+            {
+                var aliases = desiredOrder[i].Aliases;
+                PropertyDescriptor found = null;
+                foreach (var a in aliases)
+                {
+                    found = allProps.FirstOrDefault(p => string.Equals(p.Name, a, StringComparison.OrdinalIgnoreCase));
+                    if (found != null) break;
+                }
+                orderedProps[i] = found; // puede ser null, se rellenará en blanco luego
+            }
+
+            // Encabezados (usar labels solicitados)
+            for (int c = 0; c < desiredOrder.Length; c++)
+            {
+                ws.Cells[currentRow, c + 1] = desiredOrder[c].Label;
+                var headerCellRange = ws.Range[ws.Cells[currentRow, c + 1], ws.Cells[currentRow, c + 1]];
+                headerCellRange.Font.Bold = true;
+                Marshal.ReleaseComObject(headerCellRange);
+            }
+            currentRow++;
+
+            // Índice de la columna "Total" dentro del orden (1-based) si existe en orderedProps
+            int totalColumnIndex = -1;
+            for (int i = 0; i < orderedProps.Length; i++)
+            {
+                if (orderedProps[i] != null && string.Equals(orderedProps[i].Name, "total", StringComparison.OrdinalIgnoreCase))
+                {
+                    totalColumnIndex = i + 1;
+                    break;
+                }
+            }
+
+            // Filas y acumulador del total
+            decimal acumuladoTotal = 0m;
+            foreach (var item in items)
+            {
+                for (int c = 0; c < orderedProps.Length; c++)
+                {
+                    var prop = orderedProps[c];
+                    object val = null;
+                    if (prop != null)
+                    {
+                        try { val = prop.GetValue(item); }
+                        catch { val = null; }
+                    }
+                    ws.Cells[currentRow, c + 1] = val ?? "";
+
+                    // Si esta columna es "total", intentar sumar
+                    if (totalColumnIndex != -1 && c + 1 == totalColumnIndex)
+                    {
+                        if (val != null)
+                        {
+                            try
+                            {
+                                decimal d;
+                                if (val is decimal dec) d = dec;
+                                else if (val is double db) d = Convert.ToDecimal(db);
+                                else if (val is float f) d = Convert.ToDecimal(f);
+                                else if (val is int iVal) d = Convert.ToDecimal(iVal);
+                                else if (val is long lVal) d = Convert.ToDecimal(lVal);
+                                else
+                                {
+                                    decimal.TryParse(val.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out d);
+                                }
+                                acumuladoTotal += d;
+                            }
+                            catch
+                            {
+                                // Ignorar valores no convertibles
+                            }
+                        }
+                    }
+                }
+                currentRow++;
+            }
+
+            // Escribir fila de total si se detectó columna "total"
+            if (totalColumnIndex != -1)
+            {
+                // Celda para etiqueta de total en la primera columna
+                ws.Cells[currentRow, 1] = $"Total {sectionTitle}";
+                var labelRange = ws.Range[ws.Cells[currentRow, 1], ws.Cells[currentRow, 1]];
+                labelRange.Font.Bold = true;
+                Marshal.ReleaseComObject(labelRange);
+
+                // Celda para el valor acumulado en la columna correspondiente
+                var totalCell = ws.Cells[currentRow, totalColumnIndex];
+                totalCell.NumberFormat = "#,##0.00";
+                ws.Cells[currentRow, totalColumnIndex] = acumuladoTotal;
+                var totalCellRange = ws.Range[ws.Cells[currentRow, totalColumnIndex], ws.Cells[currentRow, totalColumnIndex]];
+                totalCellRange.Font.Bold = true;
+                Marshal.ReleaseComObject(totalCellRange);
+
+                currentRow++;
+            }
+
+            Marshal.ReleaseComObject(titleRange);
         }
     }
 }
