@@ -76,7 +76,7 @@
             <DataGrid x:Name="dgCotizaciones" Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="8" Grid.RowSpan="4" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" SelectionUnit="FullRow" MouseDoubleClick="dgCotizaciones_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Número" Binding="{Binding Path=numero}" Width="*"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Cliente" Binding="{Binding Path=NombreUnificado}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Cliente" Binding="{Binding Path=NombreContribuyente}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Total" Binding="{Binding Path=total}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Referencia" Binding="{Binding Path=referencia}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Entrega" Binding="{Binding Path=entrego}" Width="*"></DataGridTextColumn>
