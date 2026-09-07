@@ -68,6 +68,7 @@
                     <DataGridTextColumn Header="Referencia" Binding="{Binding Path=referencia}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Entrega" Binding="{Binding Path=entrego}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Observaciones" Binding="{Binding Path=observaciones}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Pagado" Binding="{Binding Path=total_pagado}" Width="*"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
@@ -81,13 +82,16 @@
                     <DataGridTextColumn Header="Referencia" Binding="{Binding Path=referencia}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Entrega" Binding="{Binding Path=entrego}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Observaciones" Binding="{Binding Path=observaciones}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Pagado" Binding="{Binding Path=total_pagado}" Width="*"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
 
-        <Label x:Name="lblTotalFacturas" Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Total Facturas"></Label>
+        <Label x:Name="lblTotalFacturas" Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="2" Style="{StaticResource LabelBold02}" Content="Total Facturas"></Label>
 
-        <Label x:Name="lblTotalCotizaciones" Grid.Column="4" Grid.Row="12" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Total Cotizaciones"></Label>
+        <Label x:Name="lblTotalCotizaciones" Grid.Column="2" Grid.Row="12" Grid.ColumnSpan="2" Style="{StaticResource LabelBold02}" Content="Total Cotizaciones"></Label>
+
+        <Label x:Name="lblTotalEfectivo" Grid.Column="4" Grid.Row="12" Grid.ColumnSpan="2" Style="{StaticResource LabelBold02}" Content="Total Efectivo"></Label>
 
     </Grid>
 </Window>
