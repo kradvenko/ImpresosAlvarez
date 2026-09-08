@@ -24,6 +24,8 @@ namespace ImpresosAlvarez
         float TotalEfectivo = 0;
         float TotalCheque = 0;
         float TotalTransferencia = 0;
+        float TotalEfectivoFacturas = 0;
+        float TotalEfectivoNotas = 0;
         public CorteDiario()
         {
             InitializeComponent();
@@ -135,6 +137,7 @@ namespace ImpresosAlvarez
 
                 dgFacturas.ItemsSource = facturas;
                 //TotalEfectivo = totalFacturas;
+                TotalEfectivoFacturas = totalEfectivo;
             }
         }
 
@@ -209,8 +212,12 @@ namespace ImpresosAlvarez
 
                 lblTotalEfectivo.Content = $"Total Efectivo: {TotalEfectivo}";
 
+                TotalEfectivoNotas = totalEfectivo;
+
                 dgCotizaciones.ItemsSource = cotizaciones;
             }
+
+            lblTotalEfectivo.Content = $"Total Efectivo: {TotalEfectivoFacturas + TotalEfectivoNotas}";
         }
 
         private void dpFecha_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
@@ -263,7 +270,9 @@ namespace ImpresosAlvarez
                 TotalTransferencia = (float)facturas.Where(f => f.referencia == "Transferencia").Sum(f => f.total_pagado);
                 lblTotalFacturas.Content = $"Total Facturas: {totalFacturas}";
 
-                lblTotalEfectivo.Content = $"Total Efectivo: {TotalEfectivo}";
+                TotalEfectivoFacturas = totalEfectivo;
+
+                lblTotalEfectivo.Content = $"Total Efectivo: {TotalEfectivoFacturas + TotalEfectivoNotas}";
             }
         }
 
@@ -413,6 +422,16 @@ namespace ImpresosAlvarez
                         corte.id_factura = 0;
                         corte.id_nota = cotizacion.id_nota;
                         dbContext.CorteDiario.Add(corte);
+
+                        if (cotizacion.total_pagado == cotizacion.total)
+                        {
+                            Notas notaElegida = dbContext.Notas.FirstOrDefault(n => n.id_nota == cotizacion.id_nota);
+                            if (notaElegida != null)
+                            {
+                                notaElegida.pagada = "SI";
+                            }
+                        }
+
                         dbContext.SaveChanges();
                     }
                     else
@@ -452,6 +471,16 @@ namespace ImpresosAlvarez
                                     dbContext.PagosNotas.Add(pagosNotas);
                                 }
                             }
+
+                            if (cotizacion.total_pagado == cotizacion.total)
+                            {
+                                Notas notaElegida = dbContext.Notas.FirstOrDefault(n => n.id_nota == cotizacion.id_nota);
+                                if (notaElegida != null)
+                                {
+                                    notaElegida.pagada = "SI";
+                                }
+                            }
+
                             dbContext.SaveChanges();
                         }
                     }
@@ -494,7 +523,9 @@ namespace ImpresosAlvarez
                 TotalEfectivo += totalEfectivo;
                 lblTotalCotizaciones.Content = $"Total Cotizaciones: {totalCotizaciones}";
 
-                lblTotalEfectivo.Content = $"Total Efectivo: {TotalEfectivo}";
+                TotalEfectivoNotas = totalEfectivo;
+
+                lblTotalEfectivo.Content = $"Total Efectivo: {TotalEfectivoFacturas + TotalEfectivoNotas}";
             }
         }
 
