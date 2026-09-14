@@ -41,6 +41,7 @@ namespace ImpresosAlvarez
 
         float _TotalNota = 0;
         string _NumeroNota = "";
+        float _TotalAbonado = 0;
 
         public VerCotizaciones()
         {
@@ -149,6 +150,7 @@ namespace ImpresosAlvarez
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
+            double TotalAbonado = 0;
             if (dpFechaNota.SelectedDate == null)
             {
                 MessageBox.Show("No ha elegido una fecha para la nota.");
@@ -163,6 +165,25 @@ namespace ImpresosAlvarez
             {
                 MessageBox.Show("No ha elegido un cliente.");
                 return;
+            }
+            if (tbAbono.Text.Length == 0)
+            {
+                MessageBox.Show("No ha escrito el abono de la nota");
+                return;
+            }
+            else
+            {
+                try
+                {
+                    double abono = double.Parse(tbAbono.Text);
+                    TotalAbonado = abono;
+                }
+                catch (Exception exc)
+                {
+                    MessageBox.Show("El abono no es un número válido.");
+                    tbAbono.Text = "0";
+                    return;
+                }
             }
             if (tbSolicita.Text.Length == 0)
             {
@@ -245,7 +266,47 @@ namespace ImpresosAlvarez
                                     insumo.stock = insumo.stock - nueva.cantidad;
 
                                     Detalle.id_articulo = item.IdInsumo;
+                                }                                
+                            }
+
+                            //WAAAAAA
+                            if (TotalAbonado > 0)
+                            {
+                                PagosNotas pago = new PagosNotas();
+                                pago.id_nota = Nota.id_nota;
+                                pago.tipo = "";
+                                pago.cantidad = TotalAbonado;
+                                pago.fecha = dpFechaNota.SelectedDate.Value.ToShortDateString();
+                                pago.numero_cheque = "";
+                                pago.banco = "";
+                                pago.numero_recibo = "";
+                                pago.notas = "";
+
+                                _TotalAbonado = (float)TotalAbonado;
+
+                                dbContext.PagosNotas.Add(pago);
+
+                                if (TotalAbonado >= _TotalNota)
+                                {
+                                    Nota.pagada = "SI";
                                 }
+                            }
+                            else if (TotalAbonado == 0)
+                            {
+                                PagosNotas pago = new PagosNotas();
+                                pago.id_nota = Nota.id_nota;
+                                pago.tipo = "";
+                                pago.cantidad = _TotalNota;
+                                pago.fecha = dpFechaNota.SelectedDate.Value.ToShortDateString();
+                                pago.numero_cheque = "";
+                                pago.banco = "";
+                                pago.numero_recibo = "";
+                                pago.notas = "";
+                                Nota.pagada = "SI";
+
+                                _TotalAbonado = _TotalNota;
+
+                                dbContext.PagosNotas.Add(pago);
                             }
 
                             dbContext.SaveChanges();
@@ -637,8 +698,10 @@ namespace ImpresosAlvarez
                 .SetFontSize(13)
                 .SetBold()
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .SetFixedPosition(250, 10, 0)
-                .Add(new Paragraph("TOTAL: " + lblTotal.Content.ToString())));
+                .SetFixedPosition(250, 60, 0)
+                .Add(new Paragraph("ABONADO: " + _TotalAbonado +
+                "\nRESTAN " + (_TotalNota - _TotalAbonado) +
+                "\nTOTAL: " + lblTotal.Content.ToString())));
 
             table.AddCell(new Cell()
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
@@ -650,8 +713,10 @@ namespace ImpresosAlvarez
                 .SetFontSize(13)
                 .SetBold()
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                .SetFixedPosition(650, 10, 0)                
-                .Add(new Paragraph("TOTAL: " + lblTotal.Content.ToString())));
+                .SetFixedPosition(650, 60, 0)
+                .Add(new Paragraph("ABONADO: " + _TotalAbonado +
+                "\nRESTAN " + (_TotalNota - _TotalAbonado) +
+                "\nTOTAL: " + lblTotal.Content.ToString())));
 
 
             document.Add(pdfImg);

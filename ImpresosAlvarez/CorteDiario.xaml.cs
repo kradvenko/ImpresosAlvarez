@@ -123,6 +123,15 @@ namespace ImpresosAlvarez
                         factura.referencia = corte.referencia;
                         factura.observaciones = corte.observaciones;
                         factura.total_pagado = (decimal)(corte.total_pagado ?? 0);
+                        factura.aplicado = corte.aplicado;
+                    }
+                    else
+                    {
+                        List<Pagos> pagos = dbContext.Pagos.Where(P => P.id_factura == factura.id_factura && P.fecha == Fecha).ToList();
+                        if (pagos.Count > 0)
+                        {
+                            factura.total_pagado = (decimal)pagos.Sum(P => P.cantidad);
+                        }
                     }
                 }
 
@@ -190,7 +199,7 @@ namespace ImpresosAlvarez
                            referencia = f.referencia,
                            observaciones = f.observaciones
                        })
-                       .ToList();                
+                       .ToList();
 
                 foreach (FacturaViewModel cotizacion in cotizaciones)
                 {
@@ -202,6 +211,15 @@ namespace ImpresosAlvarez
                         cotizacion.referencia = corte.referencia;
                         cotizacion.observaciones = corte.observaciones;
                         cotizacion.total_pagado = (decimal)(corte.total_pagado ?? 0);
+                        cotizacion.aplicado = corte.aplicado;
+                    }
+                    else
+                    {
+                        List<PagosNotas> pagosNotas = dbContext.PagosNotas.Where(PN => PN.id_nota == cotizacion.id_nota && PN.fecha == Fecha).ToList();
+                        if (pagosNotas.Count > 0)
+                        {
+                            cotizacion.total_pagado = (decimal)pagosNotas.Sum(PN => PN.cantidad);
+                        }
                     }
                 }
 
@@ -313,16 +331,30 @@ namespace ImpresosAlvarez
                             corte.aplicado = "SI";
                             corte.fecha_aplicado = Fecha;
 
-                            Pagos pagos = new Pagos();
-                            pagos.id_factura = factura.id_factura;
-                            pagos.tipo = corte.referencia;
-                            pagos.cantidad = (double)factura.total_pagado;
-                            pagos.fecha = Fecha;
-                            pagos.notas = factura.observaciones;
-                            pagos.numero_cheque = "";
-                            pagos.banco = "";
-                            pagos.numero_recibo = "";
-                            dbContext.Pagos.Add(pagos);
+                            Pagos pago = dbContext.Pagos.Where(P => P.id_factura == factura.id_factura && P.fecha == Fecha).FirstOrDefault();
+                            if (pago != null)
+                            {
+                                pago.tipo = corte.referencia;
+                                pago.cantidad = (double)factura.total_pagado;
+                                pago.fecha = Fecha;
+                                pago.notas = factura.observaciones;
+                                pago.numero_cheque = "";
+                                pago.banco = "";
+                                pago.numero_recibo = "";
+                            }
+                            else
+                            {
+                                Pagos pagos = new Pagos();
+                                pagos.id_factura = factura.id_factura;
+                                pagos.tipo = corte.referencia;
+                                pagos.cantidad = (double)factura.total_pagado;
+                                pagos.fecha = Fecha;
+                                pagos.notas = factura.observaciones;
+                                pagos.numero_cheque = "";
+                                pagos.banco = "";
+                                pagos.numero_recibo = "";
+                                dbContext.Pagos.Add(pagos);
+                            }
                         }
                         corte.id_factura = factura.id_factura;
                         corte.id_nota = 0;
@@ -356,20 +388,76 @@ namespace ImpresosAlvarez
                                     corteExistente.aplicado = "SI";
                                     corteExistente.fecha_aplicado = Fecha;
 
-                                    Pagos pagos = new Pagos();
-                                    pagos.id_factura = factura.id_factura;
-                                    pagos.tipo = corteExistente.referencia;
-                                    pagos.cantidad = (double)factura.total_pagado;
-                                    pagos.fecha = Fecha;
-                                    pagos.notas = factura.observaciones;
-                                    pagos.numero_cheque = "";
-                                    pagos.banco = "";
-                                    pagos.numero_recibo = "";
-                                    dbContext.Pagos.Add(pagos);
-
-                                    if (pagos.cantidad == corteExistente.total)
+                                    Pagos pago = dbContext.Pagos.Where(P => P.id_factura == factura.id_factura && P.fecha == Fecha).FirstOrDefault();
+                                    if (pago != null)
                                     {
-                                        
+                                        pago.tipo = corteExistente.referencia;
+                                        pago.cantidad = (double)factura.total_pagado;
+                                        pago.fecha = Fecha;
+                                        pago.notas = factura.observaciones;
+                                        pago.numero_cheque = "";
+                                        pago.banco = "";
+                                        pago.numero_recibo = "";
+                                    }
+                                    else
+                                    {
+                                        Pagos pagos = new Pagos();
+                                        pagos.id_factura = factura.id_factura;
+                                        pagos.tipo = corteExistente.referencia;
+                                        pagos.cantidad = (double)factura.total_pagado;
+                                        pagos.fecha = Fecha;
+                                        pagos.notas = factura.observaciones;
+                                        pagos.numero_cheque = "";
+                                        pagos.banco = "";
+                                        pagos.numero_recibo = "";
+                                        dbContext.Pagos.Add(pagos);
+                                    }
+
+                                    if (factura.total_pagado == factura.total)
+                                    {
+                                        Facturas facturaElegida = dbContext.Facturas.FirstOrDefault(f => f.id_factura == factura.id_factura);
+                                        if (facturaElegida != null)
+                                        {
+                                            facturaElegida.pagada = "SI";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Facturas facturaElegida = dbContext.Facturas.FirstOrDefault(f => f.id_factura == factura.id_factura);
+                                        if (facturaElegida != null)
+                                        {
+                                            facturaElegida.pagada = "NO";
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    Pagos pago = dbContext.Pagos.Where(P => P.id_factura == factura.id_factura && P.fecha == Fecha).FirstOrDefault();
+                                    if (pago != null)
+                                    {
+                                        pago.tipo = corteExistente.referencia;
+                                        pago.cantidad = (double)factura.total_pagado;
+                                        pago.fecha = Fecha;
+                                        pago.notas = factura.observaciones;
+                                        pago.numero_cheque = "";
+                                        pago.banco = "";
+                                        pago.numero_recibo = "";
+                                    }
+                                    if (factura.total_pagado == factura.total)
+                                    {
+                                        Facturas facturaElegida = dbContext.Facturas.FirstOrDefault(f => f.id_factura == factura.id_factura);
+                                        if (facturaElegida != null)
+                                        {
+                                            facturaElegida.pagada = "SI";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Facturas facturaElegida = dbContext.Facturas.FirstOrDefault(f => f.id_factura == factura.id_factura);
+                                        if (facturaElegida != null)
+                                        {
+                                            facturaElegida.pagada = "NO";
+                                        }
                                     }
                                 }
                             }
@@ -408,16 +496,31 @@ namespace ImpresosAlvarez
                             corte.aplicado = "SI";
                             corte.fecha_aplicado = Fecha;
 
-                            PagosNotas pagosNotas = new PagosNotas();
-                            pagosNotas.id_nota = cotizacion.id_nota;
-                            pagosNotas.tipo = corte.referencia;
-                            pagosNotas.cantidad = (double)cotizacion.total_pagado;
-                            pagosNotas.fecha = Fecha;
-                            pagosNotas.notas = cotizacion.observaciones;
-                            pagosNotas.numero_cheque = "";
-                            pagosNotas.banco = "";
-                            pagosNotas.numero_recibo = "";
-                            dbContext.PagosNotas.Add(pagosNotas);
+                            PagosNotas pago = dbContext.PagosNotas.Where(PN => PN.id_nota == cotizacion.id_nota && PN.fecha == Fecha).FirstOrDefault();
+
+                            if (pago != null)
+                            {
+                                pago.tipo = corte.referencia;
+                                pago.cantidad = (double)cotizacion.total_pagado;
+                                pago.fecha = Fecha;
+                                pago.notas = cotizacion.observaciones;
+                                pago.numero_cheque = "";
+                                pago.banco = "";
+                                pago.numero_recibo = "";
+                            }
+                            else
+                            {
+                                PagosNotas pagosNotas = new PagosNotas();
+                                pagosNotas.id_nota = cotizacion.id_nota;
+                                pagosNotas.tipo = corte.referencia;
+                                pagosNotas.cantidad = (double)cotizacion.total_pagado;
+                                pagosNotas.fecha = Fecha;
+                                pagosNotas.notas = cotizacion.observaciones;
+                                pagosNotas.numero_cheque = "";
+                                pagosNotas.banco = "";
+                                pagosNotas.numero_recibo = "";
+                                dbContext.PagosNotas.Add(pagosNotas);
+                            }
                         }
                         corte.id_factura = 0;
                         corte.id_nota = cotizacion.id_nota;
@@ -439,6 +542,7 @@ namespace ImpresosAlvarez
                         Entity.CorteDiario corteExistente = dbContext.CorteDiario.FirstOrDefault(c => c.id_corte_diario == cotizacion.id_corte_diario);
                         if (corteExistente == null)
                         {
+
                         }
                         else
                         {
@@ -458,7 +562,7 @@ namespace ImpresosAlvarez
                                 {
                                     corteExistente.aplicado = "SI";
                                     corteExistente.fecha_aplicado = Fecha;
-
+                                    /*
                                     PagosNotas pagosNotas = new PagosNotas();
                                     pagosNotas.id_nota = cotizacion.id_nota;
                                     pagosNotas.tipo = corteExistente.referencia;
@@ -469,6 +573,79 @@ namespace ImpresosAlvarez
                                     pagosNotas.banco = "";
                                     pagosNotas.numero_recibo = "";
                                     dbContext.PagosNotas.Add(pagosNotas);
+                                    */
+                                    PagosNotas pago = dbContext.PagosNotas.Where(PN => PN.id_nota == cotizacion.id_nota && PN.fecha == Fecha).FirstOrDefault();
+
+                                    if (pago != null)
+                                    {
+                                        pago.tipo = corteExistente.referencia;
+                                        pago.cantidad = (double)cotizacion.total_pagado;
+                                        pago.fecha = Fecha;
+                                        pago.notas = cotizacion.observaciones;
+                                        pago.numero_cheque = "";
+                                        pago.banco = "";
+                                        pago.numero_recibo = "";
+                                    }
+                                    else
+                                    {
+                                        PagosNotas pagosNotas = new PagosNotas();
+                                        pagosNotas.id_nota = cotizacion.id_nota;
+                                        pagosNotas.tipo = corteExistente.referencia;
+                                        pagosNotas.cantidad = (double)cotizacion.total_pagado;
+                                        pagosNotas.fecha = Fecha;
+                                        pagosNotas.notas = cotizacion.observaciones;
+                                        pagosNotas.numero_cheque = "";
+                                        pagosNotas.banco = "";
+                                        pagosNotas.numero_recibo = "";
+                                        dbContext.PagosNotas.Add(pagosNotas);
+                                    }
+
+                                    if (cotizacion.total_pagado == cotizacion.total)
+                                    {
+                                        Notas notaElegida = dbContext.Notas.FirstOrDefault(n => n.id_nota == cotizacion.id_nota);
+                                        if (notaElegida != null)
+                                        {
+                                            notaElegida.pagada = "SI";
+                                        }
+                                    } else
+                                    {
+                                        Notas notaElegida = dbContext.Notas.FirstOrDefault(n => n.id_nota == cotizacion.id_nota);
+                                        if (notaElegida != null)
+                                        {
+                                            notaElegida.pagada = "NO";
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    PagosNotas pago = dbContext.PagosNotas.Where(PN => PN.id_nota == cotizacion.id_nota && PN.fecha == Fecha).FirstOrDefault();
+                                    if (pago != null)
+                                    {
+                                        pago.tipo = corteExistente.referencia;
+                                        pago.cantidad = (double)cotizacion.total_pagado;
+                                        pago.fecha = Fecha;
+                                        pago.notas = cotizacion.observaciones;
+                                        pago.numero_cheque = "";
+                                        pago.banco = "";
+                                        pago.numero_recibo = "";
+                                    }
+
+                                    if (cotizacion.total_pagado == cotizacion.total)
+                                    {
+                                        Notas notaElegida = dbContext.Notas.FirstOrDefault(n => n.id_nota == cotizacion.id_nota);
+                                        if (notaElegida != null)
+                                        {
+                                            notaElegida.pagada = "SI";
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Notas notaElegida = dbContext.Notas.FirstOrDefault(n => n.id_nota == cotizacion.id_nota);
+                                        if (notaElegida != null)
+                                        {
+                                            notaElegida.pagada = "NO";
+                                        }
+                                    }
                                 }
                             }
 
@@ -486,6 +663,9 @@ namespace ImpresosAlvarez
                     }
                 }
             }
+
+            CargarFacturas();
+            CargarCotizaciones();
         }
 
         private void dgCotizaciones_MouseDoubleClick(object sender, MouseButtonEventArgs e)

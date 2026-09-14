@@ -48,7 +48,7 @@ namespace ImpresosAlvarez
             cbEntrega.SelectedIndex = 0;
             if (Modo == "EDITAR")
             {
-                cbEntrega.SelectedValue = Pago.id_entrega;
+                cbEntrega.Text = Pago.entrego;
                 cbReferencia.Text = Pago.referencia;
                 txtObservaciones.Text = Pago.observaciones;
                 tbTotalPagado.Text = Pago.total_pagado.ToString();

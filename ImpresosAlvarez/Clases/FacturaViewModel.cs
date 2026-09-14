@@ -26,5 +26,6 @@ namespace ImpresosAlvarez.Clases
         public string referencia { get; set; }
         public string observaciones { get; set; }
         public decimal total_pagado { get; set; }
+        public string aplicado { get; set; }
     }
 }

@@ -104,8 +104,11 @@
 
         <Label Grid.Column="8" Grid.Row="9" Grid.ColumnSpan="1" Style="{StaticResource LabelBold01}">Total</Label>
         <Label x:Name="lblTotal" Grid.Column="9" Grid.Row="9" Grid.ColumnSpan="1" Style="{StaticResource LabelBold01}">$</Label>
+        <Label Grid.Column="6" Grid.Row="9" Grid.ColumnSpan="1" Style="{StaticResource LabelBold01}">Abono</Label>
+        <TextBox x:Name="tbAbono" Grid.Column="7" Grid.Row="9" Grid.ColumnSpan="1" Style="{StaticResource TextBox01}" IsEnabled="True" Text="0"></TextBox>
+        
 
-        <Label x:Name="lblClienteGenerico" Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="7" Style="{StaticResource LabelBoldOrangeBG}" FontSize="12px"></Label>
+        <Label x:Name="lblClienteGenerico" Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="6" Style="{StaticResource LabelBoldOrangeBG}" FontSize="12px"></Label>
 
     </Grid>
 </Window>
