@@ -296,15 +296,15 @@ namespace ImpresosAlvarez
                                 PagosNotas pago = new PagosNotas();
                                 pago.id_nota = Nota.id_nota;
                                 pago.tipo = "";
-                                pago.cantidad = _TotalNota;
+                                pago.cantidad = 0;
                                 pago.fecha = dpFechaNota.SelectedDate.Value.ToShortDateString();
                                 pago.numero_cheque = "";
                                 pago.banco = "";
                                 pago.numero_recibo = "";
                                 pago.notas = "";
-                                Nota.pagada = "SI";
+                                Nota.pagada = "NO";
 
-                                _TotalAbonado = _TotalNota;
+                                _TotalAbonado = 0;
 
                                 dbContext.PagosNotas.Add(pago);
                             }
@@ -827,6 +827,11 @@ namespace ImpresosAlvarez
                 }
                 CalcularTotales();
             }
+        }
+
+        private void Button_Click_6(object sender, RoutedEventArgs e)
+        {
+            tbAbono.Text = _TotalNota.ToString();
         }
     }
 }

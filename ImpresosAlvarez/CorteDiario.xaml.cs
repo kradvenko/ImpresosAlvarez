@@ -26,6 +26,9 @@ namespace ImpresosAlvarez
         float TotalTransferencia = 0;
         float TotalEfectivoFacturas = 0;
         float TotalEfectivoNotas = 0;
+
+        List<Clientes> _clientes;
+        Clientes _clienteElegido;
         public CorteDiario()
         {
             InitializeComponent();
@@ -38,6 +41,11 @@ namespace ImpresosAlvarez
             CargarFacturas();
             CargarCotizaciones();
             lblTotalEfectivo.Content = $"Total Efectivo: {TotalEfectivo}";
+            using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+            {
+                _clientes = dbContext.Clientes.ToList();
+                tbClientes.AutoCompleteSource = _clientes;                
+            }
         }
 
         private void CargarFacturas()
@@ -135,6 +143,36 @@ namespace ImpresosAlvarez
                     }
                 }
 
+                List<Entity.CorteDiario> corteDiario = dbContext.CorteDiario.Where(c => c.fecha_pago == Fecha && c.tipo == "FACTURA" && c.primer_pago == "NO").ToList();
+
+                foreach (var corte in corteDiario)
+                {
+                    var factura = new FacturaViewModel();
+                    if (factura != null)
+                    {
+                        factura.id_corte_diario = corte.id_corte_diario;
+                        factura.id_factura = corte.id_factura ?? 0;
+                        factura.id_nota = corte.id_nota ?? 0;
+                        factura.id_cliente = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.id_cliente).FirstOrDefault() : 0;
+                        factura.id_contribuyente = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.id_contribuyente).FirstOrDefault() : 0;
+                        factura.subtotal = corte.id_factura.HasValue ? (decimal)dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.subtotal).FirstOrDefault() : 0;
+                        factura.total = corte.id_factura.HasValue ? (decimal)dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.total).FirstOrDefault() : 0;
+                        factura.pagada = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.pagada).FirstOrDefault() : "";
+                        factura.estado = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.estado).FirstOrDefault() : "";
+                        factura.fecha = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.fecha).FirstOrDefault() : "";
+                        factura.numero = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.numero).FirstOrDefault() : "";
+                        factura.nombre = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.razon_cancelado).FirstOrDefault() : "";
+                        factura.NombreContribuyente = corte.id_factura.HasValue ? dbContext.Contribuyentes.Where(co => co.id_contribuyente == factura.id_contribuyente).Select(co => co.nombre.Substring(0, co.nombre.IndexOf(" "))).FirstOrDefault() : "";
+                        factura.id_entrega = corte.id_entrega ?? 0;
+                        factura.entrego = corte.entrega;
+                        factura.referencia = corte.referencia;
+                        factura.observaciones = corte.observaciones;
+                        factura.total_pagado = (decimal)(corte.total_pagado ?? 0);
+                        factura.aplicado = corte.aplicado;
+                        facturas.Add(factura);
+                    }
+                }
+
                 float totalFacturas = (float)facturas.Sum(f => f.total_pagado);
                 float totalEfectivo = (float)facturas.Where(f => f.referencia == "Efectivo").Sum(f => f.total_pagado);
                 TotalEfectivo = totalEfectivo;
@@ -192,8 +230,8 @@ namespace ImpresosAlvarez
                            estado = f.estado,
                            fecha = f.fecha,
                            numero = f.numero,
-                           nombre = f.nombre,
-                           NombreContribuyente = f.NombreUnificado,
+                           nombre = f.NombreUnificado,
+                           NombreContribuyente = "",
                            id_entrega = f.id_entrega,
                            entrego = f.entrego,
                            referencia = f.referencia,
@@ -220,6 +258,36 @@ namespace ImpresosAlvarez
                         {
                             cotizacion.total_pagado = (decimal)pagosNotas.Sum(PN => PN.cantidad);
                         }
+                    }
+                }
+
+                List<Entity.CorteDiario> corteDiario = dbContext.CorteDiario.Where(c => c.fecha_pago == Fecha && c.tipo == "COTIZACION" && c.primer_pago == "NO").ToList();
+
+                foreach (var corte in corteDiario)
+                {
+                    var cotizacion = new FacturaViewModel();
+                    if (cotizacion != null)
+                    {
+                        cotizacion.id_corte_diario = corte.id_corte_diario;
+                        cotizacion.id_factura = corte.id_factura ?? 0;
+                        cotizacion.id_nota = corte.id_nota ?? 0;
+                        cotizacion.id_cliente = (int)(corte.id_nota.HasValue ? dbContext.Notas.Where(n => n.id_nota == corte.id_nota).Select(n => n.id_cliente).FirstOrDefault() : 0);
+                        cotizacion.id_contribuyente = 0;
+                        cotizacion.subtotal = 0;
+                        cotizacion.total = corte.id_nota.HasValue ? (decimal)dbContext.Notas.Where(n => n.id_nota == corte.id_nota).Select(n => n.total).FirstOrDefault() : 0;
+                        cotizacion.pagada = corte.id_nota.HasValue ? dbContext.Notas.Where(n => n.id_nota == corte.id_nota).Select(n => n.pagada).FirstOrDefault() : "";
+                        cotizacion.estado = corte.id_nota.HasValue ? dbContext.Notas.Where(n => n.id_nota == corte.id_nota).Select(n => n.estado).FirstOrDefault() : "";
+                        cotizacion.fecha = corte.id_nota.HasValue ? dbContext.Notas.Where(n => n.id_nota == corte.id_nota).Select(n => n.fecha).FirstOrDefault() : "";
+                        cotizacion.numero = corte.id_nota.HasValue ? dbContext.Notas.Where(n => n.id_nota == corte.id_nota).Select(n => n.numero).FirstOrDefault() : "";
+                        cotizacion.nombre = corte.id_nota.HasValue ? dbContext.Clientes.Where(c => c.id_cliente == cotizacion.id_cliente).Select(c => c.nombre).FirstOrDefault() : "NADA";
+                        cotizacion.NombreContribuyente = "";
+                        cotizacion.id_entrega = corte.id_entrega ?? 0;
+                        cotizacion.entrego = corte.entrega;
+                        cotizacion.referencia = corte.referencia;
+                        cotizacion.observaciones = corte.observaciones;
+                        cotizacion.total_pagado = (decimal)(corte.total_pagado ?? 0);
+                        cotizacion.aplicado = corte.aplicado;
+                        cotizaciones.Add(cotizacion);
                     }
                 }
 
@@ -321,6 +389,8 @@ namespace ImpresosAlvarez
                         corte.tipo = "FACTURA";
                         corte.fecha_pago = Fecha;
                         corte.total_pagado = (double?)factura.total_pagado;
+                        corte.primer_pago = factura.primer_pago;
+                        corte.total_abonado = (double?)factura.total_abonado + (double?)factura.total_pagado;
                         if (factura.referencia == "FIRMO" || factura.referencia == "")
                         {
                             corte.aplicado = "NO";
@@ -359,6 +429,15 @@ namespace ImpresosAlvarez
                         corte.id_factura = factura.id_factura;
                         corte.id_nota = 0;
 
+                        if (factura.total_pagado + factura.total_abonado == factura.total)
+                        {
+                            Facturas facturaElegida = dbContext.Facturas.FirstOrDefault(f => f.id_factura == factura.id_factura);
+                            if (facturaElegida != null)
+                            {
+                                facturaElegida.pagada = "SI";
+                            }
+                        }
+
                         dbContext.CorteDiario.Add(corte);
                         dbContext.SaveChanges();
                     }
@@ -376,6 +455,7 @@ namespace ImpresosAlvarez
                             corteExistente.entrega = factura.entrego;
                             corteExistente.observaciones = factura.observaciones;
                             corteExistente.total_pagado = (double?)factura.total_pagado;
+                            corteExistente.total_abonado = (double?)factura.total_abonado + (double?)factura.total_pagado;
                             if (factura.referencia == "FIRMO" || factura.referencia == "")
                             {
                                 corteExistente.aplicado = "NO";
@@ -486,6 +566,8 @@ namespace ImpresosAlvarez
                         corte.tipo = "COTIZACION";
                         corte.fecha_pago = Fecha;
                         corte.total_pagado = (double?)cotizacion.total_pagado;
+                        corte.primer_pago = cotizacion.primer_pago;
+                        corte.total_abonado = (double?)cotizacion.total_abonado + (double?)cotizacion.total_pagado;
                         if (cotizacion.referencia == "FIRMO" || cotizacion.referencia == "")
                         {
                             corte.aplicado = "NO";
@@ -526,7 +608,7 @@ namespace ImpresosAlvarez
                         corte.id_nota = cotizacion.id_nota;
                         dbContext.CorteDiario.Add(corte);
 
-                        if (cotizacion.total_pagado == cotizacion.total)
+                        if (cotizacion.total_pagado + cotizacion.total_abonado == cotizacion.total)
                         {
                             Notas notaElegida = dbContext.Notas.FirstOrDefault(n => n.id_nota == cotizacion.id_nota);
                             if (notaElegida != null)
@@ -551,6 +633,7 @@ namespace ImpresosAlvarez
                             corteExistente.entrega = cotizacion.entrego;
                             corteExistente.observaciones = cotizacion.observaciones;
                             corteExistente.total_pagado = (double?)cotizacion.total_pagado;
+                            corteExistente.total_abonado = (double?)cotizacion.total_abonado + (double?)cotizacion.total_pagado;
                             if (cotizacion.referencia == "FIRMO" || cotizacion.referencia == "")
                             {
                                 corteExistente.aplicado = "NO";
@@ -706,6 +789,245 @@ namespace ImpresosAlvarez
                 TotalEfectivoNotas = totalEfectivo;
 
                 lblTotalEfectivo.Content = $"Total Efectivo: {TotalEfectivoFacturas + TotalEfectivoNotas}";
+            }
+        }
+
+        public void AgregarCotizacionPasada(int IdNota)
+        {            
+            using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+            {
+                var cotizaciones = dbContext.Notas
+                        .Join(
+                            dbContext.Clientes,
+                            f => f.id_cliente,
+                            c => c.id_cliente,
+                            (f, c) => new
+                            {
+                                f.id_nota,
+                                f.id_cliente,
+                                f.total,
+                                f.pagada,
+                                f.estado,
+                                f.fecha,
+                                f.numero,
+                                f.solicita,
+                                c.nombre,
+                                NombreUnificado = c.nombre.Contains("VARIOS") ? (c.nombre + " / " + f.solicita) : c.nombre,
+                                id_entrega = 0,
+                                entrego = "",
+                                referencia = "",
+                                observaciones = ""
+                            }
+                        )
+                       .Where(F => F.id_nota == IdNota)
+                       .ToList()
+                       .Select(f => new FacturaViewModel
+                       {
+                           id_corte_diario = 0,
+                           id_factura = 0,
+                           id_nota = f.id_nota,
+                           id_cliente = (int)f.id_cliente,
+                           id_contribuyente = 0,
+                           subtotal = 0,
+                           total = (decimal)f.total,
+                           pagada = f.pagada,
+                           estado = f.estado,
+                           fecha = f.fecha,
+                           numero = f.numero,
+                           nombre = f.nombre,
+                           NombreContribuyente = f.NombreUnificado,
+                           id_entrega = f.id_entrega,
+                           entrego = f.entrego,
+                           referencia = f.referencia,
+                           observaciones = f.observaciones                          
+                       })
+                       .ToList();
+
+                var cotizacionesOriginales = dgCotizaciones.ItemsSource as List<FacturaViewModel>;
+
+                foreach (FacturaViewModel cotizacion in cotizaciones)
+                {
+                    var corte = dbContext.CorteDiario.FirstOrDefault(c => c.id_nota == cotizacion.id_nota);
+
+                    cotizacion.id_corte_diario = 0;
+                    cotizacion.entrego = "";
+                    cotizacion.referencia = "";
+                    cotizacion.observaciones = "";
+                    cotizacion.total_pagado = 0;
+                    cotizacion.aplicado = "NO";
+                    cotizacion.primer_pago = "NO";
+                    cotizacion.total_abonado = (decimal)(corte.total_abonado ?? 0);
+                    cotizacion.total_pagado = 0;
+
+                    List<PagosNotas> pagosNotas = dbContext.PagosNotas.Where(PN => PN.id_nota == cotizacion.id_nota).ToList();
+                    if (pagosNotas.Count > 0)
+                    {                        
+                        cotizacion.total_abonado = (decimal)pagosNotas.Sum(PN => PN.cantidad);
+                    }
+                    else
+                    {
+                        cotizacion.total_abonado = 0;
+                    }
+
+                    cotizacionesOriginales.Add(cotizacion);
+                }
+
+                float totalCotizaciones = (float)cotizacionesOriginales.Where(f => f.referencia != "").Sum(f => f.total_pagado);
+                float totalEfectivo = (float)cotizacionesOriginales.Where(f => f.referencia == "Efectivo").Sum(f => f.total_pagado);
+                TotalEfectivo += totalEfectivo;
+                lblTotalCotizaciones.Content = $"Total Cotizaciones: {totalCotizaciones}";
+
+                lblTotalEfectivo.Content = $"Total Efectivo: {TotalEfectivo}";
+
+                TotalEfectivoNotas = totalEfectivo;
+
+                dgCotizaciones.ItemsSource = null;
+                dgCotizaciones.ItemsSource = cotizacionesOriginales;
+            }
+
+            lblTotalEfectivo.Content = $"Total Efectivo: {TotalEfectivoFacturas + TotalEfectivoNotas}";
+        }
+
+        public void AgregarFacturaPasada(int IdFactura)
+        {
+            using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+            {
+                var facturas = dbContext.Facturas
+                        .Join(
+                            dbContext.Clientes,
+                            f => f.id_cliente,
+                            c => c.id_cliente,
+                            (f, c) => new
+                            {
+                                f.id_factura,
+                                f.id_cliente,
+                                f.id_contribuyente,
+                                f.subtotal,
+                                f.total,
+                                f.pagada,
+                                f.estado,
+                                f.fecha,
+                                f.numero,
+                                f.razon_cancelado,
+                                f.amparada_por,
+                                c.nombre
+                            }
+                        )
+                        .Join(
+                            dbContext.Contribuyentes,
+                            f => f.id_contribuyente,
+                            co => co.id_contribuyente,
+                            (f, co) => new
+                            {
+                                f.id_factura,
+                                f.id_cliente,
+                                f.id_contribuyente,
+                                f.subtotal,
+                                f.total,
+                                f.pagada,
+                                f.estado,
+                                f.fecha,
+                                f.numero,
+                                f.razon_cancelado,
+                                f.amparada_por,
+                                f.nombre,
+                                NombreContribuyente = co.nombre.Substring(0, co.nombre.IndexOf(" ")),
+                                id_entrega = 0,
+                                entrego = "",
+                                referencia = "",
+                                observaciones = ""
+                            }
+                        )
+                       .Where(F => F.id_factura == IdFactura)
+                       .ToList()
+                       .Select(f => new FacturaViewModel
+                       {
+                           id_corte_diario = 0,
+                           id_factura = f.id_factura,
+                           id_nota = 0,
+                           id_cliente = f.id_cliente,
+                           id_contribuyente = f.id_contribuyente,
+                           subtotal = (decimal)f.subtotal,
+                           total = (decimal)f.total,
+                           pagada = f.pagada,
+                           estado = f.estado,
+                           fecha = f.fecha,
+                           numero = f.numero,
+                           nombre = f.nombre,
+                           NombreContribuyente = f.NombreContribuyente,
+                           id_entrega = f.id_entrega,
+                           entrego = f.entrego,
+                           referencia = f.referencia,
+                           observaciones = f.observaciones
+                       })
+                       .ToList();
+
+                foreach (FacturaViewModel factura in facturas)
+                {
+                    var corte = dbContext.CorteDiario.FirstOrDefault(c => c.id_factura == factura.id_factura);
+
+                    factura.id_corte_diario = 0;
+                    factura.entrego = "";
+                    factura.referencia = "";
+                    factura.observaciones = "";
+                    factura.total_pagado = 0;
+                    factura.aplicado = "NO";
+                    factura.total_pagado = 0;
+                    factura.primer_pago = "NO";
+                    List<Pagos> pagos = dbContext.Pagos.Where(P => P.id_factura == factura.id_factura && P.fecha == Fecha).ToList();
+                    if (pagos.Count > 0)
+                    {
+                        factura.total_abonado = (decimal)pagos.Sum(P => P.cantidad);
+                    }
+                    else
+                    {
+                        factura.total_abonado = 0;
+                    }
+                }
+
+                List<Entity.CorteDiario> corteDiario = dbContext.CorteDiario.Where(c => c.fecha_pago == Fecha && c.tipo == "FACTURA" && c.primer_pago == "NO").ToList();
+
+                foreach (var corte in corteDiario)
+                {
+                    var factura = new FacturaViewModel();
+                    if (factura != null)
+                    {
+                        factura.id_corte_diario = corte.id_corte_diario;
+                        factura.id_factura = corte.id_factura ?? 0;
+                        factura.id_nota = corte.id_nota ?? 0;
+                        factura.id_cliente = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.id_cliente).FirstOrDefault() : 0;
+                        factura.id_contribuyente = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.id_contribuyente).FirstOrDefault() : 0;
+                        factura.subtotal = corte.id_factura.HasValue ? (decimal)dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.subtotal).FirstOrDefault() : 0;
+                        factura.total = corte.id_factura.HasValue ? (decimal)dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.total).FirstOrDefault() : 0;
+                        factura.pagada = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.pagada).FirstOrDefault() : "";
+                        factura.estado = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.estado).FirstOrDefault() : "";
+                        factura.fecha = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.fecha).FirstOrDefault() : "";
+                        factura.numero = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.numero).FirstOrDefault() : "";
+                        factura.nombre = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.razon_cancelado).FirstOrDefault() : "";
+                        factura.NombreContribuyente = corte.id_factura.HasValue ? dbContext.Contribuyentes.Where(co => co.id_contribuyente == factura.id_contribuyente).Select(co => co.nombre.Substring(0, co.nombre.IndexOf(" "))).FirstOrDefault() : "";
+                        factura.id_entrega = corte.id_entrega ?? 0;
+                        factura.entrego = corte.entrega;
+                        factura.referencia = corte.referencia;
+                        factura.observaciones = corte.observaciones;
+                        factura.total_pagado = (decimal)(corte.total_pagado ?? 0);
+                        factura.aplicado = corte.aplicado;
+                        facturas.Add(factura);
+                    }
+                }
+
+                float totalFacturas = (float)facturas.Sum(f => f.total_pagado);
+                float totalEfectivo = (float)facturas.Where(f => f.referencia == "Efectivo").Sum(f => f.total_pagado);
+                TotalEfectivo = totalEfectivo;
+                TotalCheque = (float)facturas.Where(f => f.referencia == "Cheque").Sum(f => f.total_pagado);
+                TotalTransferencia = (float)facturas.Where(f => f.referencia == "Transferencia").Sum(f => f.total_pagado);
+                lblTotalFacturas.Content = $"Total Facturas: {totalFacturas}";
+
+                lblTotalEfectivo.Content = $"Total Efectivo: {TotalEfectivo}";
+
+                dgFacturas.ItemsSource = null;
+                dgFacturas.ItemsSource = facturas;
+                //TotalEfectivo = totalFacturas;
+                TotalEfectivoFacturas = totalEfectivo;
             }
         }
 
@@ -1065,6 +1387,16 @@ namespace ImpresosAlvarez
                 Marshal.ReleaseComObject(valTr);
                 specialRow++;
                 */
+            }
+        }
+
+        private void tbClientes_SelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (tbClientes.SelectedItem != null)
+            {
+                _clienteElegido = (Clientes)tbClientes.SelectedItem;
+                PagosPendientesCliente pagosPendientes = new PagosPendientesCliente(_clienteElegido, this);
+                pagosPendientes.ShowDialog();
             }
         }
     }

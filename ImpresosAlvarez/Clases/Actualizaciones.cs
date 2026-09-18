@@ -458,5 +458,92 @@ namespace ImpresosAlvarez.Clases
                 }
             }
         }
+
+        public static void Actualizacion8()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ImpresosBDConn"].ConnectionString))
+                {
+                    using (SqlCommand comm = new SqlCommand(" " +
+                        "SELECT primer_pago " +
+                        "FROM CorteDiario " +
+                        "", con))
+                    {
+                        con.Open();
+
+                        SqlDataReader reader = comm.ExecuteReader();
+                        con.Close();
+                    }
+                }
+            }
+            catch
+            {
+                try
+                {
+                    using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ImpresosBDConn"].ConnectionString))
+                    {
+                        using (SqlCommand comm = new SqlCommand(" " +
+                            "ALTER TABLE CorteDiario " +
+                            "ADD primer_pago nvarchar(10) NULL DEFAULT 'SI' WITH VALUES " +
+                            "", con))
+                        {
+                            con.Open();
+
+                            comm.ExecuteNonQuery();
+
+                            con.Close();
+                        }
+                    }
+                }
+                catch (Exception exc)
+                {
+
+                }
+            }
         }
+        public static void Actualizacion9()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ImpresosBDConn"].ConnectionString))
+                {
+                    using (SqlCommand comm = new SqlCommand(" " +
+                        "SELECT total_abonado " +
+                        "FROM CorteDiario " +
+                        "", con))
+                    {
+                        con.Open();
+
+                        SqlDataReader reader = comm.ExecuteReader();
+                        con.Close();
+                    }
+                }
+            }
+            catch
+            {
+                try
+                {
+                    using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ImpresosBDConn"].ConnectionString))
+                    {
+                        using (SqlCommand comm = new SqlCommand(" " +
+                            "ALTER TABLE CorteDiario " +
+                            "ADD total_abonado float NULL DEFAULT 0 WITH VALUES " +
+                            "", con))
+                        {
+                            con.Open();
+
+                            comm.ExecuteNonQuery();
+
+                            con.Close();
+                        }
+                    }
+                }
+                catch (Exception exc)
+                {
+
+                }
+            }
+        }
+    }
 }

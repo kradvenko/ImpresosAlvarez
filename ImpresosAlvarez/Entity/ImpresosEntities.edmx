@@ -110,6 +110,8 @@
           <Property Name="id_factura" Type="int" />
           <Property Name="id_nota" Type="int" />
           <Property Name="total_pagado" Type="float" />
+          <Property Name="primer_pago" Type="nvarchar" MaxLength="10" />
+          <Property Name="total_abonado" Type="float" />
         </EntityType>
         <EntityType Name="DetalleFactura">
           <Key>
@@ -3684,6 +3686,8 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <Property Name="id_factura" Type="Int32" />
           <Property Name="id_nota" Type="Int32" />
           <Property Name="total_pagado" Type="Double" />
+          <Property Name="primer_pago" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="total_abonado" Type="Double" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -5192,6 +5196,8 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <EntitySetMapping Name="CorteDiario">
             <EntityTypeMapping TypeName="ImpresosBDModel.CorteDiario">
               <MappingFragment StoreEntitySet="CorteDiario">
+                <ScalarProperty Name="total_abonado" ColumnName="total_abonado" />
+                <ScalarProperty Name="primer_pago" ColumnName="primer_pago" />
                 <ScalarProperty Name="total_pagado" ColumnName="total_pagado" />
                 <ScalarProperty Name="id_nota" ColumnName="id_nota" />
                 <ScalarProperty Name="id_factura" ColumnName="id_factura" />

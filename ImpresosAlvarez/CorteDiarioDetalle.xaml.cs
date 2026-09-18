@@ -53,7 +53,7 @@ namespace ImpresosAlvarez
                 txtObservaciones.Text = Pago.observaciones;
                 tbTotalPagado.Text = Pago.total_pagado.ToString();
             }
-            lblTotalMaximo.Content = "Total máximo: " + Pago.total.ToString("C2");
+            lblTotalMaximo.Content = "Total máximo: " + (Pago.total - Pago.total_abonado).ToString("C2");
         }
 
         private void btnGuardar_Click(object sender, RoutedEventArgs e)
@@ -99,7 +99,7 @@ namespace ImpresosAlvarez
 
         private void btnAplicarMaximo_Click(object sender, RoutedEventArgs e)
         {
-            tbTotalPagado.Text = Pago.total.ToString();
+            tbTotalPagado.Text = (Pago.total - Pago.total_abonado).ToString();
         }
     }
 }

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:Syncfusion="clr-namespace:Syncfusion.Windows.Controls.Input;assembly=Syncfusion.SfInput.Wpf"
         xmlns:local="clr-namespace:ImpresosAlvarez"
         mc:Ignorable="d"
                 Title="Trabajos Entregados" Height="450" Width="900" WindowState="Maximized" Loaded="Window_Loaded">
@@ -53,6 +54,22 @@
         <Label Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Fecha"></Label>
         <DatePicker x:Name="dpFecha" Grid.Column="1" Grid.Row="1" SelectedDateChanged="dpFecha_SelectedDateChanged"></DatePicker>
 
+        <Syncfusion:SfTextBoxExt Grid.Column="2" Grid.Row="1" Margin="2" x:Name="tbClientes"
+                             Watermark="Escribe el nombre del cliente."                                     
+                             AutoCompleteMode="SuggestAppend" AutoCompleteSource="{Binding _clientes}" SearchItemPath="pseudonimo"
+                             SuggestionMode="Contains"
+                             WatermarkTemplate="{StaticResource WatermarkTemplate}"                             
+                             SelectedItemChanged="tbClientes_SelectedItemChanged"
+                             HorizontalContentAlignment="Center" VerticalContentAlignment="Center" CharacterCasing="Upper" Grid.ColumnSpan="3">
+        <Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+            <DataTemplate>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding pseudonimo}" Margin="3 0 0 0" />
+                </StackPanel>
+            </DataTemplate>
+        </Syncfusion:SfTextBoxExt.AutoCompleteItemTemplate>
+        </Syncfusion:SfTextBoxExt>
+
         <Button x:Name="btnGenerarExcel" Grid.Column="5" Grid.Row="1" Content="Generar Excel" Click="btnExportarExcel_Click"></Button>
         <Button x:Name="btnGuardar" Grid.Column="6" Grid.Row="1" Content="Guardar" Click="btnGuardar_Click"></Button>
         <Button x:Name="btnCancelar" Grid.Column="7" Grid.Row="1" Content="Cancelar" Click="btnCancelar_Click"></Button>
@@ -69,6 +86,7 @@
                     <DataGridTextColumn Header="Entrega" Binding="{Binding Path=entrego}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Observaciones" Binding="{Binding Path=observaciones}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Pagado" Binding="{Binding Path=total_pagado}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Total Abonado" Binding="{Binding Path=total_abonado}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Aplicado" Binding="{Binding Path=aplicado}" Width="*"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
@@ -78,12 +96,13 @@
             <DataGrid x:Name="dgCotizaciones" Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="8" Grid.RowSpan="4" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" SelectionUnit="FullRow" MouseDoubleClick="dgCotizaciones_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Número" Binding="{Binding Path=numero}" Width="*"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Cliente" Binding="{Binding Path=NombreContribuyente}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Cliente" Binding="{Binding Path=nombre}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Total" Binding="{Binding Path=total}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Referencia" Binding="{Binding Path=referencia}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Entrega" Binding="{Binding Path=entrego}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Observaciones" Binding="{Binding Path=observaciones}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Pagado" Binding="{Binding Path=total_pagado}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Total Abonado" Binding="{Binding Path=total_abonado}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Aplicado" Binding="{Binding Path=aplicado}" Width="*"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
