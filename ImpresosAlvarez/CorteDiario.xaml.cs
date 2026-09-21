@@ -1,17 +1,27 @@
 ﻿using ImpresosAlvarez.Clases;
 using ImpresosAlvarez.Entity;
+using iText.IO.Font.Constants;
+using iText.IO.Image;
+using iText.Kernel.Colors;
+using iText.Kernel.Font;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
+using iText.Layout.Properties;
+using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
-using Microsoft.Win32;
-using Excel = Microsoft.Office.Interop.Excel;
-using System.Windows.Input;
 using System.Windows.Controls;
+using System.Windows.Input;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace ImpresosAlvarez
 {
@@ -1398,6 +1408,484 @@ namespace ImpresosAlvarez
                 PagosPendientesCliente pagosPendientes = new PagosPendientesCliente(_clienteElegido, this);
                 pagosPendientes.ShowDialog();
             }
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgCotizaciones.SelectedItem != null)
+            {
+                FacturaViewModel selectedCotizacion = dgCotizaciones.SelectedItem as FacturaViewModel;
+                if (selectedCotizacion != null)
+                {
+                    using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                    {
+                        var nota = dbContext.Notas.FirstOrDefault(n => n.id_nota == selectedCotizacion.id_nota);
+                        if (nota != null)
+                        {
+                            ImprimirPDF(nota);
+                        }
+                    }
+                }
+            }
+        }
+
+        public void ImprimirPDF(Notas NotaElegida)
+        {
+            String rutaPDF = "";
+
+            Document document = null;
+
+            rutaPDF = @"C:\Impresos\Cotizaciones\CotizacionReimpresion_" + NotaElegida.numero + ".pdf";
+
+            //PdfDocument pdf = new PdfDocument(new PdfReader(@"AlvarezCotizacionL.pdf"), new PdfWriter(rutaPDF));
+            PdfDocument pdf = new PdfDocument(new PdfWriter(rutaPDF));
+            document = new Document(pdf, PageSize.LETTER.Rotate());
+
+            document.SetMargins(10, 10, 10, 10);
+
+            float[] columnWidths = { 1, 5, 1, 1, 1, 1, 5, 1, 1 };
+            Table table = new Table(UnitValue.CreatePercentArray(columnWidths));
+            PdfFont f = PdfFontFactory.CreateFont(StandardFonts.HELVETICA);
+
+            /*
+            Cell cell = new Cell(1, 5)
+                .Add(new Paragraph("This is a header"))
+                .SetFont(f)
+                .SetFontSize(13)
+                .SetFontColor(DeviceGray.WHITE)
+                .SetBackgroundColor(DeviceGray.BLACK)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+            */
+            float fs = 9;
+
+            //1er renglón
+
+            table.AddCell(new Cell(1, 2)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("PRESUPUESTO")));
+
+            table.AddCell(new Cell(1, 2)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("FOLIO: " + NotaElegida.numero)));
+
+            table.AddCell(new Cell()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                );
+
+            table.AddCell(new Cell(1, 2)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("PRESUPUESTO")));
+
+            table.AddCell(new Cell(1, 2)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("FOLIO: " + NotaElegida.numero)));
+
+            //2do Renglón
+
+            table.AddCell(new Cell()
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("FECHA")));
+
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph(DateTime.Now.Date.ToShortDateString())));
+
+            table.AddCell(new Cell()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                );
+
+            table.AddCell(new Cell()
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("FECHA")));
+
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph(DateTime.Now.Date.ToShortDateString())));
+
+            //3er Renglón
+
+            table.AddCell(new Cell()
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("NOMBRE")));
+
+            if (_clienteElegido.pseudonimo.Contains("VARIOS"))
+            {
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(NotaElegida.solicita)));
+            }
+            else
+            {
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(tbClientes.Text)));
+            }
+
+
+            table.AddCell(new Cell()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                );
+
+            table.AddCell(new Cell()
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("NOMBRE")));
+
+            if (_clienteElegido.pseudonimo.Contains("VARIOS"))
+            {
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(NotaElegida.solicita)));
+            }
+            else
+            {
+                table.AddCell(new Cell(1, 3)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(tbClientes.Text)));
+            }
+
+            //4to Renglón
+
+            table.AddCell(new Cell()
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("DIRECCIÓN")));
+
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("")));
+
+            table.AddCell(new Cell()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                );
+
+            table.AddCell(new Cell()
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("DIRECCIÓN")));
+
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("")));
+
+            //5to Renglón
+
+            table.AddCell(new Cell()
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("CIUDAD")));
+
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("")));
+
+            table.AddCell(new Cell()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                );
+
+            table.AddCell(new Cell()
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("CIUDAD")));
+
+            table.AddCell(new Cell(1, 3)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(fs)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .Add(new Paragraph("")));
+
+            //to renglón Separador
+
+            table.AddCell(new Cell(1, 9)
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                );
+
+            ImageData imageData = ImageDataFactory.Create(@"Imagenes/LogoAlvarez.png");
+
+            iText.Layout.Element.Image pdfImg = new iText.Layout.Element.Image(imageData);
+            pdfImg.SetHeight(250);
+            pdfImg.SetFixedPosition(50, 200);
+
+            table.AddCell(new Cell()
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .Add(new Paragraph("CANTIDAD")));
+
+            table.AddCell(new Cell(1, 2)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+
+                .Add(new Paragraph("DESCRIPCIÓN")));
+
+            table.AddCell(new Cell()
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+
+                .Add(new Paragraph("TOTAL")));
+
+
+            table.AddCell(new Cell()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                );
+
+            table.AddCell(new Cell()
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .Add(new Paragraph("CANTIDAD")));
+
+            table.AddCell(new Cell(1, 2)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .Add(new Paragraph("DESCRIPCIÓN")));
+
+            table.AddCell(new Cell()
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetBackgroundColor(new DeviceGray(0.75f))
+                .SetFont(f)
+                .SetFontSize(fs)
+                .Add(new Paragraph("TOTAL")));
+
+            List<DetalleNota> _cotizacion = new List<DetalleNota>();
+            using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+            {
+                _cotizacion = dbContext.DetalleNota.Where(c => c.id_nota == NotaElegida.id_nota).ToList();
+            }
+
+            foreach (DetalleNota item in _cotizacion)
+            {
+                table.AddCell(new Cell()
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(item.cantidad.ToString())));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(item.descripcion)));
+
+                table.AddCell(new Cell()
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(item.importe.ToString())));
+
+                table.AddCell(new Cell()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    );
+
+                table.AddCell(new Cell()
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(item.cantidad.ToString())));
+
+                table.AddCell(new Cell(1, 2)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(item.descripcion)));
+
+                table.AddCell(new Cell()
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(fs)
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .Add(new Paragraph(item.importe.ToString())));
+            }
+
+            table.AddCell(new Cell(1, 4)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(13)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .SetFixedPosition(10, 10, 0)
+                .Add(new Paragraph("ESTOS PRECIO SON MÁS IVA")));
+
+            table.AddCell(new Cell()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                );
+
+            table.AddCell(new Cell(1, 4)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(13)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .SetFixedPosition(420, 10, 0)
+                .Add(new Paragraph("ESTOS PRECIO SON MÁS IVA")));
+
+            if (_TotalNota - _TotalAbonado == 0)
+            {
+                table.AddCell(new Cell(1, 4)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(13)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .SetFixedPosition(250, 60, 0)
+                .Add(new Paragraph(
+                "TOTAL: " + lblTotal.Content.ToString()
+                + "\nPAGADO")));
+            }
+            else
+            {
+                table.AddCell(new Cell(1, 4)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(13)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .SetFixedPosition(250, 60, 0)
+                    .Add(new Paragraph("ABONADO: " + _TotalAbonado +
+                    "\nRESTAN " + (_TotalNota - _TotalAbonado) +
+                    "\nTOTAL: " + lblTotal.Content.ToString())));
+            }
+
+            table.AddCell(new Cell()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                );
+
+            if (_TotalNota - _TotalAbonado == 0)
+            {
+                table.AddCell(new Cell(1, 4)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(13)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .SetFixedPosition(650, 60, 0)
+                .Add(new Paragraph(
+                "TOTAL: " + lblTotal.Content.ToString()
+                + "\nPAGADO")));
+            }
+            else
+            {
+                table.AddCell(new Cell(1, 4)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(13)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .SetFixedPosition(650, 60, 0)
+                .Add(new Paragraph("ABONADO: " + _TotalAbonado +
+                "\nRESTAN " + (_TotalNota - _TotalAbonado) +
+                "\nTOTAL: " + lblTotal.Content.ToString())));
+            }
+
+            document.Add(pdfImg);
+            pdfImg.SetFixedPosition(480, 200);
+            document.Add(pdfImg);
+
+            document.Add(table);
+
+            document.Close();
+
+            Process prc = new System.Diagnostics.Process();
+            prc.StartInfo.FileName = rutaPDF;
+            prc.Start();
+
+            /*
+            byte[] content = Pdf
+                .From(html)
+                .OfSize(PaperSize.Letter)
+                .Content();
+            String rutaPDF = @"C:\OpcyonApp\Cotizacion_" + cotizacion.IdCotizacion + ".pdf";
+
+            File.WriteAllBytes(rutaPDF, content);
+
+            Process prc = new System.Diagnostics.Process();
+            prc.StartInfo.FileName = rutaPDF;
+            prc.Start();
+            */
         }
     }
 }

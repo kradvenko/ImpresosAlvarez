@@ -105,6 +105,11 @@
                     <DataGridTextColumn Header="Total Abonado" Binding="{Binding Path=total_abonado}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Aplicado" Binding="{Binding Path=aplicado}" Width="*"></DataGridTextColumn>
                 </DataGrid.Columns>
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Imprimir Nota" Click="MenuItem_Click"></MenuItem>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
             </DataGrid>
         </GroupBox>
 

@@ -692,22 +692,53 @@ namespace ImpresosAlvarez
                 .SetFixedPosition(420, 10, 0)
                 .Add(new Paragraph("ESTOS PRECIO SON MÁS IVA")));
 
-            table.AddCell(new Cell(1, 4)
+            if (_TotalNota - _TotalAbonado == 0)
+            {
+                table.AddCell(new Cell(1, 4)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                 .SetFont(f)
                 .SetFontSize(13)
                 .SetBold()
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                 .SetFixedPosition(250, 60, 0)
-                .Add(new Paragraph("ABONADO: " + _TotalAbonado +
-                "\nRESTAN " + (_TotalNota - _TotalAbonado) +
-                "\nTOTAL: " + lblTotal.Content.ToString())));
+                .Add(new Paragraph(
+                "TOTAL: " + lblTotal.Content.ToString()
+                + "\nPAGADO")));
+            }
+            else
+            {
+                table.AddCell(new Cell(1, 4)
+                    .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                    .SetFont(f)
+                    .SetFontSize(13)
+                    .SetBold()
+                    .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                    .SetFixedPosition(250, 60, 0)
+                    .Add(new Paragraph("ABONADO: " + _TotalAbonado +
+                    "\nRESTAN " + (_TotalNota - _TotalAbonado) +
+                    "\nTOTAL: " + lblTotal.Content.ToString())));
+            }
 
             table.AddCell(new Cell()
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                );            
+                );
 
-            table.AddCell(new Cell(1, 4)
+            if (_TotalNota - _TotalAbonado == 0)
+            {
+                table.AddCell(new Cell(1, 4)
+                .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
+                .SetFont(f)
+                .SetFontSize(13)
+                .SetBold()
+                .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
+                .SetFixedPosition(650, 60, 0)
+                .Add(new Paragraph(
+                "TOTAL: " + lblTotal.Content.ToString()
+                + "\nPAGADO")));
+            }
+            else
+            {
+                table.AddCell(new Cell(1, 4)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
                 .SetFont(f)
                 .SetFontSize(13)
@@ -717,7 +748,7 @@ namespace ImpresosAlvarez
                 .Add(new Paragraph("ABONADO: " + _TotalAbonado +
                 "\nRESTAN " + (_TotalNota - _TotalAbonado) +
                 "\nTOTAL: " + lblTotal.Content.ToString())));
-
+            }
 
             document.Add(pdfImg);
             pdfImg.SetFixedPosition(480, 200);
