@@ -265,8 +265,12 @@ namespace ImpresosAlvarez
                     {
                         List<PagosNotas> pagosNotas = dbContext.PagosNotas.Where(PN => PN.id_nota == cotizacion.id_nota && PN.fecha == Fecha).ToList();
                         if (pagosNotas.Count > 0)
-                        {
+                        {                            
                             cotizacion.total_pagado = (decimal)pagosNotas.Sum(PN => PN.cantidad);
+                            if (dbContext.PagosNotas.Where(PN => PN.id_nota == cotizacion.id_nota).ToList().Count() == 1)
+                            {
+                                cotizacion.primer_pago = "SI";
+                            }
                         }
                     }
                 }
@@ -866,7 +870,14 @@ namespace ImpresosAlvarez
                     cotizacion.total_pagado = 0;
                     cotizacion.aplicado = "NO";
                     cotizacion.primer_pago = "NO";
-                    cotizacion.total_abonado = (decimal)(corte.total_abonado ?? 0);
+                    if (corte != null)
+                    {
+                        cotizacion.total_abonado = (decimal)(corte.total_abonado ?? 0);
+                    }
+                    else
+                    {
+                        cotizacion.total_abonado = 0;
+                    }   
                     cotizacion.total_pagado = 0;
 
                     List<PagosNotas> pagosNotas = dbContext.PagosNotas.Where(PN => PN.id_nota == cotizacion.id_nota).ToList();
@@ -1420,17 +1431,26 @@ namespace ImpresosAlvarez
                     using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                     {
                         var nota = dbContext.Notas.FirstOrDefault(n => n.id_nota == selectedCotizacion.id_nota);
+                        var pagos = dbContext.PagosNotas.Where(p => p.id_nota == selectedCotizacion.id_nota).ToList();
+                        float totalAbonado = (float)pagos.Sum(p => p.cantidad);
                         if (nota != null)
                         {
-                            ImprimirPDF(nota);
+                            ImprimirPDF(nota, totalAbonado);
                         }
                     }
                 }
             }
         }
 
-        public void ImprimirPDF(Notas NotaElegida)
+        public void ImprimirPDF(Notas NotaElegida, float totalAbonado)
         {
+            if (_clienteElegido == null)
+            {
+                using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
+                {
+                    _clienteElegido = dbContext.Clientes.FirstOrDefault(c => c.id_cliente == NotaElegida.id_cliente);
+                }
+            }
             String rutaPDF = "";
 
             Document document = null;
@@ -1803,7 +1823,7 @@ namespace ImpresosAlvarez
                 .SetFixedPosition(420, 10, 0)
                 .Add(new Paragraph("ESTOS PRECIO SON MÁS IVA")));
 
-            if (_TotalNota - _TotalAbonado == 0)
+            if (NotaElegida.total - totalAbonado == 0)
             {
                 table.AddCell(new Cell(1, 4)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
@@ -1813,7 +1833,7 @@ namespace ImpresosAlvarez
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                 .SetFixedPosition(250, 60, 0)
                 .Add(new Paragraph(
-                "TOTAL: " + lblTotal.Content.ToString()
+                "TOTAL: " + NotaElegida.total.ToString()
                 + "\nPAGADO")));
             }
             else
@@ -1825,16 +1845,16 @@ namespace ImpresosAlvarez
                     .SetBold()
                     .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                     .SetFixedPosition(250, 60, 0)
-                    .Add(new Paragraph("ABONADO: " + _TotalAbonado +
-                    "\nRESTAN " + (_TotalNota - _TotalAbonado) +
-                    "\nTOTAL: " + lblTotal.Content.ToString())));
+                    .Add(new Paragraph("ABONADO: " + totalAbonado +
+                    "\nRESTAN " + (NotaElegida.total - totalAbonado) +
+                    "\nTOTAL: " + NotaElegida.total.ToString())));
             }
 
             table.AddCell(new Cell()
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                 );
 
-            if (_TotalNota - _TotalAbonado == 0)
+            if (NotaElegida.total - totalAbonado == 0)
             {
                 table.AddCell(new Cell(1, 4)
                 .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
@@ -1844,7 +1864,7 @@ namespace ImpresosAlvarez
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                 .SetFixedPosition(650, 60, 0)
                 .Add(new Paragraph(
-                "TOTAL: " + lblTotal.Content.ToString()
+                "TOTAL: " + NotaElegida.total.ToString()
                 + "\nPAGADO")));
             }
             else
@@ -1856,9 +1876,9 @@ namespace ImpresosAlvarez
                 .SetBold()
                 .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
                 .SetFixedPosition(650, 60, 0)
-                .Add(new Paragraph("ABONADO: " + _TotalAbonado +
-                "\nRESTAN " + (_TotalNota - _TotalAbonado) +
-                "\nTOTAL: " + lblTotal.Content.ToString())));
+                .Add(new Paragraph("ABONADO: " + totalAbonado +
+                "\nRESTAN " + (NotaElegida.total - totalAbonado) +
+                "\nTOTAL: " + NotaElegida.total.ToString())));
             }
 
             document.Add(pdfImg);
