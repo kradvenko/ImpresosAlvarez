@@ -27,6 +27,8 @@ namespace ImpresosAlvarez
             public string fecha { get; set; }
             public double pagado { get; set; }
             public double total { get; set; }
+            public int id_cliente { get; set; }
+            public string nombre { get; set; }
         }
         
         class CotizacionPendiente
@@ -36,6 +38,8 @@ namespace ImpresosAlvarez
             public string fecha { get; set; }
             public double pagado { get; set; }
             public double total { get; set; }
+            public int id_cliente { get; set; }
+            public string nombre { get; set; }
         }
         Clientes cliente;
         CorteDiario parentWindow;
@@ -52,14 +56,28 @@ namespace ImpresosAlvarez
             {
                 var facturasPendientesPre = dbContext.Facturas                    
                     .Where(f => f.id_cliente == cliente.id_cliente && f.pagada == "NO" && f.estado == "ACTIVO")
-                    .Select(f => new FacturaPendiente
+                    .Select(f => new 
                     {
                         id_factura = f.id_factura,
                         numero = f.numero,
                         fecha = f.fecha,
                         pagado = 0,
-                        total = (double)f.total
+                        total = (double)f.total,
+                        id_cliente = f.id_cliente
                     })
+                    .Join(dbContext.Clientes,
+                        f => f.id_cliente,
+                        c => c.id_cliente,
+                        (f, c) => new FacturaPendiente
+                        {
+                            id_factura = f.id_factura,
+                            numero = f.numero,
+                            fecha = f.fecha,
+                            pagado = f.pagado,
+                            total = f.total,
+                            id_cliente = f.id_cliente,
+                            nombre = c.nombre
+                        })
                     .ToList();
 
                 foreach (var factura in facturasPendientesPre)
@@ -81,14 +99,28 @@ namespace ImpresosAlvarez
 
                 var cotizacionesPendientesPre = dbContext.Notas
                     .Where(c => c.id_cliente == cliente.id_cliente && c.pagada == "NO" && c.estado == "ACTIVO")
-                    .Select(c => new CotizacionPendiente
+                    .Select(c => new 
                     {
                         id_nota = c.id_nota,
                         numero = c.numero,
                         fecha = c.fecha,
                         total = (double)c.total,
-                        pagado = 0
+                        pagado = 0,
+                        id_cliente = (int)c.id_cliente
                     })
+                    .Join(dbContext.Clientes,
+                        c => c.id_cliente,
+                        cl => cl.id_cliente,
+                        (c, cl) => new CotizacionPendiente
+                        {
+                            id_nota = c.id_nota,
+                            numero = c.numero,
+                            fecha = c.fecha,
+                            total = c.total,
+                            pagado = c.pagado,
+                            id_cliente = c.id_cliente,
+                            nombre = cl.nombre
+                        })
                     .ToList();
 
                 foreach (var cotizacion in cotizacionesPendientesPre)

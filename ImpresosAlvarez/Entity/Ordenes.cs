@@ -100,6 +100,7 @@ namespace ImpresosAlvarez.Entity
         public string vinil_observaciones { get; set; }
         public string otro_material { get; set; }
         public string envio_a { get; set; }
+        public string notas_recepcion { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bitacora> Bitacora { get; set; }

@@ -30,8 +30,8 @@ namespace ImpresosAlvarez.Entity
         public string fecha_aplicado { get; set; }
         public Nullable<int> id_factura { get; set; }
         public Nullable<int> id_nota { get; set; }
-        public Nullable<double> total_pagado { get; set; }
         public string primer_pago { get; set; }
         public Nullable<double> total_abonado { get; set; }
+        public Nullable<double> total_pagado { get; set; }
     }
 }

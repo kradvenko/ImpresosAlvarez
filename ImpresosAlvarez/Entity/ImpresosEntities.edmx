@@ -96,7 +96,7 @@
           <Property Name="id_corte_diario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="numero" Type="nvarchar" MaxLength="50" />
           <Property Name="cliente" Type="nvarchar" MaxLength="150" />
-          <Property Name="contribuyente" Type="nvarchar" MaxLength="50" />
+          <Property Name="contribuyente" Type="nvarchar" MaxLength="150" />
           <Property Name="subtotal" Type="float" />
           <Property Name="total" Type="float" />
           <Property Name="referencia" Type="nvarchar" MaxLength="150" />
@@ -109,9 +109,9 @@
           <Property Name="fecha_aplicado" Type="nvarchar" MaxLength="50" />
           <Property Name="id_factura" Type="int" />
           <Property Name="id_nota" Type="int" />
-          <Property Name="total_pagado" Type="float" />
           <Property Name="primer_pago" Type="nvarchar" MaxLength="10" />
           <Property Name="total_abonado" Type="float" />
+          <Property Name="total_pagado" Type="float" />
         </EntityType>
         <EntityType Name="DetalleFactura">
           <Key>
@@ -143,7 +143,7 @@
           <Key>
             <PropertyRef Name="id_detalle_venta_directa" />
           </Key>
-          <Property Name="id_detalle_venta_directa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_detalle_venta_directa" Type="int" Nullable="false" />
           <Property Name="id_venta_directa" Type="int" />
           <Property Name="id_insumo" Type="int" />
           <Property Name="cantidad" Type="int" />
@@ -396,6 +396,7 @@
           <Property Name="vinil_observaciones" Type="nvarchar" MaxLength="100" />
           <Property Name="otro_material" Type="nvarchar" MaxLength="50" />
           <Property Name="envio_a" Type="nvarchar" MaxLength="20" />
+          <Property Name="notas_recepcion" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <EntityType Name="OrdenMateria">
           <Key>
@@ -573,9 +574,9 @@
           <Key>
             <PropertyRef Name="id_venta_directa" />
           </Key>
-          <Property Name="id_venta_directa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_venta_directa" Type="int" Nullable="false" />
           <Property Name="id_usuario" Type="int" />
-          <Property Name="fecha" Type="nvarchar" MaxLength="40" />
+          <Property Name="fecha" Type="nvarchar" MaxLength="20" />
           <Property Name="fecha_ingreso" Type="datetime" />
           <Property Name="notas" Type="nvarchar" MaxLength="150" />
           <Property Name="estado" Type="nvarchar" MaxLength="10" />
@@ -2219,8 +2220,8 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <EntitySet Name="vOrdenesImpresion" EntityType="ImpresosBDModel.vOrdenesImpresion" />
           <EntitySet Name="RegimenFiscal" EntityType="ImpresosBDModel.RegimenFiscal" />
           <EntitySet Name="DetalleVentaDirecta" EntityType="ImpresosBDModel.DetalleVentaDirecta" />
-          <EntitySet Name="VentaDirecta" EntityType="ImpresosBDModel.VentaDirecta" />
           <EntitySet Name="CorteDiario" EntityType="ImpresosBDModel.CorteDiario" />
+          <EntitySet Name="VentaDirecta" EntityType="ImpresosBDModel.VentaDirecta" />
           </EntityContainer>
         <ComplexType Name="Obtener_Bitacora_Diaria_Result">
           <Property Type="String" Name="nombre" Nullable="false" MaxLength="50" />
@@ -3363,6 +3364,7 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <Property Name="vinil_observaciones" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="otro_material" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="envio_a" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="notas_recepcion" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK__Bitacora__id_ord__24E777C3">
           <End Type="ImpresosBDModel.Ordenes" Role="Ordenes" Multiplicity="1" />
@@ -3653,18 +3655,6 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <Property Name="precio" Type="Double" />
           <Property Name="costo" Type="Double" />
         </EntityType>
-        <EntityType Name="VentaDirecta">
-          <Key>
-            <PropertyRef Name="id_venta_directa" />
-          </Key>
-          <Property Name="id_venta_directa" Type="Int32" Nullable="false" />
-          <Property Name="id_usuario" Type="Int32" />
-          <Property Name="fecha" Type="String" MaxLength="40" FixedLength="false" Unicode="true" />
-          <Property Name="fecha_ingreso" Type="DateTime" Precision="3" />
-          <Property Name="notas" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="estado" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
-          <Property Name="total" Type="Double" />
-        </EntityType>
         <EntityType Name="CorteDiario">
           <Key>
             <PropertyRef Name="id_corte_diario" />
@@ -3672,7 +3662,7 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <Property Name="id_corte_diario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="numero" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="cliente" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <Property Name="contribuyente" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="contribuyente" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="subtotal" Type="Double" />
           <Property Name="total" Type="Double" />
           <Property Name="referencia" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
@@ -3685,9 +3675,21 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <Property Name="fecha_aplicado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="id_factura" Type="Int32" />
           <Property Name="id_nota" Type="Int32" />
-          <Property Name="total_pagado" Type="Double" />
           <Property Name="primer_pago" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="total_abonado" Type="Double" />
+          <Property Name="total_pagado" Type="Double" />
+        </EntityType>
+        <EntityType Name="VentaDirecta">
+          <Key>
+            <PropertyRef Name="id_venta_directa" />
+          </Key>
+          <Property Name="id_venta_directa" Type="Int32" Nullable="false" />
+          <Property Name="id_usuario" Type="Int32" />
+          <Property Name="fecha" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_ingreso" Type="DateTime" Precision="3" />
+          <Property Name="notas" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="estado" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="total" Type="Double" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -4919,6 +4921,7 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <EntitySetMapping Name="Ordenes">
             <EntityTypeMapping TypeName="ImpresosBDModel.Ordenes">
               <MappingFragment StoreEntitySet="Ordenes">
+                <ScalarProperty Name="notas_recepcion" ColumnName="notas_recepcion" />
                 <ScalarProperty Name="envio_a" ColumnName="envio_a" />
                 <ScalarProperty Name="otro_material" ColumnName="otro_material" />
                 <ScalarProperty Name="vinil_observaciones" ColumnName="vinil_observaciones" />
@@ -5180,25 +5183,12 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="VentaDirecta">
-            <EntityTypeMapping TypeName="ImpresosBDModel.VentaDirecta">
-              <MappingFragment StoreEntitySet="VentaDirecta">
-                <ScalarProperty Name="total" ColumnName="total" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="notas" ColumnName="notas" />
-                <ScalarProperty Name="fecha_ingreso" ColumnName="fecha_ingreso" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
-                <ScalarProperty Name="id_venta_directa" ColumnName="id_venta_directa" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="CorteDiario">
             <EntityTypeMapping TypeName="ImpresosBDModel.CorteDiario">
               <MappingFragment StoreEntitySet="CorteDiario">
+                <ScalarProperty Name="total_pagado" ColumnName="total_pagado" />
                 <ScalarProperty Name="total_abonado" ColumnName="total_abonado" />
                 <ScalarProperty Name="primer_pago" ColumnName="primer_pago" />
-                <ScalarProperty Name="total_pagado" ColumnName="total_pagado" />
                 <ScalarProperty Name="id_nota" ColumnName="id_nota" />
                 <ScalarProperty Name="id_factura" ColumnName="id_factura" />
                 <ScalarProperty Name="fecha_aplicado" ColumnName="fecha_aplicado" />
@@ -5215,6 +5205,19 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
                 <ScalarProperty Name="cliente" ColumnName="cliente" />
                 <ScalarProperty Name="numero" ColumnName="numero" />
                 <ScalarProperty Name="id_corte_diario" ColumnName="id_corte_diario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VentaDirecta">
+            <EntityTypeMapping TypeName="ImpresosBDModel.VentaDirecta">
+              <MappingFragment StoreEntitySet="VentaDirecta">
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="notas" ColumnName="notas" />
+                <ScalarProperty Name="fecha_ingreso" ColumnName="fecha_ingreso" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="id_usuario" ColumnName="id_usuario" />
+                <ScalarProperty Name="id_venta_directa" ColumnName="id_venta_directa" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

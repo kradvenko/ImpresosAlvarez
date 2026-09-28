@@ -65,7 +65,8 @@ namespace ImpresosAlvarez
                     _Parent.tbDescripcion.Text = Anterior.especificaciones;
                     _Parent.tbOrdenAnterior.Text = Anterior.numero.ToString();
                     _Parent.dtpFechaNegativo.Text = Anterior.fecha_solicita.ToString();
-                    
+                    _Parent.tbNotasRecepcion.Text = Anterior.notas_recepcion;
+
 
                     if (Anterior.pegado == "SI")
                     {

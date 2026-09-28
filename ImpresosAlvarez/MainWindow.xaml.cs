@@ -51,6 +51,8 @@ namespace ImpresosAlvarez
             //17/09/2026            
             Actualizaciones.Actualizacion8();
             Actualizaciones.Actualizacion9();
+            //27/09/2026
+            Actualizaciones.Actualizacion10();
             Login login = new Login(this);
             login.ShowDialog();
             try

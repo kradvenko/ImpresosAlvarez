@@ -355,7 +355,7 @@ namespace ImpresosAlvarez
             var facturas = dgFacturas.ItemsSource as List<FacturaViewModel>;
             if (facturas != null)
             {
-                int index = facturas.FindIndex(f => f.id_factura == facturaActualizada.id_factura);
+                int index = facturas.FindIndex(f => f.id_factura == facturaActualizada.id_factura && f.id_corte_diario == facturaActualizada.id_corte_diario);
                 if (index >= 0)
                 {
                     facturas[index] = facturaActualizada;
@@ -788,7 +788,7 @@ namespace ImpresosAlvarez
             var notas = dgCotizaciones.ItemsSource as List<FacturaViewModel>;
             if (notas != null)
             {
-                int index = notas.FindIndex(f => f.id_nota == notaActualizada.id_nota);
+                int index = notas.FindIndex(f => f.id_nota == notaActualizada.id_nota && f.id_corte_diario == notaActualizada.id_corte_diario);
                 if (index >= 0)
                 {
                     notas[index] = notaActualizada;

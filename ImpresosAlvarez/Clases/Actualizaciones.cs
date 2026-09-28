@@ -545,5 +545,48 @@ namespace ImpresosAlvarez.Clases
                 }
             }
         }
+        public static void Actualizacion10()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ImpresosBDConn"].ConnectionString))
+                {
+                    using (SqlCommand comm = new SqlCommand(" " +
+                        "SELECT notas_recepcion " +
+                        "FROM Ordenes " +
+                        "", con))
+                    {
+                        con.Open();
+
+                        SqlDataReader reader = comm.ExecuteReader();
+                        con.Close();
+                    }
+                }
+            }
+            catch
+            {
+                try
+                {
+                    using (SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["ImpresosBDConn"].ConnectionString))
+                    {
+                        using (SqlCommand comm = new SqlCommand(" " +
+                            "ALTER TABLE Ordenes " +
+                            "ADD notas_recepcion nvarchar(500) NULL DEFAULT '' WITH VALUES " +
+                            "", con))
+                        {
+                            con.Open();
+
+                            comm.ExecuteNonQuery();
+
+                            con.Close();
+                        }
+                    }
+                }
+                catch (Exception exc)
+                {
+
+                }
+            }
+        }
     }
 }

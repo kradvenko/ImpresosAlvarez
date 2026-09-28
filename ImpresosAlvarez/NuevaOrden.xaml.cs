@@ -172,6 +172,7 @@ namespace ImpresosAlvarez
                         nuevaOrden.rojo = chbRojo.IsChecked == true ? "SI" : "NO";
                         nuevaOrden.blanco = chbBlanco.IsChecked == true ? "SI" : "NO";
                         nuevaOrden.especificaciones = tbDescripcion.Text;
+                        nuevaOrden.notas_recepcion = tbNotasRecepcion.Text;
 
                         /*ORDEN LONA/VINIL*/
                         nuevaOrden.lona_medida = tbLonaMedida.Text;
@@ -893,7 +894,7 @@ namespace ImpresosAlvarez
                     .SetFontSize(fs)
                     .SetBold()
                     .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph(Acabado)));
+                    .Add(new Paragraph(Acabado + "\n" + tbOtros3.Text)));
 
                 //SEPARADOR
                 table.AddCell(new Cell(1, 10)
@@ -1464,7 +1465,7 @@ namespace ImpresosAlvarez
                     .SetFontSize(fs)
                     .SetBold()
                     .SetBorder(iText.Layout.Borders.Border.NO_BORDER)
-                    .Add(new Paragraph(Acabado)));
+                    .Add(new Paragraph(Acabado + "\n" + tbOtros3.Text)));
 
                 //SEPARADOR
                 table.AddCell(new Cell(1, 10)

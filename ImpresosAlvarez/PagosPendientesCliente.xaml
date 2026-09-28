@@ -37,6 +37,7 @@
             <DataGrid x:Name="dgFacturas" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="8" Grid.RowSpan="4" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" SelectionUnit="FullRow" MouseDoubleClick="dgFacturas_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Número" Binding="{Binding Path=numero}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Nombre" Binding="{Binding Path=nombre}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Pagado" Binding="{Binding Path=pagado}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Total" Binding="{Binding Path=total}" Width="*"></DataGridTextColumn>
                 </DataGrid.Columns>
@@ -47,6 +48,7 @@
             <DataGrid x:Name="dgCotizaciones" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="8" Grid.RowSpan="4" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" SelectionUnit="FullRow" MouseDoubleClick="dgCotizaciones_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Número" Binding="{Binding Path=numero}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Nombre" Binding="{Binding Path=nombre}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Pagado" Binding="{Binding Path=pagado}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Total" Binding="{Binding Path=total}" Width="*"></DataGridTextColumn>
                 </DataGrid.Columns>
