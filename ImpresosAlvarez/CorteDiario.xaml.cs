@@ -704,7 +704,8 @@ namespace ImpresosAlvarez
                                         {
                                             notaElegida.pagada = "SI";
                                         }
-                                    } else
+                                    }
+                                    else
                                     {
                                         Notas notaElegida = dbContext.Notas.FirstOrDefault(n => n.id_nota == cotizacion.id_nota);
                                         if (notaElegida != null)
@@ -1054,362 +1055,102 @@ namespace ImpresosAlvarez
 
         private void btnExportarExcel_Click(object sender, RoutedEventArgs e)
         {
-            var dlg = new SaveFileDialog
+            string rutaPlantilla = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Files", "TemplateDailySales.xlsx");
+
+            if (!System.IO.File.Exists(rutaPlantilla))
             {
-                FileName = $"Corte_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx",
-                DefaultExt = ".xlsx",
-                Filter = "Excel Workbook (*.xlsx)|*.xlsx"
+                MessageBox.Show("No se encontró el archivo de plantilla en: " + rutaPlantilla, "ATENCION", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Archivo de Excel (*.xlsx)|*.xlsx",
+                FileName = "CorteDiario_" + Fecha.Replace("/", "-") + ".xlsx",
+                Title = "Guardar Corte Diario"
             };
 
-            if (dlg.ShowDialog() == true)
+            if (saveFileDialog.ShowDialog() != true)
             {
-                try
-                {
-                    ExportGridsToExcel(dlg.FileName);
-                    MessageBox.Show("Exportación finalizada.", "Exportar a Excel", MessageBoxButton.OK, MessageBoxImage.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error exportando a Excel: {ex.Message}", "Exportar a Excel", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
+                return;
             }
-        }
 
-        private enum SectionKind { Facturas, Cotizaciones }
+            string rutaDestino = saveFileDialog.FileName;
 
-        // Exporta ambos grids en la misma hoja: primero Facturas, luego Cotizaciones.
-        // Ignora propiedades que empiezan por "id". Sólo añade filas con valor en "Entrega".
-        // Añade columna "Pagado" que usa el campo `total_pagado` (si existe).
-        public void ExportGridsToExcel(string filePath)
-        {
-            Excel.Application xlApp = null;
-            Excel.Workbook wb = null;
-            Excel.Worksheet ws = null;
+            List<FacturaViewModel> facturas = (dgFacturas.ItemsSource as IEnumerable<FacturaViewModel>)?.ToList() ?? new List<FacturaViewModel>();
+            List<FacturaViewModel> cotizaciones = (dgCotizaciones.ItemsSource as IEnumerable<FacturaViewModel>)?.ToList() ?? new List<FacturaViewModel>();
+
+            Excel.Application excelApp = null;
+            Excel.Workbook workbook = null;
 
             try
             {
-                xlApp = new Excel.Application
+                excelApp = new Excel.Application();
+                excelApp.Visible = false;
+                excelApp.DisplayAlerts = false;
+
+                workbook = excelApp.Workbooks.Open(rutaPlantilla);
+
+                Excel.Worksheet hoja = (Excel.Worksheet)workbook.Sheets[1];
+
+                int fila = 2;
+                foreach (FacturaViewModel factura in facturas)
                 {
-                    Visible = false,
-                    DisplayAlerts = false
-                };
+                    hoja.Cells[fila, 1] = factura.nombre;
+                    hoja.Cells[fila, 2] = factura.NombreContribuyente;
+                    hoja.Cells[fila, 3] = factura.numero;
+                    hoja.Cells[fila, 4] = factura.total_pagado;
+                    hoja.Cells[fila, 5] = factura.fecha;
+                    hoja.Cells[fila, 6] = factura.entrego;
+                    hoja.Cells[fila, 7] = factura.referencia;
+                    hoja.Cells[fila, 8] = factura.observaciones;
+                    fila++;
+                }
 
-                wb = xlApp.Workbooks.Add();
-                ws = wb.Worksheets[1] as Excel.Worksheet;
-                try { ws.Name = "Facturas y Cotizaciones"; } catch { /* ignorar */ }
+                // Las cotizaciones se insertan a partir de la celda B27
+                int filaCotizaciones = 27;
+                const int columnaInicioCotizaciones = 2; // Columna B
 
-                int currentRow = 1;
+                foreach (FacturaViewModel cotizacion in cotizaciones)
+                {
+                    hoja.Cells[filaCotizaciones, columnaInicioCotizaciones] = cotizacion.nombre;
+                    hoja.Cells[filaCotizaciones, columnaInicioCotizaciones + 1] = "NOTA";
+                    hoja.Cells[filaCotizaciones, columnaInicioCotizaciones + 2] = cotizacion.numero;
+                    hoja.Cells[filaCotizaciones, columnaInicioCotizaciones + 3] = cotizacion.total_pagado;
+                    hoja.Cells[filaCotizaciones, columnaInicioCotizaciones + 4] = cotizacion.fecha;
+                    hoja.Cells[filaCotizaciones, columnaInicioCotizaciones + 5] = cotizacion.entrego;
+                    hoja.Cells[filaCotizaciones, columnaInicioCotizaciones + 6] = cotizacion.referencia;
+                    hoja.Cells[filaCotizaciones, columnaInicioCotizaciones + 7] = cotizacion.observaciones;
+                    filaCotizaciones++;
+                }
 
-                WriteSectionToWorksheet(ws, dgFacturas.ItemsSource as IEnumerable, "Facturas", ref currentRow, SectionKind.Facturas);
+                workbook.SaveAs(rutaDestino);
 
-                currentRow += 1; // fila en blanco
-
-                WriteSectionToWorksheet(ws, dgCotizaciones.ItemsSource as IEnumerable, "Cotizaciones", ref currentRow, SectionKind.Cotizaciones);
-
-                var usedRange = ws.UsedRange as Excel.Range;
-                usedRange.Columns.AutoFit();
-                Marshal.ReleaseComObject(usedRange);
-
-                wb.SaveAs(filePath);
+                MessageBox.Show("El archivo se generó correctamente en: " + rutaDestino, "ATENCION", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocurrió un error al generar el archivo de Excel: " + ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             finally
             {
-                if (ws != null) Marshal.ReleaseComObject(ws);
-                if (wb != null)
+                if (workbook != null)
                 {
-                    wb.Close(false);
-                    Marshal.ReleaseComObject(wb);
+                    workbook.Close(false);
+                    Marshal.ReleaseComObject(workbook);
                 }
-                if (xlApp != null)
+
+                if (excelApp != null)
                 {
-                    xlApp.Quit();
-                    Marshal.ReleaseComObject(xlApp);
+                    excelApp.Quit();
+                    Marshal.ReleaseComObject(excelApp);
                 }
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
             }
         }
 
-        // Escritura de sección con la columna "Pagado" (campo total_pagado)
-        private void WriteSectionToWorksheet(Excel.Worksheet ws, IEnumerable items, string sectionTitle, ref int currentRow, SectionKind kind)
-        {
-            // Título de sección
-            Excel.Range titleRange = ws.Cells[currentRow, 1] as Excel.Range;
-            titleRange.Value = sectionTitle;
-            titleRange.Font.Bold = true;
-            Marshal.ReleaseComObject(titleRange);
-            currentRow++;
 
-            if (items == null)
-            {
-                var r = ws.Cells[currentRow, 1] as Excel.Range;
-                r.Value = "No hay datos";
-                Marshal.ReleaseComObject(r);
-                currentRow++;
-                return;
-            }
 
-            // Obtener primer elemento para descubrir propiedades
-            object first = null;
-            foreach (var it in items)
-            {
-                first = it;
-                break;
-            }
 
-            if (first == null)
-            {
-                var r = ws.Cells[currentRow, 1] as Excel.Range;
-                r.Value = "No hay datos";
-                Marshal.ReleaseComObject(r);
-                currentRow++;
-                return;
-            }
-
-            // Obtener propiedades y filtrar las que empiezan por "id"
-            var allProps = TypeDescriptor.GetProperties(first)
-                .Cast<PropertyDescriptor>()
-                .Where(p => p != null && !p.Name.StartsWith("id", StringComparison.OrdinalIgnoreCase))
-                .ToArray();
-
-            // Orden solicitado: Cliente, Contribuyente, Numero, Pagado(total_pagado), Fecha, Entrega, Referencia, Observaciones
-            var desiredOrder = new[]
-            {
-                new { Label = "Cliente", Aliases = new[] { "nombre", "NombreUnificado", "Nombre", "cliente" } },
-                new { Label = "Contribuyente", Aliases = new[] { "NombreContribuyente", "nombrecontribuyente", "contribuyente" } },
-                new { Label = "Numero", Aliases = new[] { "numero" } },
-                new { Label = "Pagado", Aliases = new[] { "total_pagado", "total" } }, // mostramos total_pagado aquí
-                new { Label = "Fecha", Aliases = new[] { "fecha" } },
-                new { Label = "Entrega", Aliases = new[] { "entrego", "Entrega", "entrega" } },
-                new { Label = "Referencia", Aliases = new[] { "referencia" } },
-                new { Label = "Observaciones", Aliases = new[] { "observaciones" } }
-            };
-
-            // Mapear propiedades en orden deseado
-            var orderedProps = new PropertyDescriptor[desiredOrder.Length];
-            for (int i = 0; i < desiredOrder.Length; i++)
-            {
-                foreach (var a in desiredOrder[i].Aliases)
-                {
-                    var found = allProps.FirstOrDefault(p => string.Equals(p.Name, a, StringComparison.OrdinalIgnoreCase));
-                    if (found != null)
-                    {
-                        orderedProps[i] = found;
-                        break;
-                    }
-                }
-            }
-
-            // Encabezados
-            int headerRow = currentRow;
-            for (int c = 0; c < desiredOrder.Length; c++)
-            {
-                var hr = ws.Cells[currentRow, c + 1] as Excel.Range;
-                hr.Value = desiredOrder[c].Label;
-                hr.Font.Bold = true;
-                Marshal.ReleaseComObject(hr);
-            }
-            currentRow++;
-
-            // Índices relevantes (1-based): Pagado (total_pagado preferred), Entrega, Referencia
-            int pagadoColumnIndex = -1;
-            int entregaColumnIndex = -1;
-            int referenciaColumnIndex = -1;
-            for (int i = 0; i < orderedProps.Length; i++)
-            {
-                var pd = orderedProps[i];
-                if (pd == null) continue;
-                if (string.Equals(pd.Name, "total_pagado", StringComparison.OrdinalIgnoreCase) || string.Equals(pd.Name, "total", StringComparison.OrdinalIgnoreCase))
-                    pagadoColumnIndex = i + 1;
-                if (string.Equals(pd.Name, "entrego", StringComparison.OrdinalIgnoreCase) || string.Equals(pd.Name, "entrega", StringComparison.OrdinalIgnoreCase))
-                    entregaColumnIndex = i + 1;
-                if (string.Equals(pd.Name, "referencia", StringComparison.OrdinalIgnoreCase))
-                    referenciaColumnIndex = i + 1;
-            }
-
-            decimal acumuladoPagado = 0m;
-            var referenciaSums = new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase);
-
-            // Recorrer elementos y escribir sólo los que cumplan filtro de Entrega (si existe)
-            foreach (var item in items)
-            {
-                // Si existe la columna Entrega, comprobar valor
-                if (entregaColumnIndex != -1)
-                {
-                    var entregaProp = orderedProps[entregaColumnIndex - 1];
-                    object entregaVal = null;
-                    try { entregaVal = entregaProp?.GetValue(item); } catch { entregaVal = null; }
-                    if (entregaVal == null || string.IsNullOrWhiteSpace(entregaVal.ToString()))
-                    {
-                        continue; // omitir fila
-                    }
-                }
-
-                object referenciaValObj = null;
-                decimal thisRowPagado = 0m;
-                bool thisRowHasPagado = false;
-
-                // Escribir columnas en el orden solicitado
-                for (int c = 0; c < orderedProps.Length; c++)
-                {
-                    var prop = orderedProps[c];
-                    object val = null;
-                    try { val = prop?.GetValue(item); } catch { val = null; }
-
-                    var cell = ws.Cells[currentRow, c + 1] as Excel.Range;
-                    cell.Value = val ?? "";
-                    Marshal.ReleaseComObject(cell);
-
-                    // Capturar referencia y pagado para agregados
-                    if (referenciaColumnIndex != -1 && c + 1 == referenciaColumnIndex)
-                    {
-                        referenciaValObj = val;
-                    }
-
-                    if (pagadoColumnIndex != -1 && c + 1 == pagadoColumnIndex && val != null)
-                    {
-                        try
-                        {
-                            decimal d;
-                            if (val is decimal dec) d = dec;
-                            else if (val is double db) d = Convert.ToDecimal(db);
-                            else if (val is float f) d = Convert.ToDecimal(f);
-                            else if (val is int iVal) d = Convert.ToDecimal(iVal);
-                            else if (val is long lVal) d = Convert.ToDecimal(lVal);
-                            else decimal.TryParse(val.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out d);
-
-                            acumuladoPagado += d;
-                            thisRowPagado = d;
-                            thisRowHasPagado = true;
-                        }
-                        catch { /* ignorar conversión */ }
-                    }
-                }
-
-                // Acumular por referencia para Facturas (usar Pagado)
-                if (kind == SectionKind.Facturas && referenciaColumnIndex != -1 && referenciaValObj != null && thisRowHasPagado)
-                {
-                    var key = referenciaValObj.ToString().Trim();
-                    if (!string.IsNullOrWhiteSpace(key))
-                    {
-                        if (!referenciaSums.TryGetValue(key, out var existing)) referenciaSums[key] = thisRowPagado;
-                        else referenciaSums[key] = existing + thisRowPagado;
-                    }
-                }
-
-                currentRow++;
-            }
-
-            // Escribir total general de la sección (si existe columna Pagado)
-            if (pagadoColumnIndex != -1)
-            {
-                var labelCell = ws.Cells[currentRow, 1] as Excel.Range;
-                labelCell.Value = $"Total {sectionTitle}";
-                labelCell.Font.Bold = true;
-                Marshal.ReleaseComObject(labelCell);
-
-                var totalCell = ws.Cells[currentRow, pagadoColumnIndex] as Excel.Range;
-                totalCell.NumberFormat = "#,##0.00";
-                totalCell.Value = acumuladoPagado;
-                totalCell.Font.Bold = true;
-                Marshal.ReleaseComObject(totalCell);
-
-                currentRow++;
-            }
-
-            // Para Facturas: escribir totales por Referencia a la derecha de la tabla y totales especiales basados en Pagado
-            if (kind == SectionKind.Facturas)
-            {
-                int startCol = orderedProps.Length + 2; // columna vacía entre tablas
-
-                // Tabla de referencias si hay datos
-                int refRow = headerRow + 1;
-                if (referenciaSums.Count > 0)
-                {
-                    var hdrRef1 = ws.Cells[headerRow, startCol] as Excel.Range;
-                    hdrRef1.Value = "Referencia";
-                    hdrRef1.Font.Bold = true;
-                    Marshal.ReleaseComObject(hdrRef1);
-
-                    var hdrRef2 = ws.Cells[headerRow, startCol + 1] as Excel.Range;
-                    hdrRef2.Value = "Total Referencia";
-                    hdrRef2.Font.Bold = true;
-                    Marshal.ReleaseComObject(hdrRef2);
-
-                    foreach (var kvp in referenciaSums.OrderBy(k => k.Key))
-                    {
-                        var r1 = ws.Cells[refRow, startCol] as Excel.Range;
-                        r1.Value = kvp.Key;
-                        Marshal.ReleaseComObject(r1);
-
-                        var r2 = ws.Cells[refRow, startCol + 1] as Excel.Range;
-                        r2.NumberFormat = "#,##0.00";
-                        r2.Value = kvp.Value;
-                        Marshal.ReleaseComObject(r2);
-
-                        refRow++;
-                    }
-
-                    // Total general de referencias
-                    var lblTotalRefs = ws.Cells[refRow, startCol] as Excel.Range;
-                    lblTotalRefs.Value = "Total general";
-                    lblTotalRefs.Font.Bold = true;
-                    Marshal.ReleaseComObject(lblTotalRefs);
-
-                    var valTotalRefs = ws.Cells[refRow, startCol + 1] as Excel.Range;
-                    valTotalRefs.NumberFormat = "#,##0.00";
-                    valTotalRefs.Value = referenciaSums.Values.Sum();
-                    valTotalRefs.Font.Bold = true;
-                    Marshal.ReleaseComObject(valTotalRefs);
-                }
-
-                // --- Totales especiales: Efectivo, Cheque, Transferencia (usando referenciaSums acumuladas sobre Pagado) ---
-                /*
-                int totalsStartCol = startCol + (referenciaSums.Count > 0 ? 3 : 0);
-
-                var hdrSpecial = ws.Cells[headerRow, totalsStartCol] as Excel.Range;
-                hdrSpecial.Value = "Totales por Medio";
-                hdrSpecial.Font.Bold = true;
-                Marshal.ReleaseComObject(hdrSpecial);
-
-                referenciaSums.TryGetValue("Efectivo", out var totalEfectivo);
-                referenciaSums.TryGetValue("Cheque", out var totalCheque);
-                referenciaSums.TryGetValue("Transferencia", out var totalTransferencia);
-
-                int specialRow = headerRow + 1;
-
-                var lblEf = ws.Cells[specialRow, totalsStartCol] as Excel.Range;
-                lblEf.Value = "Total Efectivo";
-                Marshal.ReleaseComObject(lblEf);
-
-                var valEf = ws.Cells[specialRow, totalsStartCol + 1] as Excel.Range;
-                valEf.NumberFormat = "#,##0.00";
-                valEf.Value = totalEfectivo;
-                Marshal.ReleaseComObject(valEf);
-                specialRow++;
-
-                var lblCh = ws.Cells[specialRow, totalsStartCol] as Excel.Range;
-                lblCh.Value = "Total Cheque";
-                Marshal.ReleaseComObject(lblCh);
-
-                var valCh = ws.Cells[specialRow, totalsStartCol + 1] as Excel.Range;
-                valCh.NumberFormat = "#,##0.00";
-                valCh.Value = totalCheque;
-                Marshal.ReleaseComObject(valCh);
-                specialRow++;
-
-                var lblTr = ws.Cells[specialRow, totalsStartCol] as Excel.Range;
-                lblTr.Value = "Total Transferencia";
-                Marshal.ReleaseComObject(lblTr);
-
-                var valTr = ws.Cells[specialRow, totalsStartCol + 1] as Excel.Range;
-                valTr.NumberFormat = "#,##0.00";
-                valTr.Value = totalTransferencia;
-                Marshal.ReleaseComObject(valTr);
-                specialRow++;
-                */
-            }
-        }
 
         private void tbClientes_SelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
