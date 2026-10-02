@@ -177,6 +177,12 @@ namespace ImpresosAlvarez
                 {
                     double abono = double.Parse(tbAbono.Text);
                     TotalAbonado = abono;
+                    if (TotalAbonado > _TotalNota)
+                    {
+                        MessageBox.Show("El abono no puede ser mayor al total de la nota.");
+                        tbAbono.Text = "0";
+                        return;
+                    }
                 }
                 catch (Exception exc)
                 {

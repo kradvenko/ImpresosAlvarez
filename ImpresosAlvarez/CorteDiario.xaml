@@ -98,11 +98,23 @@
                     <Style TargetType="DataGridRow">
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding id_corte_diario}" Value="0">
-                                <Setter Property="Background" Value="#FFB01818"></Setter>
+                                <Setter Property="Background" Value="#FFB06518"></Setter>
                                 <Setter Property="Foreground" Value="#FFFFFF"></Setter>
                                 <Setter Property="Height" Value="40"/>
                                 <Setter Property="FontSize" Value="14" />
                             </DataTrigger>                            
+                            <DataTrigger Binding="{Binding aplicado}" Value="SI">
+                                <Setter Property="Background" Value="#FF18B060"></Setter>
+                                <Setter Property="Foreground" Value="#FFFFFF"></Setter>
+                                <Setter Property="Height" Value="40"/>
+                                <Setter Property="FontSize" Value="14" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding observaciones}" Value="CANCELADO">
+                                <Setter Property="Background" Value="#FFB0183B"></Setter>
+                                <Setter Property="Foreground" Value="#FFFFFF"></Setter>
+                                <Setter Property="Height" Value="40"/>
+                                <Setter Property="FontSize" Value="14" />
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </DataGrid.RowStyle>
