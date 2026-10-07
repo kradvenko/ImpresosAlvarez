@@ -49,10 +49,12 @@ namespace ImpresosAlvarez
             //03/09/2026
             //Actualizaciones.Actualizacion6();
             //17/09/2026            
-            Actualizaciones.Actualizacion8();
-            Actualizaciones.Actualizacion9();
+            //Actualizaciones.Actualizacion8();
+            //Actualizaciones.Actualizacion9();
             //27/09/2026
-            Actualizaciones.Actualizacion10();
+            //Actualizaciones.Actualizacion10();
+            //04/01/2026
+            Actualizaciones.Actualizacion11();
             Login login = new Login(this);
             login.ShowDialog();
             try

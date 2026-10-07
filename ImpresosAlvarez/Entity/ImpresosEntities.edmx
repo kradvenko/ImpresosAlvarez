@@ -112,6 +112,7 @@
           <Property Name="primer_pago" Type="nvarchar" MaxLength="10" />
           <Property Name="total_abonado" Type="float" />
           <Property Name="total_pagado" Type="float" />
+          <Property Name="id_pago" Type="int" />
         </EntityType>
         <EntityType Name="DetalleFactura">
           <Key>
@@ -3678,6 +3679,7 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <Property Name="primer_pago" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="total_abonado" Type="Double" />
           <Property Name="total_pagado" Type="Double" />
+          <Property Name="id_pago" Type="Int32" />
         </EntityType>
         <EntityType Name="VentaDirecta">
           <Key>
@@ -5186,6 +5188,7 @@ advertencia 6002: La tabla o vista 'ImpresosBD.dbo.vOrdenesTerminado' no tiene d
           <EntitySetMapping Name="CorteDiario">
             <EntityTypeMapping TypeName="ImpresosBDModel.CorteDiario">
               <MappingFragment StoreEntitySet="CorteDiario">
+                <ScalarProperty Name="id_pago" ColumnName="id_pago" />
                 <ScalarProperty Name="total_pagado" ColumnName="total_pagado" />
                 <ScalarProperty Name="total_abonado" ColumnName="total_abonado" />
                 <ScalarProperty Name="primer_pago" ColumnName="primer_pago" />

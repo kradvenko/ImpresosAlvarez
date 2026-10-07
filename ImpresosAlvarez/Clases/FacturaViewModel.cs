@@ -29,5 +29,6 @@ namespace ImpresosAlvarez.Clases
         public string aplicado { get; set; }
         public string primer_pago { get; set; }
         public decimal total_abonado { get; set; }
+        public int id_pago { get; set; }
     }
 }

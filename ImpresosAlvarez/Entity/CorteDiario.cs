@@ -33,5 +33,6 @@ namespace ImpresosAlvarez.Entity
         public string primer_pago { get; set; }
         public Nullable<double> total_abonado { get; set; }
         public Nullable<double> total_pagado { get; set; }
+        public Nullable<int> id_pago { get; set; }
     }
 }

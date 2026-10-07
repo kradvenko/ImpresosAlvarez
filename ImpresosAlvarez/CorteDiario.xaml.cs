@@ -9,6 +9,7 @@ using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
+using Microsoft.Office.Interop.Excel;
 using Microsoft.Win32;
 using System;
 using System.Collections;
@@ -28,7 +29,7 @@ namespace ImpresosAlvarez
     /// <summary>
     /// Lógica de interacción para CorteDiario.xaml
     /// </summary>
-    public partial class CorteDiario : Window
+    public partial class CorteDiario : System.Windows.Window
     {
         String Fecha;
         float TotalEfectivo = 0;
@@ -591,8 +592,8 @@ namespace ImpresosAlvarez
                         {
                             corte.aplicado = "SI";
                             corte.fecha_aplicado = Fecha;
-
-                            PagosNotas pago = dbContext.PagosNotas.Where(PN => PN.id_nota == cotizacion.id_nota && PN.fecha == Fecha).FirstOrDefault();
+                            
+                            PagosNotas pago = dbContext.PagosNotas.Where(PN => PN.id_pagonota == cotizacion.id_pago).FirstOrDefault();
 
                             if (pago != null)
                             {
@@ -603,20 +604,26 @@ namespace ImpresosAlvarez
                                 pago.numero_cheque = "";
                                 pago.banco = "";
                                 pago.numero_recibo = "";
+                                corte.id_pago = pago.id_pagonota;
                             }
                             else
                             {
-                                PagosNotas pagosNotas = new PagosNotas();
-                                pagosNotas.id_nota = cotizacion.id_nota;
-                                pagosNotas.tipo = corte.referencia;
-                                pagosNotas.cantidad = (double)cotizacion.total_pagado;
-                                pagosNotas.fecha = Fecha;
-                                pagosNotas.notas = cotizacion.observaciones;
-                                pagosNotas.numero_cheque = "";
-                                pagosNotas.banco = "";
-                                pagosNotas.numero_recibo = "";
-                                dbContext.PagosNotas.Add(pagosNotas);
-                            }
+                                using (ImpresosBDEntities dbContextPago = new ImpresosBDEntities())
+                                {
+                                    PagosNotas pagosNotas = new PagosNotas();
+                                    pagosNotas.id_nota = cotizacion.id_nota;
+                                    pagosNotas.tipo = corte.referencia;
+                                    pagosNotas.cantidad = (double)cotizacion.total_pagado;
+                                    pagosNotas.fecha = Fecha;
+                                    pagosNotas.notas = cotizacion.observaciones;
+                                    pagosNotas.numero_cheque = "";
+                                    pagosNotas.banco = "";
+                                    pagosNotas.numero_recibo = "";
+                                    dbContextPago.PagosNotas.Add(pagosNotas);
+                                    dbContextPago.SaveChanges();
+
+                                    corte.id_pago = pagosNotas.id_pagonota;
+                                }                            }                            
                         }
                         corte.id_factura = 0;
                         corte.id_nota = cotizacion.id_nota;
@@ -1093,20 +1100,19 @@ namespace ImpresosAlvarez
 
                 Excel.Worksheet hoja = (Excel.Worksheet)workbook.Sheets[1];
 
-                int fila = 2;
+                int fila = 5;
                 foreach (FacturaViewModel factura in facturas)
                 {
-                    hoja.Cells[fila, 1] = factura.nombre;
-                    hoja.Cells[fila, 2] = factura.NombreContribuyente;
-                    hoja.Cells[fila, 3] = factura.numero;
-                    hoja.Cells[fila, 4] = factura.total_pagado;
-                    hoja.Cells[fila, 5] = factura.fecha;
-                    hoja.Cells[fila, 6] = factura.entrego;
-                    hoja.Cells[fila, 7] = factura.referencia;
-                    hoja.Cells[fila, 8] = factura.observaciones;
+                    hoja.Cells[fila, 2] = factura.nombre;
+                    hoja.Cells[fila, 3] = factura.NombreContribuyente;
+                    hoja.Cells[fila, 4] = factura.numero;
+                    hoja.Cells[fila, 5] = factura.total_pagado;
+                    hoja.Cells[fila, 6] = factura.fecha;
+                    hoja.Cells[fila, 7] = factura.entrego;
+                    hoja.Cells[fila, 8] = factura.referencia;
+                    hoja.Cells[fila, 9] = factura.observaciones;
                     fila++;
                 }
-
                 // Las cotizaciones se insertan a partir de la celda B27
                 int filaCotizaciones = 27;
                 const int columnaInicioCotizaciones = 2; // Columna B

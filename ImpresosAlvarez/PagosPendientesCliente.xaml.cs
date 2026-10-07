@@ -104,36 +104,11 @@ namespace ImpresosAlvarez
                         id_nota = c.id_nota,
                         numero = c.numero,
                         fecha = c.fecha,
+                        solicita = c.solicita,
                         total = (double)c.total,
                         pagado = 0,
                         id_cliente = (int)c.id_cliente
-                    })
-                    .Join(dbContext.NotaOrden,
-                        c => c.id_nota,
-                        o => o.id_nota,
-                        (c, o) => new 
-                        {
-                            id_orden = o.id_orden,
-                            id_nota = c.id_nota,
-                            numero = c.numero,
-                            fecha = c.fecha,
-                            total = c.total,
-                            pagado = c.pagado,
-                            id_cliente = c.id_cliente                            
-                        })
-                    .Join(dbContext.Ordenes,
-                        c => c.id_orden,
-                        o => o.id_orden,
-                        (c, o) => new 
-                        {
-                            id_nota = c.id_nota,
-                            numero = c.numero,
-                            fecha = c.fecha,
-                            total = c.total,
-                            pagado = c.pagado,
-                            id_cliente = c.id_cliente,
-                            solicita = o.solicitante
-                        })
+                    })                 
                     .Join(dbContext.Clientes,
                         c => c.id_cliente,
                         cl => cl.id_cliente,

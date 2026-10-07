@@ -206,6 +206,7 @@ namespace ImpresosAlvarez
                         {
                             CalcularTotales();
                             int NumerodeNotaActual = 0;
+                            int IdPago = 0;
 
                             var NumeroNota = dbContext.NumeroNota.Where(N => N.id_numeronota == 1).FirstOrDefault();
                             NumerodeNotaActual = (int.Parse(NumeroNota.numero));
@@ -274,11 +275,10 @@ namespace ImpresosAlvarez
                                     Detalle.id_articulo = item.IdInsumo;
                                 }                                
                             }
-
+                            PagosNotas pago = new PagosNotas();
                             //WAAAAAA
                             if (TotalAbonado > 0)
-                            {
-                                PagosNotas pago = new PagosNotas();
+                            {                                
                                 pago.id_nota = Nota.id_nota;
                                 pago.tipo = "";
                                 pago.cantidad = TotalAbonado;
@@ -298,8 +298,7 @@ namespace ImpresosAlvarez
                                 }
                             }
                             else if (TotalAbonado == 0)
-                            {
-                                PagosNotas pago = new PagosNotas();
+                            {                                
                                 pago.id_nota = Nota.id_nota;
                                 pago.tipo = "";
                                 pago.cantidad = 0;
@@ -313,7 +312,33 @@ namespace ImpresosAlvarez
                                 _TotalAbonado = 0;
 
                                 dbContext.PagosNotas.Add(pago);
-                            }
+                            }                           
+
+                            dbContext.SaveChanges();
+
+                            /*CREACION DEL CorteDiario*/
+
+                            Entity.CorteDiario corte = new Entity.CorteDiario();
+                            corte.numero = Nota.numero;
+                            corte.cliente = _clienteElegido.nombre;
+                            corte.contribuyente = "";
+                            corte.subtotal = 0;
+                            corte.total = (double?)Nota.total;
+                            corte.referencia = "";
+                            corte.id_entrega = 0;
+                            corte.entrega = "";
+                            corte.observaciones = "";
+                            corte.tipo = "COTIZACION";
+                            corte.fecha_pago = Nota.fecha;
+                            corte.total_pagado = _TotalAbonado;
+                            corte.primer_pago = "SI";
+                            corte.total_abonado = _TotalAbonado;
+                            corte.aplicado = "NO";
+                            corte.id_factura = 0;
+                            corte.id_nota = Nota.id_nota;
+                            corte.id_pago = pago.id_pagonota;
+
+                            dbContext.CorteDiario.Add(corte);
 
                             dbContext.SaveChanges();
 
