@@ -115,6 +115,12 @@
                                 <Setter Property="Height" Value="40"/>
                                 <Setter Property="FontSize" Value="14" />
                             </DataTrigger>
+                            <DataTrigger Binding="{Binding aplicado}" Value="NO">
+                                <Setter Property="Background" Value="#FFEEF749"></Setter>
+                                <Setter Property="Foreground" Value="Black"></Setter>
+                                <Setter Property="Height" Value="40"/>
+                                <Setter Property="FontSize" Value="14" />
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </DataGrid.RowStyle>

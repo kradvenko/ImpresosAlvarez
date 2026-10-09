@@ -856,7 +856,7 @@ namespace ImpresosAlvarez
                            estado = f.estado,
                            fecha = f.fecha,
                            numero = f.numero,
-                           nombre = f.nombre,
+                           nombre = f.NombreUnificado,
                            NombreContribuyente = f.NombreUnificado,
                            id_entrega = f.id_entrega,
                            entrego = f.entrego,
@@ -866,6 +866,13 @@ namespace ImpresosAlvarez
                        .ToList();
 
                 var cotizacionesOriginales = dgCotizaciones.ItemsSource as List<FacturaViewModel>;
+
+                var cotizacionExistente = cotizacionesOriginales.FirstOrDefault(c => c.id_nota == IdNota && c.aplicado == "NO");
+                if (cotizacionExistente != null)
+                {
+                    MessageBox.Show("Hay una cotización pendiente de aplicar.");
+                    return;
+                }
 
                 foreach (FacturaViewModel cotizacion in cotizaciones)
                 {
