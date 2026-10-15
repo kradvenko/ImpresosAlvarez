@@ -1021,7 +1021,7 @@ namespace ImpresosAlvarez
                     }
                 }
 
-                List<Entity.CorteDiario> corteDiario = dbContext.CorteDiario.Where(c => c.fecha_pago == Fecha && c.tipo == "FACTURA" && c.primer_pago == "NO").ToList();
+                List<Entity.CorteDiario> corteDiario = dbContext.CorteDiario.Where(c => c.fecha_pago == Fecha && c.tipo == "FACTURA").ToList();
 
                 foreach (var corte in corteDiario)
                 {
@@ -1039,7 +1039,7 @@ namespace ImpresosAlvarez
                         factura.estado = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.estado).FirstOrDefault() : "";
                         factura.fecha = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.fecha).FirstOrDefault() : "";
                         factura.numero = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.numero).FirstOrDefault() : "";
-                        factura.nombre = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Select(f => f.razon_cancelado).FirstOrDefault() : "";
+                        factura.nombre = corte.id_factura.HasValue ? dbContext.Facturas.Where(f => f.id_factura == corte.id_factura).Join(dbContext.Clientes, f => f.id_cliente, c => c.id_cliente, (f, c) => c.nombre).FirstOrDefault() : "";
                         factura.NombreContribuyente = corte.id_factura.HasValue ? dbContext.Contribuyentes.Where(co => co.id_contribuyente == factura.id_contribuyente).Select(co => co.nombre.Substring(0, co.nombre.IndexOf(" "))).FirstOrDefault() : "";
                         factura.id_entrega = corte.id_entrega ?? 0;
                         factura.entrego = corte.entrega;
@@ -1065,6 +1065,16 @@ namespace ImpresosAlvarez
                 //TotalEfectivo = totalFacturas;
                 TotalEfectivoFacturas = totalEfectivo;
             }
+        }
+
+        private string FormatearFechaExcel(string fecha)
+        {
+            if (DateTime.TryParse(fecha, out DateTime fechaParseada))
+            {
+                return fechaParseada.ToString("dd-MM-yyyy");
+            }
+
+            return fecha;
         }
 
         private void btnExportarExcel_Click(object sender, RoutedEventArgs e)
@@ -1107,34 +1117,48 @@ namespace ImpresosAlvarez
 
                 Excel.Worksheet hoja = (Excel.Worksheet)workbook.Sheets[1];
 
+
                 int fila = 5;
+                
                 foreach (FacturaViewModel factura in facturas)
                 {
+                    hoja.Cells[3, 9] = FormatearFechaExcel(factura.fecha);
                     hoja.Cells[fila, 2] = factura.nombre;
                     hoja.Cells[fila, 3] = factura.NombreContribuyente;
                     hoja.Cells[fila, 4] = factura.numero;
                     hoja.Cells[fila, 5] = factura.total_pagado;
-                    hoja.Cells[fila, 6] = factura.fecha;
+                    hoja.Cells[fila, 6] = FormatearFechaExcel(factura.fecha);
                     hoja.Cells[fila, 7] = factura.entrego;
                     hoja.Cells[fila, 8] = factura.referencia;
                     hoja.Cells[fila, 9] = factura.observaciones;
                     fila++;
+                    if (fila == 23)
+                    {
+                        fila = 27;
+                        hoja.Cells[25, 9] = FormatearFechaExcel(factura.fecha);
+                    }
                 }
                 // Las cotizaciones se insertan a partir de la celda B27
-                int filaCotizaciones = 27;
+                int filaCotizaciones = 51;
                 const int columnaInicioCotizaciones = 2; // Columna B
 
                 foreach (FacturaViewModel cotizacion in cotizaciones)
                 {
+                    hoja.Cells[49, 9] = FormatearFechaExcel(cotizacion.fecha);
                     hoja.Cells[filaCotizaciones, columnaInicioCotizaciones] = cotizacion.nombre;
                     hoja.Cells[filaCotizaciones, columnaInicioCotizaciones + 1] = "NOTA";
                     hoja.Cells[filaCotizaciones, columnaInicioCotizaciones + 2] = cotizacion.numero;
                     hoja.Cells[filaCotizaciones, columnaInicioCotizaciones + 3] = cotizacion.total_pagado;
-                    hoja.Cells[filaCotizaciones, columnaInicioCotizaciones + 4] = cotizacion.fecha;
+                    hoja.Cells[filaCotizaciones, columnaInicioCotizaciones + 4] = FormatearFechaExcel(cotizacion.fecha);
                     hoja.Cells[filaCotizaciones, columnaInicioCotizaciones + 5] = cotizacion.entrego;
                     hoja.Cells[filaCotizaciones, columnaInicioCotizaciones + 6] = cotizacion.referencia;
                     hoja.Cells[filaCotizaciones, columnaInicioCotizaciones + 7] = cotizacion.observaciones;
                     filaCotizaciones++;
+                    if (filaCotizaciones == 69)
+                    {
+                        filaCotizaciones = 73;
+                        hoja.Cells[71, 9] = FormatearFechaExcel(cotizacion.fecha);
+                    }
                 }
 
                 workbook.SaveAs(rutaDestino);
