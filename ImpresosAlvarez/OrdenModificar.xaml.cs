@@ -119,6 +119,7 @@ namespace ImpresosAlvarez
             tbAnticipo.Text = OrdenElegida.anticipo.ToString();
             tbCostoAnterior.Text = OrdenElegida.costo_anterior.ToString();
             tbNotas.Text = OrdenElegida.otros_4;
+            tbNotasRecepcion.Text = OrdenElegida.notas_recepcion;
         }
 
         private void btnOrdenesAnteriores_Click(object sender, RoutedEventArgs e)

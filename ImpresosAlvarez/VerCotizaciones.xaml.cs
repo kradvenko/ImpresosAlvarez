@@ -204,6 +204,19 @@ namespace ImpresosAlvarez
                     {
                         using (ImpresosBDEntities dbContext = new ImpresosBDEntities())
                         {
+                            foreach (CotizacionLlenado item in _cotizacion)
+                            {
+                                if (item.IdOrden > 0)
+                                {
+                                    NotaOrden no = dbContext.NotaOrden.Where(N => N.id_orden == item.IdOrden).FirstOrDefault();
+                                    if (no != null)
+                                    {
+                                        MessageBox.Show("La orden " + item.IdOrden + " ya tiene una nota asociada.");
+                                        return;
+                                    }
+                                }
+                            }
+
                             CalcularTotales();
                             int NumerodeNotaActual = 0;
                             int IdPago = 0;
@@ -244,7 +257,7 @@ namespace ImpresosAlvarez
 
                                 if (item.IdOrden > 0)
                                 {
-                                    dbContext.Adjuntar_Orden_Nota(Nota.id_nota, item.IdOrden);
+                                    //dbContext.Adjuntar_Orden_Nota(Nota.id_nota, item.IdOrden);
                                     dbContext.Modificar_Tipo_Orden(item.IdOrden, "NOTA");
 
                                     NotaOrden nd = new NotaOrden();

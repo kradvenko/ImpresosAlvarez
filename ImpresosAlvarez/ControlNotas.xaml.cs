@@ -89,19 +89,18 @@ namespace ImpresosAlvarez
                     n.estado = "CANCELADO";
                     
 
-                    NotaOrden notaOrden = dbContext.NotaOrden.Where(NO => NO.id_nota == n.id_nota).FirstOrDefault();
+                    List<NotaOrden> notaOrdenes = dbContext.NotaOrden.Where(NO => NO.id_nota == n.id_nota).ToList();
                     int idorden = 0;
-                    if (notaOrden != null)
+                    foreach (NotaOrden no in notaOrdenes)
                     {
-                        idorden = notaOrden.id_orden;
-                        dbContext.NotaOrden.Remove(notaOrden);
-                    }
-
-                    Ordenes orden = dbContext.Ordenes.Where(O => O.id_orden == idorden).FirstOrDefault();
-                    if (orden != null)
-                    {
-                        orden.tipo = "COTIZACION";
-                    }
+                        idorden = no.id_orden;
+                        dbContext.NotaOrden.Remove(no);
+                        Ordenes orden = dbContext.Ordenes.Where(O => O.id_orden == idorden).FirstOrDefault();
+                        if (orden != null)
+                        {
+                            orden.tipo = "COTIZACION";
+                        }
+                    }                    
 
                     Entity.CorteDiario corte = dbContext.CorteDiario.Where(C => C.id_nota == n.id_nota).FirstOrDefault();
                     if (corte != null)
@@ -217,6 +216,15 @@ namespace ImpresosAlvarez
                 {
 
                 }
+            }
+        }
+
+        private void btnVerOrdenesNota_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgNotas.SelectedItem != null)
+            {
+                OrdenesDeNota ordenesDeNota = new OrdenesDeNota(int.Parse(dgNotas.SelectedItem.GetType().GetProperty("id_nota").GetValue(dgNotas.SelectedItem, null).ToString()));
+                ordenesDeNota.ShowDialog();
             }
         }
     }

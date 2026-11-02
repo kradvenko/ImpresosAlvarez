@@ -209,7 +209,10 @@
         </Grid>
 
         <Label Grid.Column="0" Grid.Row="9" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Descripción"></Label>
-        <TextBox x:Name="tbDescripcion" Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="6" Style="{StaticResource TextBox01}" MaxHeight="70" HorizontalContentAlignment="Left" TextWrapping="Wrap" AcceptsReturn="True"  VerticalScrollBarVisibility="Visible"></TextBox>
+        <TextBox x:Name="tbDescripcion" Grid.Column="0" Grid.Row="10" Grid.ColumnSpan="3" Style="{StaticResource TextBox01}" MaxHeight="70" HorizontalContentAlignment="Left" TextWrapping="Wrap" AcceptsReturn="True"  VerticalScrollBarVisibility="Visible"></TextBox>
+
+        <Label Grid.Column="3" Grid.Row="9" Grid.ColumnSpan="1" Style="{StaticResource LabelBoldBlack}" Content="Notas Recepción"></Label>
+        <TextBox x:Name="tbNotasRecepcion" Grid.Column="3" Grid.Row="10" Grid.ColumnSpan="3" Style="{StaticResource TextBox01}" MaxHeight="70" HorizontalContentAlignment="Left" TextWrapping="Wrap" AcceptsReturn="True"  VerticalScrollBarVisibility="Visible"></TextBox>
 
         <Grid Grid.Column="0" Grid.Row="11" Grid.ColumnSpan="6">
             <Grid.ColumnDefinitions>

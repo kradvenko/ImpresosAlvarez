@@ -76,6 +76,36 @@
 
         <GroupBox Header="Facturas" Grid.Row="2" Grid.ColumnSpan="8" Grid.RowSpan="5">
             <DataGrid x:Name="dgFacturas" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="8" Grid.RowSpan="4" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" SelectionUnit="FullRow" MouseDoubleClick="dgFacturas_MouseDoubleClick">
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding id_corte_diario}" Value="0">
+                                <Setter Property="Background" Value="#FFB06518"></Setter>
+                                <Setter Property="Foreground" Value="#FFFFFF"></Setter>
+                                <Setter Property="Height" Value="40"/>
+                                <Setter Property="FontSize" Value="14" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding aplicado}" Value="SI">
+                                <Setter Property="Background" Value="#FF18B060"></Setter>
+                                <Setter Property="Foreground" Value="#FFFFFF"></Setter>
+                                <Setter Property="Height" Value="40"/>
+                                <Setter Property="FontSize" Value="14" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding estado}" Value="CANCELADO">
+                                <Setter Property="Background" Value="#FFB0183B"></Setter>
+                                <Setter Property="Foreground" Value="#FFFFFF"></Setter>
+                                <Setter Property="Height" Value="40"/>
+                                <Setter Property="FontSize" Value="14" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding aplicado}" Value="NO">
+                                <Setter Property="Background" Value="#FFEEF749"></Setter>
+                                <Setter Property="Foreground" Value="Black"></Setter>
+                                <Setter Property="Height" Value="40"/>
+                                <Setter Property="FontSize" Value="14" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Número" Binding="{Binding Path=numero}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Cliente" Binding="{Binding Path=nombre}" Width="*"></DataGridTextColumn>
@@ -88,6 +118,7 @@
                     <DataGridTextColumn Header="Pagado" Binding="{Binding Path=total_pagado}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Total Abonado" Binding="{Binding Path=total_abonado}" Width="*"></DataGridTextColumn>
                     <DataGridTextColumn Header="Aplicado" Binding="{Binding Path=aplicado}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Estado" Binding="{Binding Path=estado}" Width="*"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
