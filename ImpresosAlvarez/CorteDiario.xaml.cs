@@ -1119,10 +1119,12 @@ namespace ImpresosAlvarez
 
 
                 int fila = 5;
-                
+
+                hoja.Cells[3, 9] = dpFecha.SelectedDate.Value.ToString("dd/MM/yyyy");
+
                 foreach (FacturaViewModel factura in facturas)
                 {
-                    hoja.Cells[3, 9] = FormatearFechaExcel(factura.fecha);
+                    
                     hoja.Cells[fila, 2] = factura.nombre;
                     hoja.Cells[fila, 3] = factura.NombreContribuyente;
                     hoja.Cells[fila, 4] = factura.numero;
@@ -1142,9 +1144,10 @@ namespace ImpresosAlvarez
                 int filaCotizaciones = 51;
                 const int columnaInicioCotizaciones = 2; // Columna B
 
+                hoja.Cells[49, 9] = dpFecha.SelectedDate.Value.ToString("dd/MM/yyyy");
+
                 foreach (FacturaViewModel cotizacion in cotizaciones)
-                {
-                    hoja.Cells[49, 9] = FormatearFechaExcel(cotizacion.fecha);
+                {                    
                     hoja.Cells[filaCotizaciones, columnaInicioCotizaciones] = cotizacion.nombre;
                     hoja.Cells[filaCotizaciones, columnaInicioCotizaciones + 1] = "NOTA";
                     hoja.Cells[filaCotizaciones, columnaInicioCotizaciones + 2] = cotizacion.numero;

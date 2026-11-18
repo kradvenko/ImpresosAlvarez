@@ -73,7 +73,7 @@
         <Button x:Name="btnGenerarExcel" Grid.Column="5" Grid.Row="1" Content="Generar Excel" Click="btnExportarExcel_Click"></Button>
         <Button x:Name="btnGuardar" Grid.Column="6" Grid.Row="1" Content="Guardar" Click="btnGuardar_Click"></Button>
         <Button x:Name="btnCancelar" Grid.Column="7" Grid.Row="1" Content="Cancelar" Click="btnCancelar_Click"></Button>
-
+        
         <GroupBox Header="Facturas" Grid.Row="2" Grid.ColumnSpan="8" Grid.RowSpan="5">
             <DataGrid x:Name="dgFacturas" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="8" Grid.RowSpan="4" AutoGenerateColumns="False" IsReadOnly="True" Margin="5" SelectionUnit="FullRow" MouseDoubleClick="dgFacturas_MouseDoubleClick">
                 <DataGrid.RowStyle>
