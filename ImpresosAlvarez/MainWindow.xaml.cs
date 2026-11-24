@@ -446,5 +446,17 @@ namespace ImpresosAlvarez
             CorteDiario corte = new CorteDiario();
             corte.ShowDialog();
         }
+
+        private void btnFacturasPendientesPago_Click(object sender, RoutedEventArgs e)
+        {
+            PendientesPorPagar pendientes = new PendientesPorPagar();
+            pendientes.ShowDialog();
+        }
+
+        private void btnNotasPendientesPorPagar_Click(object sender, RoutedEventArgs e)
+        {
+            NotasPendientesPorPagar pendientes = new NotasPendientesPorPagar();
+            pendientes.ShowDialog();
+        }
     }
 }

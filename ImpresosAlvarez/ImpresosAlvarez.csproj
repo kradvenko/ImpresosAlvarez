@@ -29,7 +29,7 @@
     <UpdateUrl>http://impresosalvarez.atwebpages.com/</UpdateUrl>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>index.html</WebPage>
-    <ApplicationRevision>51</ApplicationRevision>
+    <ApplicationRevision>52</ApplicationRevision>
     <ApplicationVersion>1.4.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -519,6 +519,9 @@
     <Compile Include="MovimientosInventario.xaml.cs">
       <DependentUpon>MovimientosInventario.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NotasPendientesPorPagar.xaml.cs">
+      <DependentUpon>NotasPendientesPorPagar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NuevaCategoria.xaml.cs">
       <DependentUpon>NuevaCategoria.xaml</DependentUpon>
     </Compile>
@@ -545,6 +548,9 @@
     </Compile>
     <Compile Include="PagosPendientesCliente.xaml.cs">
       <DependentUpon>PagosPendientesCliente.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PendientesPorPagar.xaml.cs">
+      <DependentUpon>PendientesPorPagar.xaml</DependentUpon>
     </Compile>
     <Compile Include="ReimprimirOrden.xaml.cs">
       <DependentUpon>ReimprimirOrden.xaml</DependentUpon>
@@ -769,6 +775,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="NotasPendientesPorPagar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NuevaCategoria.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -801,6 +811,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PagosPendientesCliente.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PendientesPorPagar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

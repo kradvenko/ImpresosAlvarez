@@ -1879,7 +1879,7 @@ namespace ImpresosAlvarez
                 para.SetFixedPosition(400, bot - 115, 250);
                 document.Add(para);
 
-                para = new Paragraph(tbLonaAcabadoOtro.Text);
+                para = new Paragraph(tbLonaObservaciones.Text);
                 para.SetFont(f);
                 para.SetFontSize(fs - 2);
                 para.SetBold();

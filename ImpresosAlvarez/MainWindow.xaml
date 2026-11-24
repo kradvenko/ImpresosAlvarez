@@ -574,6 +574,17 @@
                     <Label Grid.Column="1" Content="Control facturas" VerticalAlignment="Center"></Label>
                 </Grid>
             </Button>
+            <Button x:Name="btnFacturasPendientesPago" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Click="btnFacturasPendientesPago_Click">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Image Source="Icons/airplay.png" Grid.Column="0" MaxHeight="40"></Image>
+                    <Label Grid.Column="1" Content="Facturas Pendientes Pago" VerticalAlignment="Center"></Label>
+                </Grid>
+            </Button>
 
             <Button x:Name="btnComplemento" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Click="btnComplemento_Click">
                 <Grid>
@@ -619,6 +630,18 @@
 
                     <Image Source="Icons/big-data.png" Grid.Column="0" MaxHeight="40"></Image>
                     <Label Grid.Column="1" Content="Control Notas" VerticalAlignment="Center"></Label>
+                </Grid>
+            </Button>
+
+            <Button x:Name="btnNotasPendientesPorPagar" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2" Style="{StaticResource btnInterfaz01}" Click="btnNotasPendientesPorPagar_Click">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Image Source="Icons/big-data.png" Grid.Column="0" MaxHeight="40"></Image>
+                    <Label Grid.Column="1" Content="Notas Pendientes Por Pagar" VerticalAlignment="Center"></Label>
                 </Grid>
             </Button>
 
